@@ -1,0 +1,224 @@
+#transactions_box {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: space-around;
+  color: #fbfcfe;
+  text-align: center;
+  /* animation: cardAnime 5s ease-in-out 2s infinite alternate; */
+}
+
+/* @keyframes cardAnim {
+  from {
+    top: 0;
+  }
+  to {
+    top: 100px;
+  }
+} */
+
+#transactions_box > .main_box {
+  flex: 1;
+}
+
+.box_title {
+  color: white;
+}
+
+.category_icon {
+  font-size: 1.5rem;
+  background-color: #144491;
+  border-radius: 100%;
+}
+
+.transactions_item_input {
+  border: none;
+}
+
+.form-label {
+  font-size: 0.9rem;
+}
+
+span.input-group-text {
+  font-size: 0.9rem;
+  padding: 0 0.2rem 0 0;
+}
+
+.transactions_category_icon,
+.bitcoin_icon,
+.bank_icon,
+.take_money_icon {
+  margin-top: 0.25rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0.3rem 0.3rem 0.3rem 0.3rem;
+
+  border-radius: 100%;
+}
+
+.bitcoin_icon {
+  background-color: #ef8e19;
+}
+
+.bank_icon {
+  background-color: #21bf73;
+}
+
+.take_money_icon {
+  color: #212429;
+  background-color: #f7c025;
+}
+
+.form-label {
+  font-size: 1rem;
+  text-align: left;
+}
+
+.transactions_category_item {
+  margin: 0.5rem 0;
+  text-align: left;
+}
+
+.income_item_text {
+  color: #21bf73;
+}
+
+.expense_item_text {
+  color: #fd5e53;
+}
+
+.transactions_label_text {
+  font-size: 0.75rem;
+  position: relative;
+  top: -0.9rem;
+}
+
+.modal-backdrop.show {
+  background-image: url('main_imgs/userBG.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 1;
+  filter: blur(0.5rem);
+}
+
+#transactions_modal > .modal-content {
+  color: #f4fcfe;
+  background-color: #2a2f33cb;
+}
+
+.transactions_modal_input {
+  font-size: 1rem;
+  color: #f4fcfe;
+  padding: 0 0.25rem;
+  margin: 0.5rem 0;
+  border-radius: 0;
+}
+
+select.transactions_modal_input {
+  font-size: 1rem;
+  color: #f4fcfe;
+  padding: 0 0.25rem;
+  margin: 0.5rem 0;
+  border: 0;
+  border-bottom: 1px solid #f4fcfe;
+}
+input.transactions_modal_input {
+  font-size: 1rem;
+  color: #f4fcfe;
+  padding: 0 0.25rem;
+  margin: 0.5rem 0;
+  border: 0;
+  /* border-bottom: 1px solid #f4fcfe; */
+  box-shadow: 0 0.25rem 0.25rem 0 #21bf73;
+}
+
+.transactions_modal_input:focus {
+  background-color: #2a2f33;
+  font-size: 0.9rem;
+  color: #f4fcfe;
+  box-shadow: 0 0.25rem 0.25rem 0 #21bf73;
+}
+
+.modal_input_col {
+  padding: 0 0.3rem;
+}
+
+.modal_align_end {
+  margin-left: auto;
+}
+
+/* #transactions_input_date {
+  flex-direction: row-reverse;
+}
+
+#transactions_input_time {
+  flex-direction: row-reverse;
+} */
+
+/* #transactions_input_date::after {
+  background-color: white;
+  color: white;
+}
+ */
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+#trx_modal_body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#trx_modal_body > .row {
+  margin: 0.5rem 0;
+}
+
+.trx_type_btn {
+  background: none;
+  border: 0;
+  font-size: 1.25rem;
+  width: 100%;
+  color: #f4fbfe;
+}
+
+.trx_income_tab,
+.trx_expense_tab {
+  padding: 0;
+}
+
+.trx_expense_tab > .trx_type_btn {
+  background-color: #903228;
+  border-radius: 0.25rem;
+}
+
+.trx_income_tab > .trx_type_btn {
+  background-color: #24c174;
+  border-radius: 0.25rem;
+}
+
+.trx_income_tab > .trx_type_btn:hover {
+  background-color: #70d9ac;
+}
+
+.trx_expense_tab > .trx_type_btn:hover {
+  background-color: #ef6f58;
+}
+
+.trx_income_tab > .trx_type_btn:focus {
+  background-color: #24c174;
+}
+
+.trx_expense_tab > .trx_type_btn:focus {
+  background-color: #903228;
+}
+
+.btn-income {
+  background-color: #23bf76;
+  border: 0;
+}
+
+.btn-expense {
+  background-color: #903228;
+  border: 0;
+}

@@ -1,0 +1,20 @@
+.table {
+  color: #21bf74;
+}
+
+.table tbody tr:hover {
+  color: wheat;
+  background-color: #343a40;
+}
+
+.table_btn_col {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 1rem 0.5rem;
+}
+
+/* td:hover {
+  color: wheat;
+}
+ */

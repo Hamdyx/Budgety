@@ -1,0 +1,109 @@
+#wishlist_box {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: space-evenly;
+  color: #fbfcfe;
+  text-align: center;
+}
+
+#wishlist_card {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: space-evenly;
+  padding: 1rem 0 0.1rem 0;
+  background-color: #2a2d32;
+  border-radius: 0.5rem;
+}
+
+#wishlist_box > #wishlist_card {
+  flex: 1;
+}
+
+.card_add:hover {
+  color: rgb(183, 188, 197);
+  text-decoration: none;
+}
+.box_title {
+  color: white;
+}
+
+.category_icon {
+  font-size: 1.5rem;
+  background-color: #144491;
+  border-radius: 100%;
+}
+
+.form-label {
+  font-size: 0.9rem;
+}
+
+span.input-group-text {
+  font-size: 0.9rem;
+  padding: 0 0.2rem 0 0;
+}
+
+.wishlist_category_icon,
+.bitcoin_icon,
+.bank_icon,
+.take_money_icon,
+.car_icon {
+  margin-top: 0.25rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0.3rem 0.3rem 0.3rem 0.3rem;
+
+  border-radius: 100%;
+}
+
+.bitcoin_icon {
+  background-color: #ef8e19;
+}
+
+.bank_icon {
+  background-color: #21bf73;
+}
+
+.take_money_icon {
+  color: #212429;
+  background-color: #f7c025;
+}
+
+.car_icon {
+  background-color: #fc966d;
+}
+
+.form-label {
+  font-size: 1rem;
+  text-align: left;
+}
+
+.wishlist_item_input {
+  padding: 0;
+  border: none;
+}
+
+.wishlist_item_input:disabled {
+  border: none;
+  background: none;
+}
+
+.wishlist_category_item {
+  text-align: left;
+}
+
+.income_item_text {
+  color: #21bf73;
+}
+
+.expense_item_text {
+  color: #fd5e53;
+}
+
+.wishlist_label_text {
+  font-size: 0.75rem;
+  position: relative;
+  top: -0.9rem;
+}

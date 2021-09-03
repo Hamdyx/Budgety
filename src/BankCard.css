@@ -1,0 +1,106 @@
+#bank_box {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: space-around;
+  color: #fbfcfe;
+  text-align: center;
+}
+
+#bank_card {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: space-around;
+  background-color: #2a2d32;
+  border-radius: 0.5rem;
+}
+
+#bank_box > #bank_card {
+  flex: 1;
+}
+
+#bank_card > #bank_overview {
+  align-content: center;
+  flex: 1;
+}
+#bank_card > #bank_chart_row {
+  align-content: center;
+  flex: 1;
+}
+
+.box_add_btn {
+  color: #696c70;
+}
+
+.box_add_btn:hover {
+  color: rgb(183, 188, 197);
+  text-decoration: none;
+}
+
+.bank_chart_row {
+  padding: 0.25rem 0 0.25rem 0;
+}
+
+ul {
+  list-style: none; /* Remove default bullets */
+}
+
+#bank_items {
+  margin: 1.5rem 0 0 0;
+}
+
+.green_dot,
+.red_dot,
+.yellow_dot {
+  text-align: left;
+  /* padding: 0.25rem 0 0.25rem 0; */
+}
+
+ul li::before {
+  content: '\2022'; /* Add content: \2022 is the CSS Code/unicode for a bullet */
+  color: red; /* Change the color */
+  font-weight: bold; /* If you want it to be bold */
+  display: inline-block; /* Needed to add space between the bullet and the text */
+  width: 1em; /* Also needed for space (tweak if needed) */
+  margin-left: -1em; /* Also needed for space (tweak if needed) */
+}
+
+ul li.green_dot::before {
+  color: #21bf73; /* Change the color */
+}
+
+ul li.yellow_dot::before {
+  color: #f7c025; /* Change the color */
+}
+
+.form-label {
+  font-size: 0.9rem;
+}
+
+span.input-group-text {
+  font-size: 0.9rem;
+  padding: 0 0.2rem 0 0;
+}
+
+.bank_category_item {
+  margin-top: 0;
+  text-align: left;
+}
+
+.bank_label_text {
+  font-size: 0.75rem;
+  position: relative;
+  top: -0.9rem;
+}
+
+.bank_label_text {
+  font-size: 0.75rem;
+  position: relative;
+  top: -0.9rem;
+}
+
+.bank_chart_col {
+  padding: 0;
+}

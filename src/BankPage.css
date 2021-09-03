@@ -1,0 +1,15 @@
+#bank_page {
+  color: #ffff;
+}
+
+.bank_section {
+  margin: 1rem 0;
+  padding: 2rem 0;
+  color: #fbfcfe;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: space-between;
+  background-color: #2a2d32;
+  border-radius: 0.5rem;
+}

@@ -1,0 +1,92 @@
+#reports_box {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: space-around;
+  color: #fbfcfe;
+  text-align: center;
+}
+
+#reports_card {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: space-around;
+  background-color: #2a2d32;
+  border-radius: 0.5rem;
+}
+
+#reports_box > .main_box {
+  flex: 1;
+}
+
+.reports_worth_icon {
+  margin-top: 0.75rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0.3rem 0.3rem 0.3rem 0.3rem;
+  color: #21bf73;
+  background-color: #0a533d;
+  border-radius: 100%;
+}
+
+.spent_icon {
+  margin-top: 0.25rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0.3rem 0.3rem 0.3rem 0.3rem;
+  color: #fd5e53;
+  background-color: #622929;
+  border-radius: 100%;
+}
+
+.earn_icon {
+  margin-top: 0.25rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0.3rem 0.3rem 0.3rem 0.3rem;
+  color: #4d7cfd;
+  background-color: #264498;
+  border-radius: 100%;
+}
+
+span.input-group-text {
+  font-size: 0.9rem;
+  padding: 0 0.2rem 0 0;
+}
+
+.form-label {
+  font-size: 1rem;
+  text-align: left;
+}
+
+.reports_input_item {
+  color: #f4fcfe;
+  padding: 0;
+  border: none;
+  /* box-shadow: none;
+  outline: none; */
+}
+
+.reports_category_item {
+  margin-top: 0;
+  text-align: left;
+}
+
+.reports_label_text {
+  font-size: 0.75rem;
+  position: relative;
+  top: -0.9rem;
+}
+
+.reports_label_text {
+  font-size: 0.75rem;
+  position: relative;
+  top: -0.9rem;
+}
+
+/* .reports_chart_col {
+  padding: 1rem;
+  margin: 1rem;
+} */

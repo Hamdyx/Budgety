@@ -1,0 +1,123 @@
+.savings_btn {
+  /* background-color: rgba(255, 255, 255, 0); */
+  background: none;
+  border: none;
+}
+
+.savings_btn:hover {
+  color: #62666a;
+  background: none;
+}
+
+#total_savings {
+  background-color: #21bf73;
+}
+
+.savings_category_item {
+  /* padding-top: 1rem;
+  padding-bottom: 1rem; */
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+
+#savings_box {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: space-around;
+  color: #fbfcfe;
+  text-align: center;
+}
+
+#savings_card {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: space-around;
+  background-color: #2a2d32;
+  border-radius: 0.5rem;
+}
+
+#savings_box > .main_box {
+  flex: 1;
+}
+
+.main_box > #deposit_box {
+  align-content: center;
+  flex: 1;
+}
+.main_box > #total_deposit_box {
+  align-content: center;
+  flex: 1;
+}
+
+#total_savings.row {
+  /* display: flex;
+  flex-direction: column; */
+
+  /* padding-top: 1rem; */
+  background-color: #21bf73;
+}
+
+.savings_icon,
+.total_savings_icon {
+  margin-top: 0.75rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0.3rem 0.3rem 0.3rem 0.3rem;
+  border-radius: 100%;
+}
+
+.savings_icon {
+  color: #4d7cfd;
+  background-color: #264498;
+}
+
+.total_savings_icon {
+  color: #0ab782;
+  background-color: #c3ffed;
+}
+
+.savings_item_input {
+  padding: 0;
+  text-align: left;
+  color: #fbfcfe;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  box-shadow: none;
+}
+
+.savings_item_input:focus {
+  color: #fbfcfe;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.input-group-text {
+  background: none;
+  border: none;
+  color: #fbfcfe;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.savings_label_text {
+  font-size: 0.75rem;
+  position: relative;
+  top: -0.9rem;
+}
+
+#total_deposit_box {
+  align-items: baseline;
+  background-color: #21bf73;
+}
+
+span.savings_prepend {
+  font-size: 1.25rem;
+}

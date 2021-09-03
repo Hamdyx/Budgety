@@ -1,0 +1,110 @@
+/* #sidebar_nav {
+  padding: 50px 15px 15px 15px;
+  color: #fbfcfe;
+  background-color: #272a2f;
+
+  height: 100vh;
+} */
+
+#sidebar_nav {
+  min-height: 100%;
+}
+
+#sidebar_box {
+  /* display: flex; */
+  /* padding: 50px 0px 15px 20px; */
+  padding: 0.25rem 0 3rem 1rem;
+  color: #fbfcfe;
+  background-color: #272a2f;
+
+  transition: ease-in-out 0.3s;
+}
+#sidebar_nav a {
+  color: #fbfcfe;
+  border-radius: 15px;
+}
+#sidebar_nav a:hover {
+  color: #fbfcfe;
+  background-color: #285944;
+}
+#sidebar_nav a.active {
+  background-color: #21bf74;
+}
+
+/* .nav {
+  justify-content: space-evenly;
+} */
+
+.nav_icon {
+  margin: 0px 10px 0px 0px;
+}
+
+.nav-link {
+  margin: 5px 0px 5px 0px;
+}
+
+.nav-toggle {
+  margin: 5px 0px 5px 0px;
+  padding: 0.5rem 1rem;
+}
+
+.sidebar_span {
+  margin-left: 0.5rem;
+}
+
+.sidebar_add_box {
+  color: #fbfcfe;
+  font-size: 1.75rem;
+  border-radius: 15px;
+  padding: 0.25rem 1rem 0.5rem 1rem;
+  background-color: #21bf74;
+  align-self: flex-start;
+
+  /* margin-top: auto;
+  margin-bottom: 3rem;
+  margin-left: 1rem; */
+  margin: auto 0 0 1rem;
+}
+.sidebar_add:hover {
+  text-decoration: none;
+}
+
+#sidebar_accounts.text-muted {
+  margin-top: 2rem;
+}
+.burger-menu-icon {
+  height: 2rem;
+  width: 2rem;
+}
+
+@media screen and (min-width: 1440px) {
+  .nav_icon {
+    margin: 0;
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+  .subMenu {
+    padding: 0 0.5rem;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .nav_icon {
+    margin: 0;
+    height: 0.75rem;
+    width: 0.75rem;
+  }
+  #sidebar_box {
+    padding: 0;
+  }
+  /* h5 {
+    font-size: 1rem;
+  } */
+  .subMenu {
+    display: inline-block;
+    /* padding: 0 0.5rem; */
+  }
+  .sidebar_span {
+    font-size: 0.75rem;
+  }
+}

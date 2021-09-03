@@ -1,0 +1,79 @@
+.investment_worth_icon {
+  margin-top: 0.75rem;
+  font-size: 1.75rem;
+  color: #21bf73;
+  background-color: #0a533d;
+  padding: 0.25rem 0.25rem 0.25rem 0.25rem;
+  border-radius: 100%;
+}
+
+.spent_icon {
+  margin-top: 0.75rem;
+  font-size: 1.75rem;
+  color: #fd5e53;
+  background-color: #622929;
+  padding: 0.25rem 0.25rem 0.25rem 0.25rem;
+  border-radius: 100%;
+}
+
+.investment_item_input {
+  padding: 0;
+  text-align: left;
+  border: none;
+}
+
+.investment_item_input:focus {
+  background: none;
+  box-shadow: none;
+}
+
+.investment_item_input:disabled {
+  background: none;
+  box-shadow: none;
+}
+
+.investment_category_item {
+  margin-top: 0;
+  text-align: left;
+}
+
+.investment_label_text {
+  font-size: 0.75rem;
+  position: relative;
+  top: -0.9rem;
+}
+
+.investment_label_text {
+  font-size: 0.75rem;
+  position: relative;
+  top: -0.9rem;
+}
+
+.investment_market_value {
+  border-right: 1px solid #363a3e;
+}
+
+.investment_cash_balance {
+  border-left: 1px solid #363a3e;
+}
+
+#investment_input {
+  font-size: 1rem;
+}
+
+.investment_btn_col {
+  margin-top: 2rem;
+}
+
+.investment_box_btn {
+  font-size: 0.75rem;
+  position: relative;
+  top: -0.5rem;
+
+  color: #696c70;
+}
+
+.investment_box_btn:hover {
+  color: rgb(183, 188, 197);
+  text-decoration: none;
+}

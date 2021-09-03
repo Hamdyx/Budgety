@@ -1,0 +1,26 @@
+#overview {
+  color: #fbfcfe;
+}
+
+.overview_add {
+  color: #fbfcfe;
+  font-size: 1.75rem;
+  border-radius: 15px;
+  /* padding: 10px 15px 10px 15px; */
+  padding: 0.25rem 0.75rem 0.5rem 0.75rem;
+  background-color: #21bf74;
+}
+
+.overview_add:hover {
+  color: #fbfcfe;
+  text-decoration: none;
+  background-color: #285944;
+}
+#overview_container {
+  margin: 0;
+  min-width: 100%;
+}
+
+/*
+  *************************** Calendar Style ***************************
+*/
