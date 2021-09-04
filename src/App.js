@@ -19,6 +19,7 @@ import InvestmentCard from './Components/InvestmentCard';
 import Overview from './Overview';
 import InvestmentPage from './InvestmentPage';
 import BankPage from './BankPage';
+import {BudgetMain} from './features/budget/BudgetMain';
 
 import { BiSearch } from 'react-icons/bi';
 
@@ -69,6 +70,7 @@ class App extends React.Component {
             <Col id="main_content">
               <Switch>
                 <Route path="/" exact component={Overview} />
+                <Route path="/budget" exact component={BudgetMain} />
                 <Route path="/investment" component={InvestmentPage} />
                 <Route path="/bank" component={BankPage} />
               </Switch>

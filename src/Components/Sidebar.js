@@ -214,7 +214,7 @@ class Sidebar extends React.Component {
           <OverviewIcon width="16" height="16" className="nav_icon" />
           <span className="subMenu">Overview</span>
         </Link>
-        <Link to="/" eventkey="link-1" className="nav-link">
+        <Link to="/budget" eventkey="link-1" className="nav-link">
           {this.budgetIcon}
           <span className="subMenu">Budget</span>
         </Link>

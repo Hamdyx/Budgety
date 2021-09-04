@@ -1,0 +1,67 @@
+.budget-main {
+	color: #fff;
+}
+
+.header-title > h5 {
+	margin-top: 2.5rem;
+}
+
+.category-row {
+	margin: 1rem 0;
+}
+
+.budget-timeframe {
+	text-align: center;
+	border-radius: 50%;
+	padding: 2.5rem;
+	/* margin: 0.5rem; */
+	display: inline-block;
+	/* background: rgb(33,191,115);
+    background: linear-gradient(325deg, rgba(33,191,115,1) 40%, rgba(33,191,115,0.42620798319327735) 60%); */
+	background-image: url(../../circlesBG.svg);
+}
+
+.category-type {
+	display: inline-block;
+	background: linear-gradient(
+		325deg,
+		rgba(33, 191, 116, 1) 50%,
+		rgba(33, 191, 116, 0.5018382352941176) 75%
+	);
+	padding: 0.25rem 0;
+	border-radius: 1rem;
+}
+
+.category-icon {
+	text-align: center;
+	font-size: 3rem;
+}
+
+.category-text > p {
+	margin: 0.25rem 0;
+}
+
+.align-right {
+	text-align: center;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.transaction-row {
+	background-color: rgb(5, 105, 67);
+	margin: 0.75rem 0;
+	padding: 0.75rem 0 0 0;
+	border-radius: 0.75rem;
+}
+
+.budget-chart {
+	display: inline;
+	width: 20rem;
+	height: 20rem;
+}
+
+.inc-exp-row {
+	margin: 2.5rem 0 1rem 0;
+}
