@@ -7,6 +7,16 @@ import './BudgetMain.css';
 
 import { RiBillLine } from 'react-icons/ri';
 
+const ColoredLine = ({ color }) => (
+	<hr
+		style={{
+			color: color,
+			backgroundColor: color,
+			height: 2,
+		}}
+	/>
+);
+
 export const BudgetMain = () => {
 	return (
 		<Container className="budget-main" fluid>
@@ -24,11 +34,14 @@ export const BudgetMain = () => {
 						</Col>
 					</Row>
 					<Row>
-						<Col>
+						<Col sm={{ span: 2 }}>
 							<h5>Categories</h5>
 						</Col>
-						<Col className="text-right">
-							<Button>+</Button>
+						<Col sm={{ span: 1 }}>
+							<Button className="budget-add-btn">+</Button>
+						</Col>
+						<Col>
+							<ColoredLine color={'#545963'} />
 						</Col>
 					</Row>
 					<Row className="category-row">
@@ -43,15 +56,18 @@ export const BudgetMain = () => {
 						</Col>
 					</Row>
 					<Row>
-						<Col>
+						<Col sm={{ span: 4 }}>
 							<h5>Recent Transactions</h5>
+						</Col>
+						<Col>
+							<ColoredLine color={'#545963'} />
 						</Col>
 					</Row>
 					<TransactionSection />
 					<TransactionSection />
 					<TransactionSection />
 				</Col>
-				<Col sm={{ span: 4 }}>
+				<Col sm={{ span: 4 }} className="budget-section-col">
 					<BudgetSection />
 				</Col>
 			</Row>
@@ -61,13 +77,13 @@ export const BudgetMain = () => {
 
 const BudgetSection = () => {
 	return (
-		<Container>
+		<Container className="budget-section">
 			<Row>
 				<Col sm={{ span: 7 }}>
 					<DoughnutChart />
 				</Col>
 				<Col sm={{ span: 5 }}>
-					<ul>
+					<ul className="category-chart-items">
 						<li>category 1</li>
 						<li>category 2</li>
 						<li>category 3</li>
@@ -76,8 +92,8 @@ const BudgetSection = () => {
 			</Row>
 			<Row className="inc-exp-row">
 				<Col>
-					<Button>Expense</Button>
-					<Button>Income</Button>
+					<Button className="exp-btn">Expense</Button>
+					<Button className="inc-btn">Income</Button>
 				</Col>
 			</Row>
 			<TransactionSection />
@@ -119,8 +135,7 @@ const Category = () => {
 				</Col>
 				<Col className="category-text">
 					<h6>Category</h6>
-					<p>Available: $85.45</p>
-					<p>Spent: $85.45</p>
+					<p>$45/$85</p>
 				</Col>
 			</Row>
 		</Container>
@@ -163,6 +178,6 @@ const DoughnutChart = () => {
 	};
 
 	return (
-		<Doughnut data={_state.data} options={_state.options} width={250} height={250} />
+		<Doughnut data={_state.data} options={_state.options} width={200} height={200} />
 	);
 };
