@@ -2,7 +2,8 @@ import React from 'react';
 
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Doughnut } from 'react-chartjs-2';
-
+import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 import './BudgetMain.css';
 
 import { RiBillLine } from 'react-icons/ri';
@@ -22,15 +23,21 @@ export const BudgetMain = () => {
 		<Container className="budget-main" fluid>
 			<Row>
 				<Col sm={{ span: 8 }}>
-					<Row>
+					<Row className="budget-header">
 						<Col className="header-title">
 							<h5>Budget Feature</h5>
 						</Col>
-						<Col sm={{ span: 8 }} className="align-right">
-							<BudgetFrame timeframe="yearly" />
-							<BudgetFrame timeframe="monthly" />
-							<BudgetFrame timeframe="weekly" />
-							<BudgetFrame timeframe="daily" />
+						<Col sm={{ span: 2 }}>
+							<BudgetFrame timeframe="yearly" value={75} />
+						</Col>
+						<Col sm={{ span: 2 }}>
+							<BudgetFrame timeframe="monthly" value={50} />
+						</Col>
+						<Col sm={{ span: 2 }}>
+							<BudgetFrame timeframe="weekly" value={100} />
+						</Col>
+						<Col sm={{ span: 2 }}>
+							<BudgetFrame timeframe="daily" value={0} />
 						</Col>
 					</Row>
 					<Row>
@@ -117,11 +124,17 @@ const TransactionSection = () => {
 	);
 };
 
-const BudgetFrame = ({ timeframe }) => {
+const BudgetFrame = ({ timeframe, value }) => {
 	return (
-		<section className="budget-timeframe">
-			<h6>{timeframe}</h6>
-			<p>$85.45</p>
+		<section className="budget-timeframe" style={{ width: 100, height: 100 }}>
+			{/* <h6>{timeframe}</h6>
+			<p>$85.45</p> */}
+			<CircularProgressbarWithChildren value={value}>
+				<div className="budget-circular">
+					<h6>{timeframe}</h6>
+					<p>{value}%</p>
+				</div>
+			</CircularProgressbarWithChildren>
 		</section>
 	);
 };
@@ -130,8 +143,16 @@ const Category = () => {
 	return (
 		<Container className="category-type" fluid>
 			<Row>
-				<Col sm={{ span: 4 }} className="category-icon">
-					<RiBillLine />
+				<Col sm={{ span: 4 }}>
+					<section className="category-circular" style={{ width: 50, height: 50 }}>
+						{/* <h6>{timeframe}</h6>
+			<p>$85.45</p> */}
+						<CircularProgressbarWithChildren value={50}>
+							<div className="category-icon">
+								<RiBillLine />
+							</div>
+						</CircularProgressbarWithChildren>
+					</section>
 				</Col>
 				<Col className="category-text">
 					<h6>Category</h6>
