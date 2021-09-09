@@ -10,8 +10,10 @@ import './AddTrxForm.css';
 export const AddTrxForm = () => {
 	const [show, setShow] = useState(false);
 	const [title, setTitle] = useState('');
+	const [type, setType] = useState('');
 	const [value, setValue] = useState('');
 	const [trxDate, setTrxDate] = useState('');
+	const [trxTime, setTrxTime] = useState('');
 
 	const dispatch = useDispatch();
 
@@ -20,10 +22,15 @@ export const AddTrxForm = () => {
 
 	const handleTrxSumbit = () => {
 		console.log(`title: ${title}\nvalue: ${value}\ndate: ${trxDate}`);
-		dispatch(addNewTrx({ id: new Date().toISOString(), title, value, trxDate }));
+		dispatch(
+			addNewTrx({ id: new Date().toISOString(), type, title, value, trxDate, trxTime })
+		);
+		setType('');
 		setTitle('');
 		setValue('');
 		setTrxDate('');
+		setTrxTime('');
+		handleClose();
 	};
 
 	return (
@@ -38,6 +45,14 @@ export const AddTrxForm = () => {
 				</Modal.Header>
 				<Modal.Body>
 					<Form>
+						<Row>
+							<Col>
+								<Button onClick={() => setType('inc')}>INCOME</Button>
+							</Col>
+							<Col>
+								<Button onClick={() => setType('exp')}>EXPENSE</Button>
+							</Col>
+						</Row>
 						<Row>
 							<Col>
 								<FloatingLabel controlId="floatingInput-1" label="Title" className="mb-3">
@@ -65,6 +80,15 @@ export const AddTrxForm = () => {
 										placeholder="transaction date"
 										value={trxDate}
 										onChange={(event) => setTrxDate(event.target.value)}
+										className="trx-moda-input"
+									/>
+								</FloatingLabel>
+								<FloatingLabel controlId="floatingInput-4" label="Time" className="mb-3">
+									<Form.Control
+										type="time"
+										placeholder="transaction time"
+										value={trxTime}
+										onChange={(event) => setTrxTime(event.target.value)}
 										className="trx-moda-input"
 									/>
 								</FloatingLabel>

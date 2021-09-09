@@ -1,9 +1,10 @@
-import React from 'react';
-
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Doughnut } from 'react-chartjs-2';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { AddTrxForm } from './AddTrxForm';
+import { selectAllTrx } from './budgetSlice';
 
 import 'react-circular-progressbar/dist/styles.css';
 import './BudgetMain.css';
@@ -21,6 +22,9 @@ const ColoredLine = ({ color }) => (
 );
 
 export const BudgetMain = () => {
+	const allTrxs = useSelector(selectAllTrx);
+	const allTrxRows = allTrxs.map((trx) => <TransactionSection trx={trx} />);
+
 	return (
 		<Container className="budget-main" fluid>
 			<Row>
@@ -72,9 +76,10 @@ export const BudgetMain = () => {
 							<ColoredLine color={'#545963'} />
 						</Col>
 					</Row>
+					{allTrxRows}
+					{/* <TransactionSection />
 					<TransactionSection />
-					<TransactionSection />
-					<TransactionSection />
+					<TransactionSection /> */}
 				</Col>
 				<Col sm={{ span: 4 }} className="budget-section-col">
 					<BudgetSection />
@@ -85,6 +90,21 @@ export const BudgetMain = () => {
 };
 
 const BudgetSection = () => {
+	const [budgetType, setBudgetType] = useState('inc');
+	const allTrxs = useSelector(selectAllTrx);
+	const incTrxs = allTrxs.filter((trx) => trx.type === 'inc');
+	const expTrxs = allTrxs.filter((trx) => trx.type === 'exp');
+	console.log(allTrxs);
+	console.log(incTrxs);
+	console.log(expTrxs);
+	const allTrxRows = allTrxs.map((trx) => <TransactionSection trx={trx} />);
+	let content = [];
+
+	if (budgetType === 'inc') {
+		content = incTrxs.map((trx) => <TransactionSection trx={trx} />);
+	} else {
+		content = expTrxs.map((trx) => <TransactionSection trx={trx} />);
+	}
 	return (
 		<Container className="budget-section">
 			<Row>
@@ -101,13 +121,15 @@ const BudgetSection = () => {
 			</Row>
 			<Row className="inc-exp-row">
 				<Col>
-					<Button className="exp-btn">Expense</Button>
-					<Button className="inc-btn">Income</Button>
+					<Button className="exp-btn" onClick={() => setBudgetType('exp')}>
+						Expense
+					</Button>
+					<Button className="inc-btn" onClick={() => setBudgetType('inc')}>
+						Income
+					</Button>
 				</Col>
 			</Row>
-			<TransactionSection />
-			<TransactionSection />
-			<TransactionSection />
+			{content}
 			<Row>
 				<Col>
 					<AddTrxForm />
@@ -117,15 +139,15 @@ const BudgetSection = () => {
 	);
 };
 
-const TransactionSection = () => {
+const TransactionSection = ({ trx }) => {
 	return (
-		<Row className="transaction-row">
+		<Row className={`transaction-row-${trx.type}`}>
 			<Col>
-				<h6>Transaction Title</h6>
-				<p>%4 Sep 2021%</p>
+				<h6>{trx.title}</h6>
+				<p>{`${trx.trxDate} - ${trx.trxTime}`}</p>
 			</Col>
 			<Col className="text-right">
-				<p>%22%$</p>
+				<p>{`$${trx.value}`}</p>
 			</Col>
 		</Row>
 	);

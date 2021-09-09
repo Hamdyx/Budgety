@@ -59,8 +59,14 @@
 	text-align: right;
 }
 
-.transaction-row {
+.transaction-row-inc {
 	background-color: rgb(5, 105, 67);
+	margin: 0.75rem 0;
+	padding: 0.75rem 0 0 0;
+	border-radius: 0.75rem;
+}
+.transaction-row-exp {
+	background-color: rgb(199, 20, 20);
 	margin: 0.75rem 0;
 	padding: 0.75rem 0 0 0;
 	border-radius: 0.75rem;
@@ -88,6 +94,13 @@
 	border: 0;
 }
 
+.exp-btn:focus,
+.inc-btn:focus {
+	background: none;
+	border: 0;
+	box-shadow: none;
+}
+
 .exp-btn {
 	border-bottom: 0.25rem solid rgb(199, 20, 20);
 	margin-right: 0.5rem;
@@ -102,6 +115,16 @@
 	/* margin-right: 0.5rem; */
 }
 .inc-btn:hover {
+	color: rgb(6, 146, 76);
+	border-bottom: 0.25rem solid rgb(6, 146, 76);
+}
+
+.exp-btn:focus {
+	color: rgb(199, 20, 20);
+	border-bottom: 0.25rem solid rgb(199, 20, 20);
+	/* margin-right: 0.5rem; */
+}
+.inc-btn:focus {
 	color: rgb(6, 146, 76);
 	border-bottom: 0.25rem solid rgb(6, 146, 76);
 }

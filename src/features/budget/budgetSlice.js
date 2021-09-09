@@ -71,4 +71,4 @@ export const {
 	selectById: selectTrxById,
 	selectIds: selectTrxIds,
 	// Pass in a selector that returns the trx slice of state
-} = budgetAdapter.getSelectors((state) => state.trx);
+} = budgetAdapter.getSelectors((state) => state.budget);
