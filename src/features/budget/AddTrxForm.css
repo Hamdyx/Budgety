@@ -1,0 +1,13 @@
+.budget-trx-modal > .modal-dialog > .modal-content {
+	color: #fff;
+	background-color: #2a2d32;
+}
+
+.trx-moda-input {
+	color: #fff;
+}
+
+.trx-moda-input:focus {
+	background-color: rgb(77, 75, 75);
+	color: #fff;
+}

@@ -3,6 +3,8 @@ import React from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Doughnut } from 'react-chartjs-2';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
+import { AddTrxForm } from './AddTrxForm';
+
 import 'react-circular-progressbar/dist/styles.css';
 import './BudgetMain.css';
 
@@ -106,6 +108,11 @@ const BudgetSection = () => {
 			<TransactionSection />
 			<TransactionSection />
 			<TransactionSection />
+			<Row>
+				<Col>
+					<AddTrxForm />
+				</Col>
+			</Row>
 		</Container>
 	);
 };
