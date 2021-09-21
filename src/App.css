@@ -69,6 +69,7 @@
 
 .card_add {
 	color: #696c70;
+	text-decoration: none;
 }
 
 .card_add:hover {
@@ -431,4 +432,8 @@ input:-webkit-autofill {
 }
 .expense_item:hover .item_percentage {
 	transform: translateX(-15px);
+}
+
+.text-left {
+	text-align: left;
 }

@@ -1,48 +1,48 @@
 .budget_btn {
-  /* background-color: rgba(255, 255, 255, 0); */
-  background: none;
-  border: none;
+	/* background-color: rgba(255, 255, 255, 0); */
+	background: none;
+	border: none;
 }
 
 .budget_btn:hover {
-  color: #62666a;
-  background: none;
+	color: #62666a;
+	background: none;
 }
 
 #total_savings {
-  background-color: #21bf73;
+	background-color: #21bf73;
 }
 
 .budget_category_item {
-  border-radius: 0 0 0.5rem 0.5rem;
+	border-radius: 0 0 0.5rem 0.5rem;
 }
 
 #budget_box {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-content: stretch;
-  color: #fbfcfe;
-  text-align: center;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-content: stretch;
+	color: #fbfcfe;
+	text-align: center;
 }
 
 #budget_box > #budget_card {
-  flex: 1;
+	flex: 1;
 }
 
 #budget_card > #budget_items {
-  flex: 1;
+	flex: 1;
 }
 #overview_right > #height_test {
-  display: flex;
-  flex-direction: column;
-  align-content: stretch;
+	display: flex;
+	flex-direction: column;
+	align-content: stretch;
 
-  /* justify-content: space-around; */
+	/* justify-content: space-around; */
 }
 #height_test > #height_test_2 {
-  flex: 1;
-  align-content: stretch;
+	flex: 1;
+	align-content: stretch;
 }
 
 /* #budget_title_row {
@@ -52,60 +52,60 @@
 } */
 
 #budget_items {
-  border-radius: 0rem 0rem 0.5rem 0.5rem;
-  /* display: flex;
+	border-radius: 0rem 0rem 0.5rem 0.5rem;
+	/* display: flex;
   flex-direction: column;
   justify-content: space-evenly; */
-  padding: 1rem 0 3rem 0;
-  background-color: #2e3236;
-  /*  align-self: flex-end;
+	padding: 1rem 0 0 0;
+	background-color: #2e3236;
+	/*  align-self: flex-end;
   align-content: flex-end; */
-  /* margin: auto 0 0 0; */
-  /* margin-top: auto; */
+	/* margin: auto 0 0 0; */
+	/* margin-top: auto; */
 }
 
 .groceries_icon,
 .house_icon,
 .bill_icon {
-  margin-top: 0.25rem;
-  width: 2.25rem;
-  height: 2.25rem;
-  padding: 0.3rem 0.3rem 0.3rem 0.3rem;
-  border-radius: 100%;
+	margin-top: 0.25rem;
+	width: 2.25rem;
+	height: 2.25rem;
+	padding: 0.3rem 0.3rem 0.3rem 0.3rem;
+	border-radius: 100%;
 }
 
 .groceries_icon {
-  color: #ffbbc3;
-  background-color: #ff5367;
+	color: #ffbbc3;
+	background-color: #ff5367;
 }
 
 .house_icon {
-  background-color: #f7c025;
+	background-color: #f7c025;
 }
 
 .bill_icon {
-  background-color: #21bf73;
+	background-color: #21bf73;
 }
 
 .budget_input {
-  color: #fbfcfe;
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  box-shadow: none;
+	color: #fbfcfe;
+	background: none;
+	border: none;
+	font-size: 1.2rem;
+	box-shadow: none;
 }
 
 .budget_item_input {
-  padding: 0;
-  font-size: 1rem;
-  border: none;
-  text-align: right;
+	padding: 0;
+	font-size: 1rem;
+	border: none;
+	text-align: right;
 }
 
 .input-group-text {
-  background: none;
-  border: none;
-  color: #fbfcfe;
+	background: none;
+	border: none;
+	color: #fbfcfe;
 }
 
 /* input::-webkit-outer-spin-button,
@@ -115,7 +115,7 @@ input::-webkit-inner-spin-button {
 } */
 
 .budget_label_text {
-  font-size: 0.75rem;
-  position: relative;
-  top: -0.9rem;
+	font-size: 0.75rem;
+	position: relative;
+	top: -0.9rem;
 }
