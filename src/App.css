@@ -40,25 +40,6 @@
 	text-align: center;
 }
 
-#overview {
-	color: #fbfcfe;
-}
-
-.overview_add {
-	color: #fbfcfe;
-	font-size: 1.75rem;
-	border-radius: 15px;
-	/* padding: 10px 15px 10px 15px; */
-	padding: 0.25rem 0.75rem 0.5rem 0.75rem;
-	background-color: #21bf74;
-}
-
-.overview_add:hover {
-	color: #fbfcfe;
-	text-decoration: none;
-	background-color: #285944;
-}
-
 .card_add_col {
 	text-align: right;
 }
@@ -134,14 +115,6 @@
 	width: 100%;
 }
 
-.overview_search {
-	color: #fbfcfe;
-}
-
-.overview_search:hover {
-	color: #b7bcc5;
-}
-
 .income_item_text {
 	color: #21bf73;
 }
@@ -159,20 +132,8 @@
 	border-radius: 100%;
 }
 
-/* .react-calendar__month-view__days {
-  padding: 0;
-}
-
-.react-calendar__tile {
-  padding: 0;
-} */
-
 .form-control {
-	/*   padding: 0; */
-
-	/* display: inline; */
 	background: none;
-	/* border: none; */
 }
 
 .card {
@@ -309,22 +270,6 @@ label {
 	color: antiquewhite;
 }
 
-#overview_left {
-	padding: 0;
-	display: flex;
-
-	/* padding: 0 0 2rem 0; */
-}
-
-#overview_left > #left_boxes_container {
-	flex: 1;
-}
-
-#overview_right {
-	padding: 0;
-	display: flex;
-}
-
 #items_header {
 	padding: 10px 5px 10px 5px;
 }
@@ -335,11 +280,6 @@ label {
 
 .expenses_title {
 	color: #c05555;
-}
-
-.overview_main_title {
-	position: relative;
-	top: 0.5rem;
 }
 
 #budget_items {

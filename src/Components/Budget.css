@@ -18,12 +18,22 @@
 }
 
 #budget_box {
-	display: flex;
+	/* display: flex;
 	flex-direction: row;
 	justify-content: space-around;
 	align-content: stretch;
 	color: #fbfcfe;
+	text-align: center; */
+	display: flex;
+	flex-direction: column;
+	align-content: stretch;
+	justify-content: space-around;
+	color: #fbfcfe;
 	text-align: center;
+}
+
+#budget_box > .main_box {
+	flex: 1 1;
 }
 
 #budget_box > #budget_card {

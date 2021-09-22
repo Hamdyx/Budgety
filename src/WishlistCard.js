@@ -62,6 +62,11 @@ class WishlistCard extends React.Component {
 						<p className="text-muted investment_label_text">Spent</p>
 					</Col>
 				</Row>
+				{/* <Row>
+					<Col>
+						<h4>Test Height</h4>
+					</Col>
+				</Row> */}
 			</Container>
 		);
 	}
