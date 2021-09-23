@@ -64,7 +64,7 @@ class App extends React.Component {
 			<Container fluid id="overview_container">
 				<Row id="page_container">
 					<Router>
-						<Col xs={12} sm={12} md={2} id="sidebar_box">
+						<Col xs={12} sm={12} md={3} id="sidebar_box">
 							<Sidebar changePage={this.handlePageChange} />
 						</Col>
 						<Col id="main_content">

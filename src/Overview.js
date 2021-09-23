@@ -38,33 +38,35 @@ class Overview extends React.Component {
 				</Row>
 				<Row>
 					<Col>
-						<div class="grid">
-							<Col sm={4} className="overview-box">
-								<TransactionsCard />
-							</Col>
-							<Col sm={4} className="overview-box">
-								<ReportsCard />
-							</Col>
-							<Col sm={4} className="overview-box">
-								<SchedulerCard className="container main_box" />
-							</Col>
-							<Col sm={4} className="overview-box">
-								<Savings />
-							</Col>
-							<Col sm={4} className="overview-box">
-								<BankCard />
-							</Col>
-							<Col sm={4} className="overview-box span-row-2">
-								<Budget />
-							</Col>
+						<Container>
+							<div class="grid">
+								<Col xs={6} sm={6} md={6} className="overview-box">
+									<TransactionsCard />
+								</Col>
+								<Col xs={6} sm={6} md={6} className="overview-box">
+									<ReportsCard />
+								</Col>
+								<Col xs={6} sm={6} md={6} className="overview-box">
+									<SchedulerCard className="container main_box" />
+								</Col>
+								<Col xs={6} sm={6} md={6} className="overview-box">
+									<Savings />
+								</Col>
+								<Col xs={6} sm={6} md={6} className="overview-box">
+									<BankCard />
+								</Col>
+								<Col xs={6} sm={6} md={6} className="overview-box span-row-2">
+									<Budget />
+								</Col>
 
-							<Col sm={4} className="overview-box">
-								<InvestmentCard />
-							</Col>
-							<Col sm={4} className="overview-box">
-								<WishlistCard />
-							</Col>
-						</div>
+								<Col xs={6} sm={6} md={6} className="overview-box">
+									<InvestmentCard />
+								</Col>
+								<Col xs={6} sm={6} md={6} className="overview-box">
+									<WishlistCard />
+								</Col>
+							</div>
+						</Container>
 					</Col>
 				</Row>
 			</Container>
