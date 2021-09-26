@@ -1,29 +1,16 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-/* import Route from 'react'; */
-/* import ReactDom from 'react-dom'; */
 import { Container, Row, Col } from 'react-bootstrap';
 /* import Calendar from 'react-calendar'; */
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Sidebar from './Components/Sidebar';
-/* import Overview from './Overview'; */
-import BankCard from './BankCard';
-import WishlistCard from './WishlistCard';
-import TransactionsCard from './Components/TransactionsCard';
-import Savings from './Components/Savings';
-import ReportsCard from './Components/ReportsCard';
-import Budget from './Components/Budget';
-import InvestmentCard from './Components/InvestmentCard';
+
 import Overview from './Overview';
-import InvestmentPage from './InvestmentPage';
+import InvestmentPage from './investment/InvestmentPage';
 import BankPage from './BankPage';
 import { BudgetMain } from './features/budget/BudgetMain';
-
-import { BiSearch } from 'react-icons/bi';
-
-import 'react-calendar/dist/Calendar.css';
 
 import './App.css';
 
@@ -64,7 +51,7 @@ class App extends React.Component {
 			<Container fluid id="overview_container">
 				<Row id="page_container">
 					<Router>
-						<Col xs={12} sm={12} md={3} id="sidebar_box">
+						<Col xs={12} sm={12} md={2} id="sidebar_box">
 							<Sidebar changePage={this.handlePageChange} />
 						</Col>
 						<Col id="main_content">

@@ -8,7 +8,7 @@ import './Sidebar.css';
 
 import { ReactComponent as OverviewIcon } from '../grid.svg';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import InvestmentPage from '../InvestmentPage';
+import InvestmentPage from '../investment/InvestmentPage';
 /* import './App.css'; */
 
 class Sidebar extends React.Component {
