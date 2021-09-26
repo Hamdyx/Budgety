@@ -1,0 +1,60 @@
+.tabs-col > button {
+	margin: 0 0.5rem;
+	background: none;
+	color: rgb(175, 175, 175);
+	border: none;
+	border-radius: 0;
+}
+.tabs-col > button:hover {
+	background: none;
+	/* margin: 0 0.5rem;
+	border: none;
+	border-radius: 0; */
+}
+.tabs-col > .active {
+	background: none;
+	border-bottom: 0.125rem solid rgb(233, 208, 68);
+}
+
+.calculator-content {
+	padding: 1rem 0;
+}
+
+.content-left > .row {
+	margin: 1rem 0;
+}
+
+.btn-buy {
+	background: rgb(25, 126, 30);
+	width: 100%;
+	border: none;
+}
+.btn-sell {
+	background: rgb(126, 25, 25);
+	border: none;
+	width: 100%;
+}
+
+.calculator-input {
+	background: none;
+	color: #fff;
+}
+.calculator-input:focus {
+	background: none;
+	color: #fff;
+}
+
+.mainBg-btn {
+	background-color: rgb(219, 201, 39);
+	color: #000;
+	border: none;
+	width: 100%;
+}
+.mainBg-btn:hover {
+	background-color: rgb(224, 210, 79);
+	color: #000;
+}
+.mainBg-btn:focus {
+	background-color: rgb(219, 201, 39) !important;
+	color: #000;
+}

@@ -5,6 +5,7 @@ import { Container, Row, Col, Table, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './InvestmentPage.css';
+import { TradeCalculator } from './TradeCalculator';
 import TvlChart from '../TvlChart';
 import HodlValueChart from '../HodlValueChart';
 
@@ -185,7 +186,7 @@ class InvestmentPage extends React.Component {
 	render() {
 		return (
 			<Container id="investment_page">
-				<Row>
+				{/* <Row>
 					<Col className="table_btn_col">
 						<Button value="Auto_CAKE" className="table_btn">
 							Auto CAKE
@@ -200,8 +201,8 @@ class InvestmentPage extends React.Component {
 							PNT-PBTC
 						</Button>
 					</Col>
-				</Row>
-				<Row>
+				</Row> */}
+				{/* 	<Row>
 					<Col>
 						<Table striped bordered hover>
 							<thead>
@@ -209,24 +210,12 @@ class InvestmentPage extends React.Component {
 							</thead>
 							<tbody>
 								{this.getValues()}
-								{/* <td>406.7</td>
-            <td>0.334391</td>
-            <td>0.0008</td>
-            <td>1216.26</td>
-            <td>30</td>
-            <td>May</td>
-            <td>2021</td>
-            <td>4:40</td>
-            <td>PM</td>
-            <td>-</td>
-            <td>$203</td>
-            <td>$0.25100</td>
-            <td>$304</td> */}
+								
 							</tbody>
 						</Table>
 					</Col>
-				</Row>
-				<Row>
+				</Row> */}
+				{/* <Row>
 					<Col md={6}>
 						<TvlChart tvlValues={Object.values(this.state.data[this.state.currTable])} />
 					</Col>
@@ -235,8 +224,10 @@ class InvestmentPage extends React.Component {
 							values={Object.values(this.state.data[this.state.currTable])}
 						/>
 					</Col>
+				</Row> */}
+				<Row>
+					<TradeCalculator />
 				</Row>
-				<Row></Row>
 			</Container>
 		);
 	}
