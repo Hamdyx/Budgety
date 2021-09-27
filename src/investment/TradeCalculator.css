@@ -1,3 +1,7 @@
+.tabs-col {
+	border-bottom: 0.125rem solid rgb(100, 100, 100);
+}
+
 .tabs-col > button {
 	margin: 0 0.5rem;
 	background: none;
@@ -19,28 +23,47 @@
 .calculator-content {
 	padding: 1rem 0;
 }
+.calculator-content > .col:first-child {
+	border-right: 0.125rem solid rgb(100, 100, 100);
+}
 
 .content-left > .row {
 	margin: 1rem 0;
 }
 
-.btn-buy {
-	background: rgb(25, 126, 30);
-	width: 100%;
-	border: none;
-}
+.btn-buy,
 .btn-sell {
-	background: rgb(126, 25, 25);
+	background-color: rgb(100, 100, 100);
 	border: none;
 	width: 100%;
 }
 
+.btn-buy:hover,
+.btn-sell:hover {
+	background-color: rgb(150, 149, 149);
+}
+
+.btn-buy.active:focus,
+.btn-sell.active:focus {
+	box-shadow: none;
+}
+
+.btn-buy.active {
+	background: rgb(25, 126, 30);
+}
+.btn-sell.active {
+	background: rgb(126, 25, 25);
+}
+
 .calculator-input {
-	background: none;
+	background-color: #272a2f;
+	border: none;
 	color: #fff;
 }
 .calculator-input:focus {
-	background: none;
+	background-color: #272a2f;
+	border: none;
+	box-shadow: none;
 	color: #fff;
 }
 
@@ -57,4 +80,15 @@
 .mainBg-btn:focus {
 	background-color: rgb(219, 201, 39) !important;
 	color: #000;
+}
+
+.leverage-range {
+	width: 100%;
+}
+
+#tickmarks {
+	display: block;
+}
+option {
+	display: inline;
 }
