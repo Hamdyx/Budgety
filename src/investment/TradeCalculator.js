@@ -1,22 +1,69 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 
-import { Container, Row, Col, Form, FloatingLabel, Button } from 'react-bootstrap';
+import {
+	Container,
+	Row,
+	Col,
+	Form,
+	FloatingLabel,
+	Button,
+	Tabs,
+	Tab,
+} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './TradeCalculator.css';
 
 export const TradeCalculator = () => {
+	const [key, setKey] = useState('pnl');
 	return (
 		<Container className="trade-calculator">
 			<Row>
 				<Col className="tabs-col">
-					<Button className="active">PNL</Button>
+					{/* <Button className="active">PNL</Button>
 					<Button>Target Price</Button>
 					<Button>Liquidation Price</Button>
 					<Button>Max Open</Button>
-					<Button>Open Price</Button>
+					<Button>Open Price</Button> */}
+					<Tabs
+						id="controlled-tab-example"
+						activeKey={key}
+						onSelect={(k) => setKey(k)}
+						className="mb-3"
+					>
+						<Tab eventKey="pnl" title="PNL">
+							<PNLContent />
+						</Tab>
+						<Tab eventKey="targetPrice" title="Target Price">
+							<TargetPrice />
+						</Tab>
+						<Tab eventKey="liquidationPrice" title="Liquidation Price">
+							<LiquidationPrice />
+						</Tab>
+						<Tab eventKey="maxOpen" title="Max Open">
+							<MaxOpen />
+						</Tab>
+						<Tab eventKey="openPrice" title="Open Price">
+							<OpenPrice />
+						</Tab>
+					</Tabs>
 				</Col>
 			</Row>
+			{/* <Row className="calculator-content">
+				<Col>
+					<CalculatorForm />
+				</Col>
+				<Col>
+					<CalculatorResult />
+				</Col>
+			</Row> */}
+		</Container>
+	);
+};
+
+const PNLContent = () => {
+	return (
+		<Container>
 			<Row className="calculator-content">
 				<Col>
 					<CalculatorForm />
@@ -25,6 +72,35 @@ export const TradeCalculator = () => {
 					<CalculatorResult />
 				</Col>
 			</Row>
+		</Container>
+	);
+};
+
+const TargetPrice = () => {
+	return (
+		<Container>
+			<h6>Target Price Tab</h6>
+		</Container>
+	);
+};
+const LiquidationPrice = () => {
+	return (
+		<Container>
+			<h6>Liquidation Price Tab</h6>
+		</Container>
+	);
+};
+const MaxOpen = () => {
+	return (
+		<Container>
+			<h6>Max Open Tab</h6>
+		</Container>
+	);
+};
+const OpenPrice = () => {
+	return (
+		<Container>
+			<h6>Open Price Tab</h6>
 		</Container>
 	);
 };
@@ -121,21 +197,6 @@ const CalculatorForm = () => {
 		roeDom.innerHTML = `${roe.toFixed(2)} %`;
 	};
 
-	const getRangeOptions = () => {
-		let content = [];
-		for (let i = 1; i <= 125; i++) {
-			/* if (i === 1) {
-				content.push(<option value={i} label={i}></option>);
-			} else if (i % 25 === 0) {
-				content.push(<option value={i} label={i}></option>);
-			} else {
-				content.push(<option value={i}></option>);
-			} */
-			content.push(<option value={i}></option>);
-		}
-		return content;
-	};
-
 	return (
 		<Container className="content-left">
 			<Row>
@@ -161,7 +222,6 @@ const CalculatorForm = () => {
 						value={leverage}
 						onChange={leverageChanged}
 					/>
-					{/* <datalist id="tickmarks">{getRangeOptions()}</datalist> */}
 				</Col>
 				<Col>
 					<FloatingLabel label="Leverage">

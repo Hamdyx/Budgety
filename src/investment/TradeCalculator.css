@@ -92,3 +92,15 @@
 option {
 	display: inline;
 }
+
+ul.nav-tabs {
+	list-style: none;
+}
+
+.nav-item .nav-link {
+	color: rgb(150, 150, 150);
+	font-weight: 600;
+}
+li.nav-item::before {
+	content: none;
+}
