@@ -3,14 +3,14 @@ import { Container, Row, Col, Button, Form, Card, Nav } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './Overview.css';
-import BankCard from './BankCard';
-import WishlistCard from './WishlistCard';
 import TransactionsCard from './Components/TransactionsCard';
-import Savings from './Components/Savings';
 import ReportsCard from './Components/ReportsCard';
-import Budget from './Components/Budget';
-import InvestmentCard from './Components/InvestmentCard';
 import SchedulerCard from './Components/SchedulerCard';
+import Savings from './Components/Savings';
+import BankCard from './Components/cards/BankCard';
+import Budget from './Components/Budget';
+import WishlistCard from './Components/cards/WishlistCard';
+import InvestmentCard from './Components/InvestmentCard';
 import { BiSearch } from 'react-icons/bi';
 class Overview extends React.Component {
 	render() {

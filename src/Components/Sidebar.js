@@ -1,16 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Nav } from 'react-bootstrap';
+import { Nav, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './Sidebar.css';
 
-import { ReactComponent as OverviewIcon } from '../grid.svg';
+import { ReactComponent as OverviewIcon } from './grid.svg';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import InvestmentPage from '../investment/InvestmentPage';
-/* import './App.css'; */
 
+const overviewImg = 'images/grid.svg';
 class Sidebar extends React.Component {
 	constructor(props) {
 		super(props);
@@ -228,6 +227,7 @@ class Sidebar extends React.Component {
 				<div className="sidebar-items ">
 					<Link to="/" eventkey="0" className="nav-link active">
 						<OverviewIcon width="16" height="16" className="nav_icon" />
+						{/* <Image src={overviewImg} width="16" height="16" className="nav_icon" /> */}
 						<span className="subMenu">Overview</span>
 					</Link>
 					<Link to="/budget" eventkey="link-1" className="nav-link">

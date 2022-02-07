@@ -11,3 +11,42 @@
 	background-color: rgb(77, 75, 75);
 	color: #fff;
 }
+
+.newTrx-inc,
+.newTrx-exp {
+	border: 0;
+	width: 100%;
+	padding: 0.5rem 0.25rem;
+}
+.newTrx-inc {
+	background: rgba(11, 161, 43, 0.692);
+}
+.newTrx-inc:hover {
+	background: rgb(11, 161, 44);
+}
+.newTrx-inc.active {
+	background: rgb(11, 161, 44);
+}
+.newTrx-inc:focus {
+	background: rgb(11, 161, 44);
+	box-shadow: none;
+}
+
+.newTrx-exp {
+	background: rgba(161, 33, 11, 0.658);
+}
+.newTrx-exp:hover {
+	background: rgb(161, 33, 11);
+}
+.newTrx-exp.active {
+	background: rgb(161, 33, 11);
+}
+.newTrx-exp:focus {
+	background: rgb(161, 33, 11);
+	box-shadow: none;
+}
+
+.trx-moda-input {
+	color: #000;
+	background: rgb(95, 95, 95);
+}

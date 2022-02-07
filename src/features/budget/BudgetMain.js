@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import { Doughnut } from 'react-chartjs-2';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { AddTrxForm } from './AddTrxForm';
 import { selectAllTrx } from './budgetSlice';
 
+import DoughnutChart from '../DoughnutChart';
 import 'react-circular-progressbar/dist/styles.css';
 import './BudgetMain.css';
 
@@ -25,6 +25,33 @@ export const BudgetMain = () => {
 	const allTrxs = useSelector(selectAllTrx);
 	const allTrxRows = allTrxs.map((trx) => <TransactionSection trx={trx} />);
 
+	let testFrame = {
+		yearly: 10,
+		monthly: 25,
+		weekly: 50,
+		daily: 30,
+	};
+	let categories = {
+		utility: { spent: 100, limit: 400 },
+		food: { spent: 50, limit: 150 },
+		shopping: { spent: 25, limit: 100 },
+	};
+
+	testFrame = Object.entries(testFrame).map((el, i) => (
+		<Col sm={{ span: 2 }}>
+			<BudgetFrame key={i} timeframe={el[0]} value={el[1]} />
+		</Col>
+	));
+
+	categories = Object.entries(categories).map((el, i) => {
+		console.log(el);
+		return (
+			<Col sm={{ span: 4 }}>
+				<Category key={i} category={el} />
+			</Col>
+		);
+	});
+
 	return (
 		<Container className="budget-main" fluid>
 			<Row>
@@ -33,18 +60,7 @@ export const BudgetMain = () => {
 						<Col className="header-title">
 							<h5>Budget Feature</h5>
 						</Col>
-						<Col sm={{ span: 2 }}>
-							<BudgetFrame timeframe="yearly" value={75} />
-						</Col>
-						<Col sm={{ span: 2 }}>
-							<BudgetFrame timeframe="monthly" value={50} />
-						</Col>
-						<Col sm={{ span: 2 }}>
-							<BudgetFrame timeframe="weekly" value={100} />
-						</Col>
-						<Col sm={{ span: 2 }}>
-							<BudgetFrame timeframe="daily" value={0} />
-						</Col>
+						{testFrame}
 					</Row>
 					<Row>
 						<Col sm={{ span: 2 }}>
@@ -57,17 +73,7 @@ export const BudgetMain = () => {
 							<ColoredLine color={'#545963'} />
 						</Col>
 					</Row>
-					<Row className="category-row">
-						<Col sm={{ span: 4 }}>
-							<Category />
-						</Col>
-						<Col sm={{ span: 4 }}>
-							<Category />
-						</Col>
-						<Col sm={{ span: 4 }}>
-							<Category />
-						</Col>
-					</Row>
+					<Row className="category-row">{categories}</Row>
 					<Row>
 						<Col sm={{ span: 4 }}>
 							<h5>Recent Transactions</h5>
@@ -77,9 +83,6 @@ export const BudgetMain = () => {
 						</Col>
 					</Row>
 					{allTrxRows}
-					{/* <TransactionSection />
-					<TransactionSection />
-					<TransactionSection /> */}
 				</Col>
 				<Col sm={{ span: 4 }} className="budget-section-col">
 					<BudgetSection />
@@ -94,11 +97,14 @@ const BudgetSection = () => {
 	const allTrxs = useSelector(selectAllTrx);
 	const incTrxs = allTrxs.filter((trx) => trx.type === 'inc');
 	const expTrxs = allTrxs.filter((trx) => trx.type === 'exp');
-	console.log(allTrxs);
-	console.log(incTrxs);
-	console.log(expTrxs);
-	const allTrxRows = allTrxs.map((trx) => <TransactionSection trx={trx} />);
+	// console.log(allTrxs);
+	// console.log(incTrxs);
+	// console.log(expTrxs);
 	let content = [];
+
+	let labels = ['utility', 'food', 'shopping'];
+	let data = [25, 50, 75];
+	let colors = ['#21bf73', '#FE5E54', '#F7C025'];
 
 	if (budgetType === 'inc') {
 		content = incTrxs.map((trx) => <TransactionSection trx={trx} />);
@@ -109,7 +115,7 @@ const BudgetSection = () => {
 		<Container className="budget-section">
 			<Row>
 				<Col sm={{ span: 7 }}>
-					<DoughnutChart />
+					<DoughnutChart labelsArr={labels} data={data} colors={colors} />
 				</Col>
 				<Col sm={{ span: 5 }}>
 					<ul className="category-chart-items">
@@ -156,8 +162,6 @@ const TransactionSection = ({ trx }) => {
 const BudgetFrame = ({ timeframe, value }) => {
 	return (
 		<section className="budget-timeframe" style={{ width: 100, height: 100 }}>
-			{/* <h6>{timeframe}</h6>
-			<p>$85.45</p> */}
 			<CircularProgressbarWithChildren value={value}>
 				<div className="budget-circular">
 					<h6>{timeframe}</h6>
@@ -168,14 +172,16 @@ const BudgetFrame = ({ timeframe, value }) => {
 	);
 };
 
-const Category = () => {
+const Category = ({ category }) => {
+	const title = category[0];
+	const budget = category[1];
+	const spent = budget.spent;
+	const limit = budget.limit;
 	return (
 		<Container className="category-type" fluid>
 			<Row>
 				<Col sm={{ span: 4 }}>
 					<section className="category-circular" style={{ width: 50, height: 50 }}>
-						{/* <h6>{timeframe}</h6>
-			<p>$85.45</p> */}
 						<CircularProgressbarWithChildren value={50}>
 							<div className="category-icon">
 								<RiBillLine />
@@ -184,50 +190,12 @@ const Category = () => {
 					</section>
 				</Col>
 				<Col className="category-text">
-					<h6>Category</h6>
-					<p>$45/$85</p>
+					<h6>{title}</h6>
+					<p>
+						${spent}/${limit}
+					</p>
 				</Col>
 			</Row>
 		</Container>
-	);
-};
-
-const DoughnutChart = () => {
-	const _state = {
-		data: {
-			labels: ['Deposits', 'Loans', 'Credit Card'],
-			datasets: [
-				{
-					label: 'Bank Account',
-					data: [5, 25, 10],
-					backgroundColor: ['#21bf73', '#FE5E54', '#F7C025'],
-					hoverOffset: 4,
-					radius: '85%',
-					cutout: '65%',
-				},
-			],
-		},
-		options: {
-			borderWidth: 0,
-			indexAxis: 'y',
-			maintainAspectRatio: false,
-
-			plugins: {
-				title: {
-					display: false,
-				},
-				legend: {
-					display: false,
-
-					labels: {
-						color: '#2a9a67',
-					},
-				},
-			},
-		},
-	};
-
-	return (
-		<Doughnut data={_state.data} options={_state.options} width={200} height={200} />
 	);
 };

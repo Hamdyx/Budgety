@@ -47,15 +47,23 @@ export const AddTrxForm = () => {
 					<Form>
 						<Row>
 							<Col>
-								<Button onClick={() => setType('inc')}>INCOME</Button>
+								<Button className="newTrx-inc" onClick={() => setType('inc')}>
+									INCOME
+								</Button>
 							</Col>
 							<Col>
-								<Button onClick={() => setType('exp')}>EXPENSE</Button>
+								<Button className="newTrx-exp" onClick={() => setType('exp')}>
+									EXPENSE
+								</Button>
 							</Col>
 						</Row>
 						<Row>
 							<Col>
-								<FloatingLabel controlId="floatingInput-1" label="Title" className="mb-3">
+								<FloatingLabel
+									controlId="floatingInput-1"
+									label="Title"
+									className="mb-3 mt-3"
+								>
 									<Form.Control
 										type="text"
 										placeholder="transaction title"
@@ -93,7 +101,9 @@ export const AddTrxForm = () => {
 									/>
 								</FloatingLabel>
 							</Col>
-							<Col>Categories</Col>
+							<Col>
+								<p className="mt-3">Categories</p>
+							</Col>
 						</Row>
 					</Form>
 				</Modal.Body>

@@ -6,8 +6,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './InvestmentPage.css';
 import { TradeCalculator } from './TradeCalculator';
-import TvlChart from '../TvlChart';
-import HodlValueChart from '../HodlValueChart';
+// import TvlChart from '../TvlChart';
+// import HodlValueChart from '../HodlValueChart';
 
 function HandleFarmData() {
 	/* const [data, setData] = useState([]); */
