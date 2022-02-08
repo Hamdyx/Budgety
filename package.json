@@ -30,6 +30,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "server": "cd src/api && nodemon server.js",
+    "dev": "concurrently -n 'client,server' -c 'green,red' \"npm start\" \"npm run server\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
