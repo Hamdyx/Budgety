@@ -140,6 +140,7 @@
 .category-chart-items {
 	padding: 0.5rem;
 	margin-top: 4rem;
+	text-transform: capitalize;
 }
 
 .budget-add-btn {

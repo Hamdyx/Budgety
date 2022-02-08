@@ -1,16 +1,15 @@
 import React from 'react';
-import { Container, Row, Col, Button, Form, Card, Nav } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
 import './Overview.css';
-import TransactionsCard from './Components/TransactionsCard';
-import ReportsCard from './Components/ReportsCard';
-import SchedulerCard from './Components/SchedulerCard';
-import Savings from './Components/Savings';
-import BankCard from './Components/cards/BankCard';
-import Budget from './Components/Budget';
-import WishlistCard from './Components/cards/WishlistCard';
-import InvestmentCard from './Components/InvestmentCard';
+import TransactionsCard from '../cards/TransactionsCard';
+import ReportsCard from '../cards/ReportsCard';
+import SchedulerCard from '../cards/SchedulerCard';
+import Savings from '../cards/Savings';
+import BankCard from '../cards/BankCard';
+import Budget from '../cards/Budget';
+import WishlistCard from '../cards/WishlistCard';
+import InvestmentCard from '../cards/InvestmentCard';
 import { BiSearch } from 'react-icons/bi';
 class Overview extends React.Component {
 	render() {
@@ -39,7 +38,7 @@ class Overview extends React.Component {
 				<Row>
 					<Col>
 						<Container>
-							<div class="grid">
+							<div className="grid">
 								<Col xs={6} sm={6} md={6} className="overview-box">
 									<TransactionsCard />
 								</Col>

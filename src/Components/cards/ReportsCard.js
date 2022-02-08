@@ -5,9 +5,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { AiOutlineDollar } from 'react-icons/ai';
 import { GiCash } from 'react-icons/gi';
 
-import { Line } from 'react-chartjs-2';
-
 import './ReportsCard.css';
+
+const LineChart = React.lazy(() => import('../charts/LineChart'));
+let reportsLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'june', 'Jul'];
+let reportsData = [100, 150, 200, 300, 325, 250, 350];
 
 class ReportsCard extends React.Component {
 	render() {
@@ -51,67 +53,17 @@ class ReportsCard extends React.Component {
 				</Row>
 				<Row className="reports_category_item">
 					<Col className="reports_chart_col">
-						<ReportsChart />
+						<Suspense fallback={<div>Loading...</div>}>
+							<LineChart
+								labelsArr={reportsLabels}
+								data={reportsData}
+								width={250}
+								height={100}
+							/>
+						</Suspense>
 					</Col>
 				</Row>
 			</Container>
-		);
-	}
-}
-
-class ReportsChart extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			data: {
-				labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'june', 'Jul'],
-				backgroundColor: '#0a533d',
-				datasets: [
-					{
-						label: 'Worth',
-						data: [100, 150, 200, 300, 325, 250, 350],
-						fill: true,
-						backgroundColor: '#0a533d',
-
-						borderColor: '#2a9a67',
-						tension: 0.1,
-					},
-				],
-			},
-			options: {
-				plugins: {
-					title: {
-						display: false,
-						text: 'test',
-					},
-					legend: {
-						display: false,
-						labels: {
-							color: '#2a9a67',
-						},
-					},
-				},
-				scales: {
-					x: {
-						display: false,
-					},
-					y: {
-						display: false,
-						beginAtZero: true,
-					},
-				},
-			},
-		};
-	}
-
-	render() {
-		return (
-			<Line
-				data={this.state.data}
-				options={this.state.options}
-				height={100}
-				width={250}
-			/>
 		);
 	}
 }

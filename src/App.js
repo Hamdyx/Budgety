@@ -5,11 +5,11 @@ import { Container, Row, Col } from 'react-bootstrap';
 /* import Calendar from 'react-calendar'; */
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Sidebar from './Components/Sidebar';
+import Sidebar from './app/Sidebar';
 
-import Overview from './Overview';
-import InvestmentPage from './investment/InvestmentPage';
-import BankPage from './BankPage';
+import Overview from './Components/pages/Overview';
+import InvestmentPage from './features/investment/InvestmentPage';
+import BankPage from './Components/pages/BankPage';
 import { BudgetMain } from './features/budget/BudgetMain';
 
 import './App.css';
@@ -42,7 +42,7 @@ class App extends React.Component {
 		var curr = this.state.currentPage;
 		console.log(curr);
 		console.log(curr.type.name);
-		curr = curr.type.name == 'Overview' ? <InvestmentPage /> : curr;
+		curr = curr.type.name === 'Overview' ? <InvestmentPage /> : curr;
 		this.setState({ currentPage: curr });
 	}
 

@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
-const DoughnutChart = ({ labelsArr, data, colors }) => {
+const DoughnutChart = ({ labelsArr, data, colors, width = 100, height = 100 }) => {
 	const _state = {
 		data: {
 			labels: labelsArr,
@@ -39,7 +37,7 @@ const DoughnutChart = ({ labelsArr, data, colors }) => {
 	};
 
 	return (
-		<Doughnut data={_state.data} options={_state.options} width={200} height={200} />
+		<Doughnut data={_state.data} options={_state.options} width={width} height={height} />
 	);
 };
 

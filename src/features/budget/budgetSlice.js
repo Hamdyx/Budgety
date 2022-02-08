@@ -1,11 +1,6 @@
-import {
-	createSlice,
-	nanoid,
-	createAsyncThunk,
-	createEntityAdapter,
-	createSelector,
-} from '@reduxjs/toolkit';
-import { client } from '../../api/client';
+import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
+
+const axios = require('axios');
 
 const budgetAdapter = createEntityAdapter({
 	// selectId: (budget) => budget.budgetId
@@ -20,17 +15,19 @@ const fakeApi = 'https://jsonplaceholder.typicode.com/todos/';
 
 export const fetchTrxs = createAsyncThunk('trx/fetchTrx', async () => {
 	console.log('fetchTrx Called');
-	const response = await client.get(fakeApi);
+	// const response = await client.get(fakeApi);
+	const response = await axios.get(fakeApi);
 	console.log('fetchTrx got response');
 	console.log(response);
-	return response;
+	return response.data;
 });
 
 export const addNewTrx = createAsyncThunk('trx/addNewTrx', async (initialTrx) => {
-	const response = await client.post(fakeApi, { trx: initialTrx });
+	// const response = await client.post(fakeApi, { trx: initialTrx });
+	const response = await axios.post(fakeApi, { trx: initialTrx });
 	console.log('response');
 	console.log(response);
-	return response.trx;
+	return response.data.trx;
 });
 
 const budgetSlice = createSlice({

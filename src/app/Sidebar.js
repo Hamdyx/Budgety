@@ -1,6 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Nav, Image } from 'react-bootstrap';
+
+import { Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -9,7 +9,7 @@ import './Sidebar.css';
 import { ReactComponent as OverviewIcon } from './grid.svg';
 import { GiHamburgerMenu } from 'react-icons/gi';
 
-const overviewImg = 'images/grid.svg';
+// const overviewImg = 'images/grid.svg';
 class Sidebar extends React.Component {
 	constructor(props) {
 		super(props);
@@ -138,7 +138,7 @@ class Sidebar extends React.Component {
 
 	componentDidMount() {
 		var navLinks = document.querySelectorAll('.nav-link');
-		console.log(navLinks);
+		// console.log(navLinks);
 		navLinks = Array.from(navLinks);
 		var defActive = navLinks[0];
 		this.setState({ activeLink: defActive });

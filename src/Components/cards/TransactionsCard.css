@@ -94,7 +94,8 @@ span.input-group-text {
 }
 
 .modal-backdrop.show {
-	background-image: url('main_imgs/userBG.jpg');
+	/* background-image: url('../../../public/images/userBG.jpg'); */
+	background-image: url('../main_imgs/userBG.jpg');
 	background-repeat: no-repeat;
 	background-size: cover;
 	opacity: 1;

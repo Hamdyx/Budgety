@@ -1,21 +1,13 @@
 import React, { Suspense } from 'react';
-/* import Utils from 'util';
-import ReactDom from 'react-dom'; */
 import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './BankCard.css';
 
-/* import { AiOutlineDollar } from 'react-icons/ai';
-import { GiTakeMyMoney } from 'react-icons/gi';
-import { FaBitcoin } from 'react-icons/fa';
-import { RiBankLine } from 'react-icons/ri';
-import { GiCash } from 'react-icons/gi';
-import { Line } from 'react-chartjs-2'; */
-
-import { Doughnut } from 'react-chartjs-2';
-
-import { Bar } from 'react-chartjs-2';
-const BankChart = React.lazy(() => import('./BankChart'));
+let labels = ['deposits', 'loans', 'credit card'];
+let data = [25, 50, 75];
+let colors = ['#21bf73', '#FE5E54', '#F7C025'];
+// let labelsContent = labels.map((el, i) => <li key={i}>{el}</li>);
+const BankChart = React.lazy(() => import('../charts/DoughnutChart'));
 
 const ColoredLine = ({ color }) => (
 	<hr
@@ -59,7 +51,8 @@ class BankCard extends React.Component {
 					<Col xs={6}>
 						{/* <BankChart /> */}
 						<Suspense fallback={<div>Loading...</div>}>
-							<BankChart />
+							{/* <BankChart /> */}
+							<BankChart labelsArr={labels} data={data} colors={colors} />
 						</Suspense>
 					</Col>
 					<Col xs={6}>

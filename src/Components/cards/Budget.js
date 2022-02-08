@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col, Form, InputGroup, FormControl } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 
 import { BsHouse } from 'react-icons/bs';
 import { RiBillLine } from 'react-icons/ri';

@@ -1,3 +1,13 @@
+.addTrx-btn {
+	background: rgba(11, 161, 43, 0.692);
+	border: 0;
+}
+
+.addTrx-btn:hover {
+	background: rgb(11, 161, 43);
+	border: 0;
+}
+
 .budget-trx-modal > .modal-dialog > .modal-content {
 	color: #fff;
 	background-color: #2a2d32;

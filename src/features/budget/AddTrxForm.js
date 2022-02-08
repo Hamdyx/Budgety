@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { addNewTrx } from './budgetSlice';
 
@@ -35,7 +35,7 @@ export const AddTrxForm = () => {
 
 	return (
 		<>
-			<Button variant="primary" onClick={handleShow}>
+			<Button variant="primary" className="addTrx-btn" onClick={handleShow}>
 				Add Transaction
 			</Button>
 

@@ -1,16 +1,14 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
 
-import { Container, Row, Col, Table, Button } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './InvestmentPage.css';
 import { TradeCalculator } from './TradeCalculator';
-// import TvlChart from '../TvlChart';
-// import HodlValueChart from '../HodlValueChart';
+
 
 function HandleFarmData() {
-	/* const [data, setData] = useState([]); */
+	/* const [data, setData] = useState([]);
 	var data = [];
 
 	const getData = () => {
@@ -26,21 +24,21 @@ function HandleFarmData() {
 			})
 			.then(function (myJson) {
 				console.log(myJson);
-				/* setData(myJson); */
+				setData(myJson);
 				data = myJson;
 				testData(myJson);
 				return data;
 			});
 	};
-
+ */
 	//getData();
 }
 
-function testData(test) {
+/* function testData(test) {
 	console.log('test');
 	console.log(test);
 }
-
+ */
 class InvestmentPage extends React.Component {
 	constructor(props) {
 		super(props);
@@ -102,7 +100,7 @@ class InvestmentPage extends React.Component {
 		prevData['BONDLY_BNB'] = test[0]['BONDLY-BNB'];
 		prevData['PNT_PBTC'] = test[0]['PNT-PBTC'];
 		// console.log(prevData);
-		let test2 = Array.from(prevData);
+		// let test2 = Array.from(prevData);
 		// console.log(test2);
 		this.dataTest = prevData;
 		// console.log(this.dataTest);
@@ -122,10 +120,10 @@ class InvestmentPage extends React.Component {
 		// console.log(items[0]);
 		/* items = items[0]; */
 		// console.log(items[this.state.currTable]);
-		var headersList;
+		// var headersList;
 		// console.log(items);
 
-		let headers = Object.keys(items);
+		// let headers = Object.keys(items);
 		// console.log(headers);
 
 		let data = Object.values(items);
@@ -186,45 +184,6 @@ class InvestmentPage extends React.Component {
 	render() {
 		return (
 			<Container id="investment_page">
-				{/* <Row>
-					<Col className="table_btn_col">
-						<Button value="Auto_CAKE" className="table_btn">
-							Auto CAKE
-						</Button>
-						<Button value="XED_BNB" className="table_btn">
-							XED-BNB
-						</Button>
-						<Button value="BONDLY_BNB" className="table_btn">
-							BONDLY-BNB
-						</Button>
-						<Button value="PNT_PBTC" className="table_btn">
-							PNT-PBTC
-						</Button>
-					</Col>
-				</Row> */}
-				{/* 	<Row>
-					<Col>
-						<Table striped bordered hover>
-							<thead>
-								<tr>{this.getHeaders()}</tr>
-							</thead>
-							<tbody>
-								{this.getValues()}
-								
-							</tbody>
-						</Table>
-					</Col>
-				</Row> */}
-				{/* <Row>
-					<Col md={6}>
-						<TvlChart tvlValues={Object.values(this.state.data[this.state.currTable])} />
-					</Col>
-					<Col md={6}>
-						<HodlValueChart
-							values={Object.values(this.state.data[this.state.currTable])}
-						/>
-					</Col>
-				</Row> */}
 				<Row>
 					<TradeCalculator />
 				</Row>

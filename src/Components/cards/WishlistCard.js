@@ -1,23 +1,7 @@
 import React from 'react';
-import ReactDom from 'react-dom';
-import {
-	Container,
-	Row,
-	Col,
-	Button,
-	Form,
-	Card,
-	Nav,
-	InputGroup,
-	FormControl,
-} from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-/* import './App.css'; */
 
-import { GiTakeMyMoney } from 'react-icons/gi';
-import { FaBitcoin } from 'react-icons/fa';
-import { RiBankLine } from 'react-icons/ri';
-import { FaCar } from 'react-icons/fa';
 import './WishlistCard.css';
 
 const ColoredLine = ({ color }) => (

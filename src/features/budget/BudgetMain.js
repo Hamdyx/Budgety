@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { AddTrxForm } from './AddTrxForm';
 import { selectAllTrx } from './budgetSlice';
 
-import DoughnutChart from '../DoughnutChart';
+import CategoryBox from './CategoryBox';
+// import DoughnutChart from '../DoughnutChart';
 import 'react-circular-progressbar/dist/styles.css';
 import './BudgetMain.css';
 
-import { RiBillLine } from 'react-icons/ri';
+const DoughnutChart = React.lazy(() => import('../../Components/charts/DoughnutChart'));
 
 const ColoredLine = ({ color }) => (
 	<hr
@@ -23,9 +24,9 @@ const ColoredLine = ({ color }) => (
 
 export const BudgetMain = () => {
 	const allTrxs = useSelector(selectAllTrx);
-	const allTrxRows = allTrxs.map((trx) => <TransactionSection trx={trx} />);
+	const allTrxRows = allTrxs.map((trx, i) => <TransactionSection key={i} trx={trx} />);
 
-	let testFrame = {
+	let budgetCircularFrames = {
 		yearly: 10,
 		monthly: 25,
 		weekly: 50,
@@ -37,20 +38,17 @@ export const BudgetMain = () => {
 		shopping: { spent: 25, limit: 100 },
 	};
 
-	testFrame = Object.entries(testFrame).map((el, i) => (
+	budgetCircularFrames = Object.entries(budgetCircularFrames).map((el, i) => (
 		<Col sm={{ span: 2 }}>
 			<BudgetFrame key={i} timeframe={el[0]} value={el[1]} />
 		</Col>
 	));
 
-	categories = Object.entries(categories).map((el, i) => {
-		console.log(el);
-		return (
-			<Col sm={{ span: 4 }}>
-				<Category key={i} category={el} />
-			</Col>
-		);
-	});
+	categories = Object.entries(categories).map((el, i) => (
+		<Col sm={{ span: 4 }}>
+			<CategoryBox key={i} category={el} />
+		</Col>
+	));
 
 	return (
 		<Container className="budget-main" fluid>
@@ -60,7 +58,7 @@ export const BudgetMain = () => {
 						<Col className="header-title">
 							<h5>Budget Feature</h5>
 						</Col>
-						{testFrame}
+						{budgetCircularFrames}
 					</Row>
 					<Row>
 						<Col sm={{ span: 2 }}>
@@ -105,24 +103,24 @@ const BudgetSection = () => {
 	let labels = ['utility', 'food', 'shopping'];
 	let data = [25, 50, 75];
 	let colors = ['#21bf73', '#FE5E54', '#F7C025'];
+	let labelsContent = labels.map((el, i) => <li key={i}>{el}</li>);
 
 	if (budgetType === 'inc') {
-		content = incTrxs.map((trx) => <TransactionSection trx={trx} />);
+		content = incTrxs.map((trx, i) => <TransactionSection key={i} trx={trx} />);
 	} else {
-		content = expTrxs.map((trx) => <TransactionSection trx={trx} />);
+		content = expTrxs.map((trx, i) => <TransactionSection key={i} trx={trx} />);
 	}
+
 	return (
 		<Container className="budget-section">
 			<Row>
 				<Col sm={{ span: 7 }}>
-					<DoughnutChart labelsArr={labels} data={data} colors={colors} />
+					<Suspense fallback={<div>Loading...</div>}>
+						<DoughnutChart labelsArr={labels} data={data} colors={colors} />
+					</Suspense>
 				</Col>
 				<Col sm={{ span: 5 }}>
-					<ul className="category-chart-items">
-						<li>category 1</li>
-						<li>category 2</li>
-						<li>category 3</li>
-					</ul>
+					<ul className="category-chart-items">{labelsContent}</ul>
 				</Col>
 			</Row>
 			<Row className="inc-exp-row">
@@ -169,33 +167,5 @@ const BudgetFrame = ({ timeframe, value }) => {
 				</div>
 			</CircularProgressbarWithChildren>
 		</section>
-	);
-};
-
-const Category = ({ category }) => {
-	const title = category[0];
-	const budget = category[1];
-	const spent = budget.spent;
-	const limit = budget.limit;
-	return (
-		<Container className="category-type" fluid>
-			<Row>
-				<Col sm={{ span: 4 }}>
-					<section className="category-circular" style={{ width: 50, height: 50 }}>
-						<CircularProgressbarWithChildren value={50}>
-							<div className="category-icon">
-								<RiBillLine />
-							</div>
-						</CircularProgressbarWithChildren>
-					</section>
-				</Col>
-				<Col className="category-text">
-					<h6>{title}</h6>
-					<p>
-						${spent}/${limit}
-					</p>
-				</Col>
-			</Row>
-		</Container>
 	);
 };
