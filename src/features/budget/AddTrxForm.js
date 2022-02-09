@@ -20,9 +20,9 @@ export const AddTrxForm = () => {
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
-	const handleTrxSumbit = () => {
+	const handleTrxSumbit = async () => {
 		console.log(`title: ${title}\nvalue: ${value}\ndate: ${trxDate}`);
-		dispatch(
+		await dispatch(
 			addNewTrx({ id: new Date().toISOString(), type, title, value, trxDate, trxTime })
 		);
 		setType('');

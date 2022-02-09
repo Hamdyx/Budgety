@@ -11,23 +11,22 @@ const initialState = budgetAdapter.getInitialState({
 	error: null,
 });
 
-const fakeApi = 'https://jsonplaceholder.typicode.com/todos/';
+const myApi = 'http://127.0.0.1:8000/api/v1/budgety';
 
 export const fetchTrxs = createAsyncThunk('trx/fetchTrx', async () => {
-	console.log('fetchTrx Called');
-	// const response = await client.get(fakeApi);
-	const response = await axios.get(fakeApi);
-	console.log('fetchTrx got response');
-	console.log(response);
-	return response.data;
+	const response = await axios.get(myApi);
+	return response.data.data.transactions;
 });
 
 export const addNewTrx = createAsyncThunk('trx/addNewTrx', async (initialTrx) => {
-	// const response = await client.post(fakeApi, { trx: initialTrx });
-	const response = await axios.post(fakeApi, { trx: initialTrx });
-	console.log('response');
-	console.log(response);
-	return response.data.trx;
+	const response = await axios.post(myApi, initialTrx);
+
+	return response.data.data.transaction;
+});
+
+export const updateTrx = createAsyncThunk('trx/updateTrx', async (initialTrx) => {
+	const response = await axios.patch(`${myApi}/${initialTrx.id}`, initialTrx);
+	return response.data.data.transaction;
 });
 
 const budgetSlice = createSlice({
@@ -52,9 +51,30 @@ const budgetSlice = createSlice({
 		},
 		[fetchTrxs.rejected]: (state, action) => {
 			state.status = 'failed';
-			state.error = action.payload.message;
+			state.error = action.error.message;
 		},
-		[addNewTrx.fulfilled]: budgetAdapter.addOne,
+		[addNewTrx.pending]: (state, action) => {
+			state.status = 'loading';
+		},
+		[addNewTrx.fulfilled]: (state, action) => {
+			state.status = 'succeeded';
+			budgetAdapter.addOne();
+		},
+		[addNewTrx.rejected]: (state, action) => {
+			state.status = 'failed';
+			state.error = action.payload.error;
+		},
+		[updateTrx.pending]: (state, action) => {
+			state.status = 'loading';
+		},
+		[updateTrx.fulfilled]: (state, action) => {
+			state.status = 'succeeded';
+			budgetAdapter.upsertOne(state, action.payload);
+		},
+		[updateTrx.rejected]: (state, action) => {
+			state.status = 'failed';
+			state.error = action.error.message;
+		},
 	},
 });
 

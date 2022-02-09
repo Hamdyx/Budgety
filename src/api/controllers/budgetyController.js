@@ -38,7 +38,7 @@ exports.getAllTrxs = (req, res) => {
 
 exports.getTrx = (req, res) => {
 	const id = req.params.id;
-	const transaction = transactions.find((el) => el.id === parseInt(id));
+	const transaction = transactions.find((el) => el.id === id);
 
 	res.status(200).json({
 		status: 'success',
@@ -72,11 +72,18 @@ exports.createTrx = (req, res) => {
 exports.updateTrx = (req, res) => {
 	const id = req.params.id;
 	const transaction = transactions.find((el) => el.id === id);
+	let index = transactions.indexOf(transaction);
 	const updatedTrx = Object.assign(transaction, req.body);
 
+	let _transactions = transactions.map((el) => {
+		if (el.id === id) return { ...el, ...updatedTrx };
+		return el;
+	});
+
+	transactions[index] = { ...updatedTrx };
 	fs.writeFile(
-		`${__dirname}/../dev-data/data/transactions-simple.json`,
-		JSON.stringify(transactions, null, 4),
+		`${__dirname}/../dev-data/transactions-simple.json`,
+		JSON.stringify(_transactions, null, 4),
 		(err) => {
 			res.status(200).json({
 				status: 'success',
@@ -89,23 +96,27 @@ exports.updateTrx = (req, res) => {
 };
 
 exports.deleteTrx = (req, res) => {
+	// console.log('deleteTrx');
 	const id = req.params.id;
-	console.log('transactions');
-	console.log(transactions);
+	// console.log(req.params.id);
+	// console.log('transactions');
+	// console.log(transactions);
 	const transaction = transactions.find((el) => {
-		return el.id === parseInt(id);
+		return el.id === id;
 	});
+	// console.log('transaction');
+	// console.log(transaction);
 	let _transactions = [];
 	transactions.forEach((el) => {
-		if (el.id !== transaction.id) {
+		if (el.id !== id) {
 			_transactions.push(el);
 		}
 	});
-	console.log('transactions');
-	console.log(transactions);
-	console.log('deleteTrx');
-	console.log(req.params.id);
-	console.log(transaction);
+	// console.log('transactions');
+	// console.log(transactions);
+	// console.log(req.params.id);
+	// console.log(transaction);
+	// console.log('deleteTrx');
 	fs.writeFile(
 		`${__dirname}/../dev-data/transactions-simple.json`,
 		JSON.stringify(Array.from(_transactions), null, 4),
