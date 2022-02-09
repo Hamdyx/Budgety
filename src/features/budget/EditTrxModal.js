@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { updateTrx, selectTrxById } from './budgetSlice';
 
-import { Form, Row, Col, Button, Modal, FloatingLabel } from 'react-bootstrap';
-
+import { Form, Row, Col, Button, Modal } from 'react-bootstrap';
+import CustomFloatingLabel from '../../Components/inputs/CustomFloatingLabel';
 import './editTrxModal.css';
 
 export const EditTrxModal = ({ id }) => {
@@ -58,30 +58,23 @@ export const EditTrxModal = ({ id }) => {
 							<Col>
 								<CustomFloatingLabel
 									type={'text'}
-									placeholder={'transaction title'}
+									label={'title'}
 									value={title}
 									changeFunc={(event) => setTitle(event.target.value)}
 								/>
 
 								<CustomFloatingLabel
 									type={'number'}
-									placeholder={'transaction value'}
+									label={'value'}
 									value={value}
 									changeFunc={(event) => setValue(event.target.value)}
 								/>
 
 								<CustomFloatingLabel
 									type={'datetime-local'}
-									placeholder={'transaction date'}
+									label={'date'}
 									value={trxDate}
 									changeFunc={(event) => setTrxDate(event.target.value)}
-								/>
-
-								<CustomFloatingLabel
-									type={'time'}
-									placeholder={'transaction time'}
-									value={trxTime}
-									changeFunc={(event) => setTrxTime(event.target.value)}
 								/>
 							</Col>
 							<Col>
@@ -100,19 +93,5 @@ export const EditTrxModal = ({ id }) => {
 				</Modal.Footer>
 			</Modal>
 		</>
-	);
-};
-
-const CustomFloatingLabel = ({ type, placeholder, value, changeFunc }) => {
-	return (
-		<FloatingLabel controlId="floatingInput-4" label="Time" className="mb-3">
-			<Form.Control
-				type={type}
-				placeholder={placeholder}
-				value={value}
-				onChange={changeFunc}
-				className="trx-moda-input"
-			/>
-		</FloatingLabel>
 	);
 };

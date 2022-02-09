@@ -3,14 +3,15 @@ import { useDispatch } from 'react-redux';
 
 import { addNewTrx } from './budgetSlice';
 
-import { Form, Row, Col, Button, Modal, FloatingLabel } from 'react-bootstrap';
+import { Form, Row, Col, Button, Modal } from 'react-bootstrap';
+import CustomFloatingLabel from '../../Components/inputs/CustomFloatingLabel';
 
 import './AddTrxForm.css';
 
 export const AddTrxForm = () => {
 	const [show, setShow] = useState(false);
 	const [title, setTitle] = useState('');
-	const [type, setType] = useState('');
+	const [type, setType] = useState('inc');
 	const [value, setValue] = useState('');
 	const [trxDate, setTrxDate] = useState('');
 	const [trxTime, setTrxTime] = useState('');
@@ -47,59 +48,44 @@ export const AddTrxForm = () => {
 					<Form>
 						<Row>
 							<Col>
-								<Button className="newTrx-inc" onClick={() => setType('inc')}>
+								<Button
+									className={`newTrx-inc ${type === 'inc' ? 'active' : ''}`}
+									onClick={() => setType('inc')}
+								>
 									INCOME
 								</Button>
 							</Col>
 							<Col>
-								<Button className="newTrx-exp" onClick={() => setType('exp')}>
+								<Button
+									className={`newTrx-exp ${type === 'exp' ? 'active' : ''}`}
+									onClick={() => setType('exp')}
+								>
 									EXPENSE
 								</Button>
 							</Col>
 						</Row>
-						<Row>
+						<Row className="mt-3">
 							<Col>
-								<FloatingLabel
-									controlId="floatingInput-1"
-									label="Title"
-									className="mb-3 mt-3"
-								>
-									<Form.Control
-										type="text"
-										placeholder="transaction title"
-										value={title}
-										onChange={(event) => setTitle(event.target.value)}
-										className="trx-moda-input"
-									/>
-								</FloatingLabel>
-								<FloatingLabel controlId="floatingInput-2" label="Value" className="mb-3">
-									<Form.Control
-										type="number"
-										placeholder="transaction value"
-										value={value}
-										onChange={(event) => setValue(event.target.value)}
-										className="trx-moda-input"
-									/>
-								</FloatingLabel>
-								<FloatingLabel controlId="floatingInput-3" label="Date" className="mb-3">
-									{/* <input type="date" /> */}
-									<Form.Control
-										type="date"
-										placeholder="transaction date"
-										value={trxDate}
-										onChange={(event) => setTrxDate(event.target.value)}
-										className="trx-moda-input"
-									/>
-								</FloatingLabel>
-								<FloatingLabel controlId="floatingInput-4" label="Time" className="mb-3">
-									<Form.Control
-										type="time"
-										placeholder="transaction time"
-										value={trxTime}
-										onChange={(event) => setTrxTime(event.target.value)}
-										className="trx-moda-input"
-									/>
-								</FloatingLabel>
+								<CustomFloatingLabel
+									type={'text'}
+									label={'title'}
+									value={title}
+									changeFunc={(event) => setTitle(event.target.value)}
+								/>
+
+								<CustomFloatingLabel
+									type={'number'}
+									label={'value'}
+									value={value}
+									changeFunc={(event) => setValue(event.target.value)}
+								/>
+
+								<CustomFloatingLabel
+									type={'datetime-local'}
+									label={'date'}
+									value={trxDate}
+									changeFunc={(event) => setTrxDate(event.target.value)}
+								/>
 							</Col>
 							<Col>
 								<p className="mt-3">Categories</p>

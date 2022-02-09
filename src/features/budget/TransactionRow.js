@@ -5,7 +5,6 @@ import { selectTrxById } from './budgetSlice';
 import { Row, Col } from 'react-bootstrap';
 import { EditTrxModal } from './EditTrxModal';
 import 'react-circular-progressbar/dist/styles.css';
-import './BudgetMain.css';
 
 const TransactionSection = ({ trx_id }) => {
 	const trx = useSelector((state) => selectTrxById(state, trx_id));

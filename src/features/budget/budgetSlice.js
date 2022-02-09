@@ -20,6 +20,9 @@ export const fetchTrxs = createAsyncThunk('trx/fetchTrx', async () => {
 
 export const addNewTrx = createAsyncThunk('trx/addNewTrx', async (initialTrx) => {
 	const response = await axios.post(myApi, initialTrx);
+	console.log('addNewTrx');
+	console.log(response.data);
+	console.log(response.data.data);
 
 	return response.data.data.transaction;
 });
@@ -58,7 +61,7 @@ const budgetSlice = createSlice({
 		},
 		[addNewTrx.fulfilled]: (state, action) => {
 			state.status = 'succeeded';
-			budgetAdapter.addOne();
+			budgetAdapter.addOne(state, action.payload);
 		},
 		[addNewTrx.rejected]: (state, action) => {
 			state.status = 'failed';

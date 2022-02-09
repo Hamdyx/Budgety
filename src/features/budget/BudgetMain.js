@@ -134,10 +134,16 @@ const BudgetSection = () => {
 			</Row>
 			<Row className="inc-exp-row">
 				<Col>
-					<Button className="exp-btn" onClick={() => setBudgetType('exp')}>
+					<Button
+						className={`exp-btn ${budgetType === 'exp' ? 'active' : ''}`}
+						onClick={() => setBudgetType('exp')}
+					>
 						Expense
 					</Button>
-					<Button className="inc-btn" onClick={() => setBudgetType('inc')}>
+					<Button
+						className={`inc-btn ${budgetType === 'inc' ? 'active' : ''}`}
+						onClick={() => setBudgetType('inc')}
+					>
 						Income
 					</Button>
 				</Col>

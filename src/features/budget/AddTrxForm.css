@@ -29,29 +29,35 @@
 	padding: 0.5rem 0.25rem;
 }
 .newTrx-inc {
-	background: rgba(11, 161, 43, 0.692);
+	background: rgba(13, 129, 38, 0.692);
+	border: 0.25rem solid rgba(22, 88, 19, 0);
 }
 .newTrx-inc:hover {
 	background: rgb(11, 161, 44);
+	border-color: rgb(22, 88, 19);
 }
 .newTrx-inc.active {
 	background: rgb(11, 161, 44);
+	border-color: rgb(22, 88, 19);
 }
-.newTrx-inc:focus {
+.newTrx-inc.active:focus {
 	background: rgb(11, 161, 44);
 	box-shadow: none;
 }
 
 .newTrx-exp {
-	background: rgba(161, 33, 11, 0.658);
+	background: rgba(163, 42, 21, 0.658);
+	border: 0.25rem solid rgba(109, 28, 22, 0);
 }
 .newTrx-exp:hover {
 	background: rgb(161, 33, 11);
+	border-color: rgb(109, 28, 22);
 }
 .newTrx-exp.active {
-	background: rgb(161, 33, 11);
+	background: rgb(189, 46, 21);
+	border-color: rgb(109, 28, 22);
 }
-.newTrx-exp:focus {
+.newTrx-exp.active:focus {
 	background: rgb(161, 33, 11);
 	box-shadow: none;
 }
