@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { selectTrxById } from './budgetSlice';
 import { Row, Col } from 'react-bootstrap';
 import { EditTrxModal } from './EditTrxModal';
+import { DeleteTrxModal } from './DeleteTrxModal';
 import 'react-circular-progressbar/dist/styles.css';
 
 const TransactionSection = ({ trx_id }) => {
@@ -25,6 +26,7 @@ const TransactionSection = ({ trx_id }) => {
 			<Col className="text-right">
 				<EditTrxModal id={trx_id} />
 				<p>{`$${trx.value}`}</p>
+				<DeleteTrxModal id={trx_id} />
 			</Col>
 		</Row>
 	);

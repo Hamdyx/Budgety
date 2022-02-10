@@ -20,16 +20,17 @@ export const fetchTrxs = createAsyncThunk('trx/fetchTrx', async () => {
 
 export const addNewTrx = createAsyncThunk('trx/addNewTrx', async (initialTrx) => {
 	const response = await axios.post(myApi, initialTrx);
-	console.log('addNewTrx');
-	console.log(response.data);
-	console.log(response.data.data);
-
 	return response.data.data.transaction;
 });
 
 export const updateTrx = createAsyncThunk('trx/updateTrx', async (initialTrx) => {
 	const response = await axios.patch(`${myApi}/${initialTrx.id}`, initialTrx);
 	return response.data.data.transaction;
+});
+
+export const deleteTrx = createAsyncThunk('trx/deleteTrx', async (initialTrx) => {
+	const response = await axios.delete(`${myApi}/${initialTrx.id}`);
+	return initialTrx.id;
 });
 
 const budgetSlice = createSlice({
@@ -75,6 +76,17 @@ const budgetSlice = createSlice({
 			budgetAdapter.upsertOne(state, action.payload);
 		},
 		[updateTrx.rejected]: (state, action) => {
+			state.status = 'failed';
+			state.error = action.error.message;
+		},
+		[deleteTrx.fulfilled]: (state, action) => {
+			state.status = 'succeeded';
+			budgetAdapter.removeOne(state, action.payload);
+		},
+		[deleteTrx.pending]: (state, action) => {
+			state.status = 'loading';
+		},
+		[deleteTrx.rejected]: (state, action) => {
 			state.status = 'failed';
 			state.error = action.error.message;
 		},

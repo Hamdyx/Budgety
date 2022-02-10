@@ -59,17 +59,22 @@
 	text-align: right;
 }
 
-.transaction-row-inc {
-	background-color: rgb(5, 105, 67);
+.transaction-row-inc,
+.transaction-row-exp {
 	margin: 0.75rem 0;
-	padding: 0.75rem 0 0 0;
+	padding: 0.75rem 0;
 	border-radius: 0.75rem;
 }
+
+.transaction-row-inc {
+	background-color: rgba(5, 105, 67, 0);
+	border: 1px solid rgb(30, 190, 43);
+	color: rgb(30, 190, 43);
+}
 .transaction-row-exp {
-	background-color: rgb(199, 20, 20);
-	margin: 0.75rem 0;
-	padding: 0.75rem 0 0 0;
-	border-radius: 0.75rem;
+	background-color: rgba(199, 20, 20, 0);
+	border: 1px solid rgb(199, 20, 20);
+	color: rgb(199, 20, 20);
 }
 
 .editTrx-btn {
@@ -211,4 +216,31 @@
 }
 .CircularProgressbar-background {
 	fill: green;
+}
+
+.CustomSecondary-btn {
+	text-transform: uppercase;
+	background: none;
+	color: rgb(139, 139, 139);
+	border: 1px solid rgb(121, 121, 121);
+}
+
+.CustomSecondary-btn:hover {
+	text-transform: uppercase;
+	background: rgb(139, 139, 139);
+	color: rgb(255, 255, 255);
+	border: 1px solid rgb(121, 121, 121);
+}
+
+.deleteTrx-btn {
+	text-transform: uppercase;
+	background: none;
+	color: rgb(196, 56, 56);
+	border: 1px solid rgb(175, 39, 39);
+}
+
+.deleteTrx-btn:hover {
+	background: rgb(196, 56, 56);
+	color: #fff;
+	border: 1px solid rgb(175, 39, 39);
 }

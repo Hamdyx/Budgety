@@ -96,27 +96,14 @@ exports.updateTrx = (req, res) => {
 };
 
 exports.deleteTrx = (req, res) => {
-	// console.log('deleteTrx');
 	const id = req.params.id;
-	// console.log(req.params.id);
-	// console.log('transactions');
-	// console.log(transactions);
-	const transaction = transactions.find((el) => {
-		return el.id === id;
-	});
-	// console.log('transaction');
-	// console.log(transaction);
 	let _transactions = [];
 	transactions.forEach((el) => {
 		if (el.id !== id) {
 			_transactions.push(el);
 		}
 	});
-	// console.log('transactions');
-	// console.log(transactions);
-	// console.log(req.params.id);
-	// console.log(transaction);
-	// console.log('deleteTrx');
+
 	fs.writeFile(
 		`${__dirname}/../dev-data/transactions-simple.json`,
 		JSON.stringify(Array.from(_transactions), null, 4),
@@ -127,8 +114,4 @@ exports.deleteTrx = (req, res) => {
 			});
 		}
 	);
-	/* res.status(204).json({
-		status: 'success',
-		data: null,
-	}); */
 };

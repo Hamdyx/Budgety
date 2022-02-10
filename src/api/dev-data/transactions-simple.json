@@ -1,34 +1,18 @@
 [
     {
-        "id": "2022-02-08T22:38:29.829Z",
+        "id": "2022-02-10T22:38:13.407Z",
         "type": "inc",
-        "title": "income1",
+        "title": "inc1 edited",
         "value": "125",
-        "trxDate": "2022-02-09T03:11",
-        "trxTime": "00:38"
+        "trxDate": "2022-02-11T00:38",
+        "trxTime": ""
     },
     {
-        "id": "2022-02-08T22:47:35.479Z",
-        "type": "inc",
-        "title": "income2",
-        "value": "50",
-        "trxDate": "2022-02-09T03:11",
-        "trxTime": "00:47"
-    },
-    {
-        "id": "2022-02-08T22:49:02.222Z",
+        "id": "2022-02-10T22:42:15.512Z",
         "type": "exp",
-        "title": "expense1",
+        "title": "exp1",
         "value": "100",
-        "trxDate": "2022-02-09T03:11",
-        "trxTime": "00:49"
-    },
-    {
-        "id": "2022-02-08T22:51:10.246Z",
-        "type": "exp",
-        "title": "expense2",
-        "value": "50",
-        "trxDate": "2022-02-09T03:11",
-        "trxTime": "00:51"
+        "trxDate": "2022-02-11T00:42",
+        "trxTime": ""
     }
 ]
