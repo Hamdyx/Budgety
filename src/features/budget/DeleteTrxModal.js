@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { deleteTrx, selectTrxById } from './budgetSlice';
+import { deleteTrx } from './budgetSlice';
 
 import { Form, Row, Col, Button, Modal } from 'react-bootstrap';
 
 export const DeleteTrxModal = ({ id }) => {
-	let trx = useSelector((state) => selectTrxById(state, id));
 	const [show, setShow] = useState(false);
 	const dispatch = useDispatch();
 
@@ -14,7 +13,7 @@ export const DeleteTrxModal = ({ id }) => {
 	const handleShow = () => setShow(true);
 
 	const handleTrxDelete = async () => {
-		await dispatch(deleteTrx(trx));
+		dispatch(deleteTrx(id));
 		handleClose();
 	};
 

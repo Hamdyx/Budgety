@@ -21,7 +21,7 @@ export const EditTrxModal = ({ id }) => {
 	const handleShow = () => setShow(true);
 
 	const handleTrxSumbit = async () => {
-		await dispatch(updateTrx({ id, type, title, value, trxDate, trxTime }));
+		dispatch(updateTrx({ id, type, title, value, trxDate, trxTime }));
 		setType('');
 		setTitle('');
 		setValue('');
