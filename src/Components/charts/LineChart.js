@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { Line } from 'react-chartjs-2';
+// import { Line } from 'react-chartjs-2';
 
 const LineChart = ({ labelsArr, data, colors, width = 250, height = 100 }) => {
 	const state = {
@@ -45,6 +45,6 @@ const LineChart = ({ labelsArr, data, colors, width = 250, height = 100 }) => {
 		},
 	};
 
-	return <Line data={state.data} options={state.options} width={width} height={height} />;
+	// return <Line data={state.data} options={state.options} width={width} height={height} />;
 };
 export default LineChart;

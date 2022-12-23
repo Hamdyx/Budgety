@@ -7,7 +7,7 @@ let labels = ['deposits', 'loans', 'credit card'];
 let data = [25, 50, 75];
 let colors = ['#21bf73', '#FE5E54', '#F7C025'];
 // let labelsContent = labels.map((el, i) => <li key={i}>{el}</li>);
-const BankChart = React.lazy(() => import('../charts/DoughnutChart'));
+// const BankChart = React.lazy(() => import('../charts/DoughnutChart'));
 
 const ColoredLine = ({ color }) => (
 	<hr
@@ -52,7 +52,7 @@ class BankCard extends React.Component {
 						{/* <BankChart /> */}
 						<Suspense fallback={<div>Loading...</div>}>
 							{/* <BankChart /> */}
-							<BankChart labelsArr={labels} data={data} colors={colors} />
+							{/* <BankChart labelsArr={labels} data={data} colors={colors} /> */}
 						</Suspense>
 					</Col>
 					<Col xs={6}>

@@ -7,7 +7,7 @@ import { GiCash } from 'react-icons/gi';
 
 import './ReportsCard.css';
 
-const LineChart = React.lazy(() => import('../charts/LineChart'));
+// const LineChart = React.lazy(() => import('../charts/LineChart'));
 let reportsLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'june', 'Jul'];
 let reportsData = [100, 150, 200, 300, 325, 250, 350];
 
@@ -54,12 +54,12 @@ class ReportsCard extends React.Component {
 				<Row className="reports_category_item">
 					<Col className="reports_chart_col">
 						<Suspense fallback={<div>Loading...</div>}>
-							<LineChart
+							{/* <LineChart
 								labelsArr={reportsLabels}
 								data={reportsData}
 								width={250}
 								height={100}
-							/>
+							/> */}
 						</Suspense>
 					</Col>
 				</Row>

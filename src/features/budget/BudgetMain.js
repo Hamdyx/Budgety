@@ -13,7 +13,7 @@ import './BudgetMain.css';
 
 import TransactionRow from './TransactionRow';
 
-const DoughnutChart = React.lazy(() => import('../../Components/charts/DoughnutChart'));
+// const DoughnutChart = React.lazy(() => import('../../Components/charts/DoughnutChart'));
 
 const ColoredLine = ({ color }) => (
 	<hr
@@ -125,7 +125,7 @@ const BudgetSection = () => {
 			<Row>
 				<Col sm={{ span: 7 }}>
 					<Suspense fallback={<div>Loading...</div>}>
-						<DoughnutChart labelsArr={labels} data={data} colors={colors} />
+						{/* <DoughnutChart labelsArr={labels} data={data} colors={colors} /> */}
 					</Suspense>
 				</Col>
 				<Col sm={{ span: 5 }}>

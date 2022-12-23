@@ -18,11 +18,11 @@ let analyticsData = [100, 150, 200, 300, 325, 250, 350];
 
 let balanceLabels = ['Balance', 'Debt'];
 let balanceData = [5, 25];
-const BarChart = React.lazy(() => import('../charts/BarChart'));
+// const BarChart = React.lazy(() => import('../charts/BarChart'));
 
-const DoughnutChart = React.lazy(() => import('../charts/DoughnutChart.js'));
+// const DoughnutChart = React.lazy(() => import('../charts/DoughnutChart.js'));
 
-const LineChart = React.lazy(() => import('../charts/LineChart'));
+// const LineChart = React.lazy(() => import('../charts/LineChart'));
 const BankPage = () => {
 	return (
 		<Container id="bank_page">
@@ -36,7 +36,7 @@ const BankPage = () => {
 						</Row>
 						<Row>
 							<Suspense fallback={<div>Loading...</div>}>
-								<BarChart labelsArr={balanceLabels} data={balanceData} colors={colors} />
+								{/* <BarChart labelsArr={balanceLabels} data={balanceData} colors={colors} /> */}
 							</Suspense>
 						</Row>
 					</Container>
@@ -51,11 +51,11 @@ const BankPage = () => {
 						<Row>
 							<Col>
 								<Suspense fallback={<div>Loading...</div>}>
-									<LineChart
+									{/* <LineChart
 										labelsArr={analyticsLabels}
 										data={analyticsData}
 										colors={colors}
-									/>
+									/> */}
 								</Suspense>
 							</Col>
 						</Row>
@@ -88,7 +88,7 @@ const BankPage = () => {
 							<Col md={6}>
 								<Suspense fallback={<div>Loading...</div>}>
 									{/* <LoanChart values={[20000, 24000]} /> */}
-									<DoughnutChart labelsArr={loanLabels} data={loanData} colors={colors} />
+									{/* <DoughnutChart labelsArr={loanLabels} data={loanData} colors={colors} /> */}
 								</Suspense>
 							</Col>
 							<Col md={6}>
@@ -111,11 +111,11 @@ const BankPage = () => {
 							<Col md={6}>
 								<Suspense fallback={<div>Loading...</div>}>
 									{/* <LoanChart values={[5000, 500]} /> */}
-									<DoughnutChart
+									{/* <DoughnutChart
 										labelsArr={creditLabels}
 										data={creditData}
 										colors={colors}
-									/>
+									/> */}
 								</Suspense>
 							</Col>
 							<Col md={6}>

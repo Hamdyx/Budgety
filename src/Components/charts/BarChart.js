@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
+// import { Bar } from 'react-chartjs-2';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const BarChart = ({ labelsArr, data, colors, width = 100, height = 100 }) => {
@@ -33,6 +33,6 @@ const BarChart = ({ labelsArr, data, colors, width = 100, height = 100 }) => {
 		},
 	};
 
-	return <Bar data={state.data} options={state.options} />;
+	// return <Bar data={state.data} options={state.options} />;
 };
 export default BarChart;
