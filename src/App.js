@@ -1,8 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
+import { Routes, Route } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-/* import Calendar from 'react-calendar'; */
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Sidebar from './app/Sidebar';
@@ -50,19 +48,17 @@ class App extends React.Component {
 		return (
 			<Container fluid id="overview_container">
 				<Row id="page_container">
-					<Router>
-						<Col xs={12} sm={12} md={2} id="sidebar_box">
-							<Sidebar changePage={this.handlePageChange} />
-						</Col>
-						<Col id="main_content">
-							<Switch>
-								<Route path="/" exact component={Overview} />
-								<Route path="/budget" exact component={BudgetMain} />
-								<Route path="/investment" component={InvestmentPage} />
-								<Route path="/bank" component={BankPage} />
-							</Switch>
-						</Col>
-					</Router>
+					<Col xs={12} sm={12} md={2} id="sidebar_box">
+						<Sidebar changePage={this.handlePageChange} />
+					</Col>
+					<Col id="main_content">
+						<Routes>
+							<Route path="/" exact element={<Overview />} />
+							<Route path="/budget" exact element={<BudgetMain />} />
+							<Route path="/investment" element={<InvestmentPage />} />
+							<Route path="/bank" element={<BankPage />} />
+						</Routes>
+					</Col>
 				</Row>
 			</Container>
 		);
