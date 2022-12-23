@@ -13,17 +13,13 @@ const initialState = budgetAdapter.getInitialState({
 
 export const fetchTrxs = createAsyncThunk('trx/fetchTrx', async () => {
 	const response = JSON.parse(localStorage.getItem('transactions'));
-	console.log('fetchTrxs', { response });
 	return response || [];
 });
 
 export const addNewTrx = createAsyncThunk('trx/addNewTrx', async (trx) => {
 	const allTrx = JSON.parse(localStorage.getItem('transactions')) || [];
-	console.log('addNewTrx', { allTrx, trx });
 	const updatedTrx = [...allTrx, trx]
-	console.log('addNewTrx', { updatedTrx });
-	const response = localStorage.setItem('transactions', JSON.stringify(updatedTrx))
-	console.log('addNewTrx', { response });
+	localStorage.setItem('transactions', JSON.stringify(updatedTrx))
 	return trx;
 });
 
@@ -33,11 +29,11 @@ export const updateTrx = createAsyncThunk('trx/updateTrx', async (trx) => {
 	return trx
 });
 
-export const deleteTrx = createAsyncThunk('trx/deleteTrx', async (trx) => {
-	console.log('deleteTrx', { trx });
-	const allTrx = localStorage.getItem('transactions');
-	console.log('deleteTrx', { allTrx });
-	return trx;
+export const deleteTrx = createAsyncThunk('trx/deleteTrx', async (id) => {
+	const allTrx = JSON.parse(localStorage.getItem('transactions')) || [];
+	const updatedTrx = allTrx.filter(trx => trx.id !== id)
+	localStorage.setItem('transactions', JSON.stringify(updatedTrx))
+	return id;
 });
 
 const budgetSlice = createSlice({
@@ -57,50 +53,49 @@ const budgetSlice = createSlice({
 		[fetchTrxs.pending]: (state) => {
 			state.status = 'loading';
 		},
-		[fetchTrxs.fulfilled]: (state, action) => {
-			console.log('fetchTrxs.fulfilled', { action });
-			state.status = 'succeeded';
-			budgetAdapter.upsertMany(state, action?.payload);
-		},
 		[fetchTrxs.rejected]: (state, action) => {
-			console.log('fetchTrxs.rejected', { action });
 			state.status = 'failed';
 			state.error = action?.error?.message;
+		},
+		[fetchTrxs.fulfilled]: (state, action) => {
+			state.status = 'succeeded';
+			budgetAdapter.upsertMany(state, action?.payload);
 		},
 		// ****************************** addNewTrx ******************************
 		[addNewTrx.pending]: (state) => {
 			state.status = 'loading';
 		},
+		[addNewTrx.rejected]: (state, action) => {
+			state.status = 'failed';
+			state.error = action?.error?.message;
+		},
 		[addNewTrx.fulfilled]: (state, action) => {
 			state.status = 'succeeded';
 			budgetAdapter.addOne(state, action?.payload);
 		},
-		[addNewTrx.rejected]: (state, action) => {
-			console.log('addNewTrx.rejected', { action });
-			state.status = 'failed';
-			state.error = action?.error?.message;
-		},
-		[updateTrx.pending]: (state, action) => {
+		// ****************************** updateTrx ******************************
+		[updateTrx.pending]: (state) => {
 			state.status = 'loading';
+		},
+		[updateTrx.rejected]: (state, action) => {
+			state.status = 'failed';
+			state.error = action.error.message;
 		},
 		[updateTrx.fulfilled]: (state, action) => {
 			state.status = 'succeeded';
 			budgetAdapter.upsertOne(state, action.payload);
 		},
-		[updateTrx.rejected]: (state, action) => {
+		// ****************************** deleteTrx ******************************
+		[deleteTrx.pending]: (state) => {
+			state.status = 'loading';
+		},
+		[deleteTrx.rejected]: (state, action) => {
 			state.status = 'failed';
 			state.error = action.error.message;
 		},
 		[deleteTrx.fulfilled]: (state, action) => {
 			state.status = 'succeeded';
 			budgetAdapter.removeOne(state, action.payload);
-		},
-		[deleteTrx.pending]: (state, action) => {
-			state.status = 'loading';
-		},
-		[deleteTrx.rejected]: (state, action) => {
-			state.status = 'failed';
-			state.error = action.error.message;
 		},
 	},
 });
