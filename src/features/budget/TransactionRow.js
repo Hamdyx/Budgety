@@ -11,10 +11,10 @@ const TransactionSection = ({ trx_id }) => {
 	const trx = useSelector((state) => selectTrxById(state, trx_id));
 
 	const formateDateTime = (d) => {
-		let _date = d.split('T')[0];
-		let _time = d.split('T')[1];
-		let _hh = _time.split(':')[0];
-		let _mm = _time.split(':')[1];
+		let _date = d?.split('T')[0];
+		let _time = d?.split('T')[1];
+		let _hh = _time?.split(':')[0];
+		let _mm = _time?.split(':')[1];
 		return `${_date} | ${_hh}:${_mm}`;
 	};
 	return (
