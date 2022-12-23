@@ -24,9 +24,11 @@ export const addNewTrx = createAsyncThunk('trx/addNewTrx', async (trx) => {
 });
 
 export const updateTrx = createAsyncThunk('trx/updateTrx', async (trx) => {
-	const allTrx = localStorage.getItem('transactions');
-	console.log('updateTrx', { allTrx, trx });
-	return trx
+	const allTrx = JSON.parse(localStorage.getItem('transactions')) || [];
+	const updated = allTrx.find(el => el.id === trx.id)
+	Object.assign(updated, trx)
+	localStorage.setItem('transactions', JSON.stringify(allTrx))
+	return updated
 });
 
 export const deleteTrx = createAsyncThunk('trx/deleteTrx', async (id) => {
