@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 
-const axios = require('axios');
 
 const budgetAdapter = createEntityAdapter({
 	// selectId: (budget) => budget.budgetId
@@ -11,27 +10,34 @@ const initialState = budgetAdapter.getInitialState({
 	error: null,
 });
 
-const myApi = 'http://127.0.0.1:8000/api/v1/budgety';
 
 export const fetchTrxs = createAsyncThunk('trx/fetchTrx', async () => {
-	const response = await axios.get(myApi);
-	return response.data.data.transactions;
+	const response = JSON.parse(localStorage.getItem('transactions'));
+	console.log('fetchTrxs', { response });
+	return response || [];
 });
 
-export const addNewTrx = createAsyncThunk('trx/addNewTrx', async (initialTrx) => {
-	const response = await axios.post(myApi, initialTrx);
-	return response.data.data.transaction;
+export const addNewTrx = createAsyncThunk('trx/addNewTrx', async (trx) => {
+	const allTrx = JSON.parse(localStorage.getItem('transactions')) || [];
+	console.log('addNewTrx', { allTrx, trx });
+	const updatedTrx = [...allTrx, trx]
+	console.log('addNewTrx', { updatedTrx });
+	const response = localStorage.setItem('transactions', JSON.stringify(updatedTrx))
+	console.log('addNewTrx', { response });
+	return trx;
 });
 
-export const updateTrx = createAsyncThunk('trx/updateTrx', async (initialTrx) => {
-	const response = await axios.patch(`${myApi}/${initialTrx.id}`, initialTrx);
-	return response.data.data.transaction;
+export const updateTrx = createAsyncThunk('trx/updateTrx', async (trx) => {
+	const allTrx = localStorage.getItem('transactions');
+	console.log('updateTrx', { allTrx, trx });
+	return trx
 });
 
-export const deleteTrx = createAsyncThunk('trx/deleteTrx', async (initialTrx) => {
-	const response = await axios.delete(`${myApi}/${initialTrx.id}`);
-	console.log('deleteTrx', { response });
-	return initialTrx.id;
+export const deleteTrx = createAsyncThunk('trx/deleteTrx', async (trx) => {
+	console.log('deleteTrx', { trx });
+	const allTrx = localStorage.getItem('transactions');
+	console.log('deleteTrx', { allTrx });
+	return trx;
 });
 
 const budgetSlice = createSlice({
@@ -47,24 +53,27 @@ const budgetSlice = createSlice({
 		},
 	},
 	extraReducers: {
-		[fetchTrxs.pending]: (state, action) => {
+		// ****************************** fetchTrxs ******************************
+		[fetchTrxs.pending]: (state) => {
 			state.status = 'loading';
 		},
 		[fetchTrxs.fulfilled]: (state, action) => {
+			console.log('fetchTrxs.fulfilled', { action });
 			state.status = 'succeeded';
-			budgetAdapter.upsertMany(state, action.payload);
+			budgetAdapter.upsertMany(state, action?.payload);
 		},
 		[fetchTrxs.rejected]: (state, action) => {
 			console.log('fetchTrxs.rejected', { action });
 			state.status = 'failed';
 			state.error = action?.error?.message;
 		},
-		[addNewTrx.pending]: (state, action) => {
+		// ****************************** addNewTrx ******************************
+		[addNewTrx.pending]: (state) => {
 			state.status = 'loading';
 		},
 		[addNewTrx.fulfilled]: (state, action) => {
 			state.status = 'succeeded';
-			budgetAdapter.addOne(state, action.payload);
+			budgetAdapter.addOne(state, action?.payload);
 		},
 		[addNewTrx.rejected]: (state, action) => {
 			console.log('addNewTrx.rejected', { action });
