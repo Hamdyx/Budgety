@@ -30,6 +30,7 @@ export const updateTrx = createAsyncThunk('trx/updateTrx', async (initialTrx) =>
 
 export const deleteTrx = createAsyncThunk('trx/deleteTrx', async (initialTrx) => {
 	const response = await axios.delete(`${myApi}/${initialTrx.id}`);
+	console.log('deleteTrx', { response });
 	return initialTrx.id;
 });
 
@@ -54,8 +55,9 @@ const budgetSlice = createSlice({
 			budgetAdapter.upsertMany(state, action.payload);
 		},
 		[fetchTrxs.rejected]: (state, action) => {
+			console.log('fetchTrxs.rejected', { action });
 			state.status = 'failed';
-			state.error = action.error.message;
+			state.error = action?.error?.message;
 		},
 		[addNewTrx.pending]: (state, action) => {
 			state.status = 'loading';
@@ -65,8 +67,9 @@ const budgetSlice = createSlice({
 			budgetAdapter.addOne(state, action.payload);
 		},
 		[addNewTrx.rejected]: (state, action) => {
+			console.log('addNewTrx.rejected', { action });
 			state.status = 'failed';
-			state.error = action.payload.error;
+			state.error = action?.error?.message;
 		},
 		[updateTrx.pending]: (state, action) => {
 			state.status = 'loading';
