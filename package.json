@@ -1,57 +1,51 @@
 {
-  "name": "budgety",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@reduxjs/toolkit": "^1.6.1",
-    "@testing-library/jest-dom": "^5.12.0",
-    "@testing-library/react": "^11.2.6",
-    "@testing-library/user-event": "^12.8.3",
-    "axios": "^0.25.0",
-    "bootstrap": "^5.1.0",
-    "chart.js": "^3.2.1",
-    "concurrently": "^7.0.0",
-    "dotenv": "^16.0.0",
-    "express": "^4.17.2",
-    "morgan": "^1.10.0",
-    "next": "^12.0.10",
-    "nodemon": "^2.0.15",
-    "react": "^17.0.2",
-    "react-bootstrap": "^2.0.0-beta.6",
-    "react-calendar": "^3.4.0",
-    "react-chartjs-2": "^3.0.3",
-    "react-circular-progressbar": "^2.0.4",
-    "react-dom": "^17.0.2",
-    "react-icons": "^4.2.0",
-    "react-redux": "^7.2.5",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "server": "cd src/api && nodemon server.js",
-    "dev": "concurrently -n 'client,server' -c 'green,red' \"npm start\" \"npm run server\"",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+	"name": "budgety",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"@reduxjs/toolkit": "^1.6.1",
+		"@testing-library/jest-dom": "^5.12.0",
+		"@testing-library/react": "^11.2.6",
+		"@testing-library/user-event": "^12.8.3",
+		"bootstrap": "^5.1.0",
+		"chart.js": "^3.2.1",
+		"concurrently": "^7.0.0",
+		"next": "^12.0.10",
+		"nodemon": "^2.0.15",
+		"react": "^17.0.2",
+		"react-bootstrap": "^2.0.0-beta.6",
+		"react-calendar": "^3.4.0",
+		"react-chartjs-2": "^3.0.3",
+		"react-circular-progressbar": "^2.0.4",
+		"react-dom": "^17.0.2",
+		"react-icons": "^4.2.0",
+		"react-redux": "^7.2.5",
+		"react-router-dom": "^5.2.0",
+		"react-scripts": "4.0.3",
+		"web-vitals": "^1.1.1"
+	},
+	"scripts": {
+		"start": "react-scripts --openssl-legacy-provider start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	}
 }
