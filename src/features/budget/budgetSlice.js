@@ -1,29 +1,30 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 
-
-const budgetAdapter = createEntityAdapter({
-	// selectId: (budget) => budget.budgetId
-});
+const budgetAdapter = createEntityAdapter({});
 
 const initialState = budgetAdapter.getInitialState({
+	categories: {
+		home: { spent: 0, limit: 100 },
+		utility: { spent: 0, limit: 400 },
+		food: { spent: 0, limit: 150 },
+	},
 	status: 'idle',
 	error: null,
 });
 
-
-export const fetchTrxs = createAsyncThunk('trx/fetchTrx', async () => {
+export const fetchTrxs = createAsyncThunk('transactions/fetchTrx', async () => {
 	const response = JSON.parse(localStorage.getItem('transactions'));
 	return response || [];
 });
 
-export const addNewTrx = createAsyncThunk('trx/addNewTrx', async (trx) => {
+export const addNewTrx = createAsyncThunk('transactions/addNewTrx', async (trx) => {
 	const allTrx = JSON.parse(localStorage.getItem('transactions')) || [];
 	const updatedTrx = [...allTrx, trx]
 	localStorage.setItem('transactions', JSON.stringify(updatedTrx))
 	return trx;
 });
 
-export const updateTrx = createAsyncThunk('trx/updateTrx', async (trx) => {
+export const updateTrx = createAsyncThunk('transactions/updateTrx', async (trx) => {
 	const allTrx = JSON.parse(localStorage.getItem('transactions')) || [];
 	const updated = allTrx.find(el => el.id === trx.id)
 	Object.assign(updated, trx)
@@ -31,26 +32,97 @@ export const updateTrx = createAsyncThunk('trx/updateTrx', async (trx) => {
 	return updated
 });
 
-export const deleteTrx = createAsyncThunk('trx/deleteTrx', async (id) => {
+export const deleteTrx = createAsyncThunk('transactions/deleteTrx', async (id) => {
 	const allTrx = JSON.parse(localStorage.getItem('transactions')) || [];
 	const updatedTrx = allTrx.filter(trx => trx.id !== id)
 	localStorage.setItem('transactions', JSON.stringify(updatedTrx))
 	return id;
 });
 
+export const fetchCategories = createAsyncThunk('categories/fetchCategories', async () => {
+	const response = JSON.parse(localStorage.getItem('categories'));
+	return response || {};
+});
+
+export const addNewCategory = createAsyncThunk('categories/addNewCategory', async (cat) => {
+	const allCategories = JSON.parse(localStorage.getItem('categories')) || [];
+	const updatedCat = [...allCategories, cat]
+	localStorage.setItem('categories', JSON.stringify(updatedCat))
+	return cat;
+});
+
+export const updateCategory = createAsyncThunk('categories/updateCategory', async (cat) => {
+	const allCategories = JSON.parse(localStorage.getItem('categories')) || [];
+	const updated = allCategories.find(el => el.id === cat.id)
+	Object.assign(updated, cat)
+	localStorage.setItem('categories', JSON.stringify(allCategories))
+	return updated
+});
+
+export const deleteCategory = createAsyncThunk('categories/deleteCategory', async (id) => {
+	const allCategories = JSON.parse(localStorage.getItem('categories')) || [];
+	const updatedCat = allCategories.filter(el => el.id !== id)
+	localStorage.setItem('categories', JSON.stringify(updatedCat))
+	return id;
+});
+
 const budgetSlice = createSlice({
 	name: 'budget',
 	initialState,
-	reducers: {
-		trxUpdated(state, action) {
-			const { id, title } = action.payload;
-			const _trx = state.entities[id];
-			if (_trx) {
-				_trx.title = title;
-			}
-		},
-	},
 	extraReducers: {
+		// ****************************** fetchCategories ******************************
+		[fetchCategories.pending]: (state) => {
+			state.status = 'loading';
+		},
+		[fetchCategories.rejected]: (state, action) => {
+			state.status = 'failed';
+			state.error = action?.error?.message;
+		},
+		[fetchCategories.fulfilled]: (state, action) => {
+			console.log('fetchCategories.fulfilled', { action });
+			state.status = 'succeeded';
+			state.categories = action.payload;
+		},
+		// ****************************** addNewCategory ******************************
+		[addNewCategory.pending]: (state) => {
+			state.status = 'loading';
+		},
+		[addNewCategory.rejected]: (state, action) => {
+			state.status = 'failed';
+			state.error = action?.error?.message;
+		},
+		[addNewCategory.fulfilled]: (state, action) => {
+			console.log('addNewCategory.fulfilled', { action });
+			state.status = 'succeeded';
+			const allCats = { ...state.categories, ...action?.payload }
+			state.categories = allCats
+		},
+		// ****************************** updateCategory ******************************
+		[updateCategory.pending]: (state) => {
+			state.status = 'loading';
+		},
+		[updateCategory.rejected]: (state, action) => {
+			state.status = 'failed';
+			state.error = action?.error?.message;
+		},
+		[updateCategory.fulfilled]: (state, action) => {
+			console.log('updateCategory.fulfilled', { action });
+			state.status = 'succeeded';
+			const allCats = { ...state.categories, ...action?.payload }
+			state.categories = allCats
+		},
+		// ****************************** deleteCategory ******************************
+		[deleteCategory.pending]: (state) => {
+			state.status = 'loading';
+		},
+		[deleteCategory.rejected]: (state, action) => {
+			state.status = 'failed';
+			state.error = action?.error?.message;
+		},
+		[deleteCategory.fulfilled]: (state, action) => {
+			console.log('deleteCategory.fulfilled', { action });
+			state.status = 'succeeded';
+		},
 		// ****************************** fetchTrxs ******************************
 		[fetchTrxs.pending]: (state) => {
 			state.status = 'loading';
@@ -101,8 +173,6 @@ const budgetSlice = createSlice({
 		},
 	},
 });
-
-export const { trxUpdated } = budgetSlice.actions;
 
 export default budgetSlice.reducer;
 

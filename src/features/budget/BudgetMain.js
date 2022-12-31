@@ -27,6 +27,7 @@ const ColoredLine = ({ color }) => (
 
 export const BudgetMain = () => {
 	const allTrxIds = useSelector(selectTrxIds);
+	const categories = useSelector(state => state.budget.categories);
 	const TrxRows = allTrxIds.map((id, i) => <TransactionRow key={i} trx_id={id} />);
 
 	const dispatch = useDispatch();
@@ -36,18 +37,9 @@ export const BudgetMain = () => {
 		weekly: 50,
 		daily: 30,
 	};
-	let categories = {
-		utility: { spent: 100, limit: 400 },
-		food: { spent: 50, limit: 150 },
-		shopping: { spent: 25, limit: 100 },
-	};
 
 	useEffect(() => {
-		const handleTrxFetch = async () => {
-			await dispatch(fetchTrxs());
-		};
-
-		handleTrxFetch();
+		dispatch(fetchTrxs());
 	}, [dispatch]);
 
 	let budgetCircularContent = Object.entries(budgetCircularFrames).map((el, i) => (
@@ -56,7 +48,7 @@ export const BudgetMain = () => {
 		</Col>
 	));
 
-	categories = Object.entries(categories).map((el, i) => (
+	const categoriesItems = Object.entries(categories).map((el, i) => (
 		<Col key={i} sm={{ span: 4 }}>
 			<CategoryBox category={el} />
 		</Col>
@@ -83,7 +75,7 @@ export const BudgetMain = () => {
 							<ColoredLine color={'#545963'} />
 						</Col>
 					</Row>
-					<Row className="category-row">{categories}</Row>
+					<Row className="category-row">{categoriesItems}</Row>
 					<Row>
 						<Col sm={{ span: 4 }}>
 							<h5>Recent Transactions</h5>
@@ -110,8 +102,8 @@ const BudgetSection = () => {
 	let content = [];
 
 	let labels = ['utility', 'food', 'shopping'];
-	let data = [25, 50, 75];
-	let colors = ['#21bf73', '#FE5E54', '#F7C025'];
+	// let data = [25, 50, 75];
+	// let colors = ['#21bf73', '#FE5E54', '#F7C025'];
 	let labelsContent = labels.map((el, i) => <li key={i}>{el}</li>);
 
 	if (budgetType === 'inc') {
