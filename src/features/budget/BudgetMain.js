@@ -12,6 +12,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import './BudgetMain.css';
 
 import TransactionRow from './TransactionRow';
+import { Modal } from 'antd';
 
 // const DoughnutChart = React.lazy(() => import('../../Components/charts/DoughnutChart'));
 
@@ -26,6 +27,16 @@ const ColoredLine = ({ color }) => (
 );
 
 export const BudgetMain = () => {
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const showModal = () => {
+		setIsModalOpen(true);
+	};
+	const handleOk = () => {
+		setIsModalOpen(false);
+	};
+	const handleCancel = () => {
+		setIsModalOpen(false);
+	};
 	const allTrxIds = useSelector(selectTrxIds);
 	const categories = useSelector(state => state.budget.categories);
 	const TrxRows = allTrxIds.map((id, i) => <TransactionRow key={i} trx_id={id} />);
@@ -38,9 +49,9 @@ export const BudgetMain = () => {
 		daily: 30,
 	};
 
-	useEffect(() => {
-		dispatch(fetchTrxs());
-	}, [dispatch]);
+	// const handleAddCategory = () => {
+	// 	console.log('handleAddCategory');
+	// }
 
 	let budgetCircularContent = Object.entries(budgetCircularFrames).map((el, i) => (
 		<Col key={i} sm={{ span: 2 }}>
@@ -53,6 +64,10 @@ export const BudgetMain = () => {
 			<CategoryBox category={el} />
 		</Col>
 	));
+
+	useEffect(() => {
+		dispatch(fetchTrxs());
+	}, [dispatch]);
 
 	return (
 		<Container className="budget-main" fluid>
@@ -69,7 +84,12 @@ export const BudgetMain = () => {
 							<h5>Categories</h5>
 						</Col>
 						<Col sm={{ span: 1 }}>
-							<Button className="budget-add-btn">+</Button>
+							<Button className="budget-add-btn" onClick={showModal}>+</Button>
+							<Modal title="Add Category" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+								<p>Some contents...</p>
+								<p>Some contents...</p>
+								<p>Some contents...</p>
+							</Modal>
 						</Col>
 						<Col>
 							<ColoredLine color={'#545963'} />
