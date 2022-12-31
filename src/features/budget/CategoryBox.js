@@ -7,11 +7,9 @@ import './BudgetMain.css';
 
 import { RiBillLine } from 'react-icons/ri';
 
-const CategoryBox = ({ category }) => {
-	const title = category[0];
-	const budget = category[1];
-	const spent = budget.spent;
-	const limit = budget.limit;
+const CategoryBox = ({ item }) => {
+	const { category, spent, budget } = item
+
 	return (
 		<Container className="category-type" fluid>
 			<Row>
@@ -25,9 +23,9 @@ const CategoryBox = ({ category }) => {
 					</section>
 				</Col>
 				<Col className="category-text">
-					<h6>{title}</h6>
+					<h6>{category}</h6>
 					<p>
-						${spent}/${limit}
+						${spent}/${budget}
 					</p>
 				</Col>
 			</Row>

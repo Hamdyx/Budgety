@@ -1,7 +1,7 @@
 import React, { useState, Suspense, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { addNewCategory, fetchTrxs, selectTrxIds } from './budgetSlice';
+import { fetchTrxs, selectTrxIds } from './budgetSlice';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { AddTrxForm } from './AddTrxForm';
@@ -13,6 +13,7 @@ import './BudgetMain.css';
 
 import TransactionRow from './TransactionRow';
 import { Form, Input, InputNumber, Modal } from 'antd';
+import { addNewCategory, fetchCategories, selectAllCategories } from '../category/categorySlice';
 
 // const DoughnutChart = React.lazy(() => import('../../Components/charts/DoughnutChart'));
 
@@ -38,7 +39,7 @@ export const BudgetMain = () => {
 		setIsModalOpen(false);
 	};
 	const allTrxIds = useSelector(selectTrxIds);
-	const categories = useSelector(state => state.budget.categories);
+	const categories = useSelector(selectAllCategories);
 	const TrxRows = allTrxIds.map((id, i) => <TransactionRow key={i} trx_id={id} />);
 
 	const dispatch = useDispatch();
@@ -59,17 +60,17 @@ export const BudgetMain = () => {
 		</Col>
 	));
 
-	const categoriesItems = Object.entries(categories).map((el, i) => (
+	const categoriesItems = categories.map((el, i) => (
 		<Col key={i} sm={{ span: 4 }}>
-			<CategoryBox category={el} />
+			<CategoryBox item={el} />
 		</Col>
 	));
 
 	const onFinish = (values) => {
-		console.log('Success:', values);
-		const updated = { ...categories, [values.category]: { budget: values.budget } }
-		console.log('Success:', updated);
-		dispatch(addNewCategory(updated))
+		console.log('Success:', { values });
+		const updated = { [values.category]: { budget: values.budget } }
+		console.log('Success:', { updated, values });
+		dispatch(addNewCategory(values))
 	};
 	const onFinishFailed = (errorInfo) => {
 		console.log('Failed:', errorInfo);
@@ -77,6 +78,7 @@ export const BudgetMain = () => {
 
 	useEffect(() => {
 		dispatch(fetchTrxs());
+		dispatch(fetchCategories());
 	}, [dispatch]);
 
 	return (

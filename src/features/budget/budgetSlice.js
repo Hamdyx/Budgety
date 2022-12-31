@@ -3,11 +3,6 @@ import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/too
 const budgetAdapter = createEntityAdapter({});
 
 const initialState = budgetAdapter.getInitialState({
-	categories: {
-		home: { spent: 0, budget: 100 },
-		utility: { spent: 0, budget: 400 },
-		food: { spent: 0, budget: 150 },
-	},
 	status: 'idle',
 	error: null,
 });
@@ -41,7 +36,7 @@ export const deleteTrx = createAsyncThunk('transactions/deleteTrx', async (id) =
 
 export const fetchCategories = createAsyncThunk('categories/fetchCategories', async () => {
 	const response = JSON.parse(localStorage.getItem('categories'));
-	return response || {};
+	return response || [];
 });
 
 export const addNewCategory = createAsyncThunk('categories/addNewCategory', async (cat) => {
@@ -54,7 +49,6 @@ export const addNewCategory = createAsyncThunk('categories/addNewCategory', asyn
 export const updateCategory = createAsyncThunk('categories/updateCategory', async (cat) => {
 	const allCategories = JSON.parse(localStorage.getItem('categories')) || [];
 	const updated = allCategories.find(el => el.id === cat.id)
-	Object.assign(updated, cat)
 	localStorage.setItem('categories', JSON.stringify(allCategories))
 	return updated
 });
@@ -70,59 +64,6 @@ const budgetSlice = createSlice({
 	name: 'budget',
 	initialState,
 	extraReducers: {
-		// ****************************** fetchCategories ******************************
-		[fetchCategories.pending]: (state) => {
-			state.status = 'loading';
-		},
-		[fetchCategories.rejected]: (state, action) => {
-			state.status = 'failed';
-			state.error = action?.error?.message;
-		},
-		[fetchCategories.fulfilled]: (state, action) => {
-			console.log('fetchCategories.fulfilled', { action });
-			state.status = 'succeeded';
-			state.categories = action.payload;
-		},
-		// ****************************** addNewCategory ******************************
-		[addNewCategory.pending]: (state) => {
-			state.status = 'loading';
-		},
-		[addNewCategory.rejected]: (state, action) => {
-			state.status = 'failed';
-			state.error = action?.error?.message;
-		},
-		[addNewCategory.fulfilled]: (state, action) => {
-			console.log('addNewCategory.fulfilled', { action });
-			state.status = 'succeeded';
-			const allCats = { ...state.categories, ...action?.payload }
-			state.categories = allCats
-		},
-		// ****************************** updateCategory ******************************
-		[updateCategory.pending]: (state) => {
-			state.status = 'loading';
-		},
-		[updateCategory.rejected]: (state, action) => {
-			state.status = 'failed';
-			state.error = action?.error?.message;
-		},
-		[updateCategory.fulfilled]: (state, action) => {
-			console.log('updateCategory.fulfilled', { action });
-			state.status = 'succeeded';
-			const allCats = { ...state.categories, ...action?.payload }
-			state.categories = allCats
-		},
-		// ****************************** deleteCategory ******************************
-		[deleteCategory.pending]: (state) => {
-			state.status = 'loading';
-		},
-		[deleteCategory.rejected]: (state, action) => {
-			state.status = 'failed';
-			state.error = action?.error?.message;
-		},
-		[deleteCategory.fulfilled]: (state, action) => {
-			console.log('deleteCategory.fulfilled', { action });
-			state.status = 'succeeded';
-		},
 		// ****************************** fetchTrxs ******************************
 		[fetchTrxs.pending]: (state) => {
 			state.status = 'loading';
