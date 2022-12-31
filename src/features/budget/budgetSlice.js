@@ -4,9 +4,9 @@ const budgetAdapter = createEntityAdapter({});
 
 const initialState = budgetAdapter.getInitialState({
 	categories: {
-		home: { spent: 0, limit: 100 },
-		utility: { spent: 0, limit: 400 },
-		food: { spent: 0, limit: 150 },
+		home: { spent: 0, budget: 100 },
+		utility: { spent: 0, budget: 400 },
+		food: { spent: 0, budget: 150 },
 	},
 	status: 'idle',
 	error: null,

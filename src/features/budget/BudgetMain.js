@@ -1,7 +1,7 @@
 import React, { useState, Suspense, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { fetchTrxs, selectTrxIds } from './budgetSlice';
+import { addNewCategory, fetchTrxs, selectTrxIds } from './budgetSlice';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { AddTrxForm } from './AddTrxForm';
@@ -12,7 +12,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import './BudgetMain.css';
 
 import TransactionRow from './TransactionRow';
-import { Modal } from 'antd';
+import { Form, Input, InputNumber, Modal } from 'antd';
 
 // const DoughnutChart = React.lazy(() => import('../../Components/charts/DoughnutChart'));
 
@@ -65,6 +65,16 @@ export const BudgetMain = () => {
 		</Col>
 	));
 
+	const onFinish = (values) => {
+		console.log('Success:', values);
+		const updated = { ...categories, [values.category]: { budget: values.budget } }
+		console.log('Success:', updated);
+		dispatch(addNewCategory(updated))
+	};
+	const onFinishFailed = (errorInfo) => {
+		console.log('Failed:', errorInfo);
+	};
+
 	useEffect(() => {
 		dispatch(fetchTrxs());
 	}, [dispatch]);
@@ -86,9 +96,56 @@ export const BudgetMain = () => {
 						<Col sm={{ span: 1 }}>
 							<Button className="budget-add-btn" onClick={showModal}>+</Button>
 							<Modal title="Add Category" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-								<p>Some contents...</p>
-								<p>Some contents...</p>
-								<p>Some contents...</p>
+								<Form
+									name="basic"
+									labelCol={{
+										span: 8,
+									}}
+									wrapperCol={{
+										span: 16,
+									}}
+									initialValues={{
+										remember: true,
+									}}
+									onFinish={onFinish}
+									onFinishFailed={onFinishFailed}
+									autoComplete="off"
+								>
+									<Form.Item
+										label="Category"
+										name="category"
+										rules={[
+											{
+												required: true,
+												message: 'Please input your category!',
+											},
+										]}
+									>
+										<Input />
+									</Form.Item>
+									<Form.Item
+										label="Budget"
+										name="budget"
+										rules={[
+											{
+												required: true,
+												message: 'Please input your Budget!',
+											},
+										]}
+									>
+										<InputNumber />
+									</Form.Item>
+									<Form.Item
+										wrapperCol={{
+											offset: 8,
+											span: 16,
+										}}
+									>
+										<Button type="primary" htmlType="submit">
+											Submit
+										</Button>
+									</Form.Item>
+								</Form>
 							</Modal>
 						</Col>
 						<Col>
