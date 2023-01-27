@@ -8,13 +8,16 @@ import './BudgetMain.css';
 import { RiBillLine } from 'react-icons/ri';
 
 const CategoryBox = ({ item }) => {
-	const { category, spent, budget } = item
+	const { category, spent, budget } = item;
 
 	return (
 		<Container className="category-type" fluid>
 			<Row>
 				<Col sm={{ span: 4 }}>
-					<section className="category-circular" style={{ width: 50, height: 50 }}>
+					<section
+						className="category-circular"
+						style={{ width: 50, height: 50 }}
+					>
 						<CircularProgressbarWithChildren value={50}>
 							<div className="category-icon">
 								<RiBillLine />
