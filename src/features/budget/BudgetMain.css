@@ -50,6 +50,19 @@
 .category-text > p {
 	margin: 0.25rem 0;
 }
+.category_edit_icon > button {
+	display: flex;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: #fff;
+}
+.category_edit_icon > button:hover {
+	color: #f0f0f0;
+}
+.category_edit_icon > button > span {
+	margin: 5px 0;
+}
 
 .align-right {
 	text-align: center;

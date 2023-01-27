@@ -1,0 +1,20 @@
+form {
+	&#category {
+		.ant-form-item {
+			.ant-row {
+				.ant-form-item-control-input {
+					.ant-input-number {
+						background: none;
+						// border: 0;
+						color: #fff;
+					}
+					input {
+						background: none;
+						border: 0;
+						color: #fff;
+					}
+				}
+			}
+		}
+	}
+}

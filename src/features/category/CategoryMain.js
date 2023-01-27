@@ -5,7 +5,7 @@ import {
 	fetchCategories,
 	selectAllCategories,
 } from '../category/categorySlice';
-import CategoryBox from '../budget/CategoryBox';
+import CategoryBox from './CategoryBox';
 import AddCategory from './AddCategory';
 
 const ColoredLine = ({ color }) => (
