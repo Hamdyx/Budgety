@@ -1,108 +1,49 @@
-import React from 'react';
-import {
-	Container,
-	//  Row, Col
-} from 'react-bootstrap';
+import React, { useState } from 'react';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 
 import { RiBillLine } from 'react-icons/ri';
 import { EditOutlined } from '@ant-design/icons';
-import { Button, Col, Form, Input, InputNumber, Row } from 'antd';
+import { Button, Form, Input, InputNumber, Row, Space } from 'antd';
 
 const CategoryBox = ({ item }) => {
 	const { category, spent = 0, budget } = item;
+	const [disabled, setDisabled] = useState(true);
 
 	const editCategory = (ev) => {
 		console.log('editCategory', { ev });
+		setDisabled((prev) => !prev);
+	};
+	const onFinish = (ev) => {
+		console.log('onFinish', { ev });
+	};
+	const onFinishFailed = (ev) => {
+		console.log('onFinishFailed', { ev });
 	};
 
 	return (
-		<>
-			<Container className="category-type" fluid>
-				<Row>
-					<Form
-						name="category"
-						labelCol={{
-							span: 8,
-						}}
-						wrapperCol={{
-							span: 16,
-						}}
-						initialValues={{
-							remember: true,
-							category,
-							spent,
-							budget,
-						}}
-						// onFinish={onFinish}
-						// onFinishFailed={onFinishFailed}
-						autoComplete="off"
-					>
-						<Row>
-							<Col sm={{ span: 8 }}>
-								<section
-									className="category-circular"
-									style={{ width: 50, height: 50 }}
-								>
-									<CircularProgressbarWithChildren value={50}>
-										<div className="category-icon">
-											<RiBillLine />
-										</div>
-									</CircularProgressbarWithChildren>
-								</section>
-							</Col>
-							<Col sm={{ span: 12 }}>
-								<Form.Item
-									// label="Category"
-									name="category"
-								>
-									<Input />
-								</Form.Item>
-							</Col>
-							<Col sm={{ span: 4 }} className="category_edit_icon">
-								<Button onClick={editCategory}>
-									<EditOutlined />
-								</Button>
-							</Col>
-							<Row>
-								<Col className="category-text">
-									<Row>
-										<Col>
-											<Form.Item name="spent">
-												<InputNumber
-													prefix="$"
-													formatter={(value) =>
-														`${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-													}
-													controls={false}
-													bordered={false}
-												/>
-											</Form.Item>
-										</Col>
-										<Col>
-											<Form.Item name="budget">
-												<InputNumber
-													prefix="$"
-													formatter={(value) =>
-														`${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-													}
-													controls={false}
-													bordered={false}
-												/>
-											</Form.Item>
-										</Col>
-									</Row>
-								</Col>
-							</Row>
-						</Row>
-					</Form>
-				</Row>
-			</Container>
-
-			<Container className="category-type" fluid>
-				<Row>
-					<Col sm={{ span: 4 }}>
-						<section
+		<div className="category_box" fluid>
+			<Row>
+				<Form
+					name="category"
+					labelCol={{
+						span: 8,
+					}}
+					wrapperCol={{
+						span: 16,
+					}}
+					initialValues={{
+						remember: true,
+						category,
+						spent,
+						budget,
+					}}
+					onFinish={onFinish}
+					onFinishFailed={onFinishFailed}
+					autoComplete="off"
+					disabled={disabled}
+				>
+					<Space>
+						<div
 							className="category-circular"
 							style={{ width: 50, height: 50 }}
 						>
@@ -111,17 +52,43 @@ const CategoryBox = ({ item }) => {
 									<RiBillLine />
 								</div>
 							</CircularProgressbarWithChildren>
-						</section>
-					</Col>
-					<Col className="category-text">
-						<h6>{category}</h6>
-						<p>
-							${spent}/${budget}
-						</p>
-					</Col>
-				</Row>
-			</Container>
-		</>
+						</div>
+						<Form.Item name="category">
+							<Input />
+						</Form.Item>
+						<Button
+							onClick={editCategory}
+							disabled={false}
+							className="category_edit_btn"
+						>
+							<EditOutlined />
+						</Button>
+					</Space>
+					<Space className="category-data">
+						<Form.Item name="spent">
+							<InputNumber
+								prefix="$"
+								formatter={(value) =>
+									`${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+								}
+								controls={false}
+								bordered={false}
+							/>
+						</Form.Item>
+						<Form.Item name="budget">
+							<InputNumber
+								prefix="$"
+								formatter={(value) =>
+									`${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+								}
+								controls={false}
+								bordered={false}
+							/>
+						</Form.Item>
+					</Space>
+				</Form>
+			</Row>
+		</div>
 	);
 };
 

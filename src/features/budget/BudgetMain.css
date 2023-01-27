@@ -28,14 +28,6 @@
 }
 
 .category-type {
-	display: inline-block;
-	background: linear-gradient(
-		325deg,
-		rgba(33, 191, 116, 1) 50%,
-		rgba(33, 191, 116, 0.5018382352941176) 75%
-	);
-	padding: 0.25rem 0;
-	border-radius: 1rem;
 }
 
 .category-icon {
@@ -49,19 +41,6 @@
 }
 .category-text > p {
 	margin: 0.25rem 0;
-}
-.category_edit_icon > button {
-	display: flex;
-	padding: 0;
-	border: 0;
-	background: none;
-	color: #fff;
-}
-.category_edit_icon > button:hover {
-	color: #f0f0f0;
-}
-.category_edit_icon > button > span {
-	margin: 5px 0;
 }
 
 .align-right {
