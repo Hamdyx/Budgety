@@ -51,18 +51,23 @@
 					}
 				}
 			}
-			.category_edit_btn {
+			.category_btn {
 				display: flex;
 				padding: 0 5px;
-				margin: 0 5px;
 				border: 0;
 				background: none;
 				color: #fff;
+				&.--delete {
+					color: #ff0000;
+				}
 				span {
 					margin: 5px 0;
 				}
 				&:hover {
 					color: #f0f0f0;
+					&.--delete {
+						color: #ff3b3b;
+					}
 				}
 			}
 		}

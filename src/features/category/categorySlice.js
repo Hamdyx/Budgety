@@ -4,9 +4,7 @@ import {
 	createEntityAdapter,
 } from '@reduxjs/toolkit';
 
-const categoryAdapter = createEntityAdapter({
-	// selectId: (item) => item.category,
-});
+const categoryAdapter = createEntityAdapter({});
 
 const initialState = categoryAdapter.getInitialState({
 	loading: false,
@@ -25,6 +23,7 @@ export const addNewCategory = createAsyncThunk(
 	'categories/addNewCategory',
 	async (cat) => {
 		cat.id = new Date().getTime();
+		cat.spent = 0;
 		return cat;
 	}
 );
@@ -40,9 +39,6 @@ export const updateCategory = createAsyncThunk(
 export const deleteCategory = createAsyncThunk(
 	'categories/deleteCategory',
 	async (id) => {
-		const allCategories = JSON.parse(localStorage.getItem('categories')) || [];
-		const updatedCat = allCategories.filter((el) => el.id !== id);
-		localStorage.setItem('categories', JSON.stringify(updatedCat));
 		return id;
 	}
 );
@@ -51,8 +47,8 @@ const categorySlice = createSlice({
 	name: 'category',
 	initialState,
 	extraReducers: (builder) => {
-		// ****************************** fetchCategories ******************************
 		builder
+			// ****************************** fetchCategories ******************************
 			.addCase(fetchCategories.pending, (state) => {
 				state.status = 'loading';
 			})
@@ -82,15 +78,10 @@ const categorySlice = createSlice({
 				state.status = 'loading';
 			})
 			.addCase(updateCategory.rejected, (state, action) => {
-				console.log('updateCategory => rejected', { action });
 				state.status = 'failed';
 				state.error = action?.error?.message ?? 'error updtaing category';
 			})
 			.addCase(updateCategory.fulfilled, (state, action) => {
-				console.log('updateCategory => fulfilled', {
-					action,
-					update: action.payload,
-				});
 				state.status = 'succeeded';
 				categoryAdapter.upsertOne(state, action?.payload); //! updateOne not working
 				localStorage.setItem('categories', JSON.stringify(state?.entities));
@@ -101,11 +92,12 @@ const categorySlice = createSlice({
 			})
 			.addCase(deleteCategory.rejected, (state, action) => {
 				state.status = 'failed';
-				state.error = action?.error?.message;
+				state.error = action?.error?.message ?? 'error deleting category';
 			})
 			.addCase(deleteCategory.fulfilled, (state, action) => {
-				console.log('deleteCategory.fulfilled', { action });
 				state.status = 'succeeded';
+				categoryAdapter.removeOne(state, action?.payload);
+				localStorage.setItem('categories', JSON.stringify(state?.entities));
 			});
 	},
 });

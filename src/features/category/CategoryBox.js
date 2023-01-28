@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
-
-import { RiBillLine } from 'react-icons/ri';
-import { EditOutlined } from '@ant-design/icons';
-import { Button, Form, Input, InputNumber, Row, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCategoryById, updateCategory } from './categorySlice';
+import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
+import { Button, Form, Input, InputNumber, Row, Space } from 'antd';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { RiBillLine } from 'react-icons/ri';
+import {
+	deleteCategory,
+	selectCategoryById,
+	updateCategory,
+} from './categorySlice';
 
 const CategoryBox = ({ id }) => {
 	const {
@@ -19,8 +22,12 @@ const CategoryBox = ({ id }) => {
 
 	const editCategory = () => {
 		!disabled && form.submit();
-
 		setDisabled((prev) => !prev);
+	};
+
+	const handleDeleteCategory = () => {
+		console.log('deleteCategory', { id });
+		dispatch(deleteCategory(id));
 	};
 
 	const onFinish = (cat) => {
@@ -58,13 +65,24 @@ const CategoryBox = ({ id }) => {
 						<Form.Item name="category" className="category_title">
 							<Input />
 						</Form.Item>
-						<Button
-							onClick={editCategory}
-							disabled={false}
-							className="category_edit_btn"
-						>
-							<EditOutlined />
-						</Button>
+						<Space size={4}>
+							{!disabled && (
+								<Button
+									onClick={handleDeleteCategory}
+									disabled={false}
+									className="category_btn --delete"
+								>
+									<DeleteOutlined />
+								</Button>
+							)}
+							<Button
+								onClick={editCategory}
+								disabled={false}
+								className="category_btn --edit"
+							>
+								<EditOutlined />
+							</Button>
+						</Space>
 					</Space>
 					<Space className="category-data">
 						<Form.Item name="spent">
