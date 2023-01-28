@@ -50,62 +50,63 @@ export const deleteCategory = createAsyncThunk(
 const categorySlice = createSlice({
 	name: 'category',
 	initialState,
-	extraReducers: {
+	extraReducers: (builder) => {
 		// ****************************** fetchCategories ******************************
-		[fetchCategories.pending]: (state) => {
-			state.status = 'loading';
-		},
-		[fetchCategories.rejected]: (state, action) => {
-			state.status = 'failed';
-			state.error = action?.error?.message;
-		},
-		[fetchCategories.fulfilled]: (state, action) => {
-			state.status = 'succeeded';
-			categoryAdapter.upsertMany(state, action?.payload);
-		},
-		// ****************************** addNewCategory ******************************
-		[addNewCategory.pending]: (state) => {
-			state.status = 'loading';
-		},
-		[addNewCategory.rejected]: (state, action) => {
-			state.status = 'failed';
-			state.error = action?.error?.message;
-		},
-		[addNewCategory.fulfilled]: (state, action) => {
-			state.status = 'succeeded';
-			categoryAdapter.addOne(state, action?.payload);
-			localStorage.setItem('categories', JSON.stringify(state?.entities));
-		},
-		// ****************************** updateCategory ******************************
-		[updateCategory.pending]: (state) => {
-			state.status = 'loading';
-		},
-		[updateCategory.rejected]: (state, action) => {
-			console.log('updateCategory => rejected', { action });
-			state.status = 'failed';
-			state.error = action?.error?.message ?? 'error updtaing category';
-		},
-		[updateCategory.fulfilled]: (state, action) => {
-			console.log('updateCategory => fulfilled', {
-				action,
-				update: action.payload,
+		builder
+			.addCase(fetchCategories.pending, (state) => {
+				state.status = 'loading';
+			})
+			.addCase(fetchCategories.rejected, (state, action) => {
+				state.status = 'failed';
+				state.error = action?.error?.message;
+			})
+			.addCase(fetchCategories.fulfilled, (state, action) => {
+				state.status = 'succeeded';
+				categoryAdapter.upsertMany(state, action?.payload);
+			})
+			// ****************************** addNewCategory ******************************
+			.addCase(addNewCategory.pending, (state) => {
+				state.status = 'loading';
+			})
+			.addCase(addNewCategory.rejected, (state, action) => {
+				state.status = 'failed';
+				state.error = action?.error?.message;
+			})
+			.addCase(addNewCategory.fulfilled, (state, action) => {
+				state.status = 'succeeded';
+				categoryAdapter.addOne(state, action?.payload);
+				localStorage.setItem('categories', JSON.stringify(state?.entities));
+			})
+			// ****************************** updateCategory ******************************
+			.addCase(updateCategory.pending, (state) => {
+				state.status = 'loading';
+			})
+			.addCase(updateCategory.rejected, (state, action) => {
+				console.log('updateCategory => rejected', { action });
+				state.status = 'failed';
+				state.error = action?.error?.message ?? 'error updtaing category';
+			})
+			.addCase(updateCategory.fulfilled, (state, action) => {
+				console.log('updateCategory => fulfilled', {
+					action,
+					update: action.payload,
+				});
+				state.status = 'succeeded';
+				categoryAdapter.upsertOne(state, action?.payload); //! updateOne not working
+				localStorage.setItem('categories', JSON.stringify(state?.entities));
+			})
+			// ****************************** deleteCategory ******************************
+			.addCase(deleteCategory.pending, (state) => {
+				state.status = 'loading';
+			})
+			.addCase(deleteCategory.rejected, (state, action) => {
+				state.status = 'failed';
+				state.error = action?.error?.message;
+			})
+			.addCase(deleteCategory.fulfilled, (state, action) => {
+				console.log('deleteCategory.fulfilled', { action });
+				state.status = 'succeeded';
 			});
-			state.status = 'succeeded';
-			categoryAdapter.updateOne(state, action?.payload);
-			localStorage.setItem('categories', JSON.stringify(state?.entities));
-		},
-		// ****************************** deleteCategory ******************************
-		[deleteCategory.pending]: (state) => {
-			state.status = 'loading';
-		},
-		[deleteCategory.rejected]: (state, action) => {
-			state.status = 'failed';
-			state.error = action?.error?.message;
-		},
-		[deleteCategory.fulfilled]: (state, action) => {
-			console.log('deleteCategory.fulfilled', { action });
-			state.status = 'succeeded';
-		},
 	},
 });
 
