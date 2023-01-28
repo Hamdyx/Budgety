@@ -27,17 +27,6 @@
 	background-repeat: no-repeat; */
 }
 
-.category-type {
-	display: inline-block;
-	background: linear-gradient(
-		325deg,
-		rgba(33, 191, 116, 1) 50%,
-		rgba(33, 191, 116, 0.5018382352941176) 75%
-	);
-	padding: 0.25rem 0;
-	border-radius: 1rem;
-}
-
 .category-icon {
 	margin-top: -0.5rem;
 	text-align: center;

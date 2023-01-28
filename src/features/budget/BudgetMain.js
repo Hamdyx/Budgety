@@ -1,18 +1,14 @@
-import React, { useState, Suspense, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
-import { fetchTrxs, selectTrxIds } from './budgetSlice';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { AddTrxForm } from './AddTrxForm';
-import { selectAllTrx } from './budgetSlice';
+import TransactionRow from './TransactionRow';
+import CategoryMain from '../category/CategoryMain';
+import { fetchTrxs, selectAllTrx, selectTrxIds } from './budgetSlice';
 
-import CategoryBox from './CategoryBox';
 import 'react-circular-progressbar/dist/styles.css';
 import './BudgetMain.css';
-
-import TransactionRow from './TransactionRow';
-
 // const DoughnutChart = React.lazy(() => import('../../Components/charts/DoughnutChart'));
 
 const ColoredLine = ({ color }) => (
@@ -27,7 +23,9 @@ const ColoredLine = ({ color }) => (
 
 export const BudgetMain = () => {
 	const allTrxIds = useSelector(selectTrxIds);
-	const TrxRows = allTrxIds.map((id, i) => <TransactionRow key={i} trx_id={id} />);
+	const TrxRows = allTrxIds.map((id, i) => (
+		<TransactionRow key={i} trx_id={id} />
+	));
 
 	const dispatch = useDispatch();
 	let budgetCircularFrames = {
@@ -36,31 +34,18 @@ export const BudgetMain = () => {
 		weekly: 50,
 		daily: 30,
 	};
-	let categories = {
-		utility: { spent: 100, limit: 400 },
-		food: { spent: 50, limit: 150 },
-		shopping: { spent: 25, limit: 100 },
-	};
+
+	let budgetCircularContent = Object.entries(budgetCircularFrames).map(
+		(el, i) => (
+			<Col key={i} sm={{ span: 2 }}>
+				<BudgetFrame timeframe={el[0]} value={el[1]} />
+			</Col>
+		)
+	);
 
 	useEffect(() => {
-		const handleTrxFetch = async () => {
-			await dispatch(fetchTrxs());
-		};
-
-		handleTrxFetch();
+		dispatch(fetchTrxs());
 	}, [dispatch]);
-
-	let budgetCircularContent = Object.entries(budgetCircularFrames).map((el, i) => (
-		<Col key={i} sm={{ span: 2 }}>
-			<BudgetFrame timeframe={el[0]} value={el[1]} />
-		</Col>
-	));
-
-	categories = Object.entries(categories).map((el, i) => (
-		<Col key={i} sm={{ span: 4 }}>
-			<CategoryBox category={el} />
-		</Col>
-	));
 
 	return (
 		<Container className="budget-main" fluid>
@@ -72,18 +57,7 @@ export const BudgetMain = () => {
 						</Col>
 						{budgetCircularContent}
 					</Row>
-					<Row>
-						<Col sm={{ span: 2 }}>
-							<h5>Categories</h5>
-						</Col>
-						<Col sm={{ span: 1 }}>
-							<Button className="budget-add-btn">+</Button>
-						</Col>
-						<Col>
-							<ColoredLine color={'#545963'} />
-						</Col>
-					</Row>
-					<Row className="category-row">{categories}</Row>
+					<CategoryMain />
 					<Row>
 						<Col sm={{ span: 4 }}>
 							<h5>Recent Transactions</h5>
@@ -109,29 +83,33 @@ const BudgetSection = () => {
 	const expTrxs = allTrxs.filter((trx) => trx.type === 'exp');
 	let content = [];
 
-	let labels = ['utility', 'food', 'shopping'];
-	let data = [25, 50, 75];
-	let colors = ['#21bf73', '#FE5E54', '#F7C025'];
-	let labelsContent = labels.map((el, i) => <li key={i}>{el}</li>);
+	// let labels = ['utility', 'food', 'shopping'];
+	// let data = [25, 50, 75];
+	// let colors = ['#21bf73', '#FE5E54', '#F7C025'];
+	// let labelsContent = labels.map((el, i) => <li key={i}>{el}</li>);
 
 	if (budgetType === 'inc') {
-		content = incTrxs.map((trx, i) => <TransactionRow key={i} trx_id={trx.id} />);
+		content = incTrxs.map((trx, i) => (
+			<TransactionRow key={i} trx_id={trx.id} />
+		));
 	} else {
-		content = expTrxs.map((trx, i) => <TransactionRow key={i} trx_id={trx.id} />);
+		content = expTrxs.map((trx, i) => (
+			<TransactionRow key={i} trx_id={trx.id} />
+		));
 	}
 
 	return (
 		<Container className="budget-section">
-			<Row>
+			{/* <Row>
 				<Col sm={{ span: 7 }}>
 					<Suspense fallback={<div>Loading...</div>}>
-						{/* <DoughnutChart labelsArr={labels} data={data} colors={colors} /> */}
+						<DoughnutChart labelsArr={labels} data={data} colors={colors} />
 					</Suspense>
 				</Col>
 				<Col sm={{ span: 5 }}>
 					<ul className="category-chart-items">{labelsContent}</ul>
 				</Col>
-			</Row>
+			</Row> */}
 			<Row className="inc-exp-row">
 				<Col>
 					<Button

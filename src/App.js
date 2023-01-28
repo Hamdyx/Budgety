@@ -11,6 +11,7 @@ import BankPage from './Components/pages/BankPage';
 import { BudgetMain } from './features/budget/BudgetMain';
 
 import './App.css';
+import './style/main.scss';
 
 class App extends React.Component {
 	constructor(props) {
