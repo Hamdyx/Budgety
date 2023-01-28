@@ -8,9 +8,18 @@
 			.ant-input-number-disabled,
 			.ant-input-number-affix-wrapper-disabled,
 			*:disabled {
-				color: #fff;
+				color: #fff !important;
 				background: none;
 				cursor: text;
+			}
+			.category_title {
+				.ant-row {
+					width: 100%;
+				}
+				input {
+					font-weight: 600;
+					text-transform: capitalize;
+				}
 			}
 			.ant-form-item {
 				margin-bottom: 0;
@@ -22,7 +31,7 @@
 						input {
 							background: none;
 							border: 0;
-							color: #fff;
+							color: #c8c8c8;
 						}
 					}
 				}
@@ -31,15 +40,16 @@
 				&:nth-child(3) {
 					align-self: baseline;
 				}
+			}
+			.category-data {
+				width: 100%;
+				justify-content: center;
+				padding-inline-start: 20px;
 				.ant-row {
 					&:first-child {
 						justify-content: end;
 					}
 				}
-			}
-			.category-data {
-				width: 100%;
-				justify-content: center;
 			}
 			.category_edit_btn {
 				display: flex;

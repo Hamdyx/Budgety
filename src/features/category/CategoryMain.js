@@ -24,7 +24,7 @@ export const CategoryMain = () => {
 
 	const categoriesItems = categories.map((el, i) => (
 		<Col key={i} sm={{ span: 4 }}>
-			<CategoryBox item={el} />
+			<CategoryBox id={el?.id} />
 		</Col>
 	));
 

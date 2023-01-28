@@ -5,7 +5,7 @@ import {
 } from '@reduxjs/toolkit';
 
 const categoryAdapter = createEntityAdapter({
-	selectId: (item) => item.category,
+	// selectId: (item) => item.category,
 });
 
 const initialState = categoryAdapter.getInitialState({
@@ -24,6 +24,7 @@ export const fetchCategories = createAsyncThunk(
 export const addNewCategory = createAsyncThunk(
 	'categories/addNewCategory',
 	async (cat) => {
+		cat.id = new Date().getTime();
 		return cat;
 	}
 );
@@ -31,10 +32,8 @@ export const addNewCategory = createAsyncThunk(
 export const updateCategory = createAsyncThunk(
 	'categories/updateCategory',
 	async (cat) => {
-		const allCategories = JSON.parse(localStorage.getItem('categories')) || [];
-		const updated = allCategories.find((el) => el.id === cat.id);
-		localStorage.setItem('categories', JSON.stringify(allCategories));
-		return updated;
+		console.log('updateCategory', { cat });
+		return cat;
 	}
 );
 
@@ -73,7 +72,6 @@ const categorySlice = createSlice({
 			state.error = action?.error?.message;
 		},
 		[addNewCategory.fulfilled]: (state, action) => {
-			console.log('addNewCategory.fulfilled', { action });
 			state.status = 'succeeded';
 			categoryAdapter.addOne(state, action?.payload);
 			localStorage.setItem('categories', JSON.stringify(state?.entities));
@@ -83,14 +81,18 @@ const categorySlice = createSlice({
 			state.status = 'loading';
 		},
 		[updateCategory.rejected]: (state, action) => {
+			console.log('updateCategory => rejected', { action });
 			state.status = 'failed';
-			state.error = action?.error?.message;
+			state.error = action?.error?.message ?? 'error updtaing category';
 		},
 		[updateCategory.fulfilled]: (state, action) => {
-			console.log('updateCategory.fulfilled', { action });
+			console.log('updateCategory => fulfilled', {
+				action,
+				update: action.payload,
+			});
 			state.status = 'succeeded';
-			const allCats = { ...state.categories, ...action?.payload };
-			state.categories = allCats;
+			categoryAdapter.updateOne(state, action?.payload);
+			localStorage.setItem('categories', JSON.stringify(state?.entities));
 		},
 		// ****************************** deleteCategory ******************************
 		[deleteCategory.pending]: (state) => {
@@ -109,10 +111,8 @@ const categorySlice = createSlice({
 
 export default categorySlice.reducer;
 
-// Export the customized selectors for this adapter using `getSelectors`
 export const {
 	selectAll: selectAllCategories,
 	selectById: selectCategoryById,
 	selectIds: selectCategoryIds,
-	// Pass in a selector that returns the trx slice of state
 } = categoryAdapter.getSelectors((state) => state.category);

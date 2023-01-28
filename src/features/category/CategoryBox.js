@@ -4,33 +4,36 @@ import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { RiBillLine } from 'react-icons/ri';
 import { EditOutlined } from '@ant-design/icons';
 import { Button, Form, Input, InputNumber, Row, Space } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCategoryById, updateCategory } from './categorySlice';
 
-const CategoryBox = ({ item }) => {
-	const { category, spent = 0, budget } = item;
+const CategoryBox = ({ id }) => {
+	const {
+		category,
+		spent = 0,
+		budget,
+	} = useSelector((state) => selectCategoryById(state, id));
 	const [disabled, setDisabled] = useState(true);
+	const [form] = Form.useForm();
+	const dispatch = useDispatch();
 
-	const editCategory = (ev) => {
-		console.log('editCategory', { ev });
+	const editCategory = () => {
+		!disabled && form.submit();
+
 		setDisabled((prev) => !prev);
 	};
-	const onFinish = (ev) => {
-		console.log('onFinish', { ev });
-	};
-	const onFinishFailed = (ev) => {
-		console.log('onFinishFailed', { ev });
+
+	const onFinish = (cat) => {
+		console.log('onFinish', { cat });
+		dispatch(updateCategory({ id, ...cat }));
 	};
 
 	return (
-		<div className="category_box" fluid>
+		<div className="category_box">
 			<Row>
 				<Form
+					form={form}
 					name="category"
-					labelCol={{
-						span: 8,
-					}}
-					wrapperCol={{
-						span: 16,
-					}}
 					initialValues={{
 						remember: true,
 						category,
@@ -38,7 +41,6 @@ const CategoryBox = ({ item }) => {
 						budget,
 					}}
 					onFinish={onFinish}
-					onFinishFailed={onFinishFailed}
 					autoComplete="off"
 					disabled={disabled}
 				>
@@ -53,7 +55,7 @@ const CategoryBox = ({ item }) => {
 								</div>
 							</CircularProgressbarWithChildren>
 						</div>
-						<Form.Item name="category">
+						<Form.Item name="category" className="category_title">
 							<Input />
 						</Form.Item>
 						<Button

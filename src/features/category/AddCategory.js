@@ -81,9 +81,7 @@ function AddCategory() {
 							span: 16,
 						}}
 					>
-						<Button type="primary" htmlType="submit">
-							Submit
-						</Button>
+						<Button type="primary">Submit</Button>
 					</Form.Item>
 				</Form>
 			</Modal>
