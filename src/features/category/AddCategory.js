@@ -7,11 +7,13 @@ import { addNewCategory } from './categorySlice';
 function AddCategory() {
 	const dispatch = useDispatch();
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [form] = Form.useForm();
 
 	const showModal = () => {
 		setIsModalOpen(true);
 	};
 	const handleOk = () => {
+		form.submit();
 		setIsModalOpen(false);
 	};
 	const handleCancel = () => {
@@ -20,6 +22,7 @@ function AddCategory() {
 
 	const onFinish = (values) => {
 		dispatch(addNewCategory(values));
+		form.resetFields();
 	};
 	const onFinishFailed = (errorInfo) => {
 		console.log('Failed:', errorInfo);
@@ -35,8 +38,10 @@ function AddCategory() {
 				open={isModalOpen}
 				onOk={handleOk}
 				onCancel={handleCancel}
+				okText="Submit"
 			>
 				<Form
+					form={form}
 					name="basic"
 					labelCol={{
 						span: 8,
@@ -74,14 +79,6 @@ function AddCategory() {
 						]}
 					>
 						<InputNumber />
-					</Form.Item>
-					<Form.Item
-						wrapperCol={{
-							offset: 8,
-							span: 16,
-						}}
-					>
-						<Button type="primary">Submit</Button>
 					</Form.Item>
 				</Form>
 			</Modal>
