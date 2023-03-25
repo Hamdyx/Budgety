@@ -1,3 +1,9 @@
+@import './base/reset';
+
+#root {
+	min-height: 100vh;
+}
+
 .category_box {
 	display: inline-block;
 	background: linear-gradient(325deg, #21bf74 50%, #21bf7480 75%);
