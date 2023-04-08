@@ -4,8 +4,9 @@ import {
 	createEntityAdapter,
 } from '@reduxjs/toolkit';
 import { RootState } from 'app/store';
+import { Transaction } from 'types/types';
 
-const budgetAdapter = createEntityAdapter({});
+const budgetAdapter = createEntityAdapter<Transaction>({});
 
 const initialState = budgetAdapter.getInitialState({
 	status: 'idle',
@@ -17,15 +18,18 @@ export const fetchTrxs = createAsyncThunk('transactions/fetchTrx', async () => {
 	return response || [];
 });
 
-export const addNewTrx = createAsyncThunk(
-	'transactions/addNewTrx',
-	async (trx) => {
-		const allTrx = JSON.parse(localStorage.getItem('transactions') || '') || [];
-		const updatedTrx = [...allTrx, trx];
-		localStorage.setItem('transactions', JSON.stringify(updatedTrx));
-		return trx;
+export const addNewTrx = createAsyncThunk<
+	any,
+	any,
+	{
+		state: RootState;
 	}
-);
+>('transactions/addNewTrx', async (trx) => {
+	const allTrx = JSON.parse(localStorage.getItem('transactions') || '[]');
+	const updatedTrx = [...allTrx, trx];
+	localStorage.setItem('transactions', JSON.stringify(updatedTrx));
+	return trx;
+});
 
 export const updateTrx = createAsyncThunk<
 	any,
