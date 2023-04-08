@@ -1,109 +1,132 @@
 import React, { useState } from 'react';
 import { useAppDispatch } from 'app/store';
 import { addNewTrx } from './budgetSlice';
-import { Form, Row, Col, Button, Modal } from 'react-bootstrap';
-import CustomFloatingLabel from '../../Components/inputs/CustomFloatingLabel';
-
-import './AddTrxForm.css';
+import dayjs from 'dayjs';
+import {
+	Button,
+	Col,
+	DatePicker,
+	Form,
+	Input,
+	InputNumber,
+	Modal,
+	Radio,
+	Row,
+} from 'antd';
 
 export const AddTrxForm = () => {
 	const [show, setShow] = useState(false);
-	const [title, setTitle] = useState('');
-	const [type, setType] = useState('inc');
-	const [value, setValue] = useState('');
-	const [trxDate, setTrxDate] = useState('');
-	const [trxTime, setTrxTime] = useState('');
+
+	const [form] = Form.useForm();
 
 	const dispatch = useAppDispatch();
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
-	const handleTrxSumbit = async () => {
+	const handleTrxSumbit = async (values: any) => {
+		console.log('handleTrxSumbit', { values, date: values.trxDate.toDate() });
 		dispatch(
 			addNewTrx({
+				...values,
 				id: new Date().toISOString(),
-				type,
-				title,
-				value,
-				trxDate,
-				trxTime,
+				trxDate: values.trxDate.toDate().toISOString(),
 			})
 		);
-		setType('');
-		setTitle('');
-		setValue('');
-		setTrxDate('');
-		setTrxTime('');
 		handleClose();
 	};
 
 	return (
 		<>
-			<Button variant="primary" className="addTrx-btn" onClick={handleShow}>
+			<Button className="addTrx-btn" onClick={handleShow}>
 				Add Transaction
 			</Button>
-			<Modal show={show} onHide={handleClose} className="budget-trx-modal">
-				<Modal.Header closeButton>
-					<Modal.Title>Add New Transaction</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
-					<Form>
-						<Row>
-							<Col>
-								<Button
-									className={`newTrx-inc ${type === 'inc' ? 'active' : ''}`}
-									onClick={() => setType('inc')}
-								>
-									INCOME
-								</Button>
-							</Col>
-							<Col>
-								<Button
-									className={`newTrx-exp ${type === 'exp' ? 'active' : ''}`}
-									onClick={() => setType('exp')}
-								>
-									EXPENSE
-								</Button>
-							</Col>
-						</Row>
-						<Row className="mt-3">
-							<Col>
-								<CustomFloatingLabel
-									type={'text'}
-									label={'title'}
-									value={title}
-									changeFunc={(event: any) => setTitle(event.target.value)}
+			<Modal
+				title="Add New Transaction"
+				open={show}
+				onCancel={handleClose}
+				className="budget-trx-modal"
+				footer={
+					<>
+						<Button type="ghost" onClick={handleClose}>
+							Close
+						</Button>
+					</>
+				}
+			>
+				<Form
+					form={form}
+					size="large"
+					initialValues={{ type: 'inc' }}
+					name="add_transaction"
+					onFinish={handleTrxSumbit}
+					onValuesChange={(values) =>
+						console.log('add_transaction form', { values })
+					}
+				>
+					<Row>
+						<Col span={24}>
+							<Form.Item name="type">
+								<Radio.Group buttonStyle="solid" className="trx_type_radio">
+									<Radio.Button className="radio_inc" value="inc">
+										INCOME
+									</Radio.Button>
+									<Radio.Button className="radio_exp" value="exp">
+										EXPENSE
+									</Radio.Button>
+								</Radio.Group>
+							</Form.Item>
+						</Col>
+					</Row>
+					<Row className="mt-3" gutter={12}>
+						<Col>
+							<Form.Item
+								name="title"
+								label="Title"
+								rules={[
+									{
+										required: true,
+									},
+								]}
+							>
+								<Input />
+							</Form.Item>
+							<Form.Item
+								name="value"
+								label="Value"
+								rules={[
+									{
+										required: true,
+									},
+								]}
+							>
+								<InputNumber />
+							</Form.Item>
+							<Form.Item
+								name="trxDate"
+								label="Date"
+								rules={[
+									{
+										required: true,
+									},
+								]}
+							>
+								<DatePicker
+									format="DD MMM YYYY - HH:mm"
+									showTime={{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }}
 								/>
-
-								<CustomFloatingLabel
-									type={'number'}
-									label={'value'}
-									value={value}
-									changeFunc={(event: any) => setValue(event.target.value)}
-								/>
-
-								<CustomFloatingLabel
-									type={'datetime-local'}
-									label={'date'}
-									value={trxDate}
-									changeFunc={(event: any) => setTrxDate(event.target.value)}
-								/>
-							</Col>
-							<Col>
-								<p className="mt-3">Categories</p>
-							</Col>
-						</Row>
-					</Form>
-				</Modal.Body>
-				<Modal.Footer>
-					<Button variant="secondary" onClick={handleClose}>
-						Close
-					</Button>
-					<Button variant="primary" onClick={handleTrxSumbit}>
-						Save Changes
-					</Button>
-				</Modal.Footer>
+							</Form.Item>
+						</Col>
+						<Col>
+							<p className="mt-3">Categories</p>
+						</Col>
+					</Row>
+					<Form.Item wrapperCol={{ offset: 17, span: 7 }}>
+						<Button type="primary" htmlType="submit">
+							Save Changes
+						</Button>
+					</Form.Item>
+				</Form>
 			</Modal>
 		</>
 	);
