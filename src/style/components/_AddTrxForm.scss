@@ -1,5 +1,10 @@
 form {
 	&#add_transaction {
+		.ant-form-item-control-input-content {
+			.ant-input-number {
+				width: 100%;
+			}
+		}
 		.ant-radio-group {
 			&.trx_type_radio {
 				display: flex;

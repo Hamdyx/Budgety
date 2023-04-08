@@ -4,6 +4,7 @@ import {
 	createEntityAdapter,
 } from '@reduxjs/toolkit';
 import { RootState } from 'app/store';
+import { updateCategory } from 'features/category/categorySlice';
 import { Transaction } from 'types/types';
 
 const budgetAdapter = createEntityAdapter<Transaction>({});
@@ -20,14 +21,12 @@ export const fetchTrxs = createAsyncThunk('transactions/fetchTrx', async () => {
 
 export const addNewTrx = createAsyncThunk<
 	any,
-	any,
+	Transaction,
 	{
 		state: RootState;
 	}
->('transactions/addNewTrx', async (trx) => {
-	const allTrx = JSON.parse(localStorage.getItem('transactions') || '[]');
-	const updatedTrx = [...allTrx, trx];
-	localStorage.setItem('transactions', JSON.stringify(updatedTrx));
+>('transactions/addNewTrx', async (trx, thunkapi) => {
+	thunkapi.dispatch(updateCategory({ id: trx.category, newTrx: trx }));
 	return trx;
 });
 
@@ -52,9 +51,9 @@ export const deleteTrx = createAsyncThunk<
 		state: RootState;
 	}
 >('transactions/deleteTrx', async (id) => {
-	const allTrx = JSON.parse(localStorage.getItem('transactions') || '') || [];
-	const updatedTrx = allTrx.filter((trx: any) => trx.id !== id);
-	localStorage.setItem('transactions', JSON.stringify(updatedTrx));
+	// const allTrx = JSON.parse(localStorage.getItem('transactions') || '') || [];
+	// const updatedTrx = allTrx.filter((trx: any) => trx.id !== id);
+	// localStorage.setItem('transactions', JSON.stringify(updatedTrx));
 	return id;
 });
 
@@ -87,6 +86,7 @@ const budgetSlice = createSlice({
 			.addCase(addNewTrx.fulfilled, (state, action) => {
 				state.status = 'succeeded';
 				budgetAdapter.addOne(state, action?.payload);
+				localStorage.setItem('transactions', JSON.stringify(state.entities));
 			})
 			// ****************************** updateTrx ******************************
 			.addCase(updateTrx.pending, (state) => {
@@ -111,6 +111,7 @@ const budgetSlice = createSlice({
 			.addCase(deleteTrx.fulfilled, (state, action) => {
 				state.status = 'succeeded';
 				budgetAdapter.removeOne(state, action.payload);
+				localStorage.setItem('transactions', JSON.stringify(state.entities));
 			});
 	},
 });

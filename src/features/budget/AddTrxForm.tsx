@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch } from 'app/store';
 import { addNewTrx } from './budgetSlice';
 import dayjs from 'dayjs';
@@ -13,16 +13,19 @@ import {
 	Radio,
 	Row,
 } from 'antd';
+import { useSelector } from 'react-redux';
+import { selectAllCategories } from 'features/category/categorySlice';
 
 export const AddTrxForm = () => {
-	const [show, setShow] = useState(false);
+	const categories = useSelector(selectAllCategories);
+	const [isAddTrxModalOpen, setIsAddTrxModalOpen] = useState(false);
 
 	const [form] = Form.useForm();
 
 	const dispatch = useAppDispatch();
 
-	const handleClose = () => setShow(false);
-	const handleShow = () => setShow(true);
+	const handleClose = () => setIsAddTrxModalOpen(false);
+	const handleShow = () => setIsAddTrxModalOpen(true);
 
 	const handleTrxSumbit = async (values: any) => {
 		console.log('handleTrxSumbit', { values, date: values.trxDate.toDate() });
@@ -36,6 +39,9 @@ export const AddTrxForm = () => {
 		handleClose();
 	};
 
+	useEffect(() => {
+		console.log('useEffect', { categories });
+	}, [categories]);
 	return (
 		<>
 			<Button className="addTrx-btn" onClick={handleShow}>
@@ -43,7 +49,7 @@ export const AddTrxForm = () => {
 			</Button>
 			<Modal
 				title="Add New Transaction"
-				open={show}
+				open={isAddTrxModalOpen}
 				onCancel={handleClose}
 				className="budget-trx-modal"
 				footer={
@@ -56,13 +62,15 @@ export const AddTrxForm = () => {
 			>
 				<Form
 					form={form}
+					layout={'vertical'}
+					name="add_transaction"
 					size="large"
 					initialValues={{ type: 'inc' }}
-					name="add_transaction"
 					onFinish={handleTrxSumbit}
 					onValuesChange={(values) =>
 						console.log('add_transaction form', { values })
 					}
+					requiredMark={false}
 				>
 					<Row>
 						<Col span={24}>
@@ -89,7 +97,7 @@ export const AddTrxForm = () => {
 									},
 								]}
 							>
-								<Input />
+								<Input placeholder="input transaction title, name" />
 							</Form.Item>
 							<Form.Item
 								name="value"
@@ -100,7 +108,7 @@ export const AddTrxForm = () => {
 									},
 								]}
 							>
-								<InputNumber />
+								<InputNumber placeholder="input transaction value" />
 							</Form.Item>
 							<Form.Item
 								name="trxDate"
@@ -114,11 +122,30 @@ export const AddTrxForm = () => {
 								<DatePicker
 									format="DD MMM YYYY - HH:mm"
 									showTime={{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }}
+									placeholder="select transaction date"
 								/>
 							</Form.Item>
 						</Col>
 						<Col>
-							<p className="mt-3">Categories</p>
+							{categories.length > 0 && (
+								<Form.Item
+									name="category"
+									label="Category"
+									rules={[
+										{
+											required: true,
+										},
+									]}
+								>
+									<Radio.Group>
+										{categories.map(({ id, category }) => (
+											<Radio.Button key={id} value={id}>
+												{category}
+											</Radio.Button>
+										))}
+									</Radio.Group>
+								</Form.Item>
+							)}
 						</Col>
 					</Row>
 					<Form.Item wrapperCol={{ offset: 17, span: 7 }}>

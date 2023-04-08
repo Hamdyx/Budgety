@@ -4,7 +4,7 @@ import {
 	createEntityAdapter,
 } from '@reduxjs/toolkit';
 import { RootState } from 'app/store';
-import { Category } from 'types/types';
+import { Category, Transaction } from 'types/types';
 
 const categoryAdapter = createEntityAdapter<Category>({});
 
@@ -35,13 +35,15 @@ export const addNewCategory = createAsyncThunk<
 
 export const updateCategory = createAsyncThunk<
 	any,
-	any,
+	{ id: number; newTrx: Transaction },
 	{
 		state: RootState;
 	}
->('categories/updateCategory', async (cat) => {
-	console.log('updateCategory', { cat });
-	return cat;
+>('categories/updateCategory', async ({ id, newTrx }, thunkapi) => {
+	console.log('updateCategory', { id, newTrx });
+	const currCat = thunkapi.getState().category.entities[id];
+	console.log('updateCategory', { currCat });
+	return id;
 });
 
 export const deleteCategory = createAsyncThunk<

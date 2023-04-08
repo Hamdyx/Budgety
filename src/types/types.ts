@@ -4,7 +4,7 @@ export type Transaction = {
 	title: string;
 	value: string;
 	trxDate: string;
-	trxTime: string;
+	category: number;
 };
 export type Category = {
 	id: number;

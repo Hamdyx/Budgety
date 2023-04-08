@@ -14,19 +14,28 @@ export const EditTrxModal = ({ id }: { id: EntityId }) => {
 	const [type, setType] = useState(trx?.type);
 	const [value, setValue] = useState(trx?.value);
 	const [trxDate, setTrxDate] = useState(trx?.trxDate);
-	const [trxTime, setTrxTime] = useState(trx?.trxTime);
+	// const [trxTime, setTrxTime] = useState(trx?.trxTime);
 	const dispatch = useAppDispatch();
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
 	const handleTrxSumbit = async () => {
-		dispatch(updateTrx({ id, type, title, value, trxDate, trxTime }));
+		dispatch(
+			updateTrx({
+				id,
+				type,
+				title,
+				value,
+				trxDate,
+				//  trxTime
+			})
+		);
 		setType('');
 		setTitle('');
 		setValue('');
 		setTrxDate('');
-		setTrxTime('');
+		// setTrxTime('');
 		handleClose();
 	};
 
