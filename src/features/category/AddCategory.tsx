@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Col, Button } from 'react-bootstrap';
 import { Form, Input, InputNumber, Modal } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from 'app/store';
 import { addNewCategory } from './categorySlice';
 
 function AddCategory() {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [form] = Form.useForm();
 
@@ -20,11 +20,11 @@ function AddCategory() {
 		setIsModalOpen(false);
 	};
 
-	const onFinish = (values) => {
+	const onFinish = (values: any) => {
 		dispatch(addNewCategory(values));
 		form.resetFields();
 	};
-	const onFinishFailed = (errorInfo) => {
+	const onFinishFailed = (errorInfo: any) => {
 		console.log('Failed:', errorInfo);
 	};
 

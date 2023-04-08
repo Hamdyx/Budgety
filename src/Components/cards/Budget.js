@@ -5,19 +5,7 @@ import { BsHouse } from 'react-icons/bs';
 import { RiBillLine } from 'react-icons/ri';
 import { MdLocalGroceryStore } from 'react-icons/md';
 import './Budget.css';
-
-const ColoredLine = ({ color }) => (
-	<hr
-		style={{
-			color: color,
-			backgroundColor: color,
-			height: 0.75,
-			width: '100%',
-			borderColor: color,
-			margin: '0.25rem 0 0.25rem 0',
-		}}
-	/>
-);
+import { ColoredLine } from 'Components/common/ColoredLine';
 
 class Budget extends React.Component {
 	render() {
@@ -52,7 +40,9 @@ class Budget extends React.Component {
 					<Row id="expense_container" className="expense_category_item">
 						<Col>
 							<p className="text-left">Expense</p>
-							<p className="text-muted budget_label_text text-left">$696 of $6969</p>
+							<p className="text-muted budget_label_text text-left">
+								$696 of $6969
+							</p>
 						</Col>
 						<Col>
 							<p className="text-right budget_item_input">6969.42</p>
@@ -68,7 +58,9 @@ class Budget extends React.Component {
 						</Col>
 						<Col className="text-left">
 							<p>Groceries</p>
-							<p className="text-muted transactions_label_text">Food & Drinking</p>
+							<p className="text-muted transactions_label_text">
+								Food & Drinking
+							</p>
 						</Col>
 						<Col className="text-right ">
 							<p className="income_item_text budget_item_input">6969.42</p>

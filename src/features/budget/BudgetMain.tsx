@@ -10,16 +10,7 @@ import { fetchTrxs, selectAllTrx, selectTrxIds } from './budgetSlice';
 
 import 'react-circular-progressbar/dist/styles.css';
 import './BudgetMain.css';
-
-const ColoredLine = ({ color }: any) => (
-	<hr
-		style={{
-			color: color,
-			backgroundColor: color,
-			height: 2,
-		}}
-	/>
-);
+import { ColoredLine } from 'Components/common/ColoredLine';
 
 export const BudgetMain = () => {
 	const allTrxIds = useSelector(selectTrxIds);

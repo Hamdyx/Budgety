@@ -1,21 +1,8 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import './WishlistCard.css';
-
-const ColoredLine = ({ color }) => (
-	<hr
-		style={{
-			color: color,
-			backgroundColor: color,
-			padding: 0,
-			height: '3rem',
-			width: '0.5rem',
-			borderColor: color,
-		}}
-	/>
-);
+import { ColoredLine } from 'Components/common/ColoredLine';
 
 class WishlistCard extends React.Component {
 	/* 	constructor(props) {
@@ -37,7 +24,9 @@ class WishlistCard extends React.Component {
 				</Row>
 				<Row className="wishlist_category_item">
 					<Col className="wishlist_value">
-						<p className="income_item_text text-right wishlist_item_input">3500</p>
+						<p className="income_item_text text-right wishlist_item_input">
+							3500
+						</p>
 						<p className="text-muted investment_label_text text-right">Value</p>
 					</Col>
 					<ColoredLine color="#363a3e" />

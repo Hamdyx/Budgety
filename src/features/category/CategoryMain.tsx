@@ -1,25 +1,14 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
-import {
-	fetchCategories,
-	selectAllCategories,
-} from '../category/categorySlice';
+import { useAppDispatch } from 'app/store';
+import { fetchCategories, selectAllCategories } from './categorySlice';
 import CategoryBox from './CategoryBox';
 import AddCategory from './AddCategory';
-
-const ColoredLine = ({ color }) => (
-	<hr
-		style={{
-			color: color,
-			backgroundColor: color,
-			height: 2,
-		}}
-	/>
-);
+import { ColoredLine } from 'Components/common/ColoredLine';
 
 export const CategoryMain = () => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const categories = useSelector(selectAllCategories);
 
 	const categoriesItems = categories.map((el, i) => (

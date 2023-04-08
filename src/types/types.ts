@@ -6,3 +6,9 @@ export type Transaction = {
 	trxDate: string;
 	trxTime: string;
 };
+export type Category = {
+	id: number;
+	category: string;
+	budget: number;
+	spent: number;
+};
