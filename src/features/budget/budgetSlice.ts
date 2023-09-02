@@ -2,6 +2,7 @@ import {
 	createSlice,
 	createAsyncThunk,
 	createEntityAdapter,
+	EntityId,
 } from '@reduxjs/toolkit';
 import { RootState } from 'app/store';
 import { updateCategory } from 'features/category/categorySlice';
@@ -46,14 +47,21 @@ export const updateTrx = createAsyncThunk<
 
 export const deleteTrx = createAsyncThunk<
 	any,
-	any,
+	EntityId,
 	{
 		state: RootState;
 	}
->('transactions/deleteTrx', async (id) => {
+>('transactions/deleteTrx', async (id, thunkapi) => {
 	// const allTrx = JSON.parse(localStorage.getItem('transactions') || '') || [];
-	// const updatedTrx = allTrx.filter((trx: any) => trx.id !== id);
-	// localStorage.setItem('transactions', JSON.stringify(updatedTrx));
+	const trx: any = thunkapi.getState().budget.entities[id];
+
+	thunkapi.dispatch(
+		updateCategory({
+			id: trx!.category,
+			newTrx: { ...trx, value: +trx!.value * -1 },
+		})
+	);
+	// localStorage.setItem('transactions', JSON.stringify(deletedTrx));
 	return id;
 });
 

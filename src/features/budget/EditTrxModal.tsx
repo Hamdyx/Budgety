@@ -33,7 +33,7 @@ export const EditTrxModal = ({ id }: { id: EntityId }) => {
 		);
 		setType('');
 		setTitle('');
-		setValue('');
+		setValue(0);
 		setTrxDate('');
 		// setTrxTime('');
 		handleClose();
