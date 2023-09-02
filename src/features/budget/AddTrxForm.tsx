@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useAppDispatch } from 'app/store';
-import { addNewTrx } from './budgetSlice';
+import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import {
 	Button,
@@ -13,8 +12,9 @@ import {
 	Radio,
 	Row,
 } from 'antd';
-import { useSelector } from 'react-redux';
+import { useAppDispatch } from 'app/store';
 import { selectAllCategories } from 'features/category/categorySlice';
+import { addNewTrx } from './budgetSlice';
 
 export const AddTrxForm = () => {
 	const categories = useSelector(selectAllCategories);
@@ -28,7 +28,6 @@ export const AddTrxForm = () => {
 	const handleShow = () => setIsAddTrxModalOpen(true);
 
 	const handleTrxSumbit = async (values: any) => {
-		console.log('handleTrxSumbit', { values, date: values.trxDate.toDate() });
 		dispatch(
 			addNewTrx({
 				...values,
@@ -65,7 +64,10 @@ export const AddTrxForm = () => {
 					layout={'vertical'}
 					name="add_transaction"
 					size="large"
-					initialValues={{ type: 'inc' }}
+					initialValues={{
+						type: 'inc',
+						trxDate: dayjs(),
+					}}
 					onFinish={handleTrxSumbit}
 					onValuesChange={(values) =>
 						console.log('add_transaction form', { values })

@@ -42,8 +42,9 @@ export const updateCategory = createAsyncThunk<
 >('categories/updateCategory', async ({ id, newTrx }, thunkapi) => {
 	console.log('updateCategory', { id, newTrx });
 	const currCat = thunkapi.getState().category.entities[id];
+	const spent = currCat!.spent + +newTrx.value;
 	console.log('updateCategory', { currCat });
-	return id;
+	return { id, changes: { spent } };
 });
 
 export const deleteCategory = createAsyncThunk<
@@ -97,7 +98,7 @@ const categorySlice = createSlice({
 			})
 			.addCase(updateCategory.fulfilled, (state, action) => {
 				state.loading = false;
-				categoryAdapter.upsertOne(state, action?.payload); //! updateOne not working
+				categoryAdapter.updateOne(state, action?.payload);
 				localStorage.setItem('categories', JSON.stringify(state?.entities));
 			})
 			// ****************************** deleteCategory ******************************

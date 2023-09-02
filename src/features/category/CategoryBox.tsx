@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { Button, Form, Input, InputNumber, Row, Space } from 'antd';
@@ -26,14 +26,23 @@ const CategoryBox = ({ id }: any) => {
 	};
 
 	const handleDeleteCategory = () => {
-		console.log('deleteCategory', { id });
 		dispatch(deleteCategory(id));
 	};
 
 	const onFinish = (cat: any) => {
-		console.log('onFinish', { cat });
 		dispatch(updateCategory({ id, ...cat }));
 	};
+
+	useEffect(() => {
+		if (currCat) {
+			const { category, spent, budget } = currCat;
+			form.setFieldsValue({
+				category,
+				spent,
+				budget,
+			});
+		}
+	}, [currCat, form]);
 
 	return (
 		<div className="category_box">
