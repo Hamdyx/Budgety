@@ -54,6 +54,9 @@
 
 .nav_icon {
 	margin: 0px 10px 0px 0px;
+	display: inline-block;
+	width: 16px;
+	height: 16px;
 }
 
 .nav-link {

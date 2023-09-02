@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
+import { useAppDispatch } from 'app/store';
 import { AddTrxForm } from './AddTrxForm';
 import TransactionRow from './TransactionRow';
 import CategoryMain from '../category/CategoryMain';
@@ -9,17 +10,7 @@ import { fetchTrxs, selectAllTrx, selectTrxIds } from './budgetSlice';
 
 import 'react-circular-progressbar/dist/styles.css';
 import './BudgetMain.css';
-// const DoughnutChart = React.lazy(() => import('../../Components/charts/DoughnutChart'));
-
-const ColoredLine = ({ color }) => (
-	<hr
-		style={{
-			color: color,
-			backgroundColor: color,
-			height: 2,
-		}}
-	/>
-);
+import { ColoredLine } from 'Components/common/ColoredLine';
 
 export const BudgetMain = () => {
 	const allTrxIds = useSelector(selectTrxIds);
@@ -27,7 +18,7 @@ export const BudgetMain = () => {
 		<TransactionRow key={i} trx_id={id} />
 	));
 
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	let budgetCircularFrames = {
 		yearly: 10,
 		monthly: 25,
@@ -79,37 +70,22 @@ export const BudgetMain = () => {
 const BudgetSection = () => {
 	const [budgetType, setBudgetType] = useState('inc');
 	const allTrxs = useSelector(selectAllTrx);
-	const incTrxs = allTrxs.filter((trx) => trx.type === 'inc');
-	const expTrxs = allTrxs.filter((trx) => trx.type === 'exp');
+	const incTrxs = allTrxs.filter((trx: any) => trx.type === 'inc');
+	const expTrxs = allTrxs.filter((trx: any) => trx.type === 'exp');
 	let content = [];
 
-	// let labels = ['utility', 'food', 'shopping'];
-	// let data = [25, 50, 75];
-	// let colors = ['#21bf73', '#FE5E54', '#F7C025'];
-	// let labelsContent = labels.map((el, i) => <li key={i}>{el}</li>);
-
 	if (budgetType === 'inc') {
-		content = incTrxs.map((trx, i) => (
+		content = incTrxs.map((trx: any, i) => (
 			<TransactionRow key={i} trx_id={trx.id} />
 		));
 	} else {
-		content = expTrxs.map((trx, i) => (
+		content = expTrxs.map((trx: any, i) => (
 			<TransactionRow key={i} trx_id={trx.id} />
 		));
 	}
 
 	return (
 		<Container className="budget-section">
-			{/* <Row>
-				<Col sm={{ span: 7 }}>
-					<Suspense fallback={<div>Loading...</div>}>
-						<DoughnutChart labelsArr={labels} data={data} colors={colors} />
-					</Suspense>
-				</Col>
-				<Col sm={{ span: 5 }}>
-					<ul className="category-chart-items">{labelsContent}</ul>
-				</Col>
-			</Row> */}
 			<Row className="inc-exp-row">
 				<Col>
 					<Button
@@ -136,7 +112,7 @@ const BudgetSection = () => {
 	);
 };
 
-const BudgetFrame = ({ timeframe, value }) => {
+const BudgetFrame = ({ timeframe, value }: { timeframe: any; value: any }) => {
 	return (
 		<section className="budget-timeframe" style={{ width: 100, height: 100 }}>
 			<CircularProgressbarWithChildren value={value}>

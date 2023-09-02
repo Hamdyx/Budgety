@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { Button, Form, Input, InputNumber, Row, Space } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { RiBillLine } from 'react-icons/ri';
+import { RootState, useAppDispatch } from 'app/store';
 import {
 	deleteCategory,
 	selectCategoryById,
 	updateCategory,
 } from './categorySlice';
 
-const CategoryBox = ({ id }) => {
-	const {
-		category,
-		spent = 0,
-		budget,
-	} = useSelector((state) => selectCategoryById(state, id));
+const CategoryBox = ({ id }: any) => {
+	const currCat = useSelector((state: RootState) =>
+		selectCategoryById(state, id)
+	);
 	const [disabled, setDisabled] = useState(true);
 	const [form] = Form.useForm();
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
+	const { category, spent, budget } = currCat as any;
 
 	const editCategory = () => {
 		!disabled && form.submit();
@@ -26,14 +26,23 @@ const CategoryBox = ({ id }) => {
 	};
 
 	const handleDeleteCategory = () => {
-		console.log('deleteCategory', { id });
 		dispatch(deleteCategory(id));
 	};
 
-	const onFinish = (cat) => {
-		console.log('onFinish', { cat });
+	const onFinish = (cat: any) => {
 		dispatch(updateCategory({ id, ...cat }));
 	};
+
+	useEffect(() => {
+		if (currCat) {
+			const { category, spent, budget } = currCat;
+			form.setFieldsValue({
+				category,
+				spent,
+				budget,
+			});
+		}
+	}, [currCat, form]);
 
 	return (
 		<div className="category_box">

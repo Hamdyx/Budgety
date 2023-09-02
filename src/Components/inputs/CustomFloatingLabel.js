@@ -9,7 +9,7 @@ const CustomFloatingLabel = ({ type, label, value, changeFunc }) => {
 				type={type}
 				value={value}
 				onChange={changeFunc}
-				className="trx-moda-input"
+				className="trx-modal-input"
 			/>
 		</FloatingLabel>
 	);
