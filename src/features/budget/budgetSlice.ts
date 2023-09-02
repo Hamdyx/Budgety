@@ -37,12 +37,8 @@ export const updateTrx = createAsyncThunk<
 	{
 		state: RootState;
 	}
->('transactions/updateTrx', async (trx) => {
-	const allTrx = JSON.parse(localStorage.getItem('transactions') || '') || [];
-	const updated = allTrx.find((el: any) => el.id === trx.id);
-	Object.assign(updated, trx);
-	localStorage.setItem('transactions', JSON.stringify(allTrx));
-	return updated;
+>('transactions/updateTrx', async (trx, thunkapi) => {
+	return { id: trx.id, changes: { ...trx } };
 });
 
 export const deleteTrx = createAsyncThunk<
@@ -52,7 +48,6 @@ export const deleteTrx = createAsyncThunk<
 		state: RootState;
 	}
 >('transactions/deleteTrx', async (id, thunkapi) => {
-	// const allTrx = JSON.parse(localStorage.getItem('transactions') || '') || [];
 	const trx: any = thunkapi.getState().budget.entities[id];
 
 	thunkapi.dispatch(
@@ -61,7 +56,6 @@ export const deleteTrx = createAsyncThunk<
 			newTrx: { ...trx, value: +trx!.value * -1 },
 		})
 	);
-	// localStorage.setItem('transactions', JSON.stringify(deletedTrx));
 	return id;
 });
 
@@ -106,7 +100,8 @@ const budgetSlice = createSlice({
 			})
 			.addCase(updateTrx.fulfilled, (state, action) => {
 				state.status = 'succeeded';
-				budgetAdapter.upsertOne(state, action.payload);
+				budgetAdapter.updateOne(state, action.payload);
+				localStorage.setItem('transactions', JSON.stringify(state.entities));
 			})
 			// ****************************** deleteTrx ******************************
 			.addCase(deleteTrx.pending, (state) => {
