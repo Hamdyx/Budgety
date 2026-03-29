@@ -4,15 +4,15 @@ import { Nav } from 'react-bootstrap';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import {
 	OverviewIcon,
-	AssetIcon,
+	// AssetIcon,
 	BudgetIcon,
-	CashIcon,
-	CreditcardIcon,
+	// CashIcon,
+	// CreditcardIcon,
 	InvestmentIcon,
 	LoanIcon,
-	ReportsIcon,
-	SchedulerIcon,
-	TransactionsIcon,
+	// ReportsIcon,
+	// SchedulerIcon,
+	// TransactionsIcon,
 } from 'assets/icons';
 import './Sidebar.css';
 
@@ -22,17 +22,17 @@ function Sidebar() {
 	const navItems = [
 		{ path: '/', title: 'Overview', icon: <OverviewIcon /> },
 		{ path: '/budget', title: 'Budget', icon: <BudgetIcon /> },
-		{ path: '/scheduler', title: 'Scheduler', icon: <SchedulerIcon /> },
-		{ path: '/reports', title: 'Reports', icon: <ReportsIcon /> },
-		{
-			path: '/transactions',
-			title: 'All Transactions',
-			icon: <TransactionsIcon />,
-		},
-		{ path: '/cash', title: 'Cash', icon: <CashIcon /> },
-		{ path: '/credit_card', title: 'Credit Card', icon: <CreditcardIcon /> },
+		// { path: '/scheduler', title: 'Scheduler', icon: <SchedulerIcon /> },
+		// { path: '/reports', title: 'Reports', icon: <ReportsIcon /> },
+		// {
+		// 	path: '/transactions',
+		// 	title: 'All Transactions',
+		// 	icon: <TransactionsIcon />,
+		// },
+		// { path: '/cash', title: 'Cash', icon: <CashIcon /> },
+		// { path: '/credit_card', title: 'Credit Card', icon: <CreditcardIcon /> },
 		{ path: '/bank', title: 'Bank', icon: <LoanIcon /> },
-		{ path: '/asset', title: 'Asset', icon: <AssetIcon /> },
+		// { path: '/asset', title: 'Asset', icon: <AssetIcon /> },
 		{ path: '/investment', title: 'Investment', icon: <InvestmentIcon /> },
 	];
 

@@ -8,7 +8,9 @@ import CustomFloatingLabel from '../../Components/inputs/CustomFloatingLabel';
 import './editTrxModal.css';
 
 export const EditTrxModal = ({ id }: { id: EntityId }) => {
-	const trx = useSelector((state: RootState) => selectTrxById(state, id));
+	const trx = useSelector((state: RootState) =>
+		selectTrxById(state, String(id))
+	);
 	const [show, setShow] = useState(false);
 	const [title, setTitle] = useState(trx?.title);
 	const [type, setType] = useState(trx?.type);

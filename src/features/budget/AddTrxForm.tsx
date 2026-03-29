@@ -52,11 +52,9 @@ export const AddTrxForm = () => {
 				onCancel={handleClose}
 				className="budget-trx-modal"
 				footer={
-					<>
-						<Button type="ghost" onClick={handleClose}>
-							Close
-						</Button>
-					</>
+					<Button type="default" onClick={handleClose}>
+						Close
+					</Button>
 				}
 			>
 				<Form
