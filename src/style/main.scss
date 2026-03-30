@@ -1,5 +1,5 @@
-@import './base/reset';
-@import './components/AddTrxForm';
+@use './base/reset';
+@use './components/AddTrxForm';
 
 #root {
 	min-height: 100vh;

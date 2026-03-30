@@ -3,6 +3,9 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
+import { vi } from 'vitest';
 
-// react-calendar v6 is ESM-only; mock it for CRA/Jest compatibility.
-jest.mock('react-calendar', () => () => null);
+// react-calendar v6 is ESM-only; mock it for test runner compatibility.
+vi.mock('react-calendar', () => ({
+	default: () => null,
+}));

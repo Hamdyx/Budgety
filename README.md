@@ -1,70 +1,108 @@
-# Getting Started with Create React App
+# Budgety
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Budgety is a personal finance dashboard built with React, Redux Toolkit, Ant Design, Bootstrap, and Vite.
 
-## Available Scripts
+## Tech Stack
 
-In the project directory, you can run:
+- React 19
+- React Router 7
+- Redux Toolkit 2
+- Vite 8
+- Vitest + Testing Library
+- Sass (SCSS)
+- Yarn 4
 
-### `npm start`
+## Project Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- `src/app`: app shell and Redux store
+- `src/features`: domain features (`budget`, `category`, `investment`)
+- `src/Components`: reusable UI and pages
+- `src/style`: global Sass styles
+- `public`: static assets
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Prerequisites
 
-### `npm test`
+- Node.js 20+
+- Corepack enabled (`corepack enable`)
+- Yarn 4+
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Setup
 
-### `npm run build`
+1. Install dependencies:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+yarn install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Start the dev server:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+yarn dev
+```
 
-### `npm run eject`
+3. Open:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```text
+http://localhost:5173
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Scripts
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- `yarn dev`: Run Vite dev server
+- `yarn start`: Alias for `yarn dev`
+- `yarn build`: Create production bundle in `dist/`
+- `yarn preview`: Preview production build locally
+- `yarn test`: Run unit tests once with Vitest
+- `yarn test:watch`: Run tests in watch mode
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Common Workflow
 
-## Learn More
+1. Create a feature branch from `development`.
+2. Run `yarn install` after pulling latest changes.
+3. Build features inside `src/features/<feature-name>`.
+4. Reuse or add shared UI in `src/Components`.
+5. Run `yarn test` and `yarn build` before opening a PR.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Best Practices
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Architecture
 
-### Code Splitting
+- Keep feature logic in feature folders and UI concerns in presentational components.
+- Prefer colocating feature-specific state/actions/selectors in the relevant slice.
+- Keep route-level code split points in the top app router.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Performance
 
-### Analyzing the Bundle Size
+- Use route and component lazy loading for heavy screens/cards.
+- Avoid importing large modules globally when they can be loaded on-demand.
+- Monitor bundle size after major dependency updates.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Styling
 
-### Making a Progressive Web App
+- Use Sass modules (`@use`) over legacy `@import`.
+- Keep global styles minimal and feature/component styles localized.
+- Avoid deep selector chains when a class-level style is enough.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### State Management
 
-### Advanced Configuration
+- Use typed selectors and dispatch helpers from the store.
+- Keep async side effects in thunks and reducers pure.
+- Keep entity IDs normalized and consistent across selectors/actions.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Testing
 
-### Deployment
+- Test behavior, not implementation details.
+- Mock heavy route dependencies in fast unit tests where needed.
+- Keep test setup centralized in `src/setupTests.js`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Dependency Hygiene
 
-### `npm run build` fails to minify
+- Keep runtime deps in `dependencies` and tooling/types/tests in `devDependencies`.
+- Prefer latest stable versions, and re-run build/tests after upgrades.
+- Use Yarn lockfile as the source of truth for reproducible installs.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Deployment Notes
+
+- Build artifacts are emitted to `dist/`.
+- Any static host that supports SPA fallback can serve this app.
+- Ensure rewrite rules route unknown paths to `index.html` for React Router.

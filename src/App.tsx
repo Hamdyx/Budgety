@@ -1,13 +1,21 @@
+import { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import Sidebar from './app/Sidebar';
-import Overview from './Components/pages/Overview';
-import InvestmentPage from './features/investment/InvestmentPage';
-import BankPage from './Components/pages/BankPage';
-import { BudgetMain } from './features/budget/BudgetMain';
 
 import './App.css';
 import './style/main.scss';
+
+const Overview = lazy(() => import('./Components/pages/Overview'));
+const InvestmentPage = lazy(
+	() => import('./features/investment/InvestmentPage')
+);
+const BankPage = lazy(() => import('./Components/pages/BankPage'));
+const BudgetMain = lazy(() =>
+	import('./features/budget/BudgetMain').then((module) => ({
+		default: module.BudgetMain,
+	}))
+);
 
 function App() {
 	return (
@@ -17,13 +25,15 @@ function App() {
 					<Sidebar />
 				</Col>
 				<Col id="main_content">
-					<Routes>
-						<Route path="/" element={<Overview />} />
-						<Route path="/budget" element={<BudgetMain />} />
-						<Route path="/investment" element={<InvestmentPage />} />
-						<Route path="/bank" element={<BankPage />} />
-						<Route path="*" element={<Overview />} />
-					</Routes>
+					<Suspense fallback={<div>Loading page...</div>}>
+						<Routes>
+							<Route path="/" element={<Overview />} />
+							<Route path="/budget" element={<BudgetMain />} />
+							<Route path="/investment" element={<InvestmentPage />} />
+							<Route path="/bank" element={<BankPage />} />
+							<Route path="*" element={<Overview />} />
+						</Routes>
+					</Suspense>
 				</Col>
 			</Row>
 		</Container>
