@@ -273,13 +273,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kurkle/color@npm:^0.3.0":
-  version: 0.3.4
-  resolution: "@kurkle/color@npm:0.3.4"
-  checksum: 10c0/0e9fd55c614b005c5f0c4c755bca19ec0293bc7513b4ea3ec1725234f9c2fa81afbc78156baf555c8b9cb0d305619253c3f5bca016067daeebb3d00ebb4ea683
-  languageName: node
-  linkType: hard
-
 "@napi-rs/wasm-runtime@npm:^1.1.1":
   version: 1.1.2
   resolution: "@napi-rs/wasm-runtime@npm:1.1.2"
@@ -472,7 +465,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@popperjs/core@npm:^2.11.8":
+"@popperjs/core@npm:2.11.8, @popperjs/core@npm:^2.11.8":
   version: 2.11.8
   resolution: "@popperjs/core@npm:2.11.8"
   checksum: 10c0/4681e682abc006d25eb380d0cf3efc7557043f53b6aea7a5057d0d1e7df849a00e281cd8ea79c902a35a414d7919621fc2ba293ecec05f413598e0b23d5a1e63
@@ -766,7 +759,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rc-component/picker@npm:^1.9.1, @rc-component/picker@npm:~1.9.1":
+"@rc-component/picker@npm:~1.9.1":
   version: 1.9.1
   resolution: "@rc-component/picker@npm:1.9.1"
   dependencies:
@@ -1103,7 +1096,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@reduxjs/toolkit@npm:^2.11.2":
+"@reduxjs/toolkit@npm:2.11.2":
   version: 2.11.2
   resolution: "@reduxjs/toolkit@npm:2.11.2"
   dependencies:
@@ -1311,7 +1304,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^10.4.1":
+"@testing-library/dom@npm:10.4.1":
   version: 10.4.1
   resolution: "@testing-library/dom@npm:10.4.1"
   dependencies:
@@ -1327,7 +1320,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/jest-dom@npm:^6.9.1":
+"@testing-library/jest-dom@npm:6.9.1":
   version: 6.9.1
   resolution: "@testing-library/jest-dom@npm:6.9.1"
   dependencies:
@@ -1341,7 +1334,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^16.3.2":
+"@testing-library/react@npm:16.3.2":
   version: 16.3.2
   resolution: "@testing-library/react@npm:16.3.2"
   dependencies:
@@ -1401,7 +1394,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^25.5.0":
+"@types/node@npm:25.5.0":
   version: 25.5.0
   resolution: "@types/node@npm:25.5.0"
   dependencies:
@@ -1417,7 +1410,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^19.2.3":
+"@types/react-dom@npm:19.2.3":
   version: 19.2.3
   resolution: "@types/react-dom@npm:19.2.3"
   peerDependencies:
@@ -1435,7 +1428,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:>=16.9.11, @types/react@npm:^19.2.14":
+"@types/react@npm:19.2.14, @types/react@npm:>=16.9.11":
   version: 19.2.14
   resolution: "@types/react@npm:19.2.14"
   dependencies:
@@ -1458,7 +1451,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitejs/plugin-react@npm:^6.0.1":
+"@vitejs/plugin-react@npm:6.0.1":
   version: 6.0.1
   resolution: "@vitejs/plugin-react@npm:6.0.1"
   dependencies:
@@ -1593,7 +1586,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"antd@npm:^6.3.4":
+"antd@npm:6.3.4":
   version: 6.3.4
   resolution: "antd@npm:6.3.4"
   dependencies:
@@ -1691,7 +1684,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bootstrap@npm:^5.3.8":
+"bootstrap@npm:5.3.8":
   version: 5.3.8
   resolution: "bootstrap@npm:5.3.8"
   peerDependencies:
@@ -1713,34 +1706,31 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "budgety@workspace:."
   dependencies:
-    "@popperjs/core": "npm:^2.11.8"
-    "@rc-component/picker": "npm:^1.9.1"
-    "@reduxjs/toolkit": "npm:^2.11.2"
-    "@testing-library/dom": "npm:^10.4.1"
-    "@testing-library/jest-dom": "npm:^6.9.1"
-    "@testing-library/react": "npm:^16.3.2"
-    "@types/node": "npm:^25.5.0"
-    "@types/react": "npm:^19.2.14"
-    "@types/react-dom": "npm:^19.2.3"
-    "@vitejs/plugin-react": "npm:^6.0.1"
-    antd: "npm:^6.3.4"
-    bootstrap: "npm:^5.3.8"
-    chart.js: "npm:^4.5.1"
-    dayjs: "npm:^1.11.20"
-    jsdom: "npm:^29.0.1"
-    react: "npm:^19.2.4"
-    react-bootstrap: "npm:^2.10.10"
-    react-calendar: "npm:^6.0.0"
-    react-chartjs-2: "npm:^5.3.1"
-    react-circular-progressbar: "npm:^2.2.0"
-    react-dom: "npm:^19.2.4"
-    react-icons: "npm:^5.6.0"
-    react-redux: "npm:^9.2.0"
-    react-router-dom: "npm:^7.13.2"
-    sass: "npm:^1.98.0"
-    typescript: "npm:^6.0.2"
-    vite: "npm:^8.0.3"
-    vitest: "npm:^4.1.2"
+    "@popperjs/core": "npm:2.11.8"
+    "@reduxjs/toolkit": "npm:2.11.2"
+    "@testing-library/dom": "npm:10.4.1"
+    "@testing-library/jest-dom": "npm:6.9.1"
+    "@testing-library/react": "npm:16.3.2"
+    "@types/node": "npm:25.5.0"
+    "@types/react": "npm:19.2.14"
+    "@types/react-dom": "npm:19.2.3"
+    "@vitejs/plugin-react": "npm:6.0.1"
+    antd: "npm:6.3.4"
+    bootstrap: "npm:5.3.8"
+    dayjs: "npm:1.11.20"
+    jsdom: "npm:29.0.1"
+    react: "npm:19.2.4"
+    react-bootstrap: "npm:2.10.10"
+    react-calendar: "npm:6.0.0"
+    react-circular-progressbar: "npm:2.2.0"
+    react-dom: "npm:19.2.4"
+    react-icons: "npm:5.6.0"
+    react-redux: "npm:9.2.0"
+    react-router-dom: "npm:7.13.2"
+    sass: "npm:1.98.0"
+    typescript: "npm:6.0.2"
+    vite: "npm:8.0.3"
+    vitest: "npm:4.1.2"
   languageName: unknown
   linkType: soft
 
@@ -1766,15 +1756,6 @@ __metadata:
   version: 6.2.2
   resolution: "chai@npm:6.2.2"
   checksum: 10c0/e6c69e5f0c11dffe6ea13d0290936ebb68fcc1ad688b8e952e131df6a6d5797d5e860bc55cef1aca2e950c3e1f96daf79e9d5a70fb7dbaab4e46355e2635ed53
-  languageName: node
-  linkType: hard
-
-"chart.js@npm:^4.5.1":
-  version: 4.5.1
-  resolution: "chart.js@npm:4.5.1"
-  dependencies:
-    "@kurkle/color": "npm:^0.3.0"
-  checksum: 10c0/3f2a11dcaae9079e8e6b8ad077e2ae311f04996f9da14815730891e66215ee8b5f2c0eb70b5a156e5bde0f89a41bae13506dc6153e50fd22dcb282b21eec706f
   languageName: node
   linkType: hard
 
@@ -1863,7 +1844,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:^1.11.11, dayjs@npm:^1.11.20":
+"dayjs@npm:1.11.20, dayjs@npm:^1.11.11":
   version: 1.11.20
   resolution: "dayjs@npm:1.11.20"
   checksum: 10c0/8af525e2aa100c8db9923d706c42b2b2d30579faf89456619413a5c10916efc92c2b166e193c27c02eb3174b30aa440ee1e7b72b0a2876b3da651d204db848a0
@@ -2164,7 +2145,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsdom@npm:^29.0.1":
+"jsdom@npm:29.0.1":
   version: 29.0.1
   resolution: "jsdom@npm:29.0.1"
   dependencies:
@@ -2681,7 +2662,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-bootstrap@npm:^2.10.10":
+"react-bootstrap@npm:2.10.10":
   version: 2.10.10
   resolution: "react-bootstrap@npm:2.10.10"
   dependencies:
@@ -2709,7 +2690,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-calendar@npm:^6.0.0":
+"react-calendar@npm:6.0.0":
   version: 6.0.0
   resolution: "react-calendar@npm:6.0.0"
   dependencies:
@@ -2728,17 +2709,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-chartjs-2@npm:^5.3.1":
-  version: 5.3.1
-  resolution: "react-chartjs-2@npm:5.3.1"
-  peerDependencies:
-    chart.js: ^4.1.1
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: 10c0/40fac3fe23a163232d952bf5cd2a14d7baceadea326b57909d5e556ed2481b7cfb177582ac8f39b8dc51ac11f3d19a6127784746f35f5771181ab700110e7326
-  languageName: node
-  linkType: hard
-
-"react-circular-progressbar@npm:^2.2.0":
+"react-circular-progressbar@npm:2.2.0":
   version: 2.2.0
   resolution: "react-circular-progressbar@npm:2.2.0"
   peerDependencies:
@@ -2747,7 +2718,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^19.2.4":
+"react-dom@npm:19.2.4":
   version: 19.2.4
   resolution: "react-dom@npm:19.2.4"
   dependencies:
@@ -2758,7 +2729,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-icons@npm:^5.6.0":
+"react-icons@npm:5.6.0":
   version: 5.6.0
   resolution: "react-icons@npm:5.6.0"
   peerDependencies:
@@ -2795,7 +2766,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-redux@npm:^9.2.0":
+"react-redux@npm:9.2.0":
   version: 9.2.0
   resolution: "react-redux@npm:9.2.0"
   dependencies:
@@ -2814,7 +2785,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^7.13.2":
+"react-router-dom@npm:7.13.2":
   version: 7.13.2
   resolution: "react-router-dom@npm:7.13.2"
   dependencies:
@@ -2857,7 +2828,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^19.2.4":
+"react@npm:19.2.4":
   version: 19.2.4
   resolution: "react@npm:19.2.4"
   checksum: 10c0/cd2c9ff67a720799cc3b38a516009986f7fc4cb8d3e15716c6211cf098d1357ee3e348ab05ad0600042bbb0fd888530ba92e329198c92eafa0994f5213396596
@@ -2976,7 +2947,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.98.0":
+"sass@npm:1.98.0":
   version: 1.98.0
   resolution: "sass@npm:1.98.0"
   dependencies:
@@ -3223,7 +3194,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^6.0.2":
+"typescript@npm:6.0.2":
   version: 6.0.2
   resolution: "typescript@npm:6.0.2"
   bin:
@@ -3233,7 +3204,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^6.0.2#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A6.0.2#optional!builtin<compat/typescript>":
   version: 6.0.2
   resolution: "typescript@patch:typescript@npm%3A6.0.2#optional!builtin<compat/typescript>::version=6.0.2&hash=5786d5"
   bin:
@@ -3289,7 +3260,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^6.0.0 || ^7.0.0 || ^8.0.0, vite@npm:^8.0.3":
+"vite@npm:8.0.3, vite@npm:^6.0.0 || ^7.0.0 || ^8.0.0":
   version: 8.0.3
   resolution: "vite@npm:8.0.3"
   dependencies:
@@ -3346,7 +3317,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vitest@npm:^4.1.2":
+"vitest@npm:4.1.2":
   version: 4.1.2
   resolution: "vitest@npm:4.1.2"
   dependencies:
