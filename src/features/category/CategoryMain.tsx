@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+
 import { useAppDispatch } from 'app/store';
-import { fetchCategories, selectAllCategories } from './categorySlice';
-import CategoryBox from './CategoryBox';
-import AddCategory from './AddCategory';
 import { ColoredLine } from 'Components/common/ColoredLine';
+
+import AddCategory from './AddCategory';
+import CategoryBox from './CategoryBox';
+import { fetchCategories, selectAllCategories } from './categorySlice';
+
 
 export const CategoryMain = () => {
 	const dispatch = useAppDispatch();

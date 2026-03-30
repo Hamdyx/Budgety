@@ -1,15 +1,13 @@
 import React, { Suspense } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import { AiOutlineDollar } from 'react-icons/ai';
 import { GiCash } from 'react-icons/gi';
-
 import './ReportsCard.css';
 
 // const LineChart = React.lazy(() => import('../charts/LineChart'));
-let reportsLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'june', 'Jul'];
-let reportsData = [100, 150, 200, 300, 325, 250, 350];
+const reportsLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'june', 'Jul'];
+const reportsData = [100, 150, 200, 300, 325, 250, 350];
 
 class ReportsCard extends React.Component {
 	render() {

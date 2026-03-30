@@ -1,11 +1,13 @@
+import type { EntityId } from '@reduxjs/toolkit';
+import type { RootState } from 'app/store';
+
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { EntityId } from '@reduxjs/toolkit';
-import { RootState } from 'app/store';
-import { selectTrxById } from './budgetSlice';
 import { Row, Col } from 'react-bootstrap';
-import { EditTrxModal } from './EditTrxModal';
+import { useSelector } from 'react-redux';
+
+import { selectTrxById } from './budgetSlice';
 import { DeleteTrxModal } from './DeleteTrxModal';
+import { EditTrxModal } from './EditTrxModal';
 import 'react-circular-progressbar/dist/styles.css';
 
 const TransactionSection = ({ trx_id }: { trx_id: EntityId }) => {
@@ -14,10 +16,10 @@ const TransactionSection = ({ trx_id }: { trx_id: EntityId }) => {
 	);
 
 	const formateDateTime = (d: string) => {
-		let _date = d?.split('T')[0];
-		let _time = d?.split('T')[1];
-		let _hh = _time?.split(':')[0];
-		let _mm = _time?.split(':')[1];
+		const _date = d?.split('T')[0];
+		const _time = d?.split('T')[1];
+		const _hh = _time?.split(':')[0];
+		const _mm = _time?.split(':')[1];
 		return `${_date} | ${_hh}:${_mm}`;
 	};
 	return (

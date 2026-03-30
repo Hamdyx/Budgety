@@ -1,12 +1,13 @@
 import React, { Suspense } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './BankCard.css';
 import { ColoredLine } from 'Components/common/ColoredLine';
 
-let labels = ['deposits', 'loans', 'credit card'];
-let data = [25, 50, 75];
-let colors = ['#21bf73', '#FE5E54', '#F7C025'];
+const labels = ['deposits', 'loans', 'credit card'];
+const data = [25, 50, 75];
+const colors = ['#21bf73', '#FE5E54', '#F7C025'];
 // let labelsContent = labels.map((el, i) => <li key={i}>{el}</li>);
 // const BankChart = React.lazy(() => import('../charts/DoughnutChart'));
 

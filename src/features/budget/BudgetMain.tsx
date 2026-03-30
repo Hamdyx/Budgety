@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
+import { useSelector } from 'react-redux';
+
 import { useAppDispatch } from 'app/store';
+import { ColoredLine } from 'Components/common/ColoredLine';
+
 import { AddTrxForm } from './AddTrxForm';
+import { fetchTrxs, selectAllTrx, selectTrxIds } from './budgetSlice';
 import TransactionRow from './TransactionRow';
 import CategoryMain from '../category/CategoryMain';
-import { fetchTrxs, selectAllTrx, selectTrxIds } from './budgetSlice';
 
 import 'react-circular-progressbar/dist/styles.css';
 import './BudgetMain.css';
-import { ColoredLine } from 'Components/common/ColoredLine';
 
 export const BudgetMain = () => {
 	const allTrxIds = useSelector(selectTrxIds);
@@ -19,14 +21,14 @@ export const BudgetMain = () => {
 	));
 
 	const dispatch = useAppDispatch();
-	let budgetCircularFrames = {
+	const budgetCircularFrames = {
 		yearly: 10,
 		monthly: 25,
 		weekly: 50,
 		daily: 30,
 	};
 
-	let budgetCircularContent = Object.entries(budgetCircularFrames).map(
+	const budgetCircularContent = Object.entries(budgetCircularFrames).map(
 		(el, i) => (
 			<Col key={i} sm={{ span: 2 }}>
 				<BudgetFrame timeframe={el[0]} value={el[1]} />

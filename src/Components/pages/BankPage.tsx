@@ -1,23 +1,22 @@
 import React, { Suspense } from 'react';
-
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './BankPage.css';
 
-let creditLabels = ['limit', 'balance'];
-let creditData = [25, 50];
+const creditLabels = ['limit', 'balance'];
+const creditData = [25, 50];
 // let creditLabelsContent = creditLabels.map((el, i) => <li key={i}>{el}</li>);
-let loanLabels = ['due', 'paid'];
-let loanData = [25, 50];
+const loanLabels = ['due', 'paid'];
+const loanData = [25, 50];
 // let loanLabelsContent = creditLabels.map((el, i) => <li key={i}>{el}</li>);
-let colors = ['#21bf73', '#FE5E54'];
+const colors = ['#21bf73', '#FE5E54'];
 
-let analyticsLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'june', 'Jul'];
-let analyticsData = [100, 150, 200, 300, 325, 250, 350];
+const analyticsLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'june', 'Jul'];
+const analyticsData = [100, 150, 200, 300, 325, 250, 350];
 
-let balanceLabels = ['Balance', 'Debt'];
-let balanceData = [5, 25];
+const balanceLabels = ['Balance', 'Debt'];
+const balanceData = [5, 25];
 // const BarChart = React.lazy(() => import('../charts/BarChart'));
 
 // const DoughnutChart = React.lazy(() => import('../charts/DoughnutChart.js'));

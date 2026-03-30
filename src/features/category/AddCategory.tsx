@@ -1,7 +1,9 @@
+import { Form, Input, InputNumber, Modal } from 'antd';
 import React, { useState } from 'react';
 import { Col, Button } from 'react-bootstrap';
-import { Form, Input, InputNumber, Modal } from 'antd';
+
 import { useAppDispatch } from 'app/store';
+
 import { addNewCategory } from './categorySlice';
 
 function AddCategory() {

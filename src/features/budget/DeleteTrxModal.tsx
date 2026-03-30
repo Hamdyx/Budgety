@@ -1,8 +1,12 @@
+import type { EntityId } from '@reduxjs/toolkit';
+
 import React, { useState } from 'react';
-import { EntityId } from '@reduxjs/toolkit';
-import { useAppDispatch } from 'app/store';
-import { deleteTrx } from './budgetSlice';
 import { Form, Row, Col, Button, Modal } from 'react-bootstrap';
+
+import { useAppDispatch } from 'app/store';
+
+import { deleteTrx } from './budgetSlice';
+
 
 export const DeleteTrxModal = ({ id }: { id: EntityId }) => {
 	const [show, setShow] = useState(false);

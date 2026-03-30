@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { Link, NavLink } from 'react-router-dom';
+
 import {
 	OverviewIcon,
 	// AssetIcon,
@@ -38,7 +39,7 @@ function Sidebar() {
 
 	const toggleMenu = () => {
 		let isShow = !state.showMenu;
-		let isMobile = window.screen.availWidth <= 425 ? true : false;
+		const isMobile = window.screen.availWidth <= 425 ? true : false;
 		setState({ showMenu: isShow });
 		console.log(`isMobile: ${isMobile}`);
 		if (isMobile) {
@@ -50,7 +51,7 @@ function Sidebar() {
 					: false;
 		}
 		console.log({ isShow });
-		let subMenu = Array.from(document.querySelectorAll('.subMenu'));
+		const subMenu = Array.from(document.querySelectorAll('.subMenu'));
 
 		if (isShow) {
 			document

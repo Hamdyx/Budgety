@@ -1,6 +1,3 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import dayjs from 'dayjs';
 import {
 	Button,
 	Col,
@@ -12,8 +9,13 @@ import {
 	Radio,
 	Row,
 } from 'antd';
+import dayjs from 'dayjs';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+
 import { useAppDispatch } from 'app/store';
 import { selectAllCategories } from 'features/category/categorySlice';
+
 import { addNewTrx } from './budgetSlice';
 
 export const AddTrxForm = () => {

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-
 import { BsHouse } from 'react-icons/bs';
-import { RiBillLine } from 'react-icons/ri';
 import { MdLocalGroceryStore } from 'react-icons/md';
+import { RiBillLine } from 'react-icons/ri';
+
 import './Budget.css';
 import { ColoredLine } from 'Components/common/ColoredLine';
 

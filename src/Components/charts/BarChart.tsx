@@ -1,9 +1,16 @@
-import React from 'react';
+import type { ChartProps } from 'types/types';
+
 // import { Bar } from 'react-chartjs-2';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const BarChart = ({ labelsArr, data, colors, width = 100, height = 100 }) => {
-	let state = {
+const BarChart = ({
+	labelsArr,
+	data,
+	colors,
+	width = 100,
+	height = 100,
+}: ChartProps) => {
+	const state = {
 		data: {
 			labels: labelsArr,
 			datasets: [
@@ -34,5 +41,9 @@ const BarChart = ({ labelsArr, data, colors, width = 100, height = 100 }) => {
 	};
 
 	// return <Bar data={state.data} options={state.options} />;
+	void state;
+	void width;
+	void height;
+	return null;
 };
 export default BarChart;

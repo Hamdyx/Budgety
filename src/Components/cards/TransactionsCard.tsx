@@ -1,15 +1,32 @@
-import React, { useState } from 'react';
+import type {
+	TransactionItemData,
+	TransactionOptionMap,
+	TransactionType,
+} from 'types/types';
 
-import { Container, Row, Col, Button, Form, FloatingLabel, Modal } from 'react-bootstrap';
+import { useState, type ChangeEvent, type MouseEvent } from 'react';
+import {
+	Container,
+	Row,
+	Col,
+	Button,
+	Form,
+	FloatingLabel,
+	Modal,
+} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import { GiTakeMyMoney } from 'react-icons/gi';
 import { FaBitcoin } from 'react-icons/fa';
+import { GiTakeMyMoney } from 'react-icons/gi';
 import { RiBankLine } from 'react-icons/ri';
+
 import './TransactionsCard.css';
 
 class Income {
-	constructor(category, subCategory, value) {
+	category: string;
+	subCategory: string;
+	value: string;
+
+	constructor(category: string, subCategory: string, value: string) {
 		this.category = category;
 		this.subCategory = subCategory;
 		this.value = value;
@@ -17,7 +34,11 @@ class Income {
 }
 
 class Expense {
-	constructor(category, subCategory, value) {
+	category: string;
+	subCategory: string;
+	value: string;
+
+	constructor(category: string, subCategory: string, value: string) {
 		this.category = category;
 		this.subCategory = subCategory;
 		this.value = value;
@@ -26,39 +47,52 @@ class Expense {
 
 function TransactionsModal() {
 	const [show, setShow] = useState(false);
-	const [type, setType] = useState('inc');
+	const [type, setType] = useState<TransactionType>('inc');
 	const [category, setCategory] = useState('other');
 	const [subCategory, setSubCategory] = useState('other');
 	const [value, setValue] = useState('');
-	const [trxDate, setTrxDate] = useState(new Date().toISOString().substr(0, 10));
-	const [trxTime, setTrxTime] = useState(new Date().toISOString().substr(11, 5));
+	const [trxDate, setTrxDate] = useState(new Date().toISOString().slice(0, 10));
+	const [trxTime, setTrxTime] = useState(
+		new Date().toISOString().slice(11, 16)
+	);
 	const [details, setDetails] = useState('');
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
-	const handleValue = (event) => setValue(event.target.value);
-	const handleType = (event) => {
-		var addBtn = document.querySelector('#trx_add_btn');
-		let type = event.target.value;
-		console.log(type);
+	const handleValue = (event: ChangeEvent<HTMLInputElement>) =>
+		setValue(event.target.value);
+	const handleType = (event: MouseEvent<HTMLButtonElement>) => {
+		const addBtn = document.querySelector(
+			'#trx_add_btn'
+		) as HTMLButtonElement | null;
+		const nextType = (event.currentTarget.value || 'inc') as TransactionType;
 
-		if (type === 'inc') {
-			addBtn.classList.add('btn-income');
-			addBtn.classList.remove('btn-expense');
-		} else {
-			addBtn.classList.add('btn-expense');
-			addBtn.classList.remove('btn-income');
+		if (addBtn) {
+			if (nextType === 'inc') {
+				addBtn.classList.add('btn-income');
+				addBtn.classList.remove('btn-expense');
+			} else {
+				addBtn.classList.add('btn-expense');
+				addBtn.classList.remove('btn-income');
+			}
 		}
-		setType(type);
-	};
-	const handleCategory = (event) => setCategory(event.target.value);
-	const handleSubCategory = (event) => setSubCategory(event.target.value);
-	const handleDate = (event) => setTrxDate(event.target.value);
-	const handleTime = (event) => setTrxTime(event.target.value);
-	const handleDetails = (event) => setDetails(event.target.value);
 
-	const trxOptions = {
+		setType(nextType);
+	};
+
+	const handleCategory = (event: ChangeEvent<HTMLSelectElement>) =>
+		setCategory(event.target.value);
+	const handleSubCategory = (event: ChangeEvent<HTMLSelectElement>) =>
+		setSubCategory(event.target.value);
+	const handleDate = (event: ChangeEvent<HTMLInputElement>) =>
+		setTrxDate(event.target.value);
+	const handleTime = (event: ChangeEvent<HTMLInputElement>) =>
+		setTrxTime(event.target.value);
+	const handleDetails = (event: ChangeEvent<HTMLInputElement>) =>
+		setDetails(event.target.value);
+
+	const trxOptions: TransactionOptionMap = {
 		inc: {
 			work: ['salary', 'bonus', 'freelance-project'],
 			savings: ['deposit'],
@@ -82,11 +116,6 @@ function TransactionsModal() {
 				'mobile bill',
 			],
 			other: ['other'],
-			category: ['sub-category'],
-		},
-		category: {
-			inc: ['sub-category'],
-			exp: ['sub-category'],
 		},
 	};
 
@@ -94,58 +123,49 @@ function TransactionsModal() {
 		setCategory('other');
 		setSubCategory('other');
 		setValue('');
-		setTrxDate(new Date().toISOString().substr(0, 10));
-		setTrxTime(new Date().toISOString().substr(11, 5));
+		setTrxDate(new Date().toISOString().slice(0, 10));
+		setTrxTime(new Date().toISOString().slice(11, 16));
 		setDetails('');
 	};
 
 	const handleMainOptions = () => {
 		const itemsList = trxOptions[type];
-
-		const options = Object.keys(itemsList).map((i) => (
-			<option key={i.slice(0, 4)} value={i}>
-				{i.slice(0, 1).toUpperCase() + i.slice(1)}
+		return Object.keys(itemsList).map((item) => (
+			<option key={item} value={item}>
+				{item.slice(0, 1).toUpperCase() + item.slice(1)}
 			</option>
 		));
-		return options;
 	};
 
 	const handleSubOptions = () => {
-		let itemsList = trxOptions[type];
-		itemsList = itemsList[category];
-
-		const options = itemsList.map((el) => (
-			<option key={el.slice(0, 4)} value={el}>
-				{el.slice(0, 1).toUpperCase() + el.slice(1)}
+		const itemsList = trxOptions[type][category] ?? ['other'];
+		return itemsList.map((item) => (
+			<option key={item} value={item}>
+				{item.slice(0, 1).toUpperCase() + item.slice(1)}
 			</option>
 		));
-
-		return options;
 	};
 
 	const handleSubmit = () => {
-		let objTest;
-		type === 'inc'
-			? (objTest = new Income(category, subCategory, value))
-			: (objTest = new Expense(category, subCategory, value));
+		const created =
+			type === 'inc'
+				? new Income(category, subCategory, value)
+				: new Expense(category, subCategory, value);
 
-		console.log(objTest);
+		console.log(created, details);
 		clearFields();
 	};
 
 	return (
 		<>
-			<a
-				key={'trx-mb' + 1}
-				href="#"
+			<button
+				type="button"
 				className="h1 card_add text-right"
-				role="button"
 				onClick={handleShow}
 			>
 				+
-			</a>
+			</button>
 			<Modal
-				key={'trx-m' + 1}
 				show={show}
 				onHide={handleClose}
 				backdrop="static"
@@ -153,24 +173,32 @@ function TransactionsModal() {
 				centered
 				id="transactions_modal"
 			>
-				<Modal.Header key={'trx-mh'} closeButton>
+				<Modal.Header closeButton>
 					<Modal.Title>All Transactions</Modal.Title>
 				</Modal.Header>
-				<Modal.Body key={'trx-mb'}>
+				<Modal.Body>
 					<Container id="trx_modal_body">
-						<Row key={'mr' + 1}>
-							<Col key={'trx-mc-1'} className="trx_income_tab">
-								<Button value="inc" className="trx_type_btn" onClick={handleType}>
+						<Row>
+							<Col className="trx_income_tab">
+								<Button
+									value="inc"
+									className="trx_type_btn"
+									onClick={handleType}
+								>
 									Income
 								</Button>
 							</Col>
-							<Col key={'trx-mc-2'} className="trx_expense_tab">
-								<Button value="exp" className="trx_type_btn" onClick={handleType}>
+							<Col className="trx_expense_tab">
+								<Button
+									value="exp"
+									className="trx_type_btn"
+									onClick={handleType}
+								>
 									Expense
 								</Button>
 							</Col>
 						</Row>
-						<Row key={'mr' + 2}>
+						<Row>
 							<Col className="modal_input_col">
 								<FloatingLabel label="Category">
 									<Form.Select
@@ -199,8 +227,8 @@ function TransactionsModal() {
 							</Col>
 						</Row>
 
-						<Row key={'mr' + 4}>
-							<Col key={'trx-mc-3'} className="modal_input_col">
+						<Row>
+							<Col className="modal_input_col">
 								<FloatingLabel label="Value">
 									<Form.Control
 										id="transactions_input_value"
@@ -213,7 +241,7 @@ function TransactionsModal() {
 									/>
 								</FloatingLabel>
 							</Col>
-							<Col key={'trx-mc-4'} className="modal_input_col">
+							<Col className="modal_input_col">
 								<FloatingLabel label="Date">
 									<Form.Control
 										id="transactions_input_date"
@@ -227,7 +255,7 @@ function TransactionsModal() {
 								</FloatingLabel>
 							</Col>
 
-							<Col key={'trx-mc-5'} className="modal_input_col modal_align_end">
+							<Col className="modal_input_col modal_align_end">
 								<FloatingLabel label="Time">
 									<Form.Control
 										id="transactions_input_time"
@@ -241,11 +269,11 @@ function TransactionsModal() {
 							</Col>
 						</Row>
 
-						<Row key={'mr' + 5}>
+						<Row>
 							<Col className="modal_input_col">
 								<FloatingLabel label="Details">
 									<Form.Control
-										id="transactions_input_time"
+										id="transactions_input_details"
 										className="transactions_modal_input"
 										placeholder="Details"
 										value={details}
@@ -256,17 +284,16 @@ function TransactionsModal() {
 						</Row>
 					</Container>
 				</Modal.Body>
-				<Modal.Footer key={'trx-mf'}>
-					<Button key={'trx-mfb-1'} variant="secondary" onClick={handleClose}>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={handleClose}>
 						Close
 					</Button>
 					<Button
-						key={'trx-mfb-2'}
 						id="trx_add_btn"
 						className="btn-income"
 						onClick={handleSubmit}
 					>
-						Add Trasnsaction
+						Add Transaction
 					</Button>
 				</Modal.Footer>
 			</Modal>
@@ -275,23 +302,23 @@ function TransactionsModal() {
 }
 
 const TransactionsCard = () => {
-	const items = [
+	const items: TransactionItemData[] = [
 		{
-			id: 'item 1',
+			id: 'item-1',
 			icon: <FaBitcoin className="bitcoin_icon" />,
 			iconClass: 'bitcoin_icon',
 			labelTxt: 'Yield Farming',
 			formTxt: 'Crypto',
 		},
 		{
-			id: 'item 2',
+			id: 'item-2',
 			icon: <RiBankLine className="bank_icon" />,
 			iconClass: 'bank_icon',
 			labelTxt: 'Loan',
 			formTxt: 'Bank',
 		},
 		{
-			id: 'item 3',
+			id: 'item-3',
 			icon: <GiTakeMyMoney className="take_money_icon" />,
 			iconClass: 'take_money_icon',
 			labelTxt: 'Clothes',
@@ -299,11 +326,8 @@ const TransactionsCard = () => {
 		},
 	];
 
-	const getItemRows = () => {
-		let itemList = items;
-		itemList = itemList.map((el) => <TransactionItemRow key={el.id} data={el} />);
-		return itemList;
-	};
+	const getItemRows = () =>
+		items.map((item) => <TransactionItemRow key={item.id} data={item} />);
 
 	return (
 		<Container className="main_box">
@@ -320,7 +344,7 @@ const TransactionsCard = () => {
 	);
 };
 
-const TransactionItemRow = ({ data }) => {
+const TransactionItemRow = ({ data }: { data: TransactionItemData }) => {
 	return (
 		<Row className="transactions_category_item">
 			<Col xs={2}>{data.icon}</Col>
@@ -329,7 +353,7 @@ const TransactionItemRow = ({ data }) => {
 				<p className="text-muted transactions_label_text">{data.formTxt}</p>
 			</Col>
 			<Col className="text-right">
-				<p className="income_item_text  transactions_item_input">{3000}</p>
+				<p className="income_item_text  transactions_item_input">3000</p>
 			</Col>
 		</Row>
 	);

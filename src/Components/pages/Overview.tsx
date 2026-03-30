@@ -49,7 +49,7 @@ class Overview extends React.Component {
 										<ReportsCard />
 									</Col>
 									<Col xs={6} sm={6} md={6} className="overview-box">
-										<SchedulerCard className="container main_box" />
+										<SchedulerCard />
 									</Col>
 									<Col xs={6} sm={6} md={6} className="overview-box">
 										<Savings />

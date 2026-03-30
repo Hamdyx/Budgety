@@ -1,12 +1,16 @@
+import type {
+	EntityId} from '@reduxjs/toolkit';
+import type { RootState } from 'app/store';
+import type { Transaction } from 'types/types';
+
 import {
 	createSlice,
 	createAsyncThunk,
-	createEntityAdapter,
-	EntityId,
+	createEntityAdapter
 } from '@reduxjs/toolkit';
-import { RootState } from 'app/store';
+
 import { updateCategory } from 'features/category/categorySlice';
-import { Transaction } from 'types/types';
+
 
 const budgetAdapter = createEntityAdapter<Transaction>({});
 

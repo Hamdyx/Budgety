@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import { vi } from 'vitest';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
+import { expect, test, vi } from 'vitest';
+
 import App from './App';
 import { store } from './app/store';
 

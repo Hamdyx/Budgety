@@ -1,8 +1,12 @@
+import type { EntityId } from '@reduxjs/toolkit';
+import type { RootState} from 'app/store';
+
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { EntityId } from '@reduxjs/toolkit';
 import { Form, Row, Col, Button, Modal } from 'react-bootstrap';
-import { RootState, useAppDispatch } from 'app/store';
+import { useSelector } from 'react-redux';
+
+import { useAppDispatch } from 'app/store';
+
 import { updateTrx, selectTrxById } from './budgetSlice';
 import CustomFloatingLabel from '../../Components/inputs/CustomFloatingLabel';
 import './editTrxModal.css';

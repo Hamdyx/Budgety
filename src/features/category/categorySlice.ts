@@ -1,10 +1,11 @@
+import type { RootState } from 'app/store';
+import type { Category, Transaction } from 'types/types';
+
 import {
 	createSlice,
 	createAsyncThunk,
 	createEntityAdapter,
 } from '@reduxjs/toolkit';
-import { RootState } from 'app/store';
-import { Category, Transaction } from 'types/types';
 
 const categoryAdapter = createEntityAdapter<Category>({});
 

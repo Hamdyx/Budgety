@@ -1,9 +1,16 @@
-import React from 'react';
+import type { ChartProps } from 'types/types';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // import { Line } from 'react-chartjs-2';
 
-const LineChart = ({ labelsArr, data, colors, width = 250, height = 100 }) => {
+const LineChart = ({
+	labelsArr,
+	data,
+	colors,
+	width = 250,
+	height = 100,
+}: ChartProps) => {
 	const state = {
 		data: {
 			labels: labelsArr,
@@ -46,5 +53,9 @@ const LineChart = ({ labelsArr, data, colors, width = 250, height = 100 }) => {
 	};
 
 	// return <Line data={state.data} options={state.options} width={width} height={height} />;
+	void state;
+	void width;
+	void height;
+	return null;
 };
 export default LineChart;

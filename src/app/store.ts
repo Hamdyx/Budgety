@@ -1,5 +1,6 @@
-import { useDispatch } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
+
 import budgetReducer from '../features/budget/budgetSlice';
 import categoryReducer from '../features/category/categorySlice';
 
@@ -10,7 +11,7 @@ export const reducer = {
 
 export const store = configureStore({
 	reducer,
-	devTools: process.env.NODE_ENV !== 'production',
+	devTools: import.meta.env.MODE !== 'production',
 });
 
 export type RootState = ReturnType<typeof store.getState>;

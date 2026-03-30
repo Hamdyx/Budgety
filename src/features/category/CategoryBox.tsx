@@ -1,10 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
-import { Button, Form, Input, InputNumber, Row, Space } from 'antd';
+import type { RootState} from 'app/store';
+
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Button, Form, Input, InputNumber, Row, Space } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { RiBillLine } from 'react-icons/ri';
-import { RootState, useAppDispatch } from 'app/store';
+import { useSelector } from 'react-redux';
+
+import { useAppDispatch } from 'app/store';
+
+
+
 import {
 	deleteCategory,
 	selectCategoryById,
