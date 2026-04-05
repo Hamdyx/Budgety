@@ -19,8 +19,9 @@
       "@/*": ["./src/*"],
       "app/*": ["./src/app/*"],
       "assets/*": ["./src/assets/*"],
-      "Components/*": ["./src/Components/*"],
+      "components/*": ["./src/components/*"],
       "features/*": ["./src/features/*"],
+      "theme/*": ["./src/theme/*"],
       "types/*": ["./src/types/*"]
     }
   },
