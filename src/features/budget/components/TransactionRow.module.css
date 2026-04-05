@@ -1,0 +1,10 @@
+.row {
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  background: var(--color-bg-card);
+}
+
+.rightCol {
+  text-align: right;
+}

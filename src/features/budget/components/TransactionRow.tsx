@@ -8,6 +8,8 @@ import { selectTrxById } from '../budgetSlice';
 import { DeleteTrxModal } from './DeleteTrxModal';
 import { EditTrxModal } from './EditTrxModal';
 
+import styles from './TransactionRow.module.css';
+
 const { Text } = Typography;
 
 const TransactionRow = ({ trx_id }: { trx_id: EntityId }) => {
@@ -24,16 +26,7 @@ const TransactionRow = ({ trx_id }: { trx_id: EntityId }) => {
   const borderColor = trx?.type === 'inc' ? '#21bf73' : '#fd5e53';
 
   return (
-    <Row
-      align="middle"
-      style={{
-        borderLeft: `3px solid ${borderColor}`,
-        padding: '8px 12px',
-        marginBottom: 8,
-        borderRadius: 4,
-        background: '#2a2d32',
-      }}
-    >
+    <Row align="middle" className={styles.row} style={{ borderLeft: `3px solid ${borderColor}` }}>
       <Col flex="auto">
         <Text strong>{trx?.title}</Text>
         <br />
@@ -41,7 +34,7 @@ const TransactionRow = ({ trx_id }: { trx_id: EntityId }) => {
           {formatDateTime(trx?.trxDate)}
         </Text>
       </Col>
-      <Col style={{ textAlign: 'right' }}>
+      <Col className={styles.rightCol}>
         <Space size={4}>
           <EditTrxModal id={trx_id} />
           <DeleteTrxModal id={trx_id} />

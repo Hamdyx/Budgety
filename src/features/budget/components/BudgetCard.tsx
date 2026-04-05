@@ -1,6 +1,8 @@
 import { HomeOutlined, ShoppingCartOutlined, FileTextOutlined, PlusOutlined } from '@ant-design/icons';
 import { Card, Row, Col, Divider, Button, Typography } from 'antd';
 
+import styles from './BudgetCard.module.css';
+
 const { Text } = Typography;
 
 const budgetItems = [
@@ -28,65 +30,61 @@ const budgetItems = [
 ];
 
 const BudgetCard = () => (
-  <Card
-    title="Budget"
-    extra={<Button type="text" icon={<PlusOutlined />} style={{ color: '#696c70', fontSize: '1.5rem' }} />}
-    styles={{ body: { padding: '12px 16px' } }}
-  >
+  <Card title="Budget" extra={<Button type="text" icon={<PlusOutlined />} className="card-extra-btn" />} styles={{ body: { padding: '12px 16px' } }}>
     {/* Income */}
     <Row justify="space-between" align="middle">
       <Col>
         <Text>Income</Text>
         <br />
-        <Text type="secondary" style={{ fontSize: 12 }}>
+        <Text type="secondary" className={styles.smallText}>
           $58,660.00 of $1,345.54
         </Text>
       </Col>
-      <Col style={{ textAlign: 'right' }}>
-        <Text style={{ color: '#21bf73' }}>6969.42</Text>
+      <Col className={styles.textRight}>
+        <Text className={styles.successText}>6969.42</Text>
         <br />
-        <Text type="secondary" style={{ fontSize: 12 }}>
+        <Text type="secondary" className={styles.smallText}>
           over
         </Text>
       </Col>
     </Row>
-    <Divider style={{ borderColor: '#21bf73', margin: '8px 0' }} />
+    <Divider className={styles.incomeDivider} />
 
     {/* Expense */}
     <Row justify="space-between" align="middle">
       <Col>
         <Text>Expense</Text>
         <br />
-        <Text type="secondary" style={{ fontSize: 12 }}>
+        <Text type="secondary" className={styles.smallText}>
           $696 of $6969
         </Text>
       </Col>
-      <Col style={{ textAlign: 'right' }}>
-        <Text style={{ color: '#fd5e53' }}>6969.42</Text>
+      <Col className={styles.textRight}>
+        <Text className={styles.dangerText}>6969.42</Text>
         <br />
-        <Text type="secondary" style={{ fontSize: 12 }}>
+        <Text type="secondary" className={styles.smallText}>
           over
         </Text>
       </Col>
     </Row>
 
-    <Divider style={{ borderColor: '#363a3e', margin: '12px 0' }} />
+    <Divider className={styles.sectionDivider} />
 
     {/* Category items */}
     {budgetItems.map(item => (
-      <Row key={item.key} align="middle" style={{ marginBottom: 12 }}>
+      <Row key={item.key} align="middle" className={styles.itemRow}>
         <Col span={3}>{item.icon}</Col>
         <Col flex="auto">
           <Text>{item.label}</Text>
           <br />
-          <Text type="secondary" style={{ fontSize: 12 }}>
+          <Text type="secondary" className={styles.smallText}>
             {item.sub}
           </Text>
         </Col>
-        <Col style={{ textAlign: 'right' }}>
-          <Text style={{ color: '#21bf73' }}>{item.value}</Text>
+        <Col className={styles.textRight}>
+          <Text className={styles.successText}>{item.value}</Text>
           <br />
-          <Text type="secondary" style={{ fontSize: 12 }}>
+          <Text type="secondary" className={styles.smallText}>
             Available
           </Text>
         </Col>

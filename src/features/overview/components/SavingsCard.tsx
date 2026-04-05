@@ -2,11 +2,7 @@ import { DollarOutlined, BankOutlined, PlusOutlined } from '@ant-design/icons';
 import { Card, Row, Col, Statistic, Button } from 'antd';
 
 const SavingsCard = () => (
-  <Card
-    title="Savings"
-    extra={<Button type="text" icon={<PlusOutlined />} style={{ color: '#696c70', fontSize: '1.5rem' }} />}
-    styles={{ body: { padding: '12px 16px' } }}
-  >
+  <Card title="Savings" extra={<Button type="text" icon={<PlusOutlined />} className="card-extra-btn" />} styles={{ body: { padding: '12px 16px' } }}>
     <Row gutter={16}>
       <Col span={12}>
         <Statistic title="Today's Deposit" value={3500} prefix={<DollarOutlined style={{ color: '#21bf73' }} />} />

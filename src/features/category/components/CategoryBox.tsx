@@ -9,6 +9,8 @@ import { useAppDispatch } from 'app/store';
 
 import { deleteCategory, selectCategoryById, updateCategory } from '../categorySlice';
 
+import styles from './CategoryBox.module.css';
+
 const CategoryBox = ({ id }: any) => {
   const currCat = useSelector((state: RootState) => selectCategoryById(state, id));
   const [disabled, setDisabled] = useState(true);
@@ -39,12 +41,12 @@ const CategoryBox = ({ id }: any) => {
   const pct = budget > 0 ? Math.round((spent / budget) * 100) : 0;
 
   return (
-    <div style={{ background: '#2a2d32', borderRadius: 8, padding: 12 }}>
+    <div className={styles.box}>
       <Row>
         <Form form={form} name="category" initialValues={{ category, spent, budget }} onFinish={onFinish} autoComplete="off" disabled={disabled}>
           <Space>
             <Progress type="circle" percent={pct} size={50} format={() => <FileTextOutlined />} />
-            <Form.Item name="category" style={{ marginBottom: 0 }}>
+            <Form.Item name="category" className={styles.compactItem}>
               <Input />
             </Form.Item>
             <Space size={4}>
@@ -52,11 +54,11 @@ const CategoryBox = ({ id }: any) => {
               <Button onClick={editCategory} disabled={false} icon={<EditOutlined />} />
             </Space>
           </Space>
-          <Space style={{ marginTop: 8 }}>
-            <Form.Item name="spent" style={{ marginBottom: 0 }}>
+          <Space className={styles.fieldRow}>
+            <Form.Item name="spent" className={styles.compactItem}>
               <InputNumber prefix="$" formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} controls={false} variant="borderless" />
             </Form.Item>
-            <Form.Item name="budget" style={{ marginBottom: 0 }}>
+            <Form.Item name="budget" className={styles.compactItem}>
               <InputNumber prefix="$" formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} controls={false} variant="borderless" />
             </Form.Item>
           </Space>

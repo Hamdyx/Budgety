@@ -5,6 +5,8 @@ import { Card, Row, Col, Button, Modal, Form, Select, Input, InputNumber, DatePi
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
+import styles from './TransactionsCard.module.css';
+
 const { Text } = Typography;
 
 function TransactionsModal() {
@@ -52,7 +54,7 @@ function TransactionsModal() {
 
   return (
     <>
-      <Button type="text" icon={<PlusOutlined />} onClick={() => setOpen(true)} style={{ color: '#696c70', fontSize: '1.5rem' }} />
+      <Button type="text" icon={<PlusOutlined />} onClick={() => setOpen(true)} className="card-extra-btn" />
       <Modal
         title="All Transactions"
         open={open}
@@ -74,12 +76,12 @@ function TransactionsModal() {
           }}
           optionType="button"
           buttonStyle="solid"
-          style={{ width: '100%', marginBottom: 16, display: 'flex' }}
+          className={styles.radioGroup}
         >
-          <Radio.Button value="inc" style={{ flex: 1, textAlign: 'center' }}>
+          <Radio.Button value="inc" className={styles.radioButton}>
             Income
           </Radio.Button>
-          <Radio.Button value="exp" style={{ flex: 1, textAlign: 'center' }}>
+          <Radio.Button value="exp" className={styles.radioButton}>
             Expense
           </Radio.Button>
         </Radio.Group>
@@ -159,7 +161,7 @@ const TransactionsCard = () => {
   return (
     <Card title="All Transactions" extra={<TransactionsModal />} styles={{ body: { padding: '12px 16px' } }}>
       {items.map(item => (
-        <Row key={item.id} align="middle" style={{ marginBottom: 12 }}>
+        <Row key={item.id} align="middle" className={styles.itemRow}>
           <Col span={3}>{item.icon}</Col>
           <Col flex="auto">
             <Text>{item.labelTxt}</Text>

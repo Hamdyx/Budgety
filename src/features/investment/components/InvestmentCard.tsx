@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 import InvestmentModal from './InvestmentModal';
 
+import styles from './InvestmentCard.module.css';
+
 const InvestmentCard = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -11,7 +13,7 @@ const InvestmentCard = () => {
     <>
       <Card
         title="Investment"
-        extra={<Button type="text" icon={<PlusOutlined />} style={{ color: '#696c70', fontSize: '1.5rem' }} onClick={() => setModalOpen(true)} />}
+        extra={<Button type="text" icon={<PlusOutlined />} className="card-extra-btn" onClick={() => setModalOpen(true)} />}
         styles={{ body: { padding: '12px 16px' } }}
       >
         <Row gutter={16}>
@@ -22,14 +24,14 @@ const InvestmentCard = () => {
             <Statistic title="Cash Balance" value={3500} prefix={<DollarOutlined style={{ color: '#4d7cfd' }} />} />
           </Col>
         </Row>
-        <Row gutter={16} style={{ marginTop: 12 }}>
+        <Row gutter={16} className={styles.linkRow}>
           <Col span={12}>
-            <Button type="link" style={{ padding: 0, color: '#21bf73' }}>
+            <Button type="link" className={styles.portfolioLink}>
               Portfolio
             </Button>
           </Col>
-          <Col span={12} style={{ textAlign: 'right' }}>
-            <Button type="link" style={{ padding: 0, color: '#21bf73' }}>
+          <Col span={12} className={styles.textRight}>
+            <Button type="link" className={styles.portfolioLink}>
               Transactions
             </Button>
           </Col>

@@ -9,6 +9,8 @@ import TransactionRow from './TransactionRow';
 import CategoryMain from '../../category/components/CategoryMain';
 import { fetchTrxs, selectAllTrx, selectTrxIds } from '../budgetSlice';
 
+import styles from './BudgetMain.module.css';
+
 const { Title } = Typography;
 
 export const BudgetMain = () => {
@@ -34,10 +36,10 @@ export const BudgetMain = () => {
   }, [dispatch]);
 
   return (
-    <div style={{ padding: 16, flex: 1, display: 'flex', flexDirection: 'column' }}>
-      <div style={{ flex: 1, display: 'flex', gap: 16 }}>
-        <div style={{ flex: 2, minWidth: 0 }}>
-          <Row align="middle" gutter={16} style={{ marginBottom: 16 }}>
+    <div className={styles.wrapper}>
+      <div className={styles.content}>
+        <div className={styles.leftPanel}>
+          <Row align="middle" gutter={16} className={styles.headerRow}>
             <Col>
               <Title level={5} style={{ margin: 0 }}>
                 Budget Feature
@@ -46,7 +48,7 @@ export const BudgetMain = () => {
             {budgetCircularContent}
           </Row>
           <CategoryMain />
-          <Row align="middle" gutter={16} style={{ margin: '16px 0 8px' }}>
+          <Row align="middle" gutter={16} className={styles.trxHeader}>
             <Col>
               <Title level={5} style={{ margin: 0 }}>
                 Recent Transactions
@@ -58,7 +60,7 @@ export const BudgetMain = () => {
           </Row>
           {TrxRows}
         </div>
-        <div style={{ flex: 1, minWidth: 0 }}>
+        <div className={styles.rightPanel}>
           <BudgetSection />
         </div>
       </div>
@@ -87,8 +89,8 @@ const BudgetSection = () => {
       : { background: 'transparent', borderColor: '#21bf73', color: '#21bf73' };
 
   return (
-    <div style={{ background: '#2a2d32', borderRadius: 8, padding: 16, height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <Row gutter={8} style={{ marginBottom: 16 }}>
+    <div className={styles.section}>
+      <Row gutter={8} className={styles.buttonRow}>
         <Col span={12}>
           <Button block style={expenseStyle} onClick={() => setBudgetType('exp')}>
             Expense
@@ -100,15 +102,15 @@ const BudgetSection = () => {
           </Button>
         </Col>
       </Row>
-      <div style={{ flex: 1, overflowY: 'auto' }}>{content}</div>
+      <div className={styles.sectionContent}>{content}</div>
       <AddTrxForm />
     </div>
   );
 };
 
 const BudgetFrame = ({ timeframe, value }: { timeframe: string; value: number }) => (
-  <div style={{ width: 80, textAlign: 'center' }}>
+  <div className={styles.frame}>
     <Progress type="circle" percent={value} size={70} />
-    <div style={{ marginTop: 4, fontSize: 12, color: '#fbfcfe' }}>{timeframe}</div>
+    <div className={styles.frameLabel}>{timeframe}</div>
   </div>
 );

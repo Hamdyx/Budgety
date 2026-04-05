@@ -24,7 +24,7 @@ const eslintConfig = defineConfig([
       'import/order': [
         'error',
         {
-          groups: ['type', ['builtin', 'external'], 'internal', ['parent', 'sibling', 'index']],
+          groups: ['type', ['builtin', 'external'], 'internal', ['parent', 'sibling'], 'index'],
           pathGroups: [
             {
               pattern: '@/**',
@@ -35,6 +35,10 @@ const eslintConfig = defineConfig([
               pattern: '{app,assets,Components,features,types}/**',
               group: 'internal',
               position: 'before',
+            },
+            {
+              pattern: './**/*.css',
+              group: 'index',
             },
           ],
           pathGroupsExcludedImportTypes: ['type'],

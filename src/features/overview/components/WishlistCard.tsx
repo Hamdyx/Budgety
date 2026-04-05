@@ -2,11 +2,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Card, Row, Col, Statistic, Divider, Button } from 'antd';
 
 const WishlistCard = () => (
-  <Card
-    title="Wishlist"
-    extra={<Button type="text" icon={<PlusOutlined />} style={{ color: '#696c70', fontSize: '1.5rem' }} />}
-    styles={{ body: { padding: '12px 16px' } }}
-  >
+  <Card title="Wishlist" extra={<Button type="text" icon={<PlusOutlined />} className="card-extra-btn" />} styles={{ body: { padding: '12px 16px' } }}>
     <Row gutter={16} align="middle">
       <Col span={11}>
         <Statistic title="Value" value={3500} styles={{ content: { color: '#21bf73' } }} />
