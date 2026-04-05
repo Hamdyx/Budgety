@@ -1,0 +1,18 @@
+.layout {
+  min-height: 100vh;
+}
+
+.content {
+  padding: 0;
+  color: #fbfcfe;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.spinContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}

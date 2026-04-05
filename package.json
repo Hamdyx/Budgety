@@ -1,56 +1,57 @@
 {
-	"name": "budgety",
-	"version": "0.1.0",
-	"private": true,
-	"dependencies": {
-		"@reduxjs/toolkit": "^1.6.1",
-		"@testing-library/jest-dom": "^5.12.0",
-		"@testing-library/react": "^13.4.0",
-		"@types/jest": "^29.5.0",
-		"@types/node": "^18.15.9",
-		"@types/react": "^18.0.29",
-		"@types/react-dom": "^18.0.11",
-		"antd": "^5.1.2",
-		"bootstrap": "^5.1.0",
-		"chart.js": "^4.1.1",
-		"dayjs": "^1.11.7",
-		"next": "^13.1.0",
-		"react": "^18.2.0",
-		"react-bootstrap": "^2.0.0-beta.6",
-		"react-calendar": "^4.0.0",
-		"react-chartjs-2": "^5.1.0",
-		"react-circular-progressbar": "^2.0.4",
-		"react-dom": "^18.2.0",
-		"react-icons": "^4.2.0",
-		"react-redux": "^8.0.5",
-		"react-router-dom": "^6.6.1",
-		"react-scripts": "^5.0.1",
-		"sass": "^1.57.1",
-		"typescript": "^4.0.0",
-		"web-vitals": "^3.1.0"
-	},
-	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject"
-	},
-	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"react-app/jest"
-		]
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
-	}
+  "name": "budgety",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@reduxjs/toolkit": "2.11.2",
+    "antd": "6.3.4",
+    "dayjs": "1.11.20",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-redux": "9.2.0",
+    "react-router-dom": "7.13.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.1",
+    "@testing-library/dom": "10.4.1",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@types/node": "25.5.0",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.1",
+    "eslint": "9.39.1",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-import": "2.32.0",
+    "eslint-plugin-react-refresh": "0.5.2",
+    "jsdom": "29.0.1",
+    "sass": "1.98.0",
+    "typescript": "6.0.2",
+    "typescript-eslint": "8.57.3-alpha.3",
+    "vite": "8.0.3",
+    "vitest": "4.1.2"
+  },
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "packageManager": "yarn@4.13.0+sha512.5c20ba010c99815433e5c8453112165e673f1c7948d8d2b267f4b5e52097538658388ebc9f9580656d9b75c5cc996f990f611f99304a2197d4c56d21eea370e7"
 }

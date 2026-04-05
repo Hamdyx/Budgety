@@ -1,0 +1,24 @@
+.incomeDivider {
+  border-color: var(--color-success);
+  margin: 8px 0;
+}
+
+.itemRow {
+  margin-bottom: 12px;
+}
+
+.textRight {
+  text-align: right;
+}
+
+.smallText {
+  font-size: 12px;
+}
+
+.successText {
+  color: var(--color-success);
+}
+
+.dangerText {
+  color: var(--color-danger);
+}

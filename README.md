@@ -1,70 +1,80 @@
-# Getting Started with Create React App
+# Budgety
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A personal finance dashboard built with React, Redux Toolkit, Ant Design, and Vite.
 
-## Available Scripts
+## Tech Stack
 
-In the project directory, you can run:
+- **React** 19 &nbsp;·&nbsp; **TypeScript** 6
+- **Ant Design** 6 &nbsp;·&nbsp; **@ant-design/icons**
+- **Redux Toolkit** 2 &nbsp;·&nbsp; **React Router** 7
+- **Vite** 8 &nbsp;·&nbsp; **Vitest** + Testing Library
+- **CSS Modules** (`.module.css`) &nbsp;·&nbsp; **dayjs**
+- **Yarn** 4
 
-### `npm start`
+## Project Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```text
+src/
+├── app/            # App shell (Sidebar) and Redux store
+├── assets/         # Icons and static assets
+├── components/
+│   ├── charts/     # BarChart, DoughnutChart, LineChart
+│   └── common/     # OverviewCard, SectionHeader, ComingSoon
+├── features/
+│   ├── bank/
+│   ├── budget/
+│   ├── category/
+│   ├── investment/
+│   ├── overview/
+│   └── scheduler/
+├── styles/         # global.css (CSS custom properties)
+├── theme/          # Ant Design ConfigProvider theme config
+└── types/          # Shared TypeScript types
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Prerequisites
 
-### `npm test`
+- Node.js 20+
+- Corepack enabled (`corepack enable`)
+- Yarn 4+
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started
 
-### `npm run build`
+```bash
+yarn install
+yarn dev
+# → http://localhost:5173
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Scripts
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+| Command           | Description                      |
+| ----------------- | -------------------------------- |
+| `yarn dev`        | Start Vite dev server            |
+| `yarn start`      | Alias for `yarn dev`             |
+| `yarn build`      | Production bundle → `dist/`      |
+| `yarn preview`    | Preview production build locally |
+| `yarn lint`       | Run ESLint                       |
+| `yarn lint:fix`   | Run ESLint with auto-fix         |
+| `yarn test`       | Run unit tests once (Vitest)     |
+| `yarn test:watch` | Run tests in watch mode          |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Path Aliases
 
-### `npm run eject`
+All internal imports use the `@/` prefix:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```ts
+import { Budget } from '@/features/budget/components/Budget';
+import { OverviewCard } from '@/components/common/OverviewCard';
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Configured in `tsconfig.json` and `vite.config.ts`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- Prefer latest stable versions, and re-run build/tests after upgrades.
+- Use Yarn lockfile as the source of truth for reproducible installs.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Deployment Notes
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Build artifacts are emitted to `dist/`.
+- Any static host that supports SPA fallback can serve this app.
+- Ensure rewrite rules route unknown paths to `index.html` for React Router.

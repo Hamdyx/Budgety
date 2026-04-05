@@ -1,0 +1,106 @@
+import { Row, Col, Button, Progress, Typography } from 'antd';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+
+import { useAppDispatch } from '@/app/store';
+import SectionHeader from '@/components/common/SectionHeader';
+
+import { AddTrxForm } from './AddTrxForm';
+import TransactionRow from './TransactionRow';
+import CategoryMain from '../../category/components/CategoryMain';
+import { fetchTrxs, selectAllTrx, selectTrxIds } from '../budgetSlice';
+
+import styles from './BudgetMain.module.css';
+
+const { Title } = Typography;
+
+export const BudgetMain = () => {
+  const allTrxIds = useSelector(selectTrxIds);
+  const TrxRows = allTrxIds.map(id => <TransactionRow key={id} trx_id={id} />);
+
+  const dispatch = useAppDispatch();
+  const budgetCircularFrames = {
+    yearly: 10,
+    monthly: 25,
+    weekly: 50,
+    daily: 30,
+  };
+
+  const budgetCircularContent = Object.entries(budgetCircularFrames).map(([timeframe, value]) => (
+    <Col key={timeframe}>
+      <BudgetFrame timeframe={timeframe} value={value} />
+    </Col>
+  ));
+
+  useEffect(() => {
+    dispatch(fetchTrxs());
+  }, [dispatch]);
+
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.content}>
+        <div className={styles.leftPanel}>
+          <Row align="middle" gutter={16} className={styles.headerRow}>
+            <Col>
+              <Title level={5}>Budget Feature</Title>
+            </Col>
+            {budgetCircularContent}
+          </Row>
+          <CategoryMain />
+          <SectionHeader title="Recent Transactions" />
+          {TrxRows}
+        </div>
+        <div className={styles.rightPanel}>
+          <BudgetSection />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const BudgetSection = () => {
+  const [budgetType, setBudgetType] = useState('inc');
+  const allTrxs = useSelector(selectAllTrx);
+  const incTrxs = allTrxs.filter((trx: any) => trx.type === 'inc');
+  const expTrxs = allTrxs.filter((trx: any) => trx.type === 'exp');
+  const content =
+    budgetType === 'inc'
+      ? incTrxs.map(trx => <TransactionRow key={trx.id} trx_id={trx.id} />)
+      : expTrxs.map(trx => <TransactionRow key={trx.id} trx_id={trx.id} />);
+
+  const expenseStyle =
+    budgetType === 'exp'
+      ? { background: '#fd5e53', borderColor: '#fd5e53', color: '#fff' }
+      : { background: 'transparent', borderColor: '#fd5e53', color: '#fd5e53' };
+
+  const incomeStyle =
+    budgetType === 'inc'
+      ? { background: '#21bf73', borderColor: '#21bf73', color: '#fff' }
+      : { background: 'transparent', borderColor: '#21bf73', color: '#21bf73' };
+
+  return (
+    <div className={styles.section}>
+      <Row gutter={8} className={styles.buttonRow}>
+        <Col span={12}>
+          <Button block style={expenseStyle} onClick={() => setBudgetType('exp')}>
+            Expense
+          </Button>
+        </Col>
+        <Col span={12}>
+          <Button block style={incomeStyle} onClick={() => setBudgetType('inc')}>
+            Income
+          </Button>
+        </Col>
+      </Row>
+      <div className={styles.sectionContent}>{content}</div>
+      <AddTrxForm />
+    </div>
+  );
+};
+
+const BudgetFrame = ({ timeframe, value }: { timeframe: string; value: number }) => (
+  <div className={styles.frame}>
+    <Progress type="circle" percent={value} size={70} />
+    <div className={styles.frameLabel}>{timeframe}</div>
+  </div>
+);

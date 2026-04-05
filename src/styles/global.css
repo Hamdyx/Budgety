@@ -1,0 +1,48 @@
+:root {
+  --color-success: #21bf73;
+  --color-danger: #fd5e53;
+  --color-warning: #f7c025;
+  --color-info: #4d7cfd;
+  --color-muted: #696c70;
+  --color-border: #363a3e;
+  --color-text-secondary: #545963;
+  --color-bg-card: #2a2d32;
+  --color-text: #fbfcfe;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: #212646;
+  padding: 0;
+  margin: 0;
+  overflow-y: scroll;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+@keyframes cardAnime {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.card-extra-btn {
+  color: var(--color-muted);
+  font-size: 1.5rem;
+}

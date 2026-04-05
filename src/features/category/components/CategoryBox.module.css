@@ -1,0 +1,13 @@
+.box {
+  background: var(--color-bg-card);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.compactItem {
+  margin-bottom: 0;
+}
+
+.fieldRow {
+  margin-top: 8px;
+}
