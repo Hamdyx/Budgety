@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
 import { Row, Col, Divider, Typography } from 'antd';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useAppDispatch } from 'app/store';

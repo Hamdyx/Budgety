@@ -1,9 +1,9 @@
-import { Suspense, lazy } from 'react';
 import { Layout, Spin } from 'antd';
+import { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import Sidebar from './Sidebar';
 import styles from './App.module.css';
+import Sidebar from './Sidebar';
 
 const Overview = lazy(() => import('features/overview/components/Overview'));
 const InvestmentPage = lazy(() => import('features/investment/components/InvestmentPage'));

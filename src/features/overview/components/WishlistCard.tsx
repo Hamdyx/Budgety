@@ -1,5 +1,5 @@
-import { Card, Row, Col, Statistic, Divider, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { Card, Row, Col, Statistic, Divider, Button } from 'antd';
 
 const WishlistCard = () => (
   <Card

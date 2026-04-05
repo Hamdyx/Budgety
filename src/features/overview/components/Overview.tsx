@@ -1,6 +1,7 @@
-import { Suspense, lazy } from 'react';
-import { Row, Col, Typography, Button, Spin } from 'antd';
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
+import { Row, Col, Typography, Button, Spin } from 'antd';
+import { Suspense, lazy } from 'react';
+
 import styles from './Overview.module.css';
 
 const TransactionsCard = lazy(() => import('features/budget/components/TransactionsCard'));

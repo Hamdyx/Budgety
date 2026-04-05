@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
 import { Row, Col, Button, Progress, Typography, Divider } from 'antd';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useAppDispatch } from 'app/store';
 
 import { AddTrxForm } from './AddTrxForm';
-import { fetchTrxs, selectAllTrx, selectTrxIds } from '../budgetSlice';
 import TransactionRow from './TransactionRow';
 import CategoryMain from '../../category/components/CategoryMain';
+import { fetchTrxs, selectAllTrx, selectTrxIds } from '../budgetSlice';
 
 const { Title } = Typography;
 
@@ -34,9 +34,9 @@ export const BudgetMain = () => {
   }, [dispatch]);
 
   return (
-    <div style={{ padding: 16 }}>
-      <Row gutter={[16, 16]}>
-        <Col xs={24} sm={16}>
+    <div style={{ padding: 16, flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <div style={{ flex: 1, display: 'flex', gap: 16 }}>
+        <div style={{ flex: 2, minWidth: 0 }}>
           <Row align="middle" gutter={16} style={{ marginBottom: 16 }}>
             <Col>
               <Title level={5} style={{ margin: 0 }}>
@@ -57,11 +57,11 @@ export const BudgetMain = () => {
             </Col>
           </Row>
           {TrxRows}
-        </Col>
-        <Col xs={24} sm={8}>
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
           <BudgetSection />
-        </Col>
-      </Row>
+        </div>
+      </div>
     </div>
   );
 };
@@ -73,29 +73,34 @@ const BudgetSection = () => {
   const expTrxs = allTrxs.filter((trx: any) => trx.type === 'exp');
   const content =
     budgetType === 'inc'
-      ? incTrxs.map((trx: any, i) => <TransactionRow key={i} trx_id={trx.id} />)
-      : expTrxs.map((trx: any, i) => <TransactionRow key={i} trx_id={trx.id} />);
+      ? incTrxs.map((trx, i) => <TransactionRow key={trx.id} trx_id={trx.id} />)
+      : expTrxs.map((trx, i) => <TransactionRow key={trx.id} trx_id={trx.id} />);
+
+  const expenseStyle =
+    budgetType === 'exp'
+      ? { background: '#fd5e53', borderColor: '#fd5e53', color: '#fff' }
+      : { background: 'transparent', borderColor: '#fd5e53', color: '#fd5e53' };
+
+  const incomeStyle =
+    budgetType === 'inc'
+      ? { background: '#21bf73', borderColor: '#21bf73', color: '#fff' }
+      : { background: 'transparent', borderColor: '#21bf73', color: '#21bf73' };
 
   return (
-    <div style={{ background: '#2a2d32', borderRadius: 8, padding: 16 }}>
+    <div style={{ background: '#2a2d32', borderRadius: 8, padding: 16, height: '100%', display: 'flex', flexDirection: 'column' }}>
       <Row gutter={8} style={{ marginBottom: 16 }}>
         <Col span={12}>
-          <Button block type={budgetType === 'exp' ? 'primary' : 'default'} danger={budgetType === 'exp'} onClick={() => setBudgetType('exp')}>
+          <Button block style={expenseStyle} onClick={() => setBudgetType('exp')}>
             Expense
           </Button>
         </Col>
         <Col span={12}>
-          <Button
-            block
-            type={budgetType === 'inc' ? 'primary' : 'default'}
-            onClick={() => setBudgetType('inc')}
-            style={budgetType === 'inc' ? { background: '#21bf73', borderColor: '#21bf73' } : {}}
-          >
+          <Button block style={incomeStyle} onClick={() => setBudgetType('inc')}>
             Income
           </Button>
         </Col>
       </Row>
-      {content}
+      <div style={{ flex: 1, overflowY: 'auto' }}>{content}</div>
       <AddTrxForm />
     </div>
   );

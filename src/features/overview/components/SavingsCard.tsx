@@ -1,5 +1,5 @@
-import { Card, Row, Col, Statistic, Button } from 'antd';
 import { DollarOutlined, BankOutlined, PlusOutlined } from '@ant-design/icons';
+import { Card, Row, Col, Statistic, Button } from 'antd';
 
 const SavingsCard = () => (
   <Card

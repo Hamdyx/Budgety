@@ -1,5 +1,5 @@
-import { Card, Calendar, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { Card, Calendar, Button } from 'antd';
 
 const SchedulerCard = () => (
   <Card

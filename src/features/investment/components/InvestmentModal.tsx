@@ -1,8 +1,8 @@
+import type { ColumnsType } from 'antd/es/table';
 import type { InvestmentCoin } from 'types/types';
 
-import { useMemo, useState } from 'react';
 import { Modal, Table, InputNumber, Button, Typography } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
+import { useMemo, useState } from 'react';
 
 type InvestmentModalProps = {
   open: boolean;

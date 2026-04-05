@@ -1,6 +1,7 @@
-import { Card, Row, Col, Statistic, Button } from 'antd';
 import { DollarOutlined, PlusOutlined } from '@ant-design/icons';
+import { Card, Row, Col, Statistic, Button } from 'antd';
 import { useState } from 'react';
+
 import InvestmentModal from './InvestmentModal';
 
 const InvestmentCard = () => {

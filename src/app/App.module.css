@@ -6,6 +6,8 @@
   padding: 0;
   color: #fbfcfe;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .spinContainer {

@@ -1,9 +1,11 @@
-import { useMemo } from 'react';
-import { Layout, Menu } from 'antd';
-import { useNavigate, useLocation } from 'react-router-dom';
 import type { MenuProps } from 'antd';
 
+import { Layout, Menu } from 'antd';
+import { useMemo } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+
 import { OverviewIcon, BudgetIcon, LoanIcon } from 'assets/icons';
+
 import styles from './Sidebar.module.css';
 
 const { Sider } = Layout;

@@ -1,5 +1,5 @@
-import { Result } from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
+import { Result } from 'antd';
 
 interface ComingSoonProps {
   title?: string;

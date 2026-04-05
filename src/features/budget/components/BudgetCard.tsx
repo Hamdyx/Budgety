@@ -1,5 +1,5 @@
-import { Card, Row, Col, Divider, Button, Typography } from 'antd';
 import { HomeOutlined, ShoppingCartOutlined, FileTextOutlined, PlusOutlined } from '@ant-design/icons';
+import { Card, Row, Col, Divider, Button, Typography } from 'antd';
 
 const { Text } = Typography;
 
