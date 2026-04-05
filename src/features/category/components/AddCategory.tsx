@@ -2,7 +2,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Form, Input, InputNumber, Modal, Button } from 'antd';
 import { useState } from 'react';
 
-import { useAppDispatch } from 'app/store';
+import { useAppDispatch } from '@/app/store';
 
 import { addNewCategory } from '../categorySlice';
 

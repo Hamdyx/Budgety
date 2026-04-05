@@ -1,4 +1,4 @@
-import type { ChartProps } from 'types/types';
+import type { ChartProps } from '@/types/types';
 
 // import { Bar } from 'react-chartjs-2';
 import 'bootstrap/dist/css/bootstrap.min.css';

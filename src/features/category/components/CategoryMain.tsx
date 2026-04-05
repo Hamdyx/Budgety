@@ -1,8 +1,9 @@
-import { Row, Col, Divider, Typography } from 'antd';
+import { Row, Col } from 'antd';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { useAppDispatch } from 'app/store';
+import { useAppDispatch } from '@/app/store';
+import SectionHeader from '@/components/common/SectionHeader';
 
 import AddCategory from './AddCategory';
 import CategoryBox from './CategoryBox';
@@ -18,22 +19,10 @@ export const CategoryMain = () => {
 
   return (
     <>
-      <Row align="middle" gutter={8}>
-        <Col>
-          <Typography.Title level={5} style={{ margin: 0 }}>
-            Categories
-          </Typography.Title>
-        </Col>
-        <Col>
-          <AddCategory />
-        </Col>
-        <Col flex="auto">
-          <Divider style={{ borderColor: '#545963' }} />
-        </Col>
-      </Row>
+      <SectionHeader title="Categories" extra={<AddCategory />} />
       <Row gutter={[16, 16]}>
-        {categories.map((el, i) => (
-          <Col key={i} xs={24} sm={8}>
+        {categories.map(el => (
+          <Col key={el.id} xs={24} sm={8}>
             <CategoryBox id={el?.id} />
           </Col>
         ))}

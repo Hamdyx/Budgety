@@ -1,10 +1,11 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Card, Calendar, Button } from 'antd';
+import { Calendar } from 'antd';
+
+import OverviewCard from '@/components/common/OverviewCard';
 
 const SchedulerCard = () => (
-  <Card title="Scheduler" extra={<Button type="text" icon={<PlusOutlined />} className="card-extra-btn" />} styles={{ body: { padding: '4px 8px' } }}>
+  <OverviewCard title="Scheduler" styles={{ body: { padding: '4px 8px' } }}>
     <Calendar fullscreen={false} />
-  </Card>
+  </OverviewCard>
 );
 
 export default SchedulerCard;

@@ -1,5 +1,7 @@
-import { HomeOutlined, ShoppingCartOutlined, FileTextOutlined, PlusOutlined } from '@ant-design/icons';
-import { Card, Row, Col, Divider, Button, Typography } from 'antd';
+import { HomeOutlined, ShoppingCartOutlined, FileTextOutlined } from '@ant-design/icons';
+import { Row, Col, Divider, Typography } from 'antd';
+
+import OverviewCard from '@/components/common/OverviewCard';
 
 import styles from './BudgetCard.module.css';
 
@@ -30,7 +32,7 @@ const budgetItems = [
 ];
 
 const BudgetCard = () => (
-  <Card title="Budget" extra={<Button type="text" icon={<PlusOutlined />} className="card-extra-btn" />} styles={{ body: { padding: '12px 16px' } }}>
+  <OverviewCard title="Budget">
     {/* Income */}
     <Row justify="space-between" align="middle">
       <Col>
@@ -68,7 +70,7 @@ const BudgetCard = () => (
       </Col>
     </Row>
 
-    <Divider className={styles.sectionDivider} />
+    <Divider />
 
     {/* Category items */}
     {budgetItems.map(item => (
@@ -90,7 +92,7 @@ const BudgetCard = () => (
         </Col>
       </Row>
     ))}
-  </Card>
+  </OverviewCard>
 );
 
 export default BudgetCard;

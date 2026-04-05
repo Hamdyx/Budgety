@@ -3,11 +3,6 @@
   margin: 8px 0;
 }
 
-.sectionDivider {
-  border-color: var(--color-border);
-  margin: 12px 0;
-}
-
 .itemRow {
   margin-bottom: 12px;
 }

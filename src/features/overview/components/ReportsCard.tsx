@@ -1,8 +1,10 @@
-import { DollarOutlined, RiseOutlined, FallOutlined, PlusOutlined } from '@ant-design/icons';
-import { Card, Row, Col, Statistic, Button } from 'antd';
+import { DollarOutlined, RiseOutlined, FallOutlined } from '@ant-design/icons';
+import { Row, Col, Statistic } from 'antd';
+
+import OverviewCard from '@/components/common/OverviewCard';
 
 const ReportsCard = () => (
-  <Card title="Reports" extra={<Button type="text" icon={<PlusOutlined />} className="card-extra-btn" />} styles={{ body: { padding: '12px 16px' } }}>
+  <OverviewCard title="Reports">
     <Row gutter={16}>
       <Col span={12}>
         <Statistic title="Worth" value={6969} prefix={<DollarOutlined style={{ color: '#21bf73' }} />} />
@@ -16,7 +18,7 @@ const ReportsCard = () => (
         <Statistic title="Earn" value={6969} prefix={<RiseOutlined style={{ color: '#f7c025' }} />} />
       </Col>
     </Row>
-  </Card>
+  </OverviewCard>
 );
 
 export default ReportsCard;

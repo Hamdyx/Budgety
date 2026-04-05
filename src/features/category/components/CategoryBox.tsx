@@ -1,11 +1,11 @@
-import type { RootState } from 'app/store';
+import type { RootState } from '@/app/store';
 
 import { EditOutlined, DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
 import { Button, Form, Input, InputNumber, Row, Space, Progress } from 'antd';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { useAppDispatch } from 'app/store';
+import { useAppDispatch } from '@/app/store';
 
 import { deleteCategory, selectCategoryById, updateCategory } from '../categorySlice';
 

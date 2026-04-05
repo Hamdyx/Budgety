@@ -1,8 +1,10 @@
-import { DollarOutlined, BankOutlined, PlusOutlined } from '@ant-design/icons';
-import { Card, Row, Col, Statistic, Button } from 'antd';
+import { DollarOutlined, BankOutlined } from '@ant-design/icons';
+import { Row, Col, Statistic } from 'antd';
+
+import OverviewCard from '@/components/common/OverviewCard';
 
 const SavingsCard = () => (
-  <Card title="Savings" extra={<Button type="text" icon={<PlusOutlined />} className="card-extra-btn" />} styles={{ body: { padding: '12px 16px' } }}>
+  <OverviewCard title="Savings">
     <Row gutter={16}>
       <Col span={12}>
         <Statistic title="Today's Deposit" value={3500} prefix={<DollarOutlined style={{ color: '#21bf73' }} />} />
@@ -11,7 +13,7 @@ const SavingsCard = () => (
         <Statistic title="Bank" value={3500} prefix={<BankOutlined style={{ color: '#4d7cfd' }} />} />
       </Col>
     </Row>
-  </Card>
+  </OverviewCard>
 );
 
 export default SavingsCard;

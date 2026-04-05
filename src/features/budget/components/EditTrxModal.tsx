@@ -1,12 +1,12 @@
+import type { RootState } from '@/app/store';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { RootState } from 'app/store';
 
 import { Button, Modal, Form, Input, InputNumber, DatePicker, Radio, Row, Col } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { useAppDispatch } from 'app/store';
+import { useAppDispatch } from '@/app/store';
 
 import { updateTrx, selectTrxById } from '../budgetSlice';
 

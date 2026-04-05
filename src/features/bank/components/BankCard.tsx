@@ -1,12 +1,13 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Card, Row, Col, Statistic, Divider, Badge, Button, Typography } from 'antd';
+import { Row, Col, Statistic, Divider, Badge, Typography } from 'antd';
+
+import OverviewCard from '@/components/common/OverviewCard';
 
 import styles from './BankCard.module.css';
 
 const { Text } = Typography;
 
 const BankCard = () => (
-  <Card title="Bank" extra={<Button type="text" icon={<PlusOutlined />} className="card-extra-btn" />} styles={{ body: { padding: '12px 16px' } }}>
+  <OverviewCard title="Bank">
     <Row gutter={16}>
       <Col span={12}>
         <Statistic title="Net Worth" value={25} />
@@ -15,7 +16,7 @@ const BankCard = () => (
         <Statistic title="Total Debt" value={25} styles={{ content: { color: '#fd5e53' } }} />
       </Col>
     </Row>
-    <Divider className={styles.sectionDivider} />
+    <Divider />
     <div className={styles.badgeList}>
       <Text>
         <Badge color="#21bf73" /> Deposits
@@ -27,7 +28,7 @@ const BankCard = () => (
         <Badge color="#F7C025" /> Credit Card
       </Text>
     </div>
-  </Card>
+  </OverviewCard>
 );
 
 export default BankCard;

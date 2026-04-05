@@ -4,7 +4,7 @@ import { Layout, Menu } from 'antd';
 import { useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import { OverviewIcon, BudgetIcon, LoanIcon } from 'assets/icons';
+import { OverviewIcon, BudgetIcon, LoanIcon } from '@/assets/icons';
 
 import styles from './Sidebar.module.css';
 

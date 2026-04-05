@@ -11,6 +11,7 @@ const themeConfig: ThemeConfig = {
     colorBgContainer: '#2a2d32',
     colorText: '#fbfcfe',
     colorTextSecondary: '#545963',
+    colorSplit: '#363a3e',
     borderRadius: 8,
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
   },
@@ -30,6 +31,13 @@ const themeConfig: ThemeConfig = {
     },
     Card: {
       colorBgContainer: '#2a2d32',
+    },
+    Typography: {
+      titleMarginBottom: 0,
+      titleMarginTop: 0,
+    },
+    Divider: {
+      marginLG: 12,
     },
   },
 };

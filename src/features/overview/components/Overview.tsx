@@ -4,14 +4,14 @@ import { Suspense, lazy } from 'react';
 
 import styles from './Overview.module.css';
 
-const TransactionsCard = lazy(() => import('features/budget/components/TransactionsCard'));
+const TransactionsCard = lazy(() => import('@/features/budget/components/TransactionsCard'));
 const ReportsCard = lazy(() => import('./ReportsCard'));
-const SchedulerCard = lazy(() => import('features/scheduler/components/SchedulerCard'));
+const SchedulerCard = lazy(() => import('@/features/scheduler/components/SchedulerCard'));
 const SavingsCard = lazy(() => import('./SavingsCard'));
-const BankCard = lazy(() => import('features/bank/components/BankCard'));
-const BudgetCard = lazy(() => import('features/budget/components/BudgetCard'));
+const BankCard = lazy(() => import('@/features/bank/components/BankCard'));
+const BudgetCard = lazy(() => import('@/features/budget/components/BudgetCard'));
 const WishlistCard = lazy(() => import('./WishlistCard'));
-const InvestmentCard = lazy(() => import('features/investment/components/InvestmentCard'));
+const InvestmentCard = lazy(() => import('@/features/investment/components/InvestmentCard'));
 
 const { Title } = Typography;
 

@@ -6,11 +6,11 @@ import Sidebar from './Sidebar';
 
 import styles from './App.module.css';
 
-const Overview = lazy(() => import('features/overview/components/Overview'));
-const InvestmentPage = lazy(() => import('features/investment/components/InvestmentPage'));
-const BankPage = lazy(() => import('features/bank/components/BankPage'));
+const Overview = lazy(() => import('@/features/overview/components/Overview'));
+const InvestmentPage = lazy(() => import('@/features/investment/components/InvestmentPage'));
+const BankPage = lazy(() => import('@/features/bank/components/BankPage'));
 const BudgetMain = lazy(() =>
-  import('features/budget/components/BudgetMain').then(module => ({
+  import('@/features/budget/components/BudgetMain').then(module => ({
     default: module.BudgetMain,
   }))
 );

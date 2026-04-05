@@ -32,11 +32,6 @@ const eslintConfig = defineConfig([
               position: 'before',
             },
             {
-              pattern: '{app,assets,Components,features,types}/**',
-              group: 'internal',
-              position: 'before',
-            },
-            {
               pattern: './**/*.css',
               group: 'index',
             },

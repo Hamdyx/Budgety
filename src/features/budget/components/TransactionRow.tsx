@@ -1,5 +1,5 @@
+import type { RootState } from '@/app/store';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { RootState } from 'app/store';
 
 import { Row, Col, Typography, Space } from 'antd';
 import { useSelector } from 'react-redux';

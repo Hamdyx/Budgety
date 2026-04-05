@@ -1,10 +1,10 @@
 import { Button, Col, DatePicker, Form, Input, InputNumber, Modal, Radio, Row } from 'antd';
 import dayjs from 'dayjs';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { useAppDispatch } from 'app/store';
-import { selectAllCategories } from 'features/category/categorySlice';
+import { useAppDispatch } from '@/app/store';
+import { selectAllCategories } from '@/features/category/categorySlice';
 
 import { addNewTrx } from '../budgetSlice';
 

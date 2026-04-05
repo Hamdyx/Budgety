@@ -1,8 +1,9 @@
-import { Row, Col, Button, Progress, Typography, Divider } from 'antd';
+import { Row, Col, Button, Progress, Typography } from 'antd';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { useAppDispatch } from 'app/store';
+import { useAppDispatch } from '@/app/store';
+import SectionHeader from '@/components/common/SectionHeader';
 
 import { AddTrxForm } from './AddTrxForm';
 import TransactionRow from './TransactionRow';
@@ -15,7 +16,7 @@ const { Title } = Typography;
 
 export const BudgetMain = () => {
   const allTrxIds = useSelector(selectTrxIds);
-  const TrxRows = allTrxIds.map((id, i) => <TransactionRow key={i} trx_id={id} />);
+  const TrxRows = allTrxIds.map(id => <TransactionRow key={id} trx_id={id} />);
 
   const dispatch = useAppDispatch();
   const budgetCircularFrames = {
@@ -25,8 +26,8 @@ export const BudgetMain = () => {
     daily: 30,
   };
 
-  const budgetCircularContent = Object.entries(budgetCircularFrames).map(([timeframe, value], i) => (
-    <Col key={i}>
+  const budgetCircularContent = Object.entries(budgetCircularFrames).map(([timeframe, value]) => (
+    <Col key={timeframe}>
       <BudgetFrame timeframe={timeframe} value={value} />
     </Col>
   ));
@@ -41,23 +42,12 @@ export const BudgetMain = () => {
         <div className={styles.leftPanel}>
           <Row align="middle" gutter={16} className={styles.headerRow}>
             <Col>
-              <Title level={5} style={{ margin: 0 }}>
-                Budget Feature
-              </Title>
+              <Title level={5}>Budget Feature</Title>
             </Col>
             {budgetCircularContent}
           </Row>
           <CategoryMain />
-          <Row align="middle" gutter={16} className={styles.trxHeader}>
-            <Col>
-              <Title level={5} style={{ margin: 0 }}>
-                Recent Transactions
-              </Title>
-            </Col>
-            <Col flex="auto">
-              <Divider style={{ borderColor: '#545963' }} />
-            </Col>
-          </Row>
+          <SectionHeader title="Recent Transactions" />
           {TrxRows}
         </div>
         <div className={styles.rightPanel}>
@@ -75,8 +65,8 @@ const BudgetSection = () => {
   const expTrxs = allTrxs.filter((trx: any) => trx.type === 'exp');
   const content =
     budgetType === 'inc'
-      ? incTrxs.map((trx, i) => <TransactionRow key={trx.id} trx_id={trx.id} />)
-      : expTrxs.map((trx, i) => <TransactionRow key={trx.id} trx_id={trx.id} />);
+      ? incTrxs.map(trx => <TransactionRow key={trx.id} trx_id={trx.id} />)
+      : expTrxs.map(trx => <TransactionRow key={trx.id} trx_id={trx.id} />);
 
   const expenseStyle =
     budgetType === 'exp'

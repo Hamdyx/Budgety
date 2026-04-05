@@ -1,9 +1,11 @@
-import type { TransactionItemData, TransactionOptionMap, TransactionType } from 'types/types';
+import type { TransactionItemData, TransactionOptionMap, TransactionType } from '@/types/types';
 
 import { PlusOutlined, WalletOutlined, BankOutlined, DollarOutlined } from '@ant-design/icons';
-import { Card, Row, Col, Button, Modal, Form, Select, Input, InputNumber, DatePicker, TimePicker, Radio, Typography } from 'antd';
+import { Row, Col, Button, Modal, Form, Select, Input, InputNumber, DatePicker, TimePicker, Radio, Typography } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
+
+import OverviewCard from '@/components/common/OverviewCard';
 
 import styles from './TransactionsCard.module.css';
 
@@ -159,7 +161,7 @@ const TransactionsCard = () => {
   ];
 
   return (
-    <Card title="All Transactions" extra={<TransactionsModal />} styles={{ body: { padding: '12px 16px' } }}>
+    <OverviewCard title="All Transactions" extra={<TransactionsModal />}>
       {items.map(item => (
         <Row key={item.id} align="middle" className={styles.itemRow}>
           <Col span={3}>{item.icon}</Col>
@@ -175,7 +177,7 @@ const TransactionsCard = () => {
           </Col>
         </Row>
       ))}
-    </Card>
+    </OverviewCard>
   );
 };
 

@@ -1,5 +1,5 @@
-import type { RootState } from 'app/store';
-import type { Category, Transaction } from 'types/types';
+import type { RootState } from '@/app/store';
+import type { Category, Transaction } from '@/types/types';
 
 import {
 	createSlice,
