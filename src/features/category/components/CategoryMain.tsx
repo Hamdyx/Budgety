@@ -1,21 +1,17 @@
-import { Row, Col } from 'antd';
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { Row, Col, Spin } from 'antd';
 
-import { useAppDispatch } from '@/app/store';
 import SectionHeader from '@/components/common/SectionHeader';
 
 import AddCategory from './AddCategory';
 import CategoryBox from './CategoryBox';
-import { fetchCategories, selectAllCategories } from '../categorySlice';
+import { useCategories } from '../hooks';
 
 export const CategoryMain = () => {
-  const dispatch = useAppDispatch();
-  const categories = useSelector(selectAllCategories);
+  const { data: categories = [], isLoading } = useCategories();
 
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
+  if (isLoading) {
+    return <Spin />;
+  }
 
   return (
     <>
@@ -23,7 +19,7 @@ export const CategoryMain = () => {
       <Row gutter={[16, 16]}>
         {categories.map(el => (
           <Col key={el.id} xs={24} sm={8}>
-            <CategoryBox id={el?.id} />
+            <CategoryBox category={el} />
           </Col>
         ))}
       </Row>

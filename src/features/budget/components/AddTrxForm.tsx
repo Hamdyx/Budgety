@@ -1,38 +1,34 @@
 import { Button, Col, DatePicker, Form, Input, InputNumber, Modal, Radio, Row } from 'antd';
 import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
-import { useAppDispatch } from '@/app/store';
-import { selectAllCategories } from '@/features/category/categorySlice';
+import { useCategories } from '@/features/category/hooks';
 
-import { addNewTrx } from '../budgetSlice';
+import { useCreateTransaction } from '../hooks';
 
 export const AddTrxForm = () => {
-  const categories = useSelector(selectAllCategories);
+  const { data: categories = [] } = useCategories();
+  const createMutation = useCreateTransaction();
   const [isAddTrxModalOpen, setIsAddTrxModalOpen] = useState(false);
 
   const [form] = Form.useForm();
 
-  const dispatch = useAppDispatch();
-
   const handleClose = () => setIsAddTrxModalOpen(false);
   const handleShow = () => setIsAddTrxModalOpen(true);
 
-  const handleTrxSumbit = async (values: any) => {
-    dispatch(
-      addNewTrx({
-        ...values,
-        id: new Date().toISOString(),
-        trxDate: values.trxDate.toDate().toISOString(),
-      })
+  const handleTrxSumbit = async (values: Record<string, unknown>) => {
+    createMutation.mutate(
+      {
+        type: values.type as string,
+        title: values.title as string,
+        value: values.value as number,
+        trxDate: (values.trxDate as dayjs.Dayjs).toISOString(),
+        categoryId: values.categoryId as number,
+      },
+      { onSuccess: () => handleClose() }
     );
-    handleClose();
   };
 
-  useEffect(() => {
-    console.log('useEffect', { categories });
-  }, [categories]);
   return (
     <>
       <Button className="addTrx-btn" onClick={handleShow}>
@@ -59,7 +55,6 @@ export const AddTrxForm = () => {
             trxDate: dayjs(),
           }}
           onFinish={handleTrxSumbit}
-          onValuesChange={values => console.log('add_transaction form', { values })}
           requiredMark={false}
         >
           <Row>
@@ -115,7 +110,7 @@ export const AddTrxForm = () => {
             <Col>
               {categories.length > 0 && (
                 <Form.Item
-                  name="category"
+                  name="categoryId"
                   label="Category"
                   rules={[
                     {

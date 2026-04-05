@@ -1,58 +1,125 @@
 import type { ChangeEventHandler, ReactNode } from 'react';
 
-export type Transaction = {
-	id: string;
-	type: string;
-	title: string;
-	value: number;
-	trxDate: string;
-	category: number;
-};
-export type Category = {
-	id: number;
-	category: string;
-	budget: number;
-	spent: number;
+// ── Auth ──────────────────────────────────────────────
+export type User = {
+  id: string;
+  email: string;
+  username: string;
 };
 
+export type LoginRequest = {
+  email: string;
+  password: string;
+};
+
+export type RegisterRequest = {
+  email: string;
+  username: string;
+  password: string;
+};
+
+export type AuthResponse = {
+  accessToken: string;
+  tokenType: string;
+};
+
+export type ApiError = {
+  detail: string | Array<{ loc: (string | number)[]; msg: string; type: string }>;
+  error?: string;
+  message?: string;
+};
+
+// ── Transaction ───────────────────────────────────────
+export type Transaction = {
+  id: string;
+  type: string;
+  title: string;
+  value: number;
+  trxDate: string;
+  categoryId: number;
+  userId?: string;
+};
+
+export type TransactionCreate = {
+  type: string;
+  title: string;
+  value: number;
+  trxDate: string;
+  categoryId: number;
+};
+
+export type TransactionUpdate = Partial<TransactionCreate>;
+
+// ── Category ──────────────────────────────────────────
+export type Category = {
+  id: number;
+  category: string;
+  budget: number;
+  spent: number;
+  userId?: string;
+};
+
+export type CategoryCreate = {
+  category: string;
+  budget?: number;
+  spent?: number;
+};
+
+export type CategoryUpdate = Partial<CategoryCreate>;
+
+// ── Misc ──────────────────────────────────────────────
 export type TransactionType = 'inc' | 'exp';
 
 export type TransactionItemData = {
-	id: string;
-	icon: ReactNode;
-	iconClass: string;
-	labelTxt: string;
-	formTxt: string;
+  id: string;
+  icon: ReactNode;
+  iconClass: string;
+  labelTxt: string;
+  formTxt: string;
 };
 
-export type TransactionOptionMap = Record<
-	TransactionType,
-	Record<string, string[]>
->;
+export type TransactionOptionMap = Record<TransactionType, Record<string, string[]>>;
 
 export type ChartProps = {
-	labelsArr: string[];
-	data: number[];
-	colors: string[];
-	width?: number;
-	height?: number;
+  labelsArr: string[];
+  data: number[];
+  colors: string[];
+  width?: number;
+  height?: number;
 };
 
 export type CustomFloatingLabelProps = {
-	type: string;
-	label: string;
-	value: string | number;
-	changeFunc: ChangeEventHandler<HTMLInputElement>;
+  type: string;
+  label: string;
+  value: string | number;
+  changeFunc: ChangeEventHandler<HTMLInputElement>;
 };
 
+// ── Investment ────────────────────────────────────────
 export type InvestmentCoin = {
-	name: string;
-	buyPrice: number;
-	buyAmount: number;
-	sellPrice: number;
-	holdings: number;
-	sellAmount: number;
-	profitPercent: number;
-	price?: number;
-	value?: number;
+  id: number;
+  name: string;
+  buyPrice: number;
+  buyAmount: number;
+  sellPrice: number;
+  holdings: number;
+  sellAmount: number;
+  profitPercent: number;
+  price?: number | null;
+  value?: number | null;
+  userId?: string;
 };
+
+export type InvestmentCoinCreate = {
+  name: string;
+  buyPrice?: number;
+  buyAmount?: number;
+  sellPrice?: number;
+  holdings?: number;
+  sellAmount?: number;
+  profitPercent?: number;
+  price?: number | null;
+  value?: number | null;
+};
+
+export type InvestmentCoinUpdate = Partial<InvestmentCoinCreate>;

@@ -2,159 +2,14 @@ import type { InvestmentCoin } from '@/types/types';
 import type { ColumnsType } from 'antd/es/table';
 
 import { Modal, Table, InputNumber, Button, Typography } from 'antd';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
+
+import { useInvestments, useUpdateInvestment } from '../hooks';
 
 type InvestmentModalProps = {
   open: boolean;
   onClose: () => void;
 };
-
-const seedCoins: InvestmentCoin[] = [
-  {
-    name: 'BNB',
-    buyPrice: 350,
-    buyAmount: 500,
-    sellPrice: 500,
-    holdings: 0,
-    sellAmount: 0,
-    profitPercent: 0,
-  },
-  {
-    name: 'CAKE',
-    buyPrice: 18,
-    buyAmount: 500,
-    sellPrice: 35,
-    holdings: 0,
-    sellAmount: 0,
-    profitPercent: 0,
-  },
-  {
-    name: 'ETH',
-    buyPrice: 2700,
-    buyAmount: 370,
-    sellPrice: 3500,
-    holdings: 0,
-    sellAmount: 0,
-    profitPercent: 0,
-  },
-  {
-    name: 'LINK',
-    buyPrice: 32,
-    buyAmount: 250,
-    sellPrice: 45,
-    holdings: 0,
-    sellAmount: 0,
-    profitPercent: 0,
-  },
-  {
-    name: '1INCH',
-    buyPrice: 3.5,
-    buyAmount: 250,
-    sellPrice: 5.5,
-    holdings: 0,
-    sellAmount: 0,
-    profitPercent: 0,
-  },
-  {
-    name: 'REEF',
-    buyPrice: 0.25,
-    buyAmount: 250,
-    sellPrice: 0.45,
-    holdings: 0,
-    sellAmount: 0,
-    profitPercent: 0,
-  },
-  {
-    name: 'SOL',
-    buyPrice: 33,
-    buyAmount: 250,
-    sellPrice: 50,
-    holdings: 0,
-    sellAmount: 0,
-    profitPercent: 0,
-  },
-  {
-    name: 'SWAP',
-    buyPrice: 1.25,
-    buyAmount: 250,
-    sellPrice: 3.25,
-    holdings: 0,
-    sellAmount: 0,
-    profitPercent: 0,
-  },
-  {
-    name: 'SUPER',
-    buyPrice: 0.8,
-    buyAmount: 250,
-    sellPrice: 1.75,
-    holdings: 0,
-    sellAmount: 0,
-    profitPercent: 0,
-  },
-  {
-    name: 'XED',
-    buyPrice: 0.31,
-    buyAmount: 200,
-    sellPrice: 0.6,
-    holdings: 0,
-    sellAmount: 0,
-    profitPercent: 0,
-  },
-  {
-    name: 'BONDLY',
-    buyPrice: 0.22,
-    buyAmount: 200,
-    sellPrice: 0.45,
-    holdings: 0,
-    sellAmount: 0,
-    profitPercent: 0,
-  },
-  {
-    name: 'BSCX',
-    buyPrice: 3.75,
-    buyAmount: 200,
-    sellPrice: 10,
-    holdings: 0,
-    sellAmount: 0,
-    profitPercent: 0,
-  },
-  {
-    name: 'DDIM',
-    buyPrice: 16.5,
-    buyAmount: 200,
-    sellPrice: 40,
-    holdings: 0,
-    sellAmount: 0,
-    profitPercent: 0,
-  },
-  {
-    name: 'YLD',
-    buyPrice: 0.33,
-    buyAmount: 150,
-    sellPrice: 0.75,
-    holdings: 0,
-    sellAmount: 0,
-    profitPercent: 0,
-  },
-  {
-    name: 'POLS',
-    buyPrice: 1.8,
-    buyAmount: 150,
-    sellPrice: 3.5,
-    holdings: 0,
-    sellAmount: 0,
-    profitPercent: 0,
-  },
-  {
-    name: 'BTC',
-    buyPrice: 37000,
-    buyAmount: 150,
-    sellPrice: 45000,
-    holdings: 0,
-    sellAmount: 0,
-    profitPercent: 0,
-  },
-];
 
 const normalizeCoin = (coin: InvestmentCoin): InvestmentCoin => {
   const holdingsRaw = coin.buyPrice > 0 ? coin.buyAmount / coin.buyPrice : 0;
@@ -165,7 +20,10 @@ const normalizeCoin = (coin: InvestmentCoin): InvestmentCoin => {
 };
 
 const InvestmentTable = () => {
-  const [coins, setCoins] = useState<InvestmentCoin[]>(() => seedCoins.map(normalizeCoin));
+  const { data: rawCoins = [] } = useInvestments();
+  const updateMutation = useUpdateInvestment();
+
+  const coins = useMemo(() => rawCoins.map(normalizeCoin), [rawCoins]);
 
   const totals = useMemo(() => {
     const totalBuy = coins.reduce((sum, coin) => sum + coin.buyAmount, 0);
@@ -174,17 +32,9 @@ const InvestmentTable = () => {
     return { totalBuy, totalSell, percentage };
   }, [coins]);
 
-  const updateCoin = (coinName: string, field: 'buyPrice' | 'buyAmount' | 'sellPrice', nextValue: number) => {
-    setCoins(prevCoins =>
-      prevCoins.map(coin =>
-        coin.name === coinName
-          ? normalizeCoin({
-              ...coin,
-              [field]: Number.isFinite(nextValue) ? nextValue : 0,
-            })
-          : coin
-      )
-    );
+  const updateCoin = (coin: InvestmentCoin, field: 'buyPrice' | 'buyAmount' | 'sellPrice', nextValue: number) => {
+    const value = Number.isFinite(nextValue) ? nextValue : 0;
+    updateMutation.mutate({ id: coin.id, data: { [field]: value } });
   };
 
   const parseInput = (value: number | null) => value ?? 0;
@@ -195,24 +45,24 @@ const InvestmentTable = () => {
     {
       title: 'Buy Price',
       dataIndex: 'buyPrice',
-      render: (val: number, record) => <InputNumber size="small" defaultValue={val} onChange={v => updateCoin(record.name, 'buyPrice', parseInput(v))} />,
+      render: (val: number, record) => <InputNumber size="small" defaultValue={val} onChange={v => updateCoin(record, 'buyPrice', parseInput(v))} />,
     },
     {
       title: 'Buy Amount',
       dataIndex: 'buyAmount',
-      render: (val: number, record) => <InputNumber size="small" defaultValue={val} onChange={v => updateCoin(record.name, 'buyAmount', parseInput(v))} />,
+      render: (val: number, record) => <InputNumber size="small" defaultValue={val} onChange={v => updateCoin(record, 'buyAmount', parseInput(v))} />,
     },
     { title: 'Holdings', dataIndex: 'holdings' },
     {
       title: 'Sell Price',
       dataIndex: 'sellPrice',
-      render: (val: number, record) => <InputNumber size="small" defaultValue={val} onChange={v => updateCoin(record.name, 'sellPrice', parseInput(v))} />,
+      render: (val: number, record) => <InputNumber size="small" defaultValue={val} onChange={v => updateCoin(record, 'sellPrice', parseInput(v))} />,
     },
     { title: 'Sell Amount', dataIndex: 'sellAmount', render: (v: number) => `${v}$` },
     { title: 'Profit %', dataIndex: 'profitPercent', render: (v: number) => `${v}%` },
   ];
 
-  const dataSource = coins.map((c, i) => ({ ...c, index: i, key: c.name }));
+  const dataSource = coins.map((c, i) => ({ ...c, index: i, key: c.id }));
 
   return (
     <>

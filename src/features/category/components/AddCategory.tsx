@@ -2,20 +2,21 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Form, Input, InputNumber, Modal, Button } from 'antd';
 import { useState } from 'react';
 
-import { useAppDispatch } from '@/app/store';
-
-import { addNewCategory } from '../categorySlice';
+import { useCreateCategory } from '../hooks';
 
 function AddCategory() {
-  const dispatch = useAppDispatch();
+  const createMutation = useCreateCategory();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
 
   const handleOk = () => {
     form.validateFields().then(values => {
-      dispatch(addNewCategory(values));
-      form.resetFields();
-      setIsModalOpen(false);
+      createMutation.mutate(values, {
+        onSuccess: () => {
+          form.resetFields();
+          setIsModalOpen(false);
+        },
+      });
     });
   };
 

@@ -1,33 +1,30 @@
-import type { RootState } from '@/app/store';
-import type { EntityId } from '@reduxjs/toolkit';
+import type { Transaction } from '@/types/types';
 
 import { Button, Modal, Form, Input, InputNumber, DatePicker, Radio, Row, Col } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 
-import { useAppDispatch } from '@/app/store';
+import { useUpdateTransaction } from '../hooks';
 
-import { updateTrx, selectTrxById } from '../budgetSlice';
-
-export const EditTrxModal = ({ id }: { id: EntityId }) => {
-  const trx = useSelector((state: RootState) => selectTrxById(state, String(id)));
+export const EditTrxModal = ({ trx }: { trx: Transaction }) => {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
-  const dispatch = useAppDispatch();
+  const updateMutation = useUpdateTransaction();
 
   const handleSubmit = () => {
     form.validateFields().then(values => {
-      dispatch(
-        updateTrx({
-          id,
-          type: values.type,
-          title: values.title,
-          value: values.value,
-          trxDate: values.trxDate?.toISOString(),
-        })
+      updateMutation.mutate(
+        {
+          id: trx.id,
+          data: {
+            type: values.type,
+            title: values.title,
+            value: values.value,
+            trxDate: values.trxDate?.toISOString(),
+          },
+        },
+        { onSuccess: () => setOpen(false) }
       );
-      setOpen(false);
     });
   };
 
@@ -36,15 +33,22 @@ export const EditTrxModal = ({ id }: { id: EntityId }) => {
       <Button size="small" onClick={() => setOpen(true)}>
         Edit
       </Button>
-      <Modal title="Edit Transaction" open={open} onCancel={() => setOpen(false)} onOk={handleSubmit} okText="Save Changes">
+      <Modal
+        title="Edit Transaction"
+        open={open}
+        onCancel={() => setOpen(false)}
+        onOk={handleSubmit}
+        okText="Save Changes"
+        confirmLoading={updateMutation.isPending}
+      >
         <Form
           form={form}
           layout="vertical"
           initialValues={{
-            type: trx?.type ?? 'inc',
-            title: trx?.title ?? '',
-            value: trx?.value ?? 0,
-            trxDate: trx?.trxDate ? dayjs(trx.trxDate) : dayjs(),
+            type: trx.type ?? 'inc',
+            title: trx.title ?? '',
+            value: trx.value ?? 0,
+            trxDate: trx.trxDate ? dayjs(trx.trxDate) : dayjs(),
           }}
         >
           <Form.Item name="type">

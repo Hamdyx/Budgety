@@ -1,24 +1,23 @@
-import { Row, Col, Button, Progress, Typography } from 'antd';
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import type { Transaction } from '@/types/types';
 
-import { useAppDispatch } from '@/app/store';
+import { Row, Col, Button, Progress, Typography, Spin } from 'antd';
+import { useState } from 'react';
+
 import SectionHeader from '@/components/common/SectionHeader';
 
 import { AddTrxForm } from './AddTrxForm';
 import TransactionRow from './TransactionRow';
 import CategoryMain from '../../category/components/CategoryMain';
-import { fetchTrxs, selectAllTrx, selectTrxIds } from '../budgetSlice';
+import { useTransactions } from '../hooks';
 
 import styles from './BudgetMain.module.css';
 
 const { Title } = Typography;
 
 export const BudgetMain = () => {
-  const allTrxIds = useSelector(selectTrxIds);
-  const TrxRows = allTrxIds.map(id => <TransactionRow key={id} trx_id={id} />);
+  const { data: allTrxs = [], isLoading } = useTransactions();
+  const TrxRows = allTrxs.map(trx => <TransactionRow key={trx.id} trx={trx} />);
 
-  const dispatch = useAppDispatch();
   const budgetCircularFrames = {
     yearly: 10,
     monthly: 25,
@@ -32,9 +31,13 @@ export const BudgetMain = () => {
     </Col>
   ));
 
-  useEffect(() => {
-    dispatch(fetchTrxs());
-  }, [dispatch]);
+  if (isLoading) {
+    return (
+      <div className={styles.spinContainer}>
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -51,22 +54,19 @@ export const BudgetMain = () => {
           {TrxRows}
         </div>
         <div className={styles.rightPanel}>
-          <BudgetSection />
+          <BudgetSection transactions={allTrxs} />
         </div>
       </div>
     </div>
   );
 };
 
-const BudgetSection = () => {
+const BudgetSection = ({ transactions }: { transactions: Transaction[] }) => {
   const [budgetType, setBudgetType] = useState('inc');
-  const allTrxs = useSelector(selectAllTrx);
-  const incTrxs = allTrxs.filter((trx: any) => trx.type === 'inc');
-  const expTrxs = allTrxs.filter((trx: any) => trx.type === 'exp');
+  const incTrxs = transactions.filter(trx => trx.type === 'inc');
+  const expTrxs = transactions.filter(trx => trx.type === 'exp');
   const content =
-    budgetType === 'inc'
-      ? incTrxs.map(trx => <TransactionRow key={trx.id} trx_id={trx.id} />)
-      : expTrxs.map(trx => <TransactionRow key={trx.id} trx_id={trx.id} />);
+    budgetType === 'inc' ? incTrxs.map(trx => <TransactionRow key={trx.id} trx={trx} />) : expTrxs.map(trx => <TransactionRow key={trx.id} trx={trx} />);
 
   const expenseStyle =
     budgetType === 'exp'

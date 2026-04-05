@@ -1,5 +1,7 @@
 .sider {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .logo {
@@ -19,4 +21,9 @@
   width: 16px;
   height: 16px;
   vertical-align: middle;
+}
+
+.logoutContainer {
+  margin-top: auto;
+  padding-bottom: 16px;
 }

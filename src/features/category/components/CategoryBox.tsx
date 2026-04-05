@@ -1,22 +1,19 @@
-import type { RootState } from '@/app/store';
+import type { Category } from '@/types/types';
 
 import { EditOutlined, DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
 import { Button, Form, Input, InputNumber, Row, Space, Progress } from 'antd';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
-import { useAppDispatch } from '@/app/store';
-
-import { deleteCategory, selectCategoryById, updateCategory } from '../categorySlice';
+import { useDeleteCategory, useUpdateCategory } from '../hooks';
 
 import styles from './CategoryBox.module.css';
 
-const CategoryBox = ({ id }: any) => {
-  const currCat = useSelector((state: RootState) => selectCategoryById(state, id));
+const CategoryBox = ({ category: currCat }: { category: Category }) => {
   const [disabled, setDisabled] = useState(true);
   const [form] = Form.useForm();
-  const dispatch = useAppDispatch();
-  const { category, spent, budget } = currCat as any;
+  const updateMutation = useUpdateCategory();
+  const deleteMutation = useDeleteCategory();
+  const { category, spent, budget } = currCat;
 
   const editCategory = () => {
     !disabled && form.submit();
@@ -24,19 +21,16 @@ const CategoryBox = ({ id }: any) => {
   };
 
   const handleDeleteCategory = () => {
-    dispatch(deleteCategory(id));
+    deleteMutation.mutate(currCat.id);
   };
 
-  const onFinish = (cat: any) => {
-    dispatch(updateCategory({ id, ...cat }));
+  const onFinish = (values: { category: string; spent: number; budget: number }) => {
+    updateMutation.mutate({ id: currCat.id, data: values });
   };
 
   useEffect(() => {
-    if (currCat) {
-      const { category, spent, budget } = currCat;
-      form.setFieldsValue({ category, spent, budget });
-    }
-  }, [currCat, form]);
+    form.setFieldsValue({ category, spent, budget });
+  }, [currCat, form, category, spent, budget]);
 
   const pct = budget > 0 ? Math.round((spent / budget) * 100) : 0;
 

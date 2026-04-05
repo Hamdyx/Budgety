@@ -1,5 +1,14 @@
-import ComingSoon from '@/components/common/ComingSoon';
+import SectionHeader from '@/components/common/SectionHeader';
 
-const InvestmentPage = () => <ComingSoon title="Investments" subtitle="Investment features are under development." />;
+import InvestmentCard from './InvestmentCard';
+
+const InvestmentPage = () => {
+  return (
+    <div style={{ padding: 24 }}>
+      <SectionHeader title="Investments" />
+      <InvestmentCard />
+    </div>
+  );
+};
 
 export default InvestmentPage;

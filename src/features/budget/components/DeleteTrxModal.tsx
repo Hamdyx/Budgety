@@ -1,19 +1,14 @@
-import type { EntityId } from '@reduxjs/toolkit';
-
 import { Button, Modal, Typography } from 'antd';
 import { useState } from 'react';
 
-import { useAppDispatch } from '@/app/store';
+import { useDeleteTransaction } from '../hooks';
 
-import { deleteTrx } from '../budgetSlice';
-
-export const DeleteTrxModal = ({ id }: { id: EntityId }) => {
+export const DeleteTrxModal = ({ id }: { id: string }) => {
   const [open, setOpen] = useState(false);
-  const dispatch = useAppDispatch();
+  const deleteMutation = useDeleteTransaction();
 
   const handleDelete = () => {
-    dispatch(deleteTrx(id));
-    setOpen(false);
+    deleteMutation.mutate(id, { onSuccess: () => setOpen(false) });
   };
 
   return (

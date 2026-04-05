@@ -1,12 +1,15 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { expect, test, vi } from 'vitest';
 
 import App from './app/App';
-import { store } from './app/store';
 
 vi.mock('./app/Sidebar', () => ({ default: () => <div>Sidebar</div> }));
+vi.mock('./components/common/PrivateRoute', async () => {
+  const { Outlet } = await import('react-router-dom');
+  return { default: () => <Outlet /> };
+});
 vi.mock('./features/overview/components/Overview', () => ({
   default: () => <div>Overview</div>,
 }));
@@ -21,12 +24,16 @@ vi.mock('./features/budget/components/BudgetMain', () => ({
 }));
 
 test('renders overview navigation link', async () => {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  });
+
   render(
-    <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
       <MemoryRouter>
         <App />
       </MemoryRouter>
-    </Provider>
+    </QueryClientProvider>
   );
 
   expect(await screen.findByText(/overview/i)).toBeInTheDocument();

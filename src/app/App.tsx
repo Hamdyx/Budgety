@@ -1,6 +1,8 @@
 import { Layout, Spin } from 'antd';
 import { Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Outlet } from 'react-router-dom';
+
+import PrivateRoute from '@/components/common/PrivateRoute';
 
 import Sidebar from './Sidebar';
 
@@ -14,10 +16,12 @@ const BudgetMain = lazy(() =>
     default: module.BudgetMain,
   }))
 );
+const LoginPage = lazy(() => import('@/features/auth/components/LoginPage'));
+const RegisterPage = lazy(() => import('@/features/auth/components/RegisterPage'));
 
 const { Content } = Layout;
 
-function App() {
+function AppLayout() {
   return (
     <Layout className={styles.layout}>
       <Sidebar />
@@ -29,16 +33,36 @@ function App() {
             </div>
           }
         >
-          <Routes>
+          <Outlet />
+        </Suspense>
+      </Content>
+    </Layout>
+  );
+}
+
+function App() {
+  return (
+    <Suspense
+      fallback={
+        <div className={styles.spinContainer}>
+          <Spin size="large" />
+        </div>
+      }
+    >
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route element={<PrivateRoute />}>
+          <Route element={<AppLayout />}>
             <Route path="/" element={<Overview />} />
             <Route path="/budget" element={<BudgetMain />} />
             <Route path="/investment" element={<InvestmentPage />} />
             <Route path="/bank" element={<BankPage />} />
             <Route path="*" element={<Overview />} />
-          </Routes>
-        </Suspense>
-      </Content>
-    </Layout>
+          </Route>
+        </Route>
+      </Routes>
+    </Suspense>
   );
 }
 
