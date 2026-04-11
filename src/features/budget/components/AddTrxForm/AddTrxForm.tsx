@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 import { useCategories } from '@/features/category/hooks';
 
-import { useCreateTransaction } from '../hooks';
+import { useCreateTransaction } from '../../hooks';
 
 export const AddTrxForm = () => {
   const { data: categories = [] } = useCategories();

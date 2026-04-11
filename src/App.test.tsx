@@ -19,7 +19,7 @@ vi.mock('./features/investment/components/InvestmentPage', () => ({
 vi.mock('./features/bank/components/BankPage', () => ({
   default: () => <div>Bank</div>,
 }));
-vi.mock('./features/budget/components/BudgetMain', () => ({
+vi.mock('./features/budget/components/BudgetMain/BudgetMain', () => ({
   BudgetMain: () => <div>Budget</div>,
 }));
 

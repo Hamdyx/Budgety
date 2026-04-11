@@ -4,7 +4,7 @@ import { EditOutlined, DeleteOutlined, FileTextOutlined } from '@ant-design/icon
 import { Button, Form, Input, InputNumber, Radio, Row, Space, Progress, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 
-import { useDeleteCategory, useUpdateCategory } from '../hooks';
+import { useDeleteCategory, useUpdateCategory } from '../../hooks';
 
 import styles from './CategoryBox.module.css';
 

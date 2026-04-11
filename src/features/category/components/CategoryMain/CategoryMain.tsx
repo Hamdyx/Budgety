@@ -2,9 +2,9 @@ import { Row, Col, Spin } from 'antd';
 
 import SectionHeader from '@/components/common/SectionHeader';
 
-import AddCategory from './AddCategory';
-import CategoryBox from './CategoryBox';
-import { useCategories } from '../hooks';
+import { useCategories } from '../../hooks';
+import AddCategory from '../AddCategory/AddCategory';
+import CategoryBox from '../CategoryBox/CategoryBox';
 
 export const CategoryMain = () => {
   const { data: categories = [], isLoading } = useCategories();

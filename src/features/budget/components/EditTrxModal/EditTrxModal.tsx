@@ -4,7 +4,7 @@ import { Button, Modal, Form, Input, InputNumber, DatePicker, Radio, Row, Col } 
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
-import { useUpdateTransaction } from '../hooks';
+import { useUpdateTransaction } from '../../hooks';
 
 export const EditTrxModal = ({ trx }: { trx: Transaction }) => {
   const [open, setOpen] = useState(false);

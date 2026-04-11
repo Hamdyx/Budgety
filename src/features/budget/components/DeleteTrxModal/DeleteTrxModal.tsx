@@ -1,7 +1,7 @@
 import { Button, Modal, Typography } from 'antd';
 import { useState } from 'react';
 
-import { useDeleteTransaction } from '../hooks';
+import { useDeleteTransaction } from '../../hooks';
 
 export const DeleteTrxModal = ({ id }: { id: string }) => {
   const [open, setOpen] = useState(false);

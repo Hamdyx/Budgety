@@ -2,7 +2,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Form, Input, InputNumber, Modal, Button, Radio } from 'antd';
 import { useState } from 'react';
 
-import { useCreateCategory } from '../hooks';
+import { useCreateCategory } from '../../hooks';
 
 function AddCategory() {
   const createMutation = useCreateCategory();

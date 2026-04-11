@@ -1,4 +1,4 @@
-import type { ChangeEventHandler, ReactNode } from 'react';
+import type { ChangeEventHandler } from 'react';
 
 // ── Auth ──────────────────────────────────────────────
 export type User = {
@@ -83,16 +83,6 @@ export type TransactionUpdate = {
 };
 
 // ── Misc ──────────────────────────────────────────────
-
-export type TransactionItemData = {
-  id: string;
-  icon: ReactNode;
-  iconClass: string;
-  labelTxt: string;
-  formTxt: string;
-};
-
-export type TransactionOptionMap = Record<TransactionType, Record<string, string[]>>;
 
 export type ChartProps = {
   labelsArr: string[];

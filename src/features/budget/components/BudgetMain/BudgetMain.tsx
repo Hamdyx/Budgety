@@ -5,10 +5,10 @@ import { useState } from 'react';
 
 import SectionHeader from '@/components/common/SectionHeader';
 
-import { AddTrxForm } from './AddTrxForm';
-import TransactionRow from './TransactionRow';
-import CategoryMain from '../../category/components/CategoryMain';
-import { useTransactions } from '../hooks';
+import CategoryMain from '../../../category/components/CategoryMain/CategoryMain';
+import { useTransactions } from '../../hooks';
+import { AddTrxForm } from '../AddTrxForm/AddTrxForm';
+import TransactionRow from '../TransactionRow/TransactionRow';
 
 import styles from './BudgetMain.module.css';
 
