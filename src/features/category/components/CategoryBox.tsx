@@ -1,19 +1,21 @@
-import type { Category } from '@/types/types';
+import type { Category, CategoryUpdate } from '@/types/types';
 
 import { EditOutlined, DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
-import { Button, Form, Input, InputNumber, Row, Space, Progress } from 'antd';
+import { Button, Form, Input, InputNumber, Radio, Row, Space, Progress, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { useDeleteCategory, useUpdateCategory } from '../hooks';
 
 import styles from './CategoryBox.module.css';
 
+const { Text } = Typography;
+
 const CategoryBox = ({ category: currCat }: { category: Category }) => {
   const [disabled, setDisabled] = useState(true);
   const [form] = Form.useForm();
   const updateMutation = useUpdateCategory();
   const deleteMutation = useDeleteCategory();
-  const { category, spent, budget } = currCat;
+  const { category, type, spent, budget } = currCat;
 
   const editCategory = () => {
     !disabled && form.submit();
@@ -24,20 +26,21 @@ const CategoryBox = ({ category: currCat }: { category: Category }) => {
     deleteMutation.mutate(currCat.id);
   };
 
-  const onFinish = (values: { category: string; spent: number; budget: number }) => {
+  const onFinish = (values: CategoryUpdate) => {
     updateMutation.mutate({ id: currCat.id, data: values });
   };
 
   useEffect(() => {
-    form.setFieldsValue({ category, spent, budget });
-  }, [currCat, form, category, spent, budget]);
+    form.setFieldsValue({ category, type, budget });
+  }, [currCat, form, category, type, budget]);
 
+  const remaining = budget - spent;
   const pct = budget > 0 ? Math.round((spent / budget) * 100) : 0;
 
   return (
     <div className={styles.box}>
       <Row>
-        <Form form={form} name="category" initialValues={{ category, spent, budget }} onFinish={onFinish} autoComplete="off" disabled={disabled}>
+        <Form form={form} name="category" initialValues={{ category, type, budget }} onFinish={onFinish} autoComplete="off" disabled={disabled}>
           <Space>
             <Progress type="circle" percent={pct} size={50} format={() => <FileTextOutlined />} />
             <Form.Item name="category" className={styles.compactItem}>
@@ -48,14 +51,21 @@ const CategoryBox = ({ category: currCat }: { category: Category }) => {
               <Button onClick={editCategory} disabled={false} icon={<EditOutlined />} />
             </Space>
           </Space>
-          <Space className={styles.fieldRow}>
-            <Form.Item name="spent" className={styles.compactItem}>
-              <InputNumber prefix="$" formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} controls={false} variant="borderless" />
+          {!disabled && (
+            <Form.Item name="type" className={styles.compactItem}>
+              <Radio.Group optionType="button" buttonStyle="solid" size="small">
+                <Radio.Button value="income">Income</Radio.Button>
+                <Radio.Button value="expense">Expense</Radio.Button>
+              </Radio.Group>
             </Form.Item>
+          )}
+          <Space className={styles.fieldRow}>
+            <Text type="secondary">${spent.toLocaleString()} spent</Text>
             <Form.Item name="budget" className={styles.compactItem}>
               <InputNumber prefix="$" formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} controls={false} variant="borderless" />
             </Form.Item>
           </Space>
+          <Text type={remaining >= 0 ? 'success' : 'danger'}>${remaining.toLocaleString()} remaining</Text>
         </Form>
       </Row>
     </div>

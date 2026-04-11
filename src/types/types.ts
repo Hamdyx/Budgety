@@ -29,10 +29,36 @@ export type ApiError = {
   message?: string;
 };
 
+// ── Category ──────────────────────────────────────────
+export type CategoryType = 'income' | 'expense';
+
+export type Category = {
+  id: number;
+  category: string;
+  type: CategoryType;
+  budget: number;
+  spent: number;
+  userId?: string;
+};
+
+export type CategoryCreate = {
+  category: string;
+  type: CategoryType;
+  budget?: number;
+};
+
+export type CategoryUpdate = {
+  category?: string;
+  type?: CategoryType;
+  budget?: number;
+};
+
 // ── Transaction ───────────────────────────────────────
+export type TransactionType = 'inc' | 'exp';
+
 export type Transaction = {
   id: string;
-  type: string;
+  type: TransactionType;
   title: string;
   value: number;
   trxDate: string;
@@ -41,34 +67,22 @@ export type Transaction = {
 };
 
 export type TransactionCreate = {
-  type: string;
+  type: TransactionType;
   title: string;
   value: number;
   trxDate: string;
   categoryId: number;
 };
 
-export type TransactionUpdate = Partial<TransactionCreate>;
-
-// ── Category ──────────────────────────────────────────
-export type Category = {
-  id: number;
-  category: string;
-  budget: number;
-  spent: number;
-  userId?: string;
+export type TransactionUpdate = {
+  type?: TransactionType;
+  title?: string;
+  value?: number;
+  trxDate?: string;
+  categoryId?: number;
 };
-
-export type CategoryCreate = {
-  category: string;
-  budget?: number;
-  spent?: number;
-};
-
-export type CategoryUpdate = Partial<CategoryCreate>;
 
 // ── Misc ──────────────────────────────────────────────
-export type TransactionType = 'inc' | 'exp';
 
 export type TransactionItemData = {
   id: string;

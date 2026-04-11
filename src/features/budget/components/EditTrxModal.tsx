@@ -20,7 +20,7 @@ export const EditTrxModal = ({ trx }: { trx: Transaction }) => {
             type: values.type,
             title: values.title,
             value: values.value,
-            trxDate: values.trxDate?.toISOString(),
+            trxDate: values.trxDate,
           },
         },
         { onSuccess: () => setOpen(false) }

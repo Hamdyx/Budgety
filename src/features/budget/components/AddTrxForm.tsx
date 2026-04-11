@@ -1,3 +1,5 @@
+import type { TransactionCreate } from '@/types/types';
+
 import { Button, Col, DatePicker, Form, Input, InputNumber, Modal, Radio, Row } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
@@ -16,14 +18,14 @@ export const AddTrxForm = () => {
   const handleClose = () => setIsAddTrxModalOpen(false);
   const handleShow = () => setIsAddTrxModalOpen(true);
 
-  const handleTrxSumbit = async (values: Record<string, unknown>) => {
+  const handleTrxSumbit = async (values: TransactionCreate) => {
     createMutation.mutate(
       {
-        type: values.type as string,
-        title: values.title as string,
-        value: values.value as number,
-        trxDate: (values.trxDate as dayjs.Dayjs).toISOString(),
-        categoryId: values.categoryId as number,
+        type: values.type,
+        title: values.title,
+        value: values.value,
+        trxDate: values.trxDate,
+        categoryId: values.categoryId,
       },
       { onSuccess: () => handleClose() }
     );

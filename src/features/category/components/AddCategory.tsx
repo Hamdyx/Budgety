@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Form, Input, InputNumber, Modal, Button } from 'antd';
+import { Form, Input, InputNumber, Modal, Button, Radio } from 'antd';
 import { useState } from 'react';
 
 import { useCreateCategory } from '../hooks';
@@ -24,12 +24,18 @@ function AddCategory() {
     <>
       <Button type="primary" shape="circle" icon={<PlusOutlined />} size="small" onClick={() => setIsModalOpen(true)} />
       <Modal title="Add Category" open={isModalOpen} onOk={handleOk} onCancel={() => setIsModalOpen(false)} okText="Submit">
-        <Form form={form} layout="vertical" autoComplete="off">
+        <Form form={form} layout="vertical" autoComplete="off" initialValues={{ type: 'expense' }}>
           <Form.Item label="Category" name="category" rules={[{ required: true, message: 'Please input your category!' }]}>
             <Input />
           </Form.Item>
+          <Form.Item label="Type" name="type" rules={[{ required: true, message: 'Please select a category type!' }]}>
+            <Radio.Group optionType="button" buttonStyle="solid">
+              <Radio.Button value="income">Income</Radio.Button>
+              <Radio.Button value="expense">Expense</Radio.Button>
+            </Radio.Group>
+          </Form.Item>
           <Form.Item label="Budget" name="budget" rules={[{ required: true, message: 'Please input your Budget!' }]}>
-            <InputNumber style={{ width: '100%' }} />
+            <InputNumber style={{ width: '100%' }} min={0} />
           </Form.Item>
         </Form>
       </Modal>
