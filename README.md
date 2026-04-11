@@ -1,35 +1,47 @@
 # Budgety
 
-A personal finance dashboard built with React, Redux Toolkit, Ant Design, and Vite.
+A personal finance dashboard built with React, TypeScript, Ant Design, and Vite.
 
 ## Tech Stack
 
 - **React** 19 &nbsp;·&nbsp; **TypeScript** 6
 - **Ant Design** 6 &nbsp;·&nbsp; **@ant-design/icons**
-- **Redux Toolkit** 2 &nbsp;·&nbsp; **React Router** 7
+- **Zustand** 5 (client state) &nbsp;·&nbsp; **TanStack React Query** 5 (server state)
+- **React Router** 7 &nbsp;·&nbsp; **dayjs**
 - **Vite** 8 &nbsp;·&nbsp; **Vitest** + Testing Library
-- **CSS Modules** (`.module.css`) &nbsp;·&nbsp; **dayjs**
-- **Yarn** 4
+- **CSS Modules** (`.module.css`) &nbsp;·&nbsp; **Yarn** 4
 
 ## Project Structure
 
 ```text
 src/
-├── app/            # App shell (Sidebar) and Redux store
+├── api/            # HTTP client (JWT auth, camelCase ↔ snake_case)
+├── app/            # App shell (App/, AppLayout/, Sidebar/), routing
 ├── assets/         # Icons and static assets
 ├── components/
 │   ├── charts/     # BarChart, DoughnutChart, LineChart
-│   └── common/     # OverviewCard, SectionHeader, ComingSoon
+│   └── common/     # OverviewCard/, SectionHeader/, ComingSoon/, PrivateRoute/
 ├── features/
-│   ├── bank/
-│   ├── budget/
-│   ├── category/
-│   ├── investment/
-│   ├── overview/
-│   └── scheduler/
-├── styles/         # global.css (CSS custom properties)
+│   ├── auth/       # Login, Register, JWT auth hooks
+│   ├── bank/       # Bank page (coming soon)
+│   ├── budget/     # Transactions CRUD, budget cards
+│   ├── category/   # Category management
+│   ├── investment/ # Crypto portfolio tracker
+│   ├── overview/   # Dashboard home
+│   └── scheduler/  # Scheduler (coming soon)
+├── stores/         # Zustand stores (auth, theme)
+├── styles/         # global.css (CSS custom properties, light/dark)
 ├── theme/          # Ant Design ConfigProvider theme config
 └── types/          # Shared TypeScript types
+```
+
+Each component lives in its own directory with a barrel `index.ts`:
+
+```text
+BudgetCard/
+├── BudgetCard.tsx
+├── BudgetCard.module.css
+└── index.ts          # export { default as BudgetCard } from './BudgetCard';
 ```
 
 ## Prerequisites
@@ -64,14 +76,17 @@ yarn dev
 All internal imports use the `@/` prefix:
 
 ```ts
-import { Budget } from '@/features/budget/components/Budget';
+import { BudgetCard } from '@/features/budget/components/BudgetCard';
 import { OverviewCard } from '@/components/common/OverviewCard';
 ```
 
 Configured in `tsconfig.json` and `vite.config.ts`.
 
-- Prefer latest stable versions, and re-run build/tests after upgrades.
-- Use Yarn lockfile as the source of truth for reproducible installs.
+## Environment Variables
+
+| Variable       | Description          |
+| -------------- | -------------------- |
+| `VITE_API_URL` | Backend API base URL |
 
 ## Deployment Notes
 

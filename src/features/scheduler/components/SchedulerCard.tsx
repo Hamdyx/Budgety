@@ -1,6 +1,6 @@
 import { Calendar } from 'antd';
 
-import OverviewCard from '@/components/common/OverviewCard';
+import { OverviewCard } from '@/components/common/OverviewCard';
 
 const SchedulerCard = () => (
   <OverviewCard title="Scheduler" styles={{ body: { padding: '4px 8px' } }}>

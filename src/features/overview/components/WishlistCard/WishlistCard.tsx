@@ -1,6 +1,6 @@
 import { Row, Col, Statistic, Divider } from 'antd';
 
-import OverviewCard from '@/components/common/OverviewCard';
+import { OverviewCard } from '@/components/common/OverviewCard';
 
 const WishlistCard = () => (
   <OverviewCard title="Wishlist">

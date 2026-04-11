@@ -1,7 +1,7 @@
 import { DollarOutlined, BankOutlined } from '@ant-design/icons';
 import { Row, Col, Statistic } from 'antd';
 
-import OverviewCard from '@/components/common/OverviewCard';
+import { OverviewCard } from '@/components/common/OverviewCard';
 
 const SavingsCard = () => (
   <OverviewCard title="Savings">

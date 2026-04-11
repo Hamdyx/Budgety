@@ -1,7 +1,7 @@
 import { DollarOutlined, RiseOutlined, FallOutlined } from '@ant-design/icons';
 import { Row, Col, Statistic } from 'antd';
 
-import OverviewCard from '@/components/common/OverviewCard';
+import { OverviewCard } from '@/components/common/OverviewCard';
 
 const ReportsCard = () => (
   <OverviewCard title="Reports">

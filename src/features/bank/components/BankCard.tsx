@@ -1,6 +1,6 @@
 import { Row, Col, Statistic, Divider, Badge, Typography } from 'antd';
 
-import OverviewCard from '@/components/common/OverviewCard';
+import { OverviewCard } from '@/components/common/OverviewCard';
 
 import styles from './BankCard.module.css';
 

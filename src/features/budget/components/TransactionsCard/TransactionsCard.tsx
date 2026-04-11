@@ -1,6 +1,6 @@
 import { Spin, Empty } from 'antd';
 
-import OverviewCard from '@/components/common/OverviewCard';
+import { OverviewCard } from '@/components/common/OverviewCard';
 import { useTransactions } from '@/features/budget/hooks';
 import { useCategories } from '@/features/category/hooks';
 

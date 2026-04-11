@@ -5,9 +5,9 @@ import { Outlet } from 'react-router-dom';
 
 import { useThemeStore } from '@/stores/themeStore';
 
-import Sidebar from './Sidebar';
+import { Sidebar } from '../Sidebar';
 
-import styles from './App.module.css';
+import styles from './AppLayout.module.css';
 
 const { Content, Sider } = Layout;
 

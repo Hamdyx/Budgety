@@ -2,7 +2,7 @@ import { DollarOutlined } from '@ant-design/icons';
 import { Row, Col, Statistic, Button } from 'antd';
 import { useMemo, useState } from 'react';
 
-import OverviewCard from '@/components/common/OverviewCard';
+import { OverviewCard } from '@/components/common/OverviewCard';
 
 import InvestmentModal from './InvestmentModal';
 import { useInvestments } from '../hooks';

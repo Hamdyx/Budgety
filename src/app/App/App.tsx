@@ -2,10 +2,10 @@ import { Spin } from 'antd';
 import { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import PrivateRoute from '@/components/common/PrivateRoute';
-import Overview from '@/features/overview/components/Overview';
+import { PrivateRoute } from '@/components/common/PrivateRoute';
+import { Overview } from '@/features/overview/components/Overview';
 
-import AppLayout from './AppLayout';
+import { AppLayout } from '../AppLayout';
 
 import styles from './App.module.css';
 

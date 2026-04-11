@@ -3,14 +3,14 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { expect, test, vi } from 'vitest';
 
-import App from './app/App';
+import App from './app/App/App';
 
-vi.mock('./app/Sidebar', () => ({ default: () => <div>Sidebar</div> }));
-vi.mock('./components/common/PrivateRoute', async () => {
+vi.mock('./app/Sidebar/Sidebar', () => ({ default: () => <div>Sidebar</div> }));
+vi.mock('./components/common/PrivateRoute/PrivateRoute', async () => {
   const { Outlet } = await import('react-router-dom');
   return { default: () => <Outlet /> };
 });
-vi.mock('./features/overview/components/Overview', () => ({
+vi.mock('./features/overview/components/Overview/Overview', () => ({
   default: () => <div>Overview</div>,
 }));
 vi.mock('./features/investment/components/InvestmentPage', () => ({
