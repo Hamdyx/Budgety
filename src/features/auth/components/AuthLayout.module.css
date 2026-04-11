@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #212646;
+  background-color: var(--color-bg-base);
 }
 
 .card {

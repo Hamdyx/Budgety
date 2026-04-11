@@ -1,5 +1,6 @@
 import type { Transaction } from '@/types/types';
 
+import { EditOutlined } from '@ant-design/icons';
 import { Button, Modal, Form, Input, InputNumber, DatePicker, Radio, Row, Col } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
@@ -30,9 +31,7 @@ export const EditTrxModal = ({ trx }: { trx: Transaction }) => {
 
   return (
     <>
-      <Button size="small" onClick={() => setOpen(true)}>
-        Edit
-      </Button>
+      <Button type="text" size="small" icon={<EditOutlined />} title="Edit transaction" aria-label="Edit transaction" onClick={() => setOpen(true)} />
       <Modal
         title="Edit Transaction"
         open={open}

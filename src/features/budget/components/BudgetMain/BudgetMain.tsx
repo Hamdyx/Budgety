@@ -70,13 +70,13 @@ const BudgetSection = ({ transactions }: { transactions: Transaction[] }) => {
 
   const expenseStyle =
     budgetType === 'exp'
-      ? { background: '#fd5e53', borderColor: '#fd5e53', color: '#fff' }
-      : { background: 'transparent', borderColor: '#fd5e53', color: '#fd5e53' };
+      ? { background: 'var(--color-danger)', borderColor: 'var(--color-danger)', color: '#fff' }
+      : { background: 'transparent', borderColor: 'var(--color-danger)', color: 'var(--color-danger)' };
 
   const incomeStyle =
     budgetType === 'inc'
-      ? { background: '#21bf73', borderColor: '#21bf73', color: '#fff' }
-      : { background: 'transparent', borderColor: '#21bf73', color: '#21bf73' };
+      ? { background: 'var(--color-success)', borderColor: 'var(--color-success)', color: '#fff' }
+      : { background: 'transparent', borderColor: 'var(--color-success)', color: 'var(--color-success)' };
 
   return (
     <div className={styles.section}>

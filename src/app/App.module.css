@@ -4,7 +4,7 @@
 
 .content {
   padding: 0;
-  color: #fbfcfe;
+  color: var(--color-text);
   overflow-y: auto;
   display: flex;
   flex-direction: column;

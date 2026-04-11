@@ -1,3 +1,4 @@
+import { DeleteOutlined } from '@ant-design/icons';
 import { Button, Modal, Typography } from 'antd';
 import { useState } from 'react';
 
@@ -13,9 +14,15 @@ export const DeleteTrxModal = ({ id }: { id: string }) => {
 
   return (
     <>
-      <Button size="small" danger onClick={() => setOpen(true)}>
-        Delete
-      </Button>
+      <Button
+        type="text"
+        size="small"
+        danger
+        icon={<DeleteOutlined />}
+        title="Delete transaction"
+        aria-label="Delete transaction"
+        onClick={() => setOpen(true)}
+      />
       <Modal title="Delete Transaction" open={open} onCancel={() => setOpen(false)} onOk={handleDelete} okText="Delete" okButtonProps={{ danger: true }}>
         <Typography.Paragraph>Are you sure you want to delete this transaction?</Typography.Paragraph>
         <Typography.Paragraph type="secondary">If deleted you can't recover it again.</Typography.Paragraph>

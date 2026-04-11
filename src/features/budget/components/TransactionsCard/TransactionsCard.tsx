@@ -12,7 +12,7 @@ import styles from './TransactionsCard.module.css';
 const { Text } = Typography;
 
 const TransactionItem = ({ trx, categoryName }: { trx: Transaction; categoryName: string }) => {
-  const color = trx.type === 'inc' ? '#21bf73' : '#fd5e53';
+  const color = trx.type === 'inc' ? 'var(--color-success)' : 'var(--color-danger)';
 
   return (
     <Row align="middle" className={styles.itemRow}>

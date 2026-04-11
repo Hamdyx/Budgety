@@ -77,7 +77,7 @@ const BudgetCard = () => {
         return (
           <Row key={cat.id} align="middle" className={styles.itemRow}>
             <Col span={3}>
-              <FileTextOutlined style={{ fontSize: 20, color: cat.type === 'income' ? '#21bf73' : '#fd5e53' }} />
+              <FileTextOutlined style={{ fontSize: 20, color: cat.type === 'income' ? 'var(--color-success)' : 'var(--color-danger)' }} />
             </Col>
             <Col flex="auto">
               <Text>{cat.category}</Text>

@@ -18,7 +18,7 @@ const TransactionRow = ({ trx }: { trx: Transaction }) => {
     return `${_date} | ${_hh}:${_mm}`;
   };
 
-  const borderColor = trx.type === 'inc' ? '#21bf73' : '#fd5e53';
+  const borderColor = trx.type === 'inc' ? 'var(--color-success)' : 'var(--color-danger)';
 
   return (
     <Row align="middle" className={styles.row} style={{ borderLeft: `3px solid ${borderColor}` }}>

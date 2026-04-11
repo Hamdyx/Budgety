@@ -8,11 +8,11 @@
 }
 
 .title {
-  color: #fbfcfe;
+  color: var(--color-text);
 }
 
 .headerBtn {
-  color: #fbfcfe;
+  color: var(--color-text);
   margin-right: 8px;
 }
 
