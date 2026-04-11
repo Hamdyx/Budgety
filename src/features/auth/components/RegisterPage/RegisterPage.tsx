@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom';
 
 import { ApiRequestError } from '@/api/client';
 
-import { useRegister } from '../hooks';
-import AuthLayout from './AuthLayout';
-
-import styles from './AuthLayout.module.css';
+import { useRegister } from '../../hooks';
+import AuthLayout from '../AuthLayout';
+import styles from '../AuthLayout.module.css';
 
 function RegisterPage() {
   const { mutate, isPending, error } = useRegister();
@@ -20,7 +19,7 @@ function RegisterPage() {
 
   return (
     <AuthLayout>
-      {errorMessage && <Alert type="error" message={errorMessage} showIcon className={styles.error} />}
+      {errorMessage && <Alert type="error" title={errorMessage} showIcon className={styles.error} />}
       <Form form={form} layout="vertical" onFinish={handleFinish} requiredMark={false}>
         <Form.Item
           name="email"

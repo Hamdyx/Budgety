@@ -3,10 +3,10 @@ import { Row, Col, Spin } from 'antd';
 import SectionHeader from '@/components/common/SectionHeader';
 
 import { useCategories } from '../../hooks';
-import AddCategory from '../AddCategory/AddCategory';
-import CategoryBox from '../CategoryBox/CategoryBox';
+import { AddCategory } from '../AddCategory';
+import { CategoryBox } from '../CategoryBox';
 
-export const CategoryMain = () => {
+const CategoryMain = () => {
   const { data: categories = [], isLoading } = useCategories();
 
   if (isLoading) {

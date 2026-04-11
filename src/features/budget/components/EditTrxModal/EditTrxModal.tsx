@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 import { useUpdateTransaction } from '../../hooks';
 
-export const EditTrxModal = ({ trx }: { trx: Transaction }) => {
+const EditTrxModal = ({ trx }: { trx: Transaction }) => {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
   const updateMutation = useUpdateTransaction();
@@ -76,3 +76,5 @@ export const EditTrxModal = ({ trx }: { trx: Transaction }) => {
     </>
   );
 };
+
+export default EditTrxModal;

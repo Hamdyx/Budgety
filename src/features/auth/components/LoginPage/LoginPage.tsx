@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom';
 
 import { ApiRequestError } from '@/api/client';
 
-import { useLogin } from '../hooks';
-import AuthLayout from './AuthLayout';
-
-import styles from './AuthLayout.module.css';
+import { useLogin } from '../../hooks';
+import AuthLayout from '../AuthLayout';
+import styles from '../AuthLayout.module.css';
 
 function LoginPage() {
   const { mutate, isPending, error } = useLogin();
@@ -20,7 +19,7 @@ function LoginPage() {
 
   return (
     <AuthLayout>
-      {errorMessage && <Alert type="error" message={errorMessage} showIcon className={styles.error} />}
+      {errorMessage && <Alert type="error" title={errorMessage} showIcon className={styles.error} />}
       <Form form={form} layout="vertical" onFinish={handleFinish} requiredMark={false}>
         <Form.Item
           name="email"

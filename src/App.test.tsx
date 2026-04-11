@@ -16,11 +16,11 @@ vi.mock('./features/overview/components/Overview', () => ({
 vi.mock('./features/investment/components/InvestmentPage', () => ({
   default: () => <div>Investment</div>,
 }));
-vi.mock('./features/bank/components/BankPage', () => ({
+vi.mock('./features/bank/components/BankPage/BankPage', () => ({
   default: () => <div>Bank</div>,
 }));
 vi.mock('./features/budget/components/BudgetMain/BudgetMain', () => ({
-  BudgetMain: () => <div>Budget</div>,
+  default: () => <div>Budget</div>,
 }));
 
 test('renders overview navigation link', async () => {

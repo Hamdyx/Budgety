@@ -1,11 +1,10 @@
 import type { MenuProps } from 'antd';
 
-import { LogoutOutlined } from '@ant-design/icons';
+import { BankOutlined, DollarOutlined, LogoutOutlined, ProductOutlined } from '@ant-design/icons';
 import { ConfigProvider, Menu } from 'antd';
 import { useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import { OverviewIcon, BudgetIcon, LoanIcon } from '@/assets/icons';
 import { useAuthStore } from '@/stores/authStore';
 import { useThemeStore } from '@/stores/themeStore';
 
@@ -25,17 +24,17 @@ function Sidebar({ onNavigate }: SidebarProps) {
     () => [
       {
         key: '/',
-        icon: <OverviewIcon />,
+        icon: <ProductOutlined />,
         label: 'Overview',
       },
       {
         key: '/budget',
-        icon: <BudgetIcon />,
+        icon: <DollarOutlined />,
         label: 'Budget',
       },
       {
         key: '/bank',
-        icon: <LoanIcon />,
+        icon: <BankOutlined />,
         label: 'Bank',
       },
     ],

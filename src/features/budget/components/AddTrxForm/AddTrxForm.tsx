@@ -8,7 +8,7 @@ import { useCategories } from '@/features/category/hooks';
 
 import { useCreateTransaction } from '../../hooks';
 
-export const AddTrxForm = () => {
+const AddTrxForm = () => {
   const { data: categories = [] } = useCategories();
   const createMutation = useCreateTransaction();
   const [isAddTrxModalOpen, setIsAddTrxModalOpen] = useState(false);
@@ -141,3 +141,5 @@ export const AddTrxForm = () => {
     </>
   );
 };
+
+export default AddTrxForm;

@@ -2,8 +2,8 @@ import type { Transaction } from '@/types/types';
 
 import { Row, Col, Typography, Space } from 'antd';
 
-import { DeleteTrxModal } from '../DeleteTrxModal/DeleteTrxModal';
-import { EditTrxModal } from '../EditTrxModal/EditTrxModal';
+import { DeleteTrxModal } from '../DeleteTrxModal';
+import { EditTrxModal } from '../EditTrxModal';
 
 import styles from './TransactionRow.module.css';
 
