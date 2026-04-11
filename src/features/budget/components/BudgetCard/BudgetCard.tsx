@@ -90,7 +90,7 @@ const BudgetCard = () => {
               <Text className={remaining >= 0 ? styles.successText : styles.dangerText}>${Math.abs(remaining).toLocaleString()}</Text>
               <br />
               <Text type="secondary" className={styles.smallText}>
-                {remaining >= 0 ? 'available' : 'over'}
+                {remaining >= 0 ? (cat.type === 'income' ? 'expected' : 'available') : 'over'}
               </Text>
             </Col>
           </Row>

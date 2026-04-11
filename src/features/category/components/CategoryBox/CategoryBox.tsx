@@ -60,7 +60,9 @@ const CategoryBox = ({ category: currCat }: { category: Category }) => {
             </Form.Item>
           )}
           <Space className={styles.fieldRow}>
-            <Text type="secondary">${spent.toLocaleString()} spent</Text>
+            <Text type="secondary">
+              ${spent.toLocaleString()} {type === 'income' ? 'earned' : 'spent'}
+            </Text>
             <Form.Item name="budget" className={styles.compactItem}>
               <InputNumber prefix="$" formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} controls={false} variant="borderless" />
             </Form.Item>
