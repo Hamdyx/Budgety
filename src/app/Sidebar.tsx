@@ -1,7 +1,7 @@
 import type { MenuProps } from 'antd';
 
-import { LogoutOutlined, MoonOutlined, SunOutlined } from '@ant-design/icons';
-import { ConfigProvider, Layout, Menu, Switch } from 'antd';
+import { LogoutOutlined } from '@ant-design/icons';
+import { ConfigProvider, Menu } from 'antd';
 import { useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -11,14 +11,15 @@ import { useThemeStore } from '@/stores/themeStore';
 
 import styles from './Sidebar.module.css';
 
-const { Sider } = Layout;
+interface SidebarProps {
+  onNavigate?: () => void;
+}
 
-function Sidebar() {
+function Sidebar({ onNavigate }: SidebarProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const logout = useAuthStore(state => state.logout);
   const mode = useThemeStore(state => state.mode);
-  const toggleMode = useThemeStore(state => state.toggleMode);
 
   const menuItems: MenuProps['items'] = useMemo(
     () => [
@@ -43,6 +44,7 @@ function Sidebar() {
 
   const handleMenuClick: MenuProps['onClick'] = ({ key }) => {
     navigate(key);
+    onNavigate?.();
   };
 
   const handleLogout = () => {
@@ -51,13 +53,10 @@ function Sidebar() {
   };
 
   return (
-    <Sider breakpoint="md" collapsedWidth={60} className={styles.sider} width={200}>
+    <nav className={styles.nav}>
       <div className={styles.logo} />
       <Menu theme={mode} mode="inline" selectedKeys={[location.pathname]} items={menuItems} onClick={handleMenuClick} className={styles.menu} />
       <div className={styles.bottomSection}>
-        <div className={styles.themeToggle}>
-          <Switch checked={mode === 'dark'} onChange={toggleMode} checkedChildren={<MoonOutlined />} unCheckedChildren={<SunOutlined />} />
-        </div>
         <ConfigProvider
           theme={{
             components: {
@@ -75,7 +74,7 @@ function Sidebar() {
           />
         </ConfigProvider>
       </div>
-    </Sider>
+    </nav>
   );
 }
 

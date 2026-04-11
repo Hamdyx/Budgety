@@ -17,19 +17,18 @@
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
-@media screen and (max-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.grid > * {
+  flex: 1 1 300px;
+  min-width: 0;
 }
 
 @media screen and (max-width: 576px) {
-  .grid {
-    grid-template-columns: 1fr;
+  .grid > * {
+    flex: 1 1 100%;
   }
 }

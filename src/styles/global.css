@@ -11,6 +11,7 @@
   --color-bg-card: #242838;
   --color-bg-base: #1a1d2e;
   --color-text: #f0f1f3;
+  --color-sider-bg: #1e2132;
 }
 
 [data-theme='light'] {
@@ -24,6 +25,7 @@
   --color-bg-card: #ffffff;
   --color-bg-base: #f7f8fa;
   --color-text: #1f2937;
+  --color-sider-bg: #ffffff;
 }
 
 * {

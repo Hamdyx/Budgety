@@ -57,3 +57,18 @@
   font-size: 12px;
   color: var(--color-text);
 }
+
+@media screen and (max-width: 768px) {
+  .content {
+    flex-direction: column;
+  }
+
+  .headerRow {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .frame {
+    width: 60px;
+  }
+}
