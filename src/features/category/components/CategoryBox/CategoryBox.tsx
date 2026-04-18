@@ -18,7 +18,7 @@ const CategoryBox = ({ category: currCat }: { category: Category }) => {
   const { category, type, spent, budget } = currCat;
 
   const editCategory = () => {
-    !disabled && form.submit();
+    if (!disabled) form.submit();
     setDisabled(prev => !prev);
   };
 

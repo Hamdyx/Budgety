@@ -28,6 +28,7 @@
     "eslint": "9.39.1",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-import": "2.32.0",
+    "eslint-plugin-react-hooks": "7.1.1",
     "eslint-plugin-react-refresh": "0.5.2",
     "husky": "^9.1.7",
     "jsdom": "29.0.1",
@@ -44,15 +45,15 @@
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --fix --max-warnings=0",
     "test": "vitest run",
     "test:watch": "vitest",
     "prepare": "husky",
     "pre-commit": "lint-staged && tsc --noEmit --pretty"
   },
   "lint-staged": {
-    "*.{ts,tsx}": "eslint"
+    "*.{ts,tsx}": "eslint --max-warnings=0"
   },
   "browserslist": {
     "production": [

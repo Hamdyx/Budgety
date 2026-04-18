@@ -1,11 +1,9 @@
-import { screen, waitFor, within } from '@testing-library/react';
-import { http, HttpResponse } from 'msw';
+import { screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
 import { mockToken } from '@/tests/fixtures';
 import { renderWithProviders } from '@/tests/render';
-import { server } from '@/tests/server';
 
 import InvestmentTable from './InvestmentTable';
 
