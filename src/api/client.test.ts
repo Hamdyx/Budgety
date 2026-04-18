@@ -6,8 +6,6 @@ import { server } from '@/tests/server';
 
 import { ApiRequestError, apiFetch } from './client';
 
-const API = import.meta.env.VITE_API_URL;
-
 describe('ApiRequestError', () => {
   it('uses string detail as message', () => {
     const err = new ApiRequestError(400, 'Bad request');
@@ -38,7 +36,7 @@ describe('apiFetch', () => {
 
   it('sends GET request and converts response to camelCase', async () => {
     // given
-    server.use(http.get(`${API}/test`, () => HttpResponse.json({ foo_bar: 'baz' })));
+    server.use(http.get('*/test', () => HttpResponse.json({ foo_bar: 'baz' })));
     const data = await apiFetch<{ fooBar: string }>('/test');
 
     // then
@@ -48,7 +46,7 @@ describe('apiFetch', () => {
   it('sends POST request with snake_case body', async () => {
     // given
     server.use(
-      http.post(`${API}/test`, async ({ request }) => {
+      http.post('*/test', async ({ request }) => {
         const body = await request.json();
         return HttpResponse.json(body as Record<string, unknown>);
       })
@@ -67,7 +65,7 @@ describe('apiFetch', () => {
     let authHeader: string | null = null;
     // given
     server.use(
-      http.get(`${API}/test`, ({ request }) => {
+      http.get('*/test', ({ request }) => {
         authHeader = request.headers.get('Authorization');
         return HttpResponse.json({});
       })
@@ -84,7 +82,7 @@ describe('apiFetch', () => {
     let authHeader: string | null = null;
     // given
     server.use(
-      http.get(`${API}/test`, ({ request }) => {
+      http.get('*/test', ({ request }) => {
         authHeader = request.headers.get('Authorization');
         return HttpResponse.json({});
       })
@@ -102,7 +100,7 @@ describe('apiFetch', () => {
     useAuthStore.setState({ token: null });
     let authHeader: string | null = null;
     server.use(
-      http.get(`${API}/test`, ({ request }) => {
+      http.get('*/test', ({ request }) => {
         authHeader = request.headers.get('Authorization');
         return HttpResponse.json({});
       })
@@ -117,7 +115,7 @@ describe('apiFetch', () => {
 
   it('returns undefined for 204 responses', async () => {
     // given
-    server.use(http.delete(`${API}/test`, () => new HttpResponse(null, { status: 204 })));
+    server.use(http.delete('*/test', () => new HttpResponse(null, { status: 204 })));
 
     // when
     const result = await apiFetch('/test', { method: 'DELETE' });
@@ -140,7 +138,7 @@ describe('apiFetch', () => {
       configurable: true,
     });
 
-    server.use(http.get(`${API}/test`, () => new HttpResponse(null, { status: 401 })));
+    server.use(http.get('*/test', () => new HttpResponse(null, { status: 401 })));
 
     // then
     await expect(apiFetch('/test')).rejects.toThrow('Session expired');
@@ -150,7 +148,7 @@ describe('apiFetch', () => {
 
   it('throws ApiRequestError for non-ok responses', async () => {
     // given
-    server.use(http.get(`${API}/test`, () => HttpResponse.json({ detail: 'Not found' }, { status: 404 })));
+    server.use(http.get('*/test', () => HttpResponse.json({ detail: 'Not found' }, { status: 404 })));
 
     // then
     await expect(apiFetch('/test')).rejects.toThrow(ApiRequestError);
@@ -164,7 +162,7 @@ describe('apiFetch', () => {
 
   it('uses data.message when detail is not present', async () => {
     // given
-    server.use(http.get(`${API}/test`, () => HttpResponse.json({ message: 'Server error' }, { status: 500 })));
+    server.use(http.get('*/test', () => HttpResponse.json({ message: 'Server error' }, { status: 500 })));
     try {
       await apiFetch('/test');
     } catch (e) {
@@ -174,7 +172,7 @@ describe('apiFetch', () => {
 
   it('uses "Unknown error" when no detail or message', async () => {
     // given
-    server.use(http.get(`${API}/test`, () => HttpResponse.json({}, { status: 500 })));
+    server.use(http.get('*/test', () => HttpResponse.json({}, { status: 500 })));
     try {
       await apiFetch('/test');
     } catch (e) {

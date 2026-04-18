@@ -8,8 +8,6 @@ import { server } from '@/tests/server';
 
 import LoginPage from './LoginPage';
 
-const API = import.meta.env.VITE_API_URL;
-
 describe('LoginPage', () => {
   it('renders email, password fields and submit button', () => {
     // when
@@ -61,7 +59,7 @@ describe('LoginPage', () => {
 
   it('shows error message on login failure', async () => {
     // given
-    server.use(http.post(`${API}/auth/login`, () => HttpResponse.json({ detail: 'Invalid credentials' }, { status: 401 })));
+    server.use(http.post('*/auth/login', () => HttpResponse.json({ detail: 'Invalid credentials' }, { status: 401 })));
 
     // when
     const { user } = renderWithProviders(<LoginPage />);

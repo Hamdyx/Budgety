@@ -8,8 +8,6 @@ import { server } from '@/tests/server';
 
 import RegisterPage from './RegisterPage';
 
-const API = import.meta.env.VITE_API_URL;
-
 function renderRegister() {
   return renderWithProviders(
     <Routes>
@@ -86,7 +84,7 @@ describe('RegisterPage', () => {
 
   it('shows error message on register failure', async () => {
     // given
-    server.use(http.post(`${API}/auth/register`, () => HttpResponse.json({ detail: 'Email already registered' }, { status: 400 })));
+    server.use(http.post('*/auth/register', () => HttpResponse.json({ detail: 'Email already registered' }, { status: 400 })));
 
     // when
     const { user } = renderRegister();
