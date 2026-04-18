@@ -1,0 +1,72 @@
+import { http, HttpResponse } from 'msw';
+
+import { mockAuthResponseSnake, mockCategoriesSnake, mockInvestmentsSnake, mockTransactionsSnake } from './fixtures';
+
+const API = import.meta.env.VITE_API_URL;
+
+export const handlers = [
+  // ── Auth ──────────────────────────────────────────
+  http.post(`${API}/auth/login`, () => HttpResponse.json(mockAuthResponseSnake)),
+
+  http.post(`${API}/auth/register`, () => HttpResponse.json({ id: 'user-1', email: 'test@example.com', username: 'testuser' })),
+
+  // ── Transactions ──────────────────────────────────
+  http.get(`${API}/transactions`, () => HttpResponse.json(mockTransactionsSnake)),
+
+  http.get(`${API}/transactions/:id`, ({ params }) => {
+    const trx = mockTransactionsSnake.find(t => String(t.id) === params.id);
+    return trx ? HttpResponse.json(trx) : new HttpResponse(null, { status: 404 });
+  }),
+
+  http.post(`${API}/transactions`, async ({ request }) => {
+    const body = (await request.json()) as Record<string, unknown>;
+    return HttpResponse.json({ id: 'trx-new', ...body }, { status: 201 });
+  }),
+
+  http.patch(`${API}/transactions/:id`, async ({ request, params }) => {
+    const body = (await request.json()) as Record<string, unknown>;
+    return HttpResponse.json({ id: params.id, ...body });
+  }),
+
+  http.delete(`${API}/transactions/:id`, () => new HttpResponse(null, { status: 204 })),
+
+  // ── Categories ────────────────────────────────────
+  http.get(`${API}/categories`, () => HttpResponse.json(mockCategoriesSnake)),
+
+  http.get(`${API}/categories/:id`, ({ params }) => {
+    const cat = mockCategoriesSnake.find(c => String(c.id) === params.id);
+    return cat ? HttpResponse.json(cat) : new HttpResponse(null, { status: 404 });
+  }),
+
+  http.post(`${API}/categories`, async ({ request }) => {
+    const body = (await request.json()) as Record<string, unknown>;
+    return HttpResponse.json({ id: 99, ...body }, { status: 201 });
+  }),
+
+  http.patch(`${API}/categories/:id`, async ({ request, params }) => {
+    const body = (await request.json()) as Record<string, unknown>;
+    return HttpResponse.json({ id: Number(params.id), ...body });
+  }),
+
+  http.delete(`${API}/categories/:id`, () => new HttpResponse(null, { status: 204 })),
+
+  // ── Investments ───────────────────────────────────
+  http.get(`${API}/investments`, () => HttpResponse.json(mockInvestmentsSnake)),
+
+  http.get(`${API}/investments/:id`, ({ params }) => {
+    const inv = mockInvestmentsSnake.find(i => String(i.id) === params.id);
+    return inv ? HttpResponse.json(inv) : new HttpResponse(null, { status: 404 });
+  }),
+
+  http.post(`${API}/investments`, async ({ request }) => {
+    const body = (await request.json()) as Record<string, unknown>;
+    return HttpResponse.json({ id: 99, ...body }, { status: 201 });
+  }),
+
+  http.patch(`${API}/investments/:id`, async ({ request, params }) => {
+    const body = (await request.json()) as Record<string, unknown>;
+    return HttpResponse.json({ id: Number(params.id), ...body });
+  }),
+
+  http.delete(`${API}/investments/:id`, () => new HttpResponse(null, { status: 204 })),
+];

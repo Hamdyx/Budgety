@@ -28,6 +28,7 @@ test('renders overview navigation link', async () => {
     defaultOptions: { queries: { retry: false } },
   });
 
+  // when
   render(
     <QueryClientProvider client={queryClient}>
       <MemoryRouter>
@@ -36,5 +37,6 @@ test('renders overview navigation link', async () => {
     </QueryClientProvider>
   );
 
+  // then
   expect(await screen.findByText(/overview/i)).toBeInTheDocument();
 });
