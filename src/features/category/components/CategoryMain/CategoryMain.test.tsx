@@ -52,6 +52,6 @@ describe('CategoryMain', () => {
       expect(screen.getByText('Categories')).toBeInTheDocument();
     });
     // PlusOutlined button for adding category
-    expect(document.querySelector('.anticon-plus')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Add category' })).toBeInTheDocument();
   });
 });

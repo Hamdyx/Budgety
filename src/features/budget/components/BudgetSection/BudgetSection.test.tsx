@@ -17,8 +17,8 @@ describe('BudgetSection', () => {
     renderWithProviders(<BudgetSection transactions={mockTransactions} />);
 
     // then
-    expect(screen.getByText('Income')).toBeInTheDocument();
-    expect(screen.getByText('Expense')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Income' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Expense' })).toBeInTheDocument();
   });
 
   it('shows income transactions by default', () => {
@@ -35,7 +35,7 @@ describe('BudgetSection', () => {
     const { user } = renderWithProviders(<BudgetSection transactions={mockTransactions} />);
 
     // then
-    await user.click(screen.getByText('Expense'));
+    await user.click(screen.getByRole('button', { name: 'Expense' }));
     await waitFor(() => {
       expect(screen.getByText('Grocery Shopping')).toBeInTheDocument();
       expect(screen.getByText('Monthly Rent')).toBeInTheDocument();
@@ -47,13 +47,13 @@ describe('BudgetSection', () => {
     const { user } = renderWithProviders(<BudgetSection transactions={mockTransactions} />);
 
     // then
-    await user.click(screen.getByText('Expense'));
+    await user.click(screen.getByRole('button', { name: 'Expense' }));
     await waitFor(() => {
       expect(screen.getByText('Grocery Shopping')).toBeInTheDocument();
     });
 
     // and - switch back to income
-    await user.click(screen.getByText('Income'));
+    await user.click(screen.getByRole('button', { name: 'Income' }));
     await waitFor(() => {
       expect(screen.getByText('Monthly Salary')).toBeInTheDocument();
       expect(screen.getByText('Freelance Payment')).toBeInTheDocument();
@@ -65,6 +65,6 @@ describe('BudgetSection', () => {
     renderWithProviders(<BudgetSection transactions={mockTransactions} />);
 
     // then
-    expect(screen.getByText('Add Transaction')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Add Transaction' })).toBeInTheDocument();
   });
 });

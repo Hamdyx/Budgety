@@ -43,12 +43,12 @@ describe('CategoryBox', () => {
     const { user } = renderWithProviders(<CategoryBox category={category} />);
 
     // then
-    const editButton = document.querySelector('.anticon-edit')!.closest('button')!;
+    const editButton = screen.getByRole('button', { name: 'Edit category' });
     await user.click(editButton);
 
     expect(screen.getByText('Income')).toBeInTheDocument();
     expect(screen.getByText('Expense')).toBeInTheDocument();
-    expect(document.querySelector('.anticon-delete')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Delete category' })).toBeInTheDocument();
   });
 
   it('deletes category on delete click', async () => {
@@ -56,11 +56,11 @@ describe('CategoryBox', () => {
     const { user } = renderWithProviders(<CategoryBox category={category} />);
 
     // then
-    const editButton = document.querySelector('.anticon-edit')!.closest('button')!;
+    const editButton = screen.getByRole('button', { name: 'Edit category' });
     await user.click(editButton);
 
     // and - delete category
-    const deleteButton = document.querySelector('.anticon-delete')!.closest('button')!;
+    const deleteButton = screen.getByRole('button', { name: 'Delete category' });
     await user.click(deleteButton);
     await waitFor(() => {
       expect(deleteButton).toBeInTheDocument();
@@ -83,7 +83,7 @@ describe('CategoryBox', () => {
     const { user } = renderWithProviders(<CategoryBox category={category} />);
 
     // then
-    const editButton = document.querySelector('.anticon-edit')!.closest('button')!;
+    const editButton = screen.getByRole('button', { name: 'Edit category' });
     await user.click(editButton);
     expect(screen.getByText('Income')).toBeInTheDocument();
 

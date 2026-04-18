@@ -17,8 +17,8 @@ describe('AppLayout', () => {
     renderWithProviders(<AppLayout />);
 
     // then
-    expect(screen.getByText('Overview')).toBeInTheDocument();
-    expect(screen.getByText('Budget')).toBeInTheDocument();
+    expect(screen.getByRole('menuitem', { name: /Overview/ })).toBeInTheDocument();
+    expect(screen.getByRole('menuitem', { name: /Budget/ })).toBeInTheDocument();
   });
 
   it('renders theme toggle button', () => {

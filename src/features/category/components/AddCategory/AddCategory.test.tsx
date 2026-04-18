@@ -17,7 +17,7 @@ describe('AddCategory', () => {
     renderWithProviders(<AddCategory />);
 
     // then
-    expect(document.querySelector('.anticon-plus')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Add category' })).toBeInTheDocument();
   });
 
   it('opens modal on click', async () => {
@@ -25,7 +25,7 @@ describe('AddCategory', () => {
     const { user } = renderWithProviders(<AddCategory />);
 
     // then
-    await user.click(document.querySelector('.anticon-plus')!.closest('button')!);
+    await user.click(screen.getByRole('button', { name: 'Add category' }));
 
     expect(screen.getByText('Add Category')).toBeInTheDocument();
   });
@@ -35,7 +35,7 @@ describe('AddCategory', () => {
     const { user } = renderWithProviders(<AddCategory />);
 
     // then
-    await user.click(document.querySelector('.anticon-plus')!.closest('button')!);
+    await user.click(screen.getByRole('button', { name: 'Add category' }));
 
     expect(screen.getByLabelText('Category')).toBeInTheDocument();
     expect(screen.getByText('Income')).toBeInTheDocument();
@@ -48,7 +48,7 @@ describe('AddCategory', () => {
     const { user } = renderWithProviders(<AddCategory />);
 
     // then
-    await user.click(document.querySelector('.anticon-plus')!.closest('button')!);
+    await user.click(screen.getByRole('button', { name: 'Add category' }));
 
     const expenseRadio = screen.getByLabelText('Expense');
     expect(expenseRadio).toBeChecked();
@@ -59,14 +59,14 @@ describe('AddCategory', () => {
     const { user } = renderWithProviders(<AddCategory />);
 
     // then
-    await user.click(document.querySelector('.anticon-plus')!.closest('button')!);
+    await user.click(screen.getByRole('button', { name: 'Add category' }));
 
     // and - fill form
     await user.type(screen.getByLabelText('Category'), 'Transportation');
     await user.type(screen.getByLabelText('Budget'), '500');
 
     // and - submit
-    await user.click(screen.getByText('Submit'));
+    await user.click(screen.getByRole('button', { name: 'Submit' }));
     await waitFor(() => {
       expect(screen.queryByText('Add Category')).not.toBeVisible();
     });

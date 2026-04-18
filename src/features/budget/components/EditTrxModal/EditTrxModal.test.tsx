@@ -44,7 +44,7 @@ describe('EditTrxModal', () => {
     await user.click(screen.getByLabelText('Edit transaction'));
 
     // and - cancel
-    await user.click(screen.getByText('Cancel'));
+    await user.click(screen.getByRole('button', { name: 'Cancel' }));
     await waitFor(() => {
       expect(screen.queryByText('Edit Transaction')).not.toBeVisible();
     });
@@ -63,7 +63,7 @@ describe('EditTrxModal', () => {
     await user.type(titleInput, 'Updated Title');
 
     // and - save changes
-    await user.click(screen.getByText('Save Changes'));
+    await user.click(screen.getByRole('button', { name: 'Save Changes' }));
     await waitFor(() => {
       expect(screen.queryByText('Edit Transaction')).not.toBeVisible();
     });

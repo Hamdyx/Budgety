@@ -17,7 +17,7 @@ describe('AddTrxForm', () => {
     renderWithProviders(<AddTrxForm />);
 
     // then
-    expect(screen.getByText('Add Transaction')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Add Transaction' })).toBeInTheDocument();
   });
 
   it('opens modal on button click', async () => {
@@ -25,7 +25,7 @@ describe('AddTrxForm', () => {
     const { user } = renderWithProviders(<AddTrxForm />);
 
     // then
-    await user.click(screen.getByText('Add Transaction'));
+    await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
 
     expect(screen.getByText('Add New Transaction')).toBeInTheDocument();
   });
@@ -35,10 +35,10 @@ describe('AddTrxForm', () => {
     const { user } = renderWithProviders(<AddTrxForm />);
 
     // then
-    await user.click(screen.getByText('Add Transaction'));
+    await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
 
-    expect(screen.getByLabelText('Income')).toBeInTheDocument();
-    expect(screen.getByLabelText('Expense')).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: 'Income' })).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: 'Expense' })).toBeInTheDocument();
   });
 
   it('shows title, value, and date fields', async () => {
@@ -46,7 +46,7 @@ describe('AddTrxForm', () => {
     const { user } = renderWithProviders(<AddTrxForm />);
 
     // then
-    await user.click(screen.getByText('Add Transaction'));
+    await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
 
     expect(screen.getByPlaceholderText('Transaction title')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Transaction value')).toBeInTheDocument();
@@ -58,10 +58,10 @@ describe('AddTrxForm', () => {
     const { user } = renderWithProviders(<AddTrxForm />);
 
     // then
-    await user.click(screen.getByText('Add Transaction'));
+    await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
     await waitFor(() => {
-      expect(screen.getByText('Salary')).toBeInTheDocument();
-      expect(screen.getByText('Freelance')).toBeInTheDocument();
+      expect(screen.getByRole('radio', { name: 'Salary' })).toBeInTheDocument();
+      expect(screen.getByRole('radio', { name: 'Freelance' })).toBeInTheDocument();
     });
   });
 
@@ -70,10 +70,10 @@ describe('AddTrxForm', () => {
     const { user } = renderWithProviders(<AddTrxForm />);
 
     // then
-    await user.click(screen.getByText('Add Transaction'));
+    await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
 
     // and - close modal
-    await user.click(screen.getByText('Cancel'));
+    await user.click(screen.getByRole('button', { name: 'Cancel' }));
     await waitFor(() => {
       expect(screen.queryByText('Add New Transaction')).not.toBeVisible();
     });
@@ -84,17 +84,17 @@ describe('AddTrxForm', () => {
     const { user } = renderWithProviders(<AddTrxForm />);
 
     // then
-    await user.click(screen.getByText('Add Transaction'));
+    await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
     await waitFor(() => {
-      expect(screen.getByText('Salary')).toBeInTheDocument();
+      expect(screen.getByRole('radio', { name: 'Salary' })).toBeInTheDocument();
     });
 
     // and - switch to expense
     await user.click(screen.getByText('Expense'));
     await waitFor(() => {
-      expect(screen.getByText('Food')).toBeInTheDocument();
-      expect(screen.getByText('Rent')).toBeInTheDocument();
-      expect(screen.queryByText('Salary')).not.toBeInTheDocument();
+      expect(screen.getByRole('radio', { name: 'Food' })).toBeInTheDocument();
+      expect(screen.getByRole('radio', { name: 'Rent' })).toBeInTheDocument();
+      expect(screen.queryByRole('radio', { name: 'Salary' })).not.toBeInTheDocument();
     });
   });
 
@@ -103,9 +103,9 @@ describe('AddTrxForm', () => {
     const { user } = renderWithProviders(<AddTrxForm />);
 
     // then
-    await user.click(screen.getByText('Add Transaction'));
+    await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
     await waitFor(() => {
-      expect(screen.getByText('Salary')).toBeInTheDocument();
+      expect(screen.getByRole('radio', { name: 'Salary' })).toBeInTheDocument();
     });
 
     // and - fill form
@@ -116,7 +116,7 @@ describe('AddTrxForm', () => {
     await user.click(screen.getByText('Salary'));
 
     // and - submit form
-    const submitButtons = screen.getAllByText('Add Transaction');
+    const submitButtons = screen.getAllByRole('button', { name: 'Add Transaction' });
     await user.click(submitButtons[submitButtons.length - 1]);
 
     // and - modal closed

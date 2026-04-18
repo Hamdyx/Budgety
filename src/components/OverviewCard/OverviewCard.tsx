@@ -9,7 +9,7 @@ interface OverviewCardProps extends CardProps {
 
 const OverviewCard = ({ onAdd, extra, children, styles: stylesProp, ...rest }: OverviewCardProps) => (
   <Card
-    extra={extra ?? (onAdd && <Button type="text" icon={<PlusOutlined />} className="card-extra-btn" onClick={onAdd} />)}
+    extra={extra ?? (onAdd && <Button type="text" icon={<PlusOutlined />} className="card-extra-btn" aria-label="Add" onClick={onAdd} />)}
     styles={{ body: { padding: '12px 16px' }, ...stylesProp }}
     {...rest}
   >

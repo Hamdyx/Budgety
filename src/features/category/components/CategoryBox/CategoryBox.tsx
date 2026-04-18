@@ -47,8 +47,8 @@ const CategoryBox = ({ category: currCat }: { category: Category }) => {
               <Input />
             </Form.Item>
             <Space size={4}>
-              {!disabled && <Button onClick={handleDeleteCategory} disabled={false} danger icon={<DeleteOutlined />} />}
-              <Button onClick={editCategory} disabled={false} icon={<EditOutlined />} />
+              {!disabled && <Button onClick={handleDeleteCategory} disabled={false} danger icon={<DeleteOutlined />} aria-label="Delete category" />}
+              <Button onClick={editCategory} disabled={false} icon={<EditOutlined />} aria-label="Edit category" />
             </Space>
           </Space>
           {!disabled && (

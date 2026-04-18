@@ -17,9 +17,9 @@ describe('Sidebar', () => {
     renderWithProviders(<Sidebar />);
 
     // then
-    expect(screen.getByText('Overview')).toBeInTheDocument();
-    expect(screen.getByText('Budget')).toBeInTheDocument();
-    expect(screen.getByText('Bank')).toBeInTheDocument();
+    expect(screen.getByRole('menuitem', { name: /Overview/ })).toBeInTheDocument();
+    expect(screen.getByRole('menuitem', { name: /Budget/ })).toBeInTheDocument();
+    expect(screen.getByRole('menuitem', { name: /Bank/ })).toBeInTheDocument();
   });
 
   it('renders logout menu item', () => {
@@ -27,7 +27,7 @@ describe('Sidebar', () => {
     renderWithProviders(<Sidebar />);
 
     // then
-    expect(screen.getByText('Logout')).toBeInTheDocument();
+    expect(screen.getByRole('menuitem', { name: /Logout/ })).toBeInTheDocument();
   });
 
   it('navigates on menu item click', async () => {
@@ -35,7 +35,7 @@ describe('Sidebar', () => {
     const { user } = renderWithProviders(<Sidebar />);
 
     // then
-    await user.click(screen.getByText('Budget'));
+    await user.click(screen.getByRole('menuitem', { name: /Budget/ }));
   });
 
   it('calls onNavigate callback on menu click', async () => {
@@ -51,7 +51,7 @@ describe('Sidebar', () => {
     );
 
     // then
-    await user.click(screen.getByText('Budget'));
+    await user.click(screen.getByRole('menuitem', { name: /Budget/ }));
 
     expect(navigated).toBe(true);
   });
@@ -61,7 +61,7 @@ describe('Sidebar', () => {
     const { user } = renderWithProviders(<Sidebar />, { routerProps: { initialEntries: ['/'] } });
 
     // then
-    await user.click(screen.getByText('Logout'));
+    await user.click(screen.getByRole('menuitem', { name: /Logout/ }));
     await waitFor(() => {
       expect(useAuthStore.getState().token).toBeNull();
     });

@@ -39,8 +39,8 @@ describe('InvestmentCard', () => {
 
     // then
     await waitFor(() => {
-      expect(screen.getByText('Portfolio')).toBeInTheDocument();
-      expect(screen.getByText('Transactions')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Portfolio' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Transactions' })).toBeInTheDocument();
     });
   });
 
@@ -54,7 +54,7 @@ describe('InvestmentCard', () => {
     });
 
     // and - open modal
-    const addButton = document.querySelector('.anticon-plus')!.closest('button')!;
+    const addButton = screen.getByRole('button', { name: 'Add' });
     await user.click(addButton);
 
     expect(screen.getByText('All Transactions')).toBeInTheDocument();
@@ -70,7 +70,7 @@ describe('InvestmentCard', () => {
     });
 
     // and - open modal
-    const addButton = document.querySelector('.anticon-plus')!.closest('button')!;
+    const addButton = screen.getByRole('button', { name: 'Add' });
     await user.click(addButton);
     expect(screen.getByText('All Transactions')).toBeInTheDocument();
 
