@@ -28,7 +28,6 @@ export default defineConfig({
         '**/*.test.{ts,tsx}',
         '**/index.ts',
         'src/types/**',
-        'src/app/App/App.tsx',
         'src/app/routes.tsx',
       ],
       thresholds: {

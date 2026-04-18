@@ -1,4 +1,4 @@
-import { SectionHeader } from '@/components/common/SectionHeader';
+import { SectionHeader } from '@/components/SectionHeader';
 
 import InvestmentCard from './InvestmentCard';
 

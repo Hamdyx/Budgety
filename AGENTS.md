@@ -33,7 +33,7 @@
   export { default as ComponentName } from './ComponentName';
   ```
   Consumers import via the directory: `import { ComponentName } from '../ComponentName';`
-- **Shared UI** goes in `src/components/common/` (e.g. `OverviewCard`, `SectionHeader`, `ComingSoon`).
+- **Shared UI** goes in `src/components/` (e.g. `OverviewCard`, `SectionHeader`, `ComingSoon`, `SuspenseLayout`).
 - **Chart components** in `src/components/charts/`.
 - **Zustand** for client state — stores in `src/stores/` (auth, theme). Keep stores minimal and focused.
 - **TanStack React Query** for server state — queries and mutations in per-feature `hooks.ts` files. Invalidate related queries on mutation success.

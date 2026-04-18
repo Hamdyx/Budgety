@@ -77,7 +77,7 @@ All internal imports use the `@/` prefix:
 
 ```ts
 import { BudgetCard } from '@/features/budget/components/BudgetCard';
-import { OverviewCard } from '@/components/common/OverviewCard';
+import { OverviewCard } from '@/components/OverviewCard';
 ```
 
 Configured in `tsconfig.json` and `vite.config.ts`.

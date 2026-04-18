@@ -1,7 +1,7 @@
 import { FileTextOutlined } from '@ant-design/icons';
 import { Row, Col, Divider, Typography, Spin } from 'antd';
 
-import { OverviewCard } from '@/components/common/OverviewCard';
+import { OverviewCard } from '@/components/OverviewCard';
 import { useTransactions } from '@/features/budget/hooks';
 import { useCategories } from '@/features/category/hooks';
 

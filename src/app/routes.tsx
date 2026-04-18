@@ -1,35 +1,19 @@
 /* eslint-disable react-refresh/only-export-components */
 import type { RouteObject } from 'react-router-dom';
 
-import { Spin } from 'antd';
-import { Suspense, lazy } from 'react';
-import { createBrowserRouter, Outlet } from 'react-router-dom';
+import { lazy } from 'react';
+import { createBrowserRouter } from 'react-router-dom';
 
-import { PrivateRoute } from '@/components/common/PrivateRoute';
+import { PrivateRoute } from '@/components/PrivateRoute';
+import { SuspenseLayout } from '@/components/SuspenseLayout';
 import { Overview } from '@/features/overview/components/Overview';
 
 import { AppLayout } from './AppLayout';
-
-import styles from './App/App.module.css';
 
 const LoginPage = lazy(() => import('@/features/auth/components/LoginPage/LoginPage'));
 const RegisterPage = lazy(() => import('@/features/auth/components/RegisterPage/RegisterPage'));
 const BudgetMain = lazy(() => import('@/features/budget/components/BudgetMain/BudgetMain'));
 const BankPage = lazy(() => import('@/features/bank/components/BankPage/BankPage'));
-
-function SuspenseLayout() {
-  return (
-    <Suspense
-      fallback={
-        <div className={styles.spinContainer}>
-          <Spin size="large" />
-        </div>
-      }
-    >
-      <Outlet />
-    </Suspense>
-  );
-}
 
 export const routeConfig: RouteObject[] = [
   {

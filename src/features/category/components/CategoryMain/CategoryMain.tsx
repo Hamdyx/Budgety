@@ -1,6 +1,6 @@
 import { Row, Col, Spin } from 'antd';
 
-import { SectionHeader } from '@/components/common/SectionHeader';
+import { SectionHeader } from '@/components/SectionHeader';
 
 import { useCategories } from '../../hooks';
 import { AddCategory } from '../AddCategory';
