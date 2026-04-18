@@ -41,11 +41,11 @@ describe('CategoryBox', () => {
   it('enables edit mode on edit button click', async () => {
     // when
     const { user } = renderWithProviders(<CategoryBox category={category} />);
-    const editButton = document.querySelector('.anticon-edit')!.closest('button')!;
 
     // then
+    const editButton = document.querySelector('.anticon-edit')!.closest('button')!;
     await user.click(editButton);
-    // In edit mode, type radio and delete button appear
+
     expect(screen.getByText('Income')).toBeInTheDocument();
     expect(screen.getByText('Expense')).toBeInTheDocument();
     expect(document.querySelector('.anticon-delete')).toBeInTheDocument();
@@ -54,21 +54,23 @@ describe('CategoryBox', () => {
   it('deletes category on delete click', async () => {
     // when
     const { user } = renderWithProviders(<CategoryBox category={category} />);
-    // Enter edit mode
-    const editButton = document.querySelector('.anticon-edit')!.closest('button')!;
 
     // then
+    const editButton = document.querySelector('.anticon-edit')!.closest('button')!;
     await user.click(editButton);
+
+    // and - delete category
     const deleteButton = document.querySelector('.anticon-delete')!.closest('button')!;
     await user.click(deleteButton);
-    // Mutation fires (no error thrown)
     await waitFor(() => {
       expect(deleteButton).toBeInTheDocument();
     });
   });
 
   it('shows negative remaining for over-budget category', () => {
+    // given
     const overBudget = { ...category, spent: 1000 };
+
     // when
     renderWithProviders(<CategoryBox category={overBudget} />);
 
@@ -79,22 +81,23 @@ describe('CategoryBox', () => {
   it('submits form on second edit click (saves)', async () => {
     // when
     const { user } = renderWithProviders(<CategoryBox category={category} />);
-    const editButton = document.querySelector('.anticon-edit')!.closest('button')!;
-    // First click: enable edit mode
 
     // then
+    const editButton = document.querySelector('.anticon-edit')!.closest('button')!;
     await user.click(editButton);
     expect(screen.getByText('Income')).toBeInTheDocument();
-    // Second click: submit form (saves)
+
+    // and - save changes
     await user.click(editButton);
     await waitFor(() => {
-      // After submitting, form goes back to disabled mode (type radios hidden)
       expect(screen.queryByText('Income')).not.toBeInTheDocument();
     });
   });
 
   it('renders "earned" for income categories', () => {
+    // given
     const incomeCategory = { ...category, type: 'income' as const, spent: 500 };
+
     // when
     renderWithProviders(<CategoryBox category={incomeCategory} />);
 

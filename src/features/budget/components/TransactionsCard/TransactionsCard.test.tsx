@@ -41,6 +41,8 @@ describe('TransactionsCard', () => {
     await waitFor(() => {
       expect(screen.getByText('Monthly Salary')).toBeInTheDocument();
     });
+
+    // and - clear all transactions
     queryClient.setQueryData(['transactions'], []);
     await waitFor(() => {
       expect(screen.getByText('No transactions yet')).toBeInTheDocument();

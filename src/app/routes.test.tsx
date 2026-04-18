@@ -25,28 +25,40 @@ function renderRoutes(initialEntries: string[]) {
 
 describe('Routes', () => {
   it('renders login page on /login route', async () => {
+    // when
     renderRoutes(['/login']);
 
+    // then
     expect(await screen.findByText('Sign In')).toBeInTheDocument();
   });
 
   it('renders register page on /register route', async () => {
+    // when
     renderRoutes(['/register']);
 
+    // then
     expect(await screen.findByText('Register')).toBeInTheDocument();
   });
 
   it('redirects to login when not authenticated', async () => {
+    // given
     useAuthStore.getState().logout();
+
+    // when
     renderRoutes(['/']);
 
+    // then
     expect(await screen.findByText('Sign In')).toBeInTheDocument();
   });
 
   it('renders overview when authenticated', async () => {
+    // given
     useAuthStore.getState().setAuth(mockToken, { id: 'user-1', email: '', username: '' });
+
+    // when
     renderRoutes(['/']);
 
+    // then
     expect(await screen.findByRole('heading', { name: 'Overview' })).toBeInTheDocument();
   });
 });

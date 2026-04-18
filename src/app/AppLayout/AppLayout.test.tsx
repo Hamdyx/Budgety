@@ -26,16 +26,6 @@ describe('AppLayout', () => {
     renderWithProviders(<AppLayout />);
 
     // then
-    expect(screen.getByLabelText('Toggle theme')).toBeInTheDocument();
-  });
-
-  it('toggles theme on button click', async () => {
-    // when
-    const { user } = renderWithProviders(<AppLayout />);
-    const toggle = screen.getByLabelText('Toggle theme');
-
-    // then
-    await user.click(toggle);
-    // Theme toggled in store
+    expect(screen.getByTestId('themeToggleButton')).toBeInTheDocument();
   });
 });

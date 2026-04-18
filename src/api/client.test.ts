@@ -37,6 +37,8 @@ describe('apiFetch', () => {
   it('sends GET request and converts response to camelCase', async () => {
     // given
     server.use(http.get('*/test', () => HttpResponse.json({ foo_bar: 'baz' })));
+
+    // when
     const data = await apiFetch<{ fooBar: string }>('/test');
 
     // then
@@ -51,11 +53,12 @@ describe('apiFetch', () => {
         return HttpResponse.json(body as Record<string, unknown>);
       })
     );
+
+    // when
     const data = await apiFetch<{ my_key: string }>('/test', {
       method: 'POST',
       body: { myKey: 'value' },
     });
-    // Response also gets camelCased
 
     // then
     expect(data).toEqual({ myKey: 'value' });
@@ -163,6 +166,8 @@ describe('apiFetch', () => {
   it('uses data.message when detail is not present', async () => {
     // given
     server.use(http.get('*/test', () => HttpResponse.json({ message: 'Server error' }, { status: 500 })));
+
+    // then
     try {
       await apiFetch('/test');
     } catch (e) {
@@ -173,6 +178,8 @@ describe('apiFetch', () => {
   it('uses "Unknown error" when no detail or message', async () => {
     // given
     server.use(http.get('*/test', () => HttpResponse.json({}, { status: 500 })));
+
+    // then
     try {
       await apiFetch('/test');
     } catch (e) {

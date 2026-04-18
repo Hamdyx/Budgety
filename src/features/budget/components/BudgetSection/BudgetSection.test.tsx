@@ -51,6 +51,8 @@ describe('BudgetSection', () => {
     await waitFor(() => {
       expect(screen.getByText('Grocery Shopping')).toBeInTheDocument();
     });
+
+    // and - switch back to income
     await user.click(screen.getByText('Income'));
     await waitFor(() => {
       expect(screen.getByText('Monthly Salary')).toBeInTheDocument();

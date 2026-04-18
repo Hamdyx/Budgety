@@ -48,8 +48,9 @@ describe('LoginPage', () => {
     // then
     await user.type(screen.getByLabelText('Email'), 'test@example.com');
     await user.type(screen.getByLabelText('Password'), 'password123');
-    await user.click(screen.getByRole('button', { name: 'Sign In' }));
 
+    // and - submit
+    await user.click(screen.getByRole('button', { name: 'Sign In' }));
     await waitFor(() => {
       const state = useAuthStore.getState();
       expect(state.token).toBeTruthy();
@@ -67,8 +68,9 @@ describe('LoginPage', () => {
     // then
     await user.type(screen.getByLabelText('Email'), 'bad@example.com');
     await user.type(screen.getByLabelText('Password'), 'wrongpass');
-    await user.click(screen.getByRole('button', { name: 'Sign In' }));
 
+    // and - submit
+    await user.click(screen.getByRole('button', { name: 'Sign In' }));
     await waitFor(() => {
       expect(screen.getByRole('alert')).toBeInTheDocument();
     });

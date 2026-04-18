@@ -52,9 +52,11 @@ describe('InvestmentCard', () => {
     await waitFor(() => {
       expect(screen.getByText('Investment')).toBeInTheDocument();
     });
-    // OverviewCard add button
+
+    // and - open modal
     const addButton = document.querySelector('.anticon-plus')!.closest('button')!;
     await user.click(addButton);
+
     expect(screen.getByText('All Transactions')).toBeInTheDocument();
   });
 
@@ -66,9 +68,13 @@ describe('InvestmentCard', () => {
     await waitFor(() => {
       expect(screen.getByText('Investment')).toBeInTheDocument();
     });
+
+    // and - open modal
     const addButton = document.querySelector('.anticon-plus')!.closest('button')!;
     await user.click(addButton);
     expect(screen.getByText('All Transactions')).toBeInTheDocument();
+
+    // and - close modal
     await user.click(screen.getByText('Close'));
     await waitFor(() => {
       expect(screen.queryByText('All Transactions')).not.toBeVisible();

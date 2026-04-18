@@ -60,6 +60,8 @@ describe('RegisterPage', () => {
     // then
     await user.type(screen.getByLabelText('Password'), 'password123');
     await user.type(screen.getByLabelText('Confirm Password'), 'different123');
+
+    // and - submit
     await user.click(screen.getByRole('button', { name: 'Register' }));
     await waitFor(() => {
       expect(screen.getByText('Passwords do not match')).toBeInTheDocument();
@@ -75,8 +77,9 @@ describe('RegisterPage', () => {
     await user.type(screen.getByLabelText('Username'), 'newuser');
     await user.type(screen.getByLabelText('Password'), 'password123');
     await user.type(screen.getByLabelText('Confirm Password'), 'password123');
-    await user.click(screen.getByRole('button', { name: 'Register' }));
 
+    // and - submit
+    await user.click(screen.getByRole('button', { name: 'Register' }));
     await waitFor(() => {
       expect(screen.getByText('Login Page')).toBeInTheDocument();
     });
@@ -94,8 +97,9 @@ describe('RegisterPage', () => {
     await user.type(screen.getByLabelText('Username'), 'dupuser');
     await user.type(screen.getByLabelText('Password'), 'password123');
     await user.type(screen.getByLabelText('Confirm Password'), 'password123');
-    await user.click(screen.getByRole('button', { name: 'Register' }));
 
+    // and - submit
+    await user.click(screen.getByRole('button', { name: 'Register' }));
     await waitFor(() => {
       expect(screen.getByRole('alert')).toBeInTheDocument();
     });

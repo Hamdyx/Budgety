@@ -26,6 +26,7 @@ describe('AddCategory', () => {
 
     // then
     await user.click(document.querySelector('.anticon-plus')!.closest('button')!);
+
     expect(screen.getByText('Add Category')).toBeInTheDocument();
   });
 
@@ -35,6 +36,7 @@ describe('AddCategory', () => {
 
     // then
     await user.click(document.querySelector('.anticon-plus')!.closest('button')!);
+
     expect(screen.getByLabelText('Category')).toBeInTheDocument();
     expect(screen.getByText('Income')).toBeInTheDocument();
     expect(screen.getByText('Expense')).toBeInTheDocument();
@@ -47,7 +49,7 @@ describe('AddCategory', () => {
 
     // then
     await user.click(document.querySelector('.anticon-plus')!.closest('button')!);
-    // Expense radio should be checked by default
+
     const expenseRadio = screen.getByLabelText('Expense');
     expect(expenseRadio).toBeChecked();
   });
@@ -59,10 +61,12 @@ describe('AddCategory', () => {
     // then
     await user.click(document.querySelector('.anticon-plus')!.closest('button')!);
 
+    // and - fill form
     await user.type(screen.getByLabelText('Category'), 'Transportation');
     await user.type(screen.getByLabelText('Budget'), '500');
-    await user.click(screen.getByText('Submit'));
 
+    // and - submit
+    await user.click(screen.getByText('Submit'));
     await waitFor(() => {
       expect(screen.queryByText('Add Category')).not.toBeVisible();
     });

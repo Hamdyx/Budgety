@@ -20,6 +20,7 @@ describe('OverviewCard', () => {
   });
 
   it('renders add button when onAdd is provided', async () => {
+    // given
     const onAdd = vi.fn();
 
     // when
@@ -28,10 +29,10 @@ describe('OverviewCard', () => {
         Body
       </OverviewCard>
     );
-    const addBtn = screen.getByRole('button');
 
     // then
-    await user.click(addBtn);
+    await user.click(screen.getByRole('button'));
+
     expect(onAdd).toHaveBeenCalledOnce();
   });
 

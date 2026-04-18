@@ -30,6 +30,7 @@ describe('EditTrxModal', () => {
 
     // then
     await user.click(screen.getByLabelText('Edit transaction'));
+
     expect(screen.getByText('Edit Transaction')).toBeInTheDocument();
     expect(screen.getByDisplayValue(trx.title)).toBeInTheDocument();
     expect(screen.getByDisplayValue(String(trx.value))).toBeInTheDocument();
@@ -41,6 +42,8 @@ describe('EditTrxModal', () => {
 
     // then
     await user.click(screen.getByLabelText('Edit transaction'));
+
+    // and - cancel
     await user.click(screen.getByText('Cancel'));
     await waitFor(() => {
       expect(screen.queryByText('Edit Transaction')).not.toBeVisible();
@@ -53,9 +56,13 @@ describe('EditTrxModal', () => {
 
     // then
     await user.click(screen.getByLabelText('Edit transaction'));
+
+    // and - edit title
     const titleInput = screen.getByDisplayValue(trx.title);
     await user.clear(titleInput);
     await user.type(titleInput, 'Updated Title');
+
+    // and - save changes
     await user.click(screen.getByText('Save Changes'));
     await waitFor(() => {
       expect(screen.queryByText('Edit Transaction')).not.toBeVisible();
@@ -78,6 +85,7 @@ describe('EditTrxModal', () => {
 
     // then
     await user.click(screen.getByLabelText('Edit transaction'));
+
     expect(screen.getByText('Edit Transaction')).toBeInTheDocument();
     // The form should still render with fallback values
     expect(screen.getByDisplayValue('0')).toBeInTheDocument();

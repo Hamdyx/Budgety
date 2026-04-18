@@ -26,6 +26,7 @@ describe('AddTrxForm', () => {
 
     // then
     await user.click(screen.getByText('Add Transaction'));
+
     expect(screen.getByText('Add New Transaction')).toBeInTheDocument();
   });
 
@@ -35,6 +36,7 @@ describe('AddTrxForm', () => {
 
     // then
     await user.click(screen.getByText('Add Transaction'));
+
     expect(screen.getByLabelText('Income')).toBeInTheDocument();
     expect(screen.getByLabelText('Expense')).toBeInTheDocument();
   });
@@ -45,6 +47,7 @@ describe('AddTrxForm', () => {
 
     // then
     await user.click(screen.getByText('Add Transaction'));
+
     expect(screen.getByPlaceholderText('Transaction title')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Transaction value')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Select transaction date')).toBeInTheDocument();
@@ -56,7 +59,6 @@ describe('AddTrxForm', () => {
 
     // then
     await user.click(screen.getByText('Add Transaction'));
-    // Wait for categories to load
     await waitFor(() => {
       expect(screen.getByText('Salary')).toBeInTheDocument();
       expect(screen.getByText('Freelance')).toBeInTheDocument();
@@ -69,6 +71,8 @@ describe('AddTrxForm', () => {
 
     // then
     await user.click(screen.getByText('Add Transaction'));
+
+    // and - close modal
     await user.click(screen.getByText('Cancel'));
     await waitFor(() => {
       expect(screen.queryByText('Add New Transaction')).not.toBeVisible();
@@ -84,6 +88,8 @@ describe('AddTrxForm', () => {
     await waitFor(() => {
       expect(screen.getByText('Salary')).toBeInTheDocument();
     });
+
+    // and - switch to expense
     await user.click(screen.getByText('Expense'));
     await waitFor(() => {
       expect(screen.getByText('Food')).toBeInTheDocument();
@@ -101,14 +107,19 @@ describe('AddTrxForm', () => {
     await waitFor(() => {
       expect(screen.getByText('Salary')).toBeInTheDocument();
     });
+
+    // and - fill form
     await user.type(screen.getByPlaceholderText('Transaction title'), 'New Income');
     await user.type(screen.getByPlaceholderText('Transaction value'), '500');
-    // Select a category
+
+    // and - select category
     await user.click(screen.getByText('Salary'));
-    // Submit form — click the submit button inside the modal
+
+    // and - submit form
     const submitButtons = screen.getAllByText('Add Transaction');
-    // The second one is the submit button inside the modal
     await user.click(submitButtons[submitButtons.length - 1]);
+
+    // and - modal closed
     await waitFor(() => {
       expect(screen.queryByText('Add New Transaction')).not.toBeVisible();
     });

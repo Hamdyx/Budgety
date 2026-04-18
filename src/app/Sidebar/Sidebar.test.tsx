@@ -36,7 +36,6 @@ describe('Sidebar', () => {
 
     // then
     await user.click(screen.getByText('Budget'));
-    // Navigation happens via react-router
   });
 
   it('calls onNavigate callback on menu click', async () => {
@@ -53,6 +52,7 @@ describe('Sidebar', () => {
 
     // then
     await user.click(screen.getByText('Budget'));
+
     expect(navigated).toBe(true);
   });
 

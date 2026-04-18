@@ -26,6 +26,7 @@ describe('DeleteTrxModal', () => {
 
     // then
     await user.click(screen.getByLabelText('Delete transaction'));
+
     expect(screen.getByText('Are you sure you want to delete this transaction?')).toBeInTheDocument();
   });
 
@@ -35,6 +36,8 @@ describe('DeleteTrxModal', () => {
 
     // then
     await user.click(screen.getByLabelText('Delete transaction'));
+
+    // and - cancel
     await user.click(screen.getByText('Cancel'));
     await waitFor(() => {
       expect(screen.queryByText('Are you sure you want to delete this transaction?')).not.toBeVisible();
@@ -47,6 +50,8 @@ describe('DeleteTrxModal', () => {
 
     // then
     await user.click(screen.getByLabelText('Delete transaction'));
+
+    // and - confirm deletion
     await user.click(screen.getByText('Delete'));
     await waitFor(() => {
       expect(screen.queryByText('Are you sure you want to delete this transaction?')).not.toBeVisible();

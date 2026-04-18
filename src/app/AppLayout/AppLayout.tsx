@@ -51,6 +51,7 @@ function AppLayout() {
             onClick={toggleMode}
             className={styles.topBarButton}
             aria-label="Toggle theme"
+            data-testid="themeToggleButton"
           />
         </div>
         <Content className={styles.content}>
