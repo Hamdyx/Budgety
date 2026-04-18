@@ -2,17 +2,17 @@ import '@testing-library/jest-dom/vitest';
 import { configure } from '@testing-library/react';
 import { afterAll, afterEach, beforeAll, vi } from 'vitest';
 
-import { server } from '@/tests/server';
+import { server } from './src/tests/server';
 
 // Configure @testing-library/react
 configure({ asyncUtilTimeout: 15000 });
 
-// Fix window.getComputedStyle (jsdom doesn't support pseudo-elements)
-const { getComputedStyle } = window;
-window.getComputedStyle = elt => getComputedStyle(elt);
+// Fix getComputedStyle (jsdom doesn't support pseudo-elements)
+const { getComputedStyle } = globalThis;
+globalThis.getComputedStyle = elt => getComputedStyle(elt);
 
-// Mock window.matchMedia (not implemented in jsdom, required by antd)
-Object.defineProperty(window, 'matchMedia', {
+// Mock matchMedia (not implemented in jsdom, required by antd)
+Object.defineProperty(globalThis, 'matchMedia', {
   writable: true,
   value: vi.fn().mockImplementation((query: string) => ({
     matches: false,
@@ -27,7 +27,7 @@ Object.defineProperty(window, 'matchMedia', {
 });
 
 // Mock ResizeObserver (not implemented in jsdom, required by antd)
-global.ResizeObserver = class ResizeObserver {
+globalThis.ResizeObserver = class ResizeObserver {
   observe() {}
   unobserve() {}
   disconnect() {}

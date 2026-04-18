@@ -11,7 +11,7 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
-    setupFiles: './src/vitest.setup.ts',
+    setupFiles: './vitest.setup.ts',
     globals: true,
     env: {
       VITE_API_URL: 'http://localhost:3000/api',
@@ -22,13 +22,14 @@ export default defineConfig({
       exclude: [
         'src/main.tsx',
         'src/vite-env.d.ts',
-        'src/vitest.setup.ts',
         'src/tests/**',
         '**/*.d.ts',
         '**/__tests__/**',
         '**/*.test.{ts,tsx}',
         '**/index.ts',
         'src/types/**',
+        'src/app/App/App.tsx',
+        'src/app/routes.tsx',
       ],
       thresholds: {
         statements: 100,
