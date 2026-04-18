@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { Route, Routes } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
@@ -45,12 +45,10 @@ describe('RegisterPage', () => {
 
     // then
     await user.click(screen.getByRole('button', { name: 'Register' }));
-    await waitFor(() => {
-      expect(screen.getByText('Please enter your email')).toBeInTheDocument();
-      expect(screen.getByText('Please enter a username')).toBeInTheDocument();
-      expect(screen.getByText('Please enter a password')).toBeInTheDocument();
-      expect(screen.getByText('Please confirm your password')).toBeInTheDocument();
-    });
+    await screen.findByText('Please enter your email');
+    expect(screen.getByText('Please enter a username')).toBeInTheDocument();
+    expect(screen.getByText('Please enter a password')).toBeInTheDocument();
+    expect(screen.getByText('Please confirm your password')).toBeInTheDocument();
   });
 
   it('shows password mismatch error', async () => {
@@ -63,9 +61,7 @@ describe('RegisterPage', () => {
 
     // and - submit
     await user.click(screen.getByRole('button', { name: 'Register' }));
-    await waitFor(() => {
-      expect(screen.getByText('Passwords do not match')).toBeInTheDocument();
-    });
+    expect(await screen.findByText('Passwords do not match')).toBeInTheDocument();
   });
 
   it('registers successfully and navigates to login', async () => {
@@ -80,9 +76,7 @@ describe('RegisterPage', () => {
 
     // and - submit
     await user.click(screen.getByRole('button', { name: 'Register' }));
-    await waitFor(() => {
-      expect(screen.getByText('Login Page')).toBeInTheDocument();
-    });
+    expect(await screen.findByText('Login Page')).toBeInTheDocument();
   });
 
   it('shows error message on register failure', async () => {
@@ -100,8 +94,6 @@ describe('RegisterPage', () => {
 
     // and - submit
     await user.click(screen.getByRole('button', { name: 'Register' }));
-    await waitFor(() => {
-      expect(screen.getByRole('alert')).toBeInTheDocument();
-    });
+    expect(await screen.findByRole('alert')).toBeInTheDocument();
   });
 });

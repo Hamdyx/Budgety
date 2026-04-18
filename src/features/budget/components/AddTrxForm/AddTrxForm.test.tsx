@@ -59,10 +59,8 @@ describe('AddTrxForm', () => {
 
     // then
     await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
-    await waitFor(() => {
-      expect(screen.getByRole('radio', { name: 'Salary' })).toBeInTheDocument();
-      expect(screen.getByRole('radio', { name: 'Freelance' })).toBeInTheDocument();
-    });
+    expect(await screen.findByRole('radio', { name: 'Salary' })).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: 'Freelance' })).toBeInTheDocument();
   });
 
   it('closes modal on cancel', async () => {
@@ -85,17 +83,13 @@ describe('AddTrxForm', () => {
 
     // then
     await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
-    await waitFor(() => {
-      expect(screen.getByRole('radio', { name: 'Salary' })).toBeInTheDocument();
-    });
+    await screen.findByRole('radio', { name: 'Salary' });
 
     // and - switch to expense
     await user.click(screen.getByText('Expense'));
-    await waitFor(() => {
-      expect(screen.getByRole('radio', { name: 'Food' })).toBeInTheDocument();
-      expect(screen.getByRole('radio', { name: 'Rent' })).toBeInTheDocument();
-      expect(screen.queryByRole('radio', { name: 'Salary' })).not.toBeInTheDocument();
-    });
+    await screen.findByRole('radio', { name: 'Food' });
+    expect(screen.getByRole('radio', { name: 'Rent' })).toBeInTheDocument();
+    expect(screen.queryByRole('radio', { name: 'Salary' })).not.toBeInTheDocument();
   });
 
   it('submits a new transaction and closes modal', async () => {
@@ -104,9 +98,7 @@ describe('AddTrxForm', () => {
 
     // then
     await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
-    await waitFor(() => {
-      expect(screen.getByRole('radio', { name: 'Salary' })).toBeInTheDocument();
-    });
+    await screen.findByRole('radio', { name: 'Salary' });
 
     // and - fill form
     await user.type(screen.getByPlaceholderText('Transaction title'), 'New Income');

@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
@@ -36,10 +36,8 @@ describe('BudgetSection', () => {
 
     // then
     await user.click(screen.getByRole('button', { name: 'Expense' }));
-    await waitFor(() => {
-      expect(screen.getByText('Grocery Shopping')).toBeInTheDocument();
-      expect(screen.getByText('Monthly Rent')).toBeInTheDocument();
-    });
+    await screen.findByText('Grocery Shopping');
+    expect(screen.getByText('Monthly Rent')).toBeInTheDocument();
   });
 
   it('switches back to income from expense', async () => {
@@ -48,16 +46,12 @@ describe('BudgetSection', () => {
 
     // then
     await user.click(screen.getByRole('button', { name: 'Expense' }));
-    await waitFor(() => {
-      expect(screen.getByText('Grocery Shopping')).toBeInTheDocument();
-    });
+    await screen.findByText('Grocery Shopping');
 
     // and - switch back to income
     await user.click(screen.getByRole('button', { name: 'Income' }));
-    await waitFor(() => {
-      expect(screen.getByText('Monthly Salary')).toBeInTheDocument();
-      expect(screen.getByText('Freelance Payment')).toBeInTheDocument();
-    });
+    await screen.findByText('Monthly Salary');
+    expect(screen.getByText('Freelance Payment')).toBeInTheDocument();
   });
 
   it('renders Add Transaction button', () => {

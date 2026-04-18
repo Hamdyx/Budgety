@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
@@ -25,9 +25,7 @@ describe('BudgetMain', () => {
     renderWithProviders(<BudgetMain />);
 
     // then
-    await waitFor(() => {
-      expect(screen.getByText('Budget Feature')).toBeInTheDocument();
-    });
+    expect(await screen.findByText('Budget Feature')).toBeInTheDocument();
   });
 
   it('renders recent transactions header', async () => {
@@ -35,9 +33,7 @@ describe('BudgetMain', () => {
     renderWithProviders(<BudgetMain />);
 
     // then
-    await waitFor(() => {
-      expect(screen.getByText('Recent Transactions')).toBeInTheDocument();
-    });
+    expect(await screen.findByText('Recent Transactions')).toBeInTheDocument();
   });
 
   it('renders transaction rows', async () => {
@@ -45,9 +41,7 @@ describe('BudgetMain', () => {
     renderWithProviders(<BudgetMain />);
 
     // then
-    await waitFor(() => {
-      expect(screen.getAllByText('Monthly Salary').length).toBeGreaterThanOrEqual(1);
-      expect(screen.getAllByText('Grocery Shopping').length).toBeGreaterThanOrEqual(1);
-    });
+    await screen.findAllByText('Monthly Salary');
+    expect(screen.getAllByText('Grocery Shopping').length).toBeGreaterThanOrEqual(1);
   });
 });

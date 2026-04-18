@@ -33,10 +33,8 @@ describe('LoginPage', () => {
 
     // then
     await user.click(screen.getByRole('button', { name: 'Sign In' }));
-    await waitFor(() => {
-      expect(screen.getByText('Please enter your email')).toBeInTheDocument();
-      expect(screen.getByText('Please enter your password')).toBeInTheDocument();
-    });
+    await screen.findByText('Please enter your email');
+    expect(screen.getByText('Please enter your password')).toBeInTheDocument();
   });
 
   it('logs in successfully and sets auth state', async () => {
@@ -71,8 +69,6 @@ describe('LoginPage', () => {
 
     // and - submit
     await user.click(screen.getByRole('button', { name: 'Sign In' }));
-    await waitFor(() => {
-      expect(screen.getByRole('alert')).toBeInTheDocument();
-    });
+    expect(await screen.findByRole('alert')).toBeInTheDocument();
   });
 });

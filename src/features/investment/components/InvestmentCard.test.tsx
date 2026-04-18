@@ -17,9 +17,7 @@ describe('InvestmentCard', () => {
     renderWithProviders(<InvestmentCard />);
 
     // then
-    await waitFor(() => {
-      expect(screen.getByText('Investment')).toBeInTheDocument();
-    });
+    expect(await screen.findByText('Investment')).toBeInTheDocument();
   });
 
   it('renders market value and cash balance', async () => {
@@ -27,10 +25,8 @@ describe('InvestmentCard', () => {
     renderWithProviders(<InvestmentCard />);
 
     // then
-    await waitFor(() => {
-      expect(screen.getByText('Market Value')).toBeInTheDocument();
-      expect(screen.getByText('Cash Balance')).toBeInTheDocument();
-    });
+    await screen.findByText('Market Value');
+    expect(screen.getByText('Cash Balance')).toBeInTheDocument();
   });
 
   it('renders portfolio and transactions links', async () => {
@@ -38,10 +34,8 @@ describe('InvestmentCard', () => {
     renderWithProviders(<InvestmentCard />);
 
     // then
-    await waitFor(() => {
-      expect(screen.getByRole('button', { name: 'Portfolio' })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: 'Transactions' })).toBeInTheDocument();
-    });
+    expect(await screen.findByRole('button', { name: 'Portfolio' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Transactions' })).toBeInTheDocument();
   });
 
   it('opens modal on add button click', async () => {
@@ -49,9 +43,7 @@ describe('InvestmentCard', () => {
     const { user } = renderWithProviders(<InvestmentCard />);
 
     // then
-    await waitFor(() => {
-      expect(screen.getByText('Investment')).toBeInTheDocument();
-    });
+    await screen.findByText('Investment');
 
     // and - open modal
     const addButton = screen.getByRole('button', { name: 'Add' });
@@ -65,9 +57,7 @@ describe('InvestmentCard', () => {
     const { user } = renderWithProviders(<InvestmentCard />);
 
     // then
-    await waitFor(() => {
-      expect(screen.getByText('Investment')).toBeInTheDocument();
-    });
+    await screen.findByText('Investment');
 
     // and - open modal
     const addButton = screen.getByRole('button', { name: 'Add' });
