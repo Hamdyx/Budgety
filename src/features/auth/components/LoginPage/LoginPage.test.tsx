@@ -70,5 +70,23 @@ describe('LoginPage', () => {
     // and - submit
     await user.click(screen.getByRole('button', { name: 'Sign In' }));
     expect(await screen.findByRole('alert')).toBeInTheDocument();
+    expect(await screen.findByRole('alert')).toHaveTextContent('Session expired');
+  });
+
+  it('shows generic error on network failure', async () => {
+    // given
+    server.use(http.post('*/auth/login', () => HttpResponse.error()));
+
+    // when
+    const { user } = renderWithProviders(<LoginPage />);
+
+    // then
+    await user.type(screen.getByLabelText('Email'), 'net@example.com');
+    await user.type(screen.getByLabelText('Password'), 'wrongpass');
+
+    // and - submit
+    await user.click(screen.getByRole('button', { name: 'Sign In' }));
+    expect(await screen.findByRole('alert')).toBeInTheDocument();
+    expect(await screen.findByRole('alert')).toHaveTextContent('Something went wrong');
   });
 });

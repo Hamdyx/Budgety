@@ -104,4 +104,15 @@ describe('CategoryBox', () => {
     // then
     expect(screen.getByText('$500 earned')).toBeInTheDocument();
   });
+
+  it('shows 0% progress when budget is zero', () => {
+    // given
+    const zeroBudget = { ...category, budget: 0, spent: 0 };
+
+    // when
+    renderWithProviders(<CategoryBox category={zeroBudget} />);
+
+    // then
+    expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '0');
+  });
 });

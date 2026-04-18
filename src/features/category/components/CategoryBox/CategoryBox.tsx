@@ -35,14 +35,14 @@ const CategoryBox = ({ category: currCat }: { category: Category }) => {
   }, [currCat, form, category, type, budget]);
 
   const remaining = budget - spent;
-  const pct = budget > 0 ? Math.round((spent / budget) * 100) : 0;
+  const percentage = budget > 0 ? Math.round((spent / budget) * 100) : 0;
 
   return (
     <div className={styles.box}>
       <Row>
         <Form form={form} name="category" initialValues={{ category, type, budget }} onFinish={onFinish} autoComplete="off" disabled={disabled}>
           <Space>
-            <Progress type="circle" percent={pct} size={50} format={() => <FileTextOutlined />} />
+            <Progress type="circle" percent={percentage} size={50} format={() => <FileTextOutlined />} />
             <Form.Item name="category" className={styles.compactItem}>
               <Input />
             </Form.Item>

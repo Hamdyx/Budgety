@@ -95,5 +95,25 @@ describe('RegisterPage', () => {
     // and - submit
     await user.click(screen.getByRole('button', { name: 'Register' }));
     expect(await screen.findByRole('alert')).toBeInTheDocument();
+    expect(await screen.findByRole('alert')).toHaveTextContent('Email already registered');
+  });
+
+  it('shows generic error on network failure', async () => {
+    // given
+    server.use(http.post('*/auth/register', () => HttpResponse.error()));
+
+    // when
+    const { user } = renderRegister();
+
+    // then
+    await user.type(screen.getByLabelText('Email'), 'net@example.com');
+    await user.type(screen.getByLabelText('Username'), 'netuser');
+    await user.type(screen.getByLabelText('Password'), 'password123');
+    await user.type(screen.getByLabelText('Confirm Password'), 'password123');
+
+    // and - submit
+    await user.click(screen.getByRole('button', { name: 'Register' }));
+    expect(await screen.findByRole('alert')).toBeInTheDocument();
+    expect(await screen.findByRole('alert')).toHaveTextContent('Something went wrong');
   });
 });

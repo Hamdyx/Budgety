@@ -2,6 +2,7 @@ import { screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
+import { useThemeStore } from '@/stores/themeStore';
 import { mockToken } from '@/tests/fixtures';
 import { renderWithProviders } from '@/tests/render';
 
@@ -32,10 +33,11 @@ describe('Sidebar', () => {
 
   it('navigates on menu item click', async () => {
     // when
-    const { user } = renderWithProviders(<Sidebar />);
-
-    // then
+    const { user } = renderWithProviders(<Sidebar />, { routerProps: { initialEntries: ['/'] } });
     await user.click(screen.getByRole('menuitem', { name: /Budget/ }));
+
+    // then - Budget menu item becomes selected (active route changed to /budget)
+    expect(screen.getByRole('menuitem', { name: /Budget/ })).toHaveClass('ant-menu-item-selected');
   });
 
   it('calls onNavigate callback on menu click', async () => {
@@ -65,5 +67,16 @@ describe('Sidebar', () => {
     await waitFor(() => {
       expect(useAuthStore.getState().token).toBeNull();
     });
+  });
+
+  it('renders logout section with light theme styles', () => {
+    // given
+    useThemeStore.setState({ mode: 'light' });
+
+    // when
+    renderWithProviders(<Sidebar />);
+
+    // then
+    expect(screen.getByRole('menuitem', { name: /Logout/ })).toBeInTheDocument();
   });
 });

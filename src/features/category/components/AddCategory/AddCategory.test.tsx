@@ -71,4 +71,19 @@ describe('AddCategory', () => {
       expect(screen.queryByText('Add Category')).not.toBeVisible();
     });
   });
+
+  it('closes modal on cancel', async () => {
+    // when
+    const { user } = renderWithProviders(<AddCategory />);
+
+    // then - open modal
+    await user.click(screen.getByRole('button', { name: 'Add category' }));
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+
+    // and - cancel
+    await user.click(screen.getByRole('button', { name: 'Cancel' }));
+    await waitFor(() => {
+      expect(screen.queryByText('Add Category')).not.toBeVisible();
+    });
+  });
 });
