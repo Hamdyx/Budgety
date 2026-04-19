@@ -29,7 +29,7 @@ const AddTrxForm = () => {
   const handleClose = () => setIsAddTrxModalOpen(false);
   const handleShow = () => setIsAddTrxModalOpen(true);
 
-  const handleTrxSumbit = async (values: TransactionCreate) => {
+  const handleTrxSubmit = async (values: TransactionCreate) => {
     createMutation.mutate(
       {
         type: values.type,
@@ -62,7 +62,7 @@ const AddTrxForm = () => {
             status: 'pending',
             isRecurring: false,
           }}
-          onFinish={handleTrxSumbit}
+          onFinish={handleTrxSubmit}
           requiredMark={false}
         >
           <Form.Item name="type">

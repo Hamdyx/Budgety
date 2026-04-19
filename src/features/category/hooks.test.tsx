@@ -3,9 +3,9 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
-import { mockCategories, mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
+import { mockCategories, mockCategorySummary, mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
 
-import { useCategories, useCreateCategory, useUpdateCategory, useDeleteCategory } from './hooks';
+import { useCategories, useCreateCategory, useUpdateCategory, useDeleteCategory, useCategorySummary } from './hooks';
 
 function createWrapper() {
   const queryClient = new QueryClient({
@@ -26,6 +26,34 @@ describe('category/hooks', () => {
     // then
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toHaveLength(mockCategories.length);
+  });
+
+  it('useCategories passes month param', async () => {
+    // when
+    const { result } = renderHook(() => useCategories('2024-01'), { wrapper: createWrapper() });
+
+    // then
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(result.current.data).toHaveLength(mockCategories.length);
+  });
+
+  it('useCategorySummary fetches summary data', async () => {
+    // when
+    const { result } = renderHook(() => useCategorySummary(), { wrapper: createWrapper() });
+
+    // then
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(result.current.data).toHaveLength(mockCategorySummary.length);
+    expect(result.current.data![0]).toHaveProperty('remaining');
+  });
+
+  it('useCategorySummary passes month param', async () => {
+    // when
+    const { result } = renderHook(() => useCategorySummary('2024-01'), { wrapper: createWrapper() });
+
+    // then
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(result.current.data).toHaveLength(mockCategorySummary.length);
   });
 
   it('useCreateCategory creates a category', async () => {

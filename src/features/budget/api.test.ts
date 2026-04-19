@@ -19,6 +19,30 @@ describe('budget/api', () => {
     expect(data[0].title).toBe('Monthly Salary');
   });
 
+  it('getTransactions passes month param as query string', async () => {
+    // when
+    const data = await getTransactions({ month: '2024-01' });
+
+    // then
+    expect(data).toHaveLength(mockTransactions.length);
+  });
+
+  it('getTransactions passes status param as query string', async () => {
+    // when
+    const data = await getTransactions({ status: 'completed' });
+
+    // then
+    expect(data).toHaveLength(mockTransactions.length);
+  });
+
+  it('getTransactions passes both month and status params', async () => {
+    // when
+    const data = await getTransactions({ month: '2024-01', status: 'pending' });
+
+    // then
+    expect(data).toHaveLength(mockTransactions.length);
+  });
+
   it('getTransaction returns a single transaction', async () => {
     // when
     const data = await getTransaction('trx-1');

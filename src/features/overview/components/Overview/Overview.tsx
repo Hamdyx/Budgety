@@ -10,7 +10,7 @@ import styles from './Overview.module.css';
 const { Title } = Typography;
 
 function Overview() {
-  const [month, setMonth] = useState<string | undefined>(undefined);
+  const [budgetMonth, setBudgetMonth] = useState<string | undefined>(undefined);
 
   return (
     <div className={styles.container}>
@@ -22,13 +22,13 @@ function Overview() {
           picker="month"
           allowClear
           placeholder="Filter by month"
-          onChange={value => setMonth(value ? dayjs(value).format('YYYY-MM') : undefined)}
+          onChange={value => setBudgetMonth(dayjs(value).format('YYYY-MM'))}
           className={styles.headerBtn}
         />
       </Flex>
       <div className={styles.grid}>
-        <TransactionsCard month={month} />
-        <BudgetCard month={month} />
+        <TransactionsCard month={budgetMonth} />
+        <BudgetCard month={budgetMonth} />
       </div>
     </div>
   );

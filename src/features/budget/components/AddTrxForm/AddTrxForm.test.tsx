@@ -127,4 +127,38 @@ describe('AddTrxForm', () => {
       expect(screen.queryByText('Add New Transaction')).not.toBeVisible();
     });
   });
+
+  it('submits a recurring transaction with recurrence rule', async () => {
+    // when
+    const { user } = renderWithProviders(<AddTrxForm />);
+
+    // then
+    await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
+    await screen.findByRole('radio', { name: 'Salary' });
+
+    // and - fill form
+    await user.type(screen.getByPlaceholderText('Transaction title'), 'Recurring Income');
+    await user.type(screen.getByPlaceholderText('Transaction value'), '3000');
+
+    // and - select category
+    await user.click(screen.getByText('Salary'));
+
+    // and - enable recurring
+    await user.click(screen.getByRole('switch'));
+
+    // and - select recurrence rule from dropdown
+    const comboboxes = screen.getAllByRole('combobox');
+    const recurrenceCombobox = comboboxes[comboboxes.length - 1];
+    await user.click(recurrenceCombobox);
+    await user.click(await screen.findByTitle('Monthly'));
+
+    // and - submit form
+    const submitButtons = screen.getAllByRole('button', { name: 'Add Transaction' });
+    await user.click(submitButtons[submitButtons.length - 1]);
+
+    // and - modal closed
+    await waitFor(() => {
+      expect(screen.queryByText('Add New Transaction')).not.toBeVisible();
+    });
+  });
 });

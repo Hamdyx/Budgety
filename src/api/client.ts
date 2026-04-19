@@ -85,13 +85,16 @@ export async function apiFetch<T>(path: string, { method = 'GET', body, auth = t
 
   if (response.status === 401 && auth) {
     if (!refreshPromise) {
-      refreshPromise = tryRefresh().then(success => {
-        refreshPromise = null;
-        if (!success) {
-          window.location.href = '/login';
-          throw new ApiRequestError(401, 'Session expired');
-        }
-      });
+      refreshPromise = tryRefresh()
+        .then(success => {
+          if (!success) {
+            window.location.href = '/login';
+            throw new ApiRequestError(401, 'Session expired');
+          }
+        })
+        .finally(() => {
+          refreshPromise = null;
+        });
     }
 
     await refreshPromise;

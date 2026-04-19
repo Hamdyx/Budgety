@@ -28,6 +28,17 @@ describe('budget/hooks', () => {
     expect(result.current.data).toHaveLength(mockTransactions.length);
   });
 
+  it('useTransactions fetches with month and status params', async () => {
+    // when
+    const { result } = renderHook(() => useTransactions({ month: '2024-01', status: 'completed' }), {
+      wrapper: createWrapper(),
+    });
+
+    // then
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(result.current.data).toHaveLength(mockTransactions.length);
+  });
+
   it('useCreateTransaction creates a transaction', async () => {
     // when
     const { result } = renderHook(() => useCreateTransaction(), { wrapper: createWrapper() });

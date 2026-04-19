@@ -101,4 +101,34 @@ describe('EditTrxModal', () => {
     // The form should still render with fallback values
     expect(screen.getByDisplayValue('0')).toBeInTheDocument();
   });
+
+  it('submits a recurring transaction with recurrence rule', async () => {
+    // given
+    const recurringTrx: Transaction = {
+      id: 'trx-recurring',
+      type: 'exp',
+      title: 'Monthly Rent',
+      value: 1500,
+      trxDate: '2024-01-01T08:00:00',
+      categoryId: 3,
+      status: 'completed',
+      isRecurring: true,
+      recurrenceRule: 'monthly',
+    };
+
+    // when
+    const { user } = renderWithProviders(<EditTrxModal trx={recurringTrx} />);
+
+    // then
+    await user.click(screen.getByLabelText('Edit transaction'));
+
+    expect(screen.getByText('Edit Transaction')).toBeInTheDocument();
+    expect(screen.getByText('Recurrence')).toBeInTheDocument();
+
+    // and - submit with recurring enabled
+    await user.click(screen.getByRole('button', { name: 'Save Changes' }));
+    await waitFor(() => {
+      expect(screen.queryByText('Edit Transaction')).not.toBeVisible();
+    });
+  });
 });

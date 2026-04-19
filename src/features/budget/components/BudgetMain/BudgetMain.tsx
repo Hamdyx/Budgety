@@ -14,8 +14,8 @@ import styles from './BudgetMain.module.css';
 const { Title } = Typography;
 
 const BudgetMain = () => {
-  const [month, setMonth] = useState<string>(dayjs().format('YYYY-MM'));
-  const { data: allTrxs = [], isLoading } = useTransactions({ month });
+  const [budgetMonth, setBudgetMonth] = useState<string>(dayjs().format('YYYY-MM'));
+  const { data: allTrxs = [], isLoading } = useTransactions({ month: budgetMonth });
   const TrxRows = allTrxs.map(trx => <TransactionRow key={trx.id} trx={trx} />);
 
   if (isLoading) {
@@ -37,13 +37,13 @@ const BudgetMain = () => {
             <Col>
               <DatePicker
                 picker="month"
-                value={dayjs(month, 'YYYY-MM')}
-                onChange={d => setMonth(d ? d.format('YYYY-MM') : dayjs().format('YYYY-MM'))}
+                value={dayjs(budgetMonth, 'YYYY-MM')}
+                onChange={value => setBudgetMonth(value!.format('YYYY-MM'))}
                 allowClear={false}
               />
             </Col>
           </Row>
-          <CategoryMain month={month} />
+          <CategoryMain month={budgetMonth} />
           <SectionHeader title="Recent Transactions" />
           {TrxRows}
         </div>

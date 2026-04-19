@@ -1,4 +1,5 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
@@ -52,5 +53,23 @@ describe('BudgetMain', () => {
     // then
     await screen.findByText('Budget Feature');
     expect(screen.getByRole('textbox')).toBeInTheDocument();
+  });
+
+  it('updates month when DatePicker value changes', async () => {
+    // given
+    const user = userEvent.setup();
+    renderWithProviders(<BudgetMain />);
+    await screen.findByText('Budget Feature');
+
+    // when
+    const input = screen.getByRole('textbox');
+    await user.clear(input);
+    await user.type(input, '2024-06');
+    await user.keyboard('{Enter}');
+
+    // then
+    await waitFor(() => {
+      expect(input).toHaveValue('2024-06');
+    });
   });
 });

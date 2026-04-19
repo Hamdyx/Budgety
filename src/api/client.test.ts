@@ -7,6 +7,12 @@ import { server } from '@/tests/server';
 
 import { ApiRequestError, apiFetch } from './client';
 
+function makeJwt(payload: Record<string, unknown>): string {
+  const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+  const body = btoa(JSON.stringify(payload));
+  return `${header}.${body}.test-signature`;
+}
+
 describe('ApiRequestError', () => {
   it('uses string detail as message', () => {
     const err = new ApiRequestError(400, 'Bad request');
@@ -153,12 +159,12 @@ describe('apiFetch', () => {
   it('logs out and redirects when refresh fails', async () => {
     // given
     const hrefSetter = vi.fn();
-    Object.defineProperty(window, 'location', {
+    Object.defineProperty(globalThis, 'location', {
       value: { href: '/' },
       writable: true,
       configurable: true,
     });
-    Object.defineProperty(window.location, 'href', {
+    Object.defineProperty(globalThis.location, 'href', {
       set: hrefSetter,
       get: () => '/',
       configurable: true,
@@ -180,12 +186,12 @@ describe('apiFetch', () => {
     // given
     useAuthStore.setState({ refreshToken: null });
     const hrefSetter = vi.fn();
-    Object.defineProperty(window, 'location', {
+    Object.defineProperty(globalThis, 'location', {
       value: { href: '/' },
       writable: true,
       configurable: true,
     });
-    Object.defineProperty(window.location, 'href', {
+    Object.defineProperty(globalThis.location, 'href', {
       set: hrefSetter,
       get: () => '/',
       configurable: true,
@@ -235,5 +241,214 @@ describe('apiFetch', () => {
     } catch (e) {
       expect((e as ApiRequestError).detail).toBe('Unknown error');
     }
+  });
+
+  it('uses fallback values when JWT payload is missing fields', async () => {
+    // given
+    const minimalToken = makeJwt({ sub: 'user-1', exp: 9999999999 });
+    const minimalRefresh = makeJwt({ sub: 'user-1', exp: 9999999999, type: 'refresh' });
+    let callCount = 0;
+    server.use(
+      http.get('*/test', () => {
+        callCount++;
+        if (callCount === 1) return new HttpResponse(null, { status: 401 });
+        return HttpResponse.json({ ok: true });
+      }),
+      http.post('*/auth/refresh', () =>
+        HttpResponse.json({
+          access_token: minimalToken,
+          refresh_token: minimalRefresh,
+          token_type: 'bearer',
+        })
+      )
+    );
+
+    // when
+    await apiFetch('/test');
+
+    // then
+    const state = useAuthStore.getState();
+    expect(state.user).toEqual({
+      id: 'user-1',
+      email: '',
+      username: '',
+      isAdmin: false,
+    });
+  });
+
+  it('logs out when refresh throws a network error', async () => {
+    // given
+    const hrefSetter = vi.fn();
+    Object.defineProperty(globalThis, 'location', {
+      value: { href: '/' },
+      writable: true,
+      configurable: true,
+    });
+    Object.defineProperty(globalThis.location, 'href', {
+      set: hrefSetter,
+      get: () => '/',
+      configurable: true,
+    });
+
+    server.use(
+      http.get('*/test', () => new HttpResponse(null, { status: 401 })),
+      http.post('*/auth/refresh', () => HttpResponse.error())
+    );
+
+    // then
+    await expect(apiFetch('/test')).rejects.toThrow('Session expired');
+    expect(useAuthStore.getState().token).toBeNull();
+    expect(hrefSetter).toHaveBeenCalledWith('/login');
+  });
+
+  it('deduplicates concurrent refresh calls on multiple 401s', async () => {
+    // given
+    let refreshCallCount = 0;
+    let testCallCount = 0;
+    server.use(
+      http.get('*/test', () => {
+        testCallCount++;
+        if (testCallCount <= 2) return new HttpResponse(null, { status: 401 });
+        return HttpResponse.json({ result: 'ok' });
+      }),
+      http.post('*/auth/refresh', () => {
+        refreshCallCount++;
+        return HttpResponse.json(mockAuthResponseSnake);
+      })
+    );
+
+    // when
+    const [result1, result2] = await Promise.all([apiFetch<{ result: string }>('/test'), apiFetch<{ result: string }>('/test')]);
+
+    // then
+    expect(refreshCallCount).toBe(1);
+    expect(result1).toEqual({ result: 'ok' });
+    expect(result2).toEqual({ result: 'ok' });
+  });
+
+  it('throws when token is null after successful refresh', async () => {
+    // given
+    let cleared = false;
+    const unsub = useAuthStore.subscribe(state => {
+      if (state.token === mockToken && !cleared) {
+        cleared = true;
+        useAuthStore.setState({ token: null });
+      }
+    });
+
+    server.use(
+      http.get('*/test', () => new HttpResponse(null, { status: 401 })),
+      http.post('*/auth/refresh', () => HttpResponse.json(mockAuthResponseSnake))
+    );
+
+    // then
+    await expect(apiFetch('/test')).rejects.toThrow('Session expired');
+    unsub();
+  });
+
+  it('retries POST request with body after 401 refresh', async () => {
+    // given
+    let callCount = 0;
+    let retryBody: unknown = null;
+    server.use(
+      http.post('*/test', async ({ request }) => {
+        callCount++;
+        if (callCount === 1) return new HttpResponse(null, { status: 401 });
+        retryBody = await request.json();
+        return HttpResponse.json({ created: true });
+      }),
+      http.post('*/auth/refresh', () => HttpResponse.json(mockAuthResponseSnake))
+    );
+
+    // when
+    const data = await apiFetch<{ created: boolean }>('/test', {
+      method: 'POST',
+      body: { myKey: 'value' },
+    });
+
+    // then
+    expect(data).toEqual({ created: true });
+    expect(retryBody).toEqual({ my_key: 'value' });
+  });
+
+  it('returns undefined when retry response is 204', async () => {
+    // given
+    let callCount = 0;
+    server.use(
+      http.delete('*/test', () => {
+        callCount++;
+        if (callCount === 1) return new HttpResponse(null, { status: 401 });
+        return new HttpResponse(null, { status: 204 });
+      }),
+      http.post('*/auth/refresh', () => HttpResponse.json(mockAuthResponseSnake))
+    );
+
+    // when
+    const result = await apiFetch('/test', { method: 'DELETE' });
+
+    // then
+    expect(result).toBeUndefined();
+    expect(callCount).toBe(2);
+  });
+
+  it('throws when retry response is not ok', async () => {
+    // given
+    let callCount = 0;
+    server.use(
+      http.get('*/test', () => {
+        callCount++;
+        if (callCount === 1) return new HttpResponse(null, { status: 401 });
+        return HttpResponse.json({ detail: 'Forbidden' }, { status: 403 });
+      }),
+      http.post('*/auth/refresh', () => HttpResponse.json(mockAuthResponseSnake))
+    );
+
+    // when
+    const error = await apiFetch('/test').catch(e => e);
+
+    // then
+    expect(error).toBeInstanceOf(ApiRequestError);
+    expect((error as ApiRequestError).status).toBe(403);
+    expect((error as ApiRequestError).detail).toBe('Forbidden');
+  });
+
+  it('uses message fallback when retry response has no detail', async () => {
+    // given
+    let callCount = 0;
+    server.use(
+      http.get('*/test', () => {
+        callCount++;
+        if (callCount === 1) return new HttpResponse(null, { status: 401 });
+        return HttpResponse.json({ message: 'Not allowed' }, { status: 403 });
+      }),
+      http.post('*/auth/refresh', () => HttpResponse.json(mockAuthResponseSnake))
+    );
+
+    // when
+    const error = await apiFetch('/test').catch(e => e);
+
+    // then
+    expect(error).toBeInstanceOf(ApiRequestError);
+    expect((error as ApiRequestError).detail).toBe('Not allowed');
+  });
+
+  it('uses Unknown error fallback when retry response has no detail or message', async () => {
+    // given
+    let callCount = 0;
+    server.use(
+      http.get('*/test', () => {
+        callCount++;
+        if (callCount === 1) return new HttpResponse(null, { status: 401 });
+        return HttpResponse.json({}, { status: 500 });
+      }),
+      http.post('*/auth/refresh', () => HttpResponse.json(mockAuthResponseSnake))
+    );
+
+    // when
+    const error = await apiFetch('/test').catch(e => e);
+
+    // then
+    expect(error).toBeInstanceOf(ApiRequestError);
+    expect((error as ApiRequestError).detail).toBe('Unknown error');
   });
 });
