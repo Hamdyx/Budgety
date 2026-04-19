@@ -55,12 +55,36 @@ yarn test:watch   # Vitest — watch mode
 
 Before committing: `yarn lint && yarn build && yarn test`.
 
+## Testing Conventions
+
+- Structure every test body with **`// given` / `// when` / `// then`** comments (add `// and` for additional assertions):
+
+  ```ts
+  it('deletes the transaction', async () => {
+    // given
+    renderWithProviders(<TransactionRow {...props} />);
+
+    // when
+    await userEvent.click(screen.getByRole('button', { name: /delete/i }));
+
+    // then
+    await waitFor(() => {
+      expect(screen.queryByText('Groceries')).not.toBeInTheDocument();
+    });
+  });
+  ```
+
+- Use **Testing Library queries** (`screen.getByRole`, `getByText`, `findByRole`) — avoid `container.querySelector` unless no accessible query exists.
+- **Prefer `userEvent`** over `fireEvent` for user interactions.
+- **Use `renderWithProviders`** from `@/tests/render` — it wraps QueryClient, MemoryRouter, ConfigProvider, and App context.
+
 ## Conventions
 
 - **Naming**: PascalCase for components/types, camelCase for variables/functions and CSS class names.
 - **One component per file** — file name matches the default export.
 - **Barrel files** — every component directory has an `index.ts` with a named re-export. No default re-export from barrels.
 - **Prefer composition** — wrap Ant Design components (like `OverviewCard` wraps `Card`) instead of duplicating props/styles.
+- **Meaningful iterator names** — use full, descriptive names in array/object callbacks: `categories.map(category => ...)` not `categories.map(cat => ...)`, `transactions.filter(transaction => ...)` not `transactions.filter(t => ...)`.
 - **No `!important`** — fix specificity at the source instead.
 - **Keep stores pure** — async side effects belong in query/mutation hooks, not in zustand stores.
 - **Query keys** — use consistent, descriptive arrays (e.g. `['transactions']`, `['categories']`, `['budget', month]`, `['admin', 'users']`). Month-scoped queries include a `YYYY-MM` string. Invalidate related keys on mutation success.
