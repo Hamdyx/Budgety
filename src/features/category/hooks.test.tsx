@@ -3,7 +3,7 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
-import { mockToken, mockCategories } from '@/tests/fixtures';
+import { mockCategories, mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
 
 import { useCategories, useCreateCategory, useUpdateCategory, useDeleteCategory } from './hooks';
 
@@ -11,14 +11,12 @@ function createWrapper() {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false, gcTime: 0 }, mutations: { retry: false } },
   });
-  return ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
+  return ({ children }: { children: React.ReactNode }) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }
 
 describe('category/hooks', () => {
   beforeEach(() => {
-    useAuthStore.getState().setAuth(mockToken, { id: 'user-1', email: '', username: '' });
+    useAuthStore.getState().setAuth(mockToken, mockRefreshToken, mockUser);
   });
 
   it('useCategories fetches categories', async () => {
@@ -33,7 +31,7 @@ describe('category/hooks', () => {
   it('useCreateCategory creates a category', async () => {
     // when
     const { result } = renderHook(() => useCreateCategory(), { wrapper: createWrapper() });
-    result.current.mutate({ category: 'New', type: 'expense', budget: 100 });
+    result.current.mutate({ name: 'New', type: 'expense', budget: 100 });
 
     // then
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
@@ -42,7 +40,7 @@ describe('category/hooks', () => {
   it('useUpdateCategory updates a category', async () => {
     // when
     const { result } = renderHook(() => useUpdateCategory(), { wrapper: createWrapper() });
-    result.current.mutate({ id: 1, data: { category: 'Updated' } });
+    result.current.mutate({ id: 1, data: { name: 'Updated' } });
 
     // then
     await waitFor(() => expect(result.current.isSuccess).toBe(true));

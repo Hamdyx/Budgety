@@ -3,7 +3,7 @@ import { http, HttpResponse } from 'msw';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
-import { mockToken } from '@/tests/fixtures';
+import { mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
 import { renderWithProviders } from '@/tests/render';
 import { server } from '@/tests/server';
 
@@ -11,7 +11,7 @@ import TransactionsCard from './TransactionsCard';
 
 describe('TransactionsCard', () => {
   beforeEach(() => {
-    useAuthStore.getState().setAuth(mockToken, { id: 'user-1', email: '', username: '' });
+    useAuthStore.getState().setAuth(mockToken, mockRefreshToken, mockUser);
   });
 
   it('shows spinner while loading', () => {
@@ -43,7 +43,7 @@ describe('TransactionsCard', () => {
     });
 
     // and - clear all transactions
-    queryClient.setQueryData(['transactions'], []);
+    queryClient.setQueryData(['transactions', undefined], []);
     await waitFor(() => {
       expect(screen.getByText('No transactions yet')).toBeInTheDocument();
     });

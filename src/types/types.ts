@@ -5,6 +5,7 @@ export type User = {
   id: string;
   email: string;
   username: string;
+  isAdmin: boolean;
 };
 
 export type LoginRequest = {
@@ -20,6 +21,7 @@ export type RegisterRequest = {
 
 export type AuthResponse = {
   accessToken: string;
+  refreshToken: string;
   tokenType: string;
 };
 
@@ -29,32 +31,74 @@ export type ApiError = {
   message?: string;
 };
 
+export type ForgotPasswordRequest = {
+  email: string;
+};
+
+export type VerifyResetOtpRequest = {
+  email: string;
+  otp: string;
+};
+
+export type VerifyResetOtpResponse = {
+  resetToken: string;
+};
+
+export type ResetPasswordRequest = {
+  token: string;
+  newPassword: string;
+};
+
+export type LogoutRequest = {
+  refreshToken: string;
+};
+
 // ── Category ──────────────────────────────────────────
 export type CategoryType = 'income' | 'expense';
 
+export type BudgetPeriod = 'weekly' | 'monthly' | 'yearly';
+
 export type Category = {
   id: number;
-  category: string;
+  name: string;
   type: CategoryType;
   budget: number;
-  spent: number;
+  actual: number;
+  budgetPeriod: BudgetPeriod;
   userId?: string;
 };
 
 export type CategoryCreate = {
-  category: string;
+  name: string;
   type: CategoryType;
   budget?: number;
+  budgetPeriod?: BudgetPeriod;
 };
 
 export type CategoryUpdate = {
-  category?: string;
+  name?: string;
   type?: CategoryType;
   budget?: number;
+  budgetPeriod?: BudgetPeriod;
+};
+
+export type CategorySummary = {
+  id: number;
+  name: string;
+  type: CategoryType;
+  budget: number;
+  budgetPeriod: BudgetPeriod;
+  actual: number;
+  remaining: number;
+  userId: string;
 };
 
 // ── Transaction ───────────────────────────────────────
 export type TransactionType = 'inc' | 'exp';
+
+export type TransactionStatus = 'pending' | 'completed' | 'cancelled';
+
+export type RecurrenceRule = 'weekly' | 'monthly' | 'yearly';
 
 export type Transaction = {
   id: string;
@@ -63,6 +107,9 @@ export type Transaction = {
   value: number;
   trxDate: string;
   categoryId: number;
+  status: TransactionStatus;
+  isRecurring: boolean;
+  recurrenceRule: RecurrenceRule | null;
   userId?: string;
 };
 
@@ -72,6 +119,9 @@ export type TransactionCreate = {
   value: number;
   trxDate: string;
   categoryId: number;
+  status?: TransactionStatus;
+  isRecurring?: boolean;
+  recurrenceRule?: RecurrenceRule;
 };
 
 export type TransactionUpdate = {
@@ -80,6 +130,9 @@ export type TransactionUpdate = {
   value?: number;
   trxDate?: string;
   categoryId?: number;
+  status?: TransactionStatus;
+  isRecurring?: boolean;
+  recurrenceRule?: RecurrenceRule;
 };
 
 // ── Misc ──────────────────────────────────────────────

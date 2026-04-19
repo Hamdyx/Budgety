@@ -1,11 +1,17 @@
-import type { Transaction } from '@/types/types';
+import type { TransactionStatus, Transaction } from '@/types/types';
 
 import { DollarOutlined } from '@ant-design/icons';
-import { Row, Col, Typography } from 'antd';
+import { Row, Col, Typography, Tag } from 'antd';
 
 import styles from './TransactionItem.module.css';
 
 const { Text } = Typography;
+
+const statusColor: Record<TransactionStatus, string> = {
+  pending: 'blue',
+  completed: 'green',
+  cancelled: 'default',
+};
 
 const TransactionItem = ({ trx, categoryName }: { trx: Transaction; categoryName: string }) => {
   const color = trx.type === 'inc' ? 'var(--color-success)' : 'var(--color-danger)';
@@ -21,6 +27,12 @@ const TransactionItem = ({ trx, categoryName }: { trx: Transaction; categoryName
         <Text type="secondary" style={{ fontSize: 12 }}>
           {categoryName}
         </Text>
+        {trx.status && (
+          <>
+            {' '}
+            <Tag color={statusColor[trx.status]}>{trx.status}</Tag>
+          </>
+        )}
       </Col>
       <Col>
         <Text style={{ color }}>${trx.value.toLocaleString()}</Text>

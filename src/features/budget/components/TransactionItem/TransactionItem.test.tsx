@@ -34,4 +34,12 @@ describe('TransactionItem', () => {
     expect(screen.getByText('Grocery Shopping')).toBeInTheDocument();
     expect(screen.getByText('Food')).toBeInTheDocument();
   });
+
+  it('renders status tag when status is present', () => {
+    // when
+    render(<TransactionItem trx={incomeTrx} categoryName="Salary" />);
+
+    // then
+    expect(screen.getByText('completed')).toBeInTheDocument();
+  });
 });

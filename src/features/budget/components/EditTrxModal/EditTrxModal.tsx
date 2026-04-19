@@ -1,7 +1,7 @@
 import type { Transaction } from '@/types/types';
 
 import { EditOutlined } from '@ant-design/icons';
-import { Button, Modal, Form, Input, InputNumber, DatePicker, Radio, Row, Col } from 'antd';
+import { Button, Modal, Form, Input, InputNumber, DatePicker, Radio, Row, Col, Select, Switch } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
@@ -11,6 +11,7 @@ const EditTrxModal = ({ trx }: { trx: Transaction }) => {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
   const updateMutation = useUpdateTransaction();
+  const isRecurring = Form.useWatch<boolean>('isRecurring', form) ?? false;
 
   const handleSubmit = () => {
     form.validateFields().then(values => {
@@ -22,6 +23,9 @@ const EditTrxModal = ({ trx }: { trx: Transaction }) => {
             title: values.title,
             value: values.value,
             trxDate: values.trxDate,
+            status: values.status,
+            isRecurring: values.isRecurring,
+            recurrenceRule: values.isRecurring ? values.recurrenceRule : undefined,
           },
         },
         { onSuccess: () => setOpen(false) }
@@ -48,6 +52,9 @@ const EditTrxModal = ({ trx }: { trx: Transaction }) => {
             title: trx.title ?? '',
             value: trx.value ?? 0,
             trxDate: trx.trxDate ? dayjs(trx.trxDate) : dayjs(),
+            status: trx.status ?? 'pending',
+            isRecurring: trx.isRecurring ?? false,
+            recurrenceRule: trx.recurrenceRule ?? undefined,
           }}
         >
           <Form.Item name="type">
@@ -71,6 +78,29 @@ const EditTrxModal = ({ trx }: { trx: Transaction }) => {
           <Form.Item name="trxDate" label="Date">
             <DatePicker showTime style={{ width: '100%' }} />
           </Form.Item>
+          <Form.Item name="status" label="Status" rules={[{ required: true }]}>
+            <Select
+              options={[
+                { label: 'Pending', value: 'pending' },
+                { label: 'Completed', value: 'completed' },
+                { label: 'Cancelled', value: 'cancelled' },
+              ]}
+            />
+          </Form.Item>
+          <Form.Item name="isRecurring" label="Recurring" valuePropName="checked">
+            <Switch />
+          </Form.Item>
+          {isRecurring && (
+            <Form.Item name="recurrenceRule" label="Recurrence" rules={[{ required: true }]}>
+              <Select
+                options={[
+                  { label: 'Weekly', value: 'weekly' },
+                  { label: 'Monthly', value: 'monthly' },
+                  { label: 'Yearly', value: 'yearly' },
+                ]}
+              />
+            </Form.Item>
+          )}
         </Form>
       </Modal>
     </>

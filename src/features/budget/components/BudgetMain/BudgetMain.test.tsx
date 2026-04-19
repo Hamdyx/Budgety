@@ -2,14 +2,14 @@ import { screen } from '@testing-library/react';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
-import { mockToken } from '@/tests/fixtures';
+import { mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
 import { renderWithProviders } from '@/tests/render';
 
 import BudgetMain from './BudgetMain';
 
 describe('BudgetMain', () => {
   beforeEach(() => {
-    useAuthStore.getState().setAuth(mockToken, { id: 'user-1', email: '', username: '' });
+    useAuthStore.getState().setAuth(mockToken, mockRefreshToken, mockUser);
   });
 
   it('shows spinner while loading', () => {
@@ -43,5 +43,14 @@ describe('BudgetMain', () => {
     // then
     await screen.findAllByText('Monthly Salary');
     expect(screen.getAllByText('Grocery Shopping').length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('renders month picker', async () => {
+    // when
+    renderWithProviders(<BudgetMain />);
+
+    // then
+    await screen.findByText('Budget Feature');
+    expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
 });

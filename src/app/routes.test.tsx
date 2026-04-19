@@ -5,7 +5,7 @@ import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
-import { mockToken } from '@/tests/fixtures';
+import { mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
 import { getThemeConfig } from '@/theme/themeConfig';
 
 import { routeConfig } from './routes';
@@ -53,7 +53,7 @@ describe('Routes', () => {
 
   it('renders overview when authenticated', async () => {
     // given
-    useAuthStore.getState().setAuth(mockToken, { id: 'user-1', email: '', username: '' });
+    useAuthStore.getState().setAuth(mockToken, mockRefreshToken, mockUser);
 
     // when
     renderRoutes(['/']);

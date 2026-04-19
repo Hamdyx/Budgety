@@ -6,9 +6,13 @@ import { useCategories } from '@/features/category/hooks';
 
 import { TransactionItem } from '../TransactionItem';
 
-const TransactionsCard = () => {
-  const { data: transactions = [], isLoading: trxLoading } = useTransactions();
-  const { data: categories = [], isLoading: catLoading } = useCategories();
+interface TransactionsCardProps {
+  month?: string;
+}
+
+const TransactionsCard = ({ month }: TransactionsCardProps) => {
+  const { data: transactions = [], isLoading: trxLoading } = useTransactions(month ? { month } : undefined);
+  const { data: categories = [], isLoading: catLoading } = useCategories(month);
 
   if (trxLoading || catLoading) {
     return (
@@ -18,7 +22,7 @@ const TransactionsCard = () => {
     );
   }
 
-  const categoryMap = new Map(categories.map(c => [c.id, c.category]));
+  const categoryMap = new Map(categories.map(category => [category.id, category.name]));
 
   return (
     <OverviewCard title="All Transactions">

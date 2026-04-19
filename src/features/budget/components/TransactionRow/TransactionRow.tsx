@@ -1,6 +1,6 @@
-import type { Transaction } from '@/types/types';
+import type { TransactionStatus, Transaction } from '@/types/types';
 
-import { Row, Col, Typography, Space } from 'antd';
+import { Row, Col, Typography, Space, Tag } from 'antd';
 
 import { DeleteTrxModal } from '../DeleteTrxModal';
 import { EditTrxModal } from '../EditTrxModal';
@@ -9,10 +9,16 @@ import styles from './TransactionRow.module.css';
 
 const { Text } = Typography;
 
+const statusColor: Record<TransactionStatus, string> = {
+  pending: 'blue',
+  completed: 'green',
+  cancelled: 'default',
+};
+
 const TransactionRow = ({ trx }: { trx: Transaction }) => {
-  const formatDateTime = (d: string) => {
-    const _date = d?.split('T')[0];
-    const _time = d?.split('T')[1];
+  const formatDateTime = (date: string) => {
+    const _date = date?.split('T')[0];
+    const _time = date?.split('T')[1];
     const _hh = _time?.split(':')[0];
     const _mm = _time?.split(':')[1];
     return `${_date} | ${_hh}:${_mm}`;
@@ -28,6 +34,12 @@ const TransactionRow = ({ trx }: { trx: Transaction }) => {
         <Text type="secondary" style={{ fontSize: 12 }}>
           {formatDateTime(trx.trxDate)}
         </Text>
+        {trx.status && (
+          <>
+            {' '}
+            <Tag color={statusColor[trx.status]}>{trx.status}</Tag>
+          </>
+        )}
       </Col>
       <Col className={styles.rightCol}>
         <Space size={4}>

@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw';
 
-import { mockAuthResponseSnake, mockCategoriesSnake, mockInvestmentsSnake, mockTransactionsSnake } from './fixtures';
+import { mockAuthResponseSnake, mockCategoriesSnake, mockCategorySummarySnake, mockInvestmentsSnake, mockTransactionsSnake } from './fixtures';
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -8,7 +8,19 @@ export const handlers = [
   // ── Auth ──────────────────────────────────────────
   http.post(`${API}/auth/login`, () => HttpResponse.json(mockAuthResponseSnake)),
 
-  http.post(`${API}/auth/register`, () => HttpResponse.json({ id: 'user-1', email: 'test@example.com', username: 'testuser' })),
+  http.post(`${API}/auth/register`, () => HttpResponse.json({ id: 'user-1', email: 'test@example.com', username: 'testuser', is_admin: false })),
+
+  http.post(`${API}/auth/refresh`, () => HttpResponse.json(mockAuthResponseSnake)),
+
+  http.post(`${API}/auth/logout`, () => new HttpResponse(null, { status: 204 })),
+
+  http.delete(`${API}/auth/me`, () => new HttpResponse(null, { status: 204 })),
+
+  http.post(`${API}/auth/forgot-password`, () => HttpResponse.json({ message: 'OTP sent' })),
+
+  http.post(`${API}/auth/verify-reset-otp`, () => HttpResponse.json({ reset_token: 'mock-reset-token' })),
+
+  http.post(`${API}/auth/reset-password`, () => HttpResponse.json({ message: 'Password reset successful' })),
 
   // ── Transactions ──────────────────────────────────
   http.get(`${API}/transactions`, () => HttpResponse.json(mockTransactionsSnake)),
@@ -31,6 +43,8 @@ export const handlers = [
   http.delete(`${API}/transactions/:id`, () => new HttpResponse(null, { status: 204 })),
 
   // ── Categories ────────────────────────────────────
+  http.get(`${API}/categories/summary`, () => HttpResponse.json(mockCategorySummarySnake)),
+
   http.get(`${API}/categories`, () => HttpResponse.json(mockCategoriesSnake)),
 
   http.get(`${API}/categories/:id`, ({ params }) => {
@@ -69,4 +83,14 @@ export const handlers = [
   }),
 
   http.delete(`${API}/investments/:id`, () => new HttpResponse(null, { status: 204 })),
+
+  // ── Admin ─────────────────────────────────────────
+  http.get(`${API}/admin/users`, () =>
+    HttpResponse.json([
+      { id: 'user-1', email: 'test@example.com', username: 'testuser', is_admin: false },
+      { id: 'user-2', email: 'admin@example.com', username: 'admin', is_admin: true },
+    ])
+  ),
+
+  http.delete(`${API}/admin/users/:id`, () => new HttpResponse(null, { status: 204 })),
 ];

@@ -1,0 +1,12 @@
+.container {
+  max-width: 600px;
+}
+
+.dangerZone {
+  margin-top: 32px;
+}
+
+.dangerDescription {
+  margin-bottom: 16px;
+  color: var(--color-text-secondary);
+}

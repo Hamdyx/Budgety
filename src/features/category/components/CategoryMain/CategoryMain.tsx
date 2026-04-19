@@ -6,8 +6,8 @@ import { useCategories } from '../../hooks';
 import { AddCategory } from '../AddCategory';
 import { CategoryBox } from '../CategoryBox';
 
-const CategoryMain = () => {
-  const { data: categories = [], isLoading } = useCategories();
+const CategoryMain = ({ month }: { month?: string }) => {
+  const { data: categories = [], isLoading } = useCategories(month);
 
   if (isLoading) {
     return <Spin />;
@@ -17,9 +17,9 @@ const CategoryMain = () => {
     <>
       <SectionHeader title="Categories" extra={<AddCategory />} />
       <Row gutter={[16, 16]}>
-        {categories.map(el => (
-          <Col key={el.id} xs={24} sm={8}>
-            <CategoryBox category={el} />
+        {categories.map(category => (
+          <Col key={category.id} xs={24} sm={8}>
+            <CategoryBox category={category} />
           </Col>
         ))}
       </Row>

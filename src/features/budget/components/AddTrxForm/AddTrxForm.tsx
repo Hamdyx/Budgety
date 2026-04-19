@@ -1,6 +1,6 @@
 import type { TransactionCreate, TransactionType } from '@/types/types';
 
-import { Button, DatePicker, Form, Input, InputNumber, Modal, Radio } from 'antd';
+import { Button, DatePicker, Form, Input, InputNumber, Modal, Radio, Select, Switch } from 'antd';
 import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
 
@@ -17,6 +17,7 @@ const AddTrxForm = () => {
 
   const [form] = Form.useForm();
   const trxType = Form.useWatch<TransactionType>('type', form) ?? 'inc';
+  const isRecurring = Form.useWatch<boolean>('isRecurring', form) ?? false;
 
   const filteredCategories = useMemo(
     () => categories.filter(category => (trxType === 'inc' ? category.type === 'income' : category.type === 'expense')),
@@ -36,6 +37,9 @@ const AddTrxForm = () => {
         value: values.value,
         trxDate: values.trxDate,
         categoryId: values.categoryId,
+        status: values.status,
+        isRecurring: values.isRecurring,
+        recurrenceRule: values.isRecurring ? values.recurrenceRule : undefined,
       },
       { onSuccess: () => handleClose() }
     );
@@ -55,6 +59,8 @@ const AddTrxForm = () => {
           initialValues={{
             type: 'inc',
             trxDate: dayjs(),
+            status: 'pending',
+            isRecurring: false,
           }}
           onFinish={handleTrxSumbit}
           requiredMark={false}
@@ -81,12 +87,38 @@ const AddTrxForm = () => {
           {filteredCategories.length > 0 && (
             <Form.Item name="categoryId" label="Category" rules={[{ required: true }]}>
               <Radio.Group className={styles.categoryGroup} data-type={trxType}>
-                {filteredCategories.map(({ id, category }) => (
+                {filteredCategories.map(({ id, name }) => (
                   <Radio.Button key={id} value={id} className={styles.categoryTag}>
-                    {category}
+                    {name}
                   </Radio.Button>
                 ))}
               </Radio.Group>
+            </Form.Item>
+          )}
+
+          <Form.Item name="status" label="Status" rules={[{ required: true }]}>
+            <Select
+              options={[
+                { label: 'Pending', value: 'pending' },
+                { label: 'Completed', value: 'completed' },
+                { label: 'Cancelled', value: 'cancelled' },
+              ]}
+            />
+          </Form.Item>
+
+          <Form.Item name="isRecurring" label="Recurring" valuePropName="checked">
+            <Switch />
+          </Form.Item>
+
+          {isRecurring && (
+            <Form.Item name="recurrenceRule" label="Recurrence" rules={[{ required: true }]}>
+              <Select
+                options={[
+                  { label: 'Weekly', value: 'weekly' },
+                  { label: 'Monthly', value: 'monthly' },
+                  { label: 'Yearly', value: 'yearly' },
+                ]}
+              />
             </Form.Item>
           )}
 

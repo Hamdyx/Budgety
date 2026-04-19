@@ -3,7 +3,7 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
-import { mockToken, mockTransactions } from '@/tests/fixtures';
+import { mockRefreshToken, mockToken, mockTransactions, mockUser } from '@/tests/fixtures';
 
 import { useTransactions, useCreateTransaction, useUpdateTransaction, useDeleteTransaction } from './hooks';
 
@@ -11,14 +11,12 @@ function createWrapper() {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false, gcTime: 0 }, mutations: { retry: false } },
   });
-  return ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
+  return ({ children }: { children: React.ReactNode }) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }
 
 describe('budget/hooks', () => {
   beforeEach(() => {
-    useAuthStore.getState().setAuth(mockToken, { id: 'user-1', email: '', username: '' });
+    useAuthStore.getState().setAuth(mockToken, mockRefreshToken, mockUser);
   });
 
   it('useTransactions fetches transactions', async () => {

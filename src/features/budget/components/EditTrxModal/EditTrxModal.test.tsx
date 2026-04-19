@@ -4,14 +4,14 @@ import { screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
-import { mockToken, mockTransactions } from '@/tests/fixtures';
+import { mockRefreshToken, mockToken, mockTransactions, mockUser } from '@/tests/fixtures';
 import { renderWithProviders } from '@/tests/render';
 
 import EditTrxModal from './EditTrxModal';
 
 describe('EditTrxModal', () => {
   beforeEach(() => {
-    useAuthStore.getState().setAuth(mockToken, { id: 'user-1', email: '', username: '' });
+    useAuthStore.getState().setAuth(mockToken, mockRefreshToken, mockUser);
   });
 
   const trx = mockTransactions[0];
@@ -67,6 +67,17 @@ describe('EditTrxModal', () => {
     await waitFor(() => {
       expect(screen.queryByText('Edit Transaction')).not.toBeVisible();
     });
+  });
+
+  it('shows status and recurring fields', async () => {
+    // when
+    const { user } = renderWithProviders(<EditTrxModal trx={trx} />);
+
+    // then
+    await user.click(screen.getByLabelText('Edit transaction'));
+
+    expect(screen.getByText('Status')).toBeInTheDocument();
+    expect(screen.getByText('Recurring')).toBeInTheDocument();
   });
 
   it('uses fallback values when transaction fields are missing', async () => {

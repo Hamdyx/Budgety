@@ -1,13 +1,13 @@
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
-import { mockToken, mockTransactions } from '@/tests/fixtures';
+import { mockRefreshToken, mockToken, mockTransactions, mockUser } from '@/tests/fixtures';
 
 import { getTransactions, getTransaction, createTransaction, updateTransaction, deleteTransaction } from './api';
 
 describe('budget/api', () => {
   beforeEach(() => {
-    useAuthStore.getState().setAuth(mockToken, { id: 'user-1', email: '', username: '' });
+    useAuthStore.getState().setAuth(mockToken, mockRefreshToken, mockUser);
   });
 
   it('getTransactions returns all transactions', async () => {

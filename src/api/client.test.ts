@@ -2,6 +2,7 @@ import { http, HttpResponse } from 'msw';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
+import { mockAuthResponseSnake, mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
 import { server } from '@/tests/server';
 
 import { ApiRequestError, apiFetch } from './client';
@@ -27,11 +28,11 @@ describe('ApiRequestError', () => {
 
 describe('apiFetch', () => {
   beforeEach(() => {
-    useAuthStore.setState({ token: 'test-token', user: { id: '1', email: 'a@b.com', username: 'u' } });
+    useAuthStore.setState({ token: 'test-token', refreshToken: mockRefreshToken, user: mockUser });
   });
 
   afterEach(() => {
-    useAuthStore.setState({ token: null, user: null });
+    useAuthStore.setState({ token: null, refreshToken: null, user: null });
   });
 
   it('sends GET request and converts response to camelCase', async () => {
@@ -127,8 +128,57 @@ describe('apiFetch', () => {
     expect(result).toBeUndefined();
   });
 
-  it('logs out and redirects on 401', async () => {
+  it('refreshes token and retries on 401', async () => {
+    // given — first call returns 401, second (after refresh) returns 200
+    let callCount = 0;
+    server.use(
+      http.get('*/test', () => {
+        callCount++;
+        if (callCount === 1) return new HttpResponse(null, { status: 401 });
+        return HttpResponse.json({ result: 'ok' });
+      }),
+      http.post('*/auth/refresh', () => HttpResponse.json(mockAuthResponseSnake))
+    );
+
+    // when
+    const data = await apiFetch<{ result: string }>('/test');
+
+    // then
+    expect(data).toEqual({ result: 'ok' });
+    expect(callCount).toBe(2);
+    expect(useAuthStore.getState().token).toBe(mockToken);
+    expect(useAuthStore.getState().refreshToken).toBe(mockRefreshToken);
+  });
+
+  it('logs out and redirects when refresh fails', async () => {
     // given
+    const hrefSetter = vi.fn();
+    Object.defineProperty(window, 'location', {
+      value: { href: '/' },
+      writable: true,
+      configurable: true,
+    });
+    Object.defineProperty(window.location, 'href', {
+      set: hrefSetter,
+      get: () => '/',
+      configurable: true,
+    });
+
+    server.use(
+      http.get('*/test', () => new HttpResponse(null, { status: 401 })),
+      http.post('*/auth/refresh', () => new HttpResponse(null, { status: 401 }))
+    );
+
+    // then
+    await expect(apiFetch('/test')).rejects.toThrow('Session expired');
+    expect(useAuthStore.getState().token).toBeNull();
+    expect(useAuthStore.getState().refreshToken).toBeNull();
+    expect(hrefSetter).toHaveBeenCalledWith('/login');
+  });
+
+  it('logs out when no refresh token is available', async () => {
+    // given
+    useAuthStore.setState({ refreshToken: null });
     const hrefSetter = vi.fn();
     Object.defineProperty(window, 'location', {
       value: { href: '/' },

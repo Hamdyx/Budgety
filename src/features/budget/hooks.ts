@@ -1,4 +1,4 @@
-import type { TransactionCreate, TransactionUpdate } from '@/types/types';
+import type { TransactionCreate, TransactionStatus, TransactionUpdate } from '@/types/types';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -6,11 +6,12 @@ import { getTransactions, createTransaction, updateTransaction, deleteTransactio
 
 const TRANSACTIONS_KEY = ['transactions'] as const;
 const CATEGORIES_KEY = ['categories'] as const;
+const CATEGORY_SUMMARY_KEY = ['categorySummary'] as const;
 
-export function useTransactions() {
+export function useTransactions(params?: { month?: string; status?: TransactionStatus }) {
   return useQuery({
-    queryKey: TRANSACTIONS_KEY,
-    queryFn: getTransactions,
+    queryKey: [...TRANSACTIONS_KEY, params],
+    queryFn: () => getTransactions(params),
   });
 }
 
@@ -22,6 +23,7 @@ export function useCreateTransaction() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: TRANSACTIONS_KEY });
       queryClient.invalidateQueries({ queryKey: CATEGORIES_KEY });
+      queryClient.invalidateQueries({ queryKey: CATEGORY_SUMMARY_KEY });
     },
   });
 }
@@ -34,6 +36,7 @@ export function useUpdateTransaction() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: TRANSACTIONS_KEY });
       queryClient.invalidateQueries({ queryKey: CATEGORIES_KEY });
+      queryClient.invalidateQueries({ queryKey: CATEGORY_SUMMARY_KEY });
     },
   });
 }
@@ -46,6 +49,7 @@ export function useDeleteTransaction() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: TRANSACTIONS_KEY });
       queryClient.invalidateQueries({ queryKey: CATEGORIES_KEY });
+      queryClient.invalidateQueries({ queryKey: CATEGORY_SUMMARY_KEY });
     },
   });
 }

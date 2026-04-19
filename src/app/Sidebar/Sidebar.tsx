@@ -1,10 +1,11 @@
 import type { MenuProps } from 'antd';
 
-import { BankOutlined, DollarOutlined, LogoutOutlined, ProductOutlined } from '@ant-design/icons';
+import { BankOutlined, CrownOutlined, DollarOutlined, LogoutOutlined, ProductOutlined, SettingOutlined } from '@ant-design/icons';
 import { ConfigProvider, Menu } from 'antd';
 import { useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+import { useLogout } from '@/features/auth/hooks';
 import { useAuthStore } from '@/stores/authStore';
 import { useThemeStore } from '@/stores/themeStore';
 
@@ -17,8 +18,9 @@ interface SidebarProps {
 function Sidebar({ onNavigate }: SidebarProps) {
   const navigate = useNavigate();
   const location = useLocation();
-  const logout = useAuthStore(state => state.logout);
+  const handleLogout = useLogout();
   const mode = useThemeStore(state => state.mode);
+  const user = useAuthStore(state => state.user);
 
   const menuItems: MenuProps['items'] = useMemo(
     () => [
@@ -37,18 +39,27 @@ function Sidebar({ onNavigate }: SidebarProps) {
         icon: <BankOutlined />,
         label: 'Bank',
       },
+      {
+        key: '/settings',
+        icon: <SettingOutlined />,
+        label: 'Settings',
+      },
+      ...(user?.isAdmin
+        ? [
+            {
+              key: '/admin/users',
+              icon: <CrownOutlined />,
+              label: 'Admin',
+            },
+          ]
+        : []),
     ],
-    []
+    [user?.isAdmin]
   );
 
   const handleMenuClick: MenuProps['onClick'] = ({ key }) => {
     navigate(key);
     onNavigate?.();
-  };
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login', { replace: true });
   };
 
   return (

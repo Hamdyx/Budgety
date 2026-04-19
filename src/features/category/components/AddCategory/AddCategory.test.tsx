@@ -2,14 +2,14 @@ import { screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
-import { mockToken } from '@/tests/fixtures';
+import { mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
 import { renderWithProviders } from '@/tests/render';
 
 import AddCategory from './AddCategory';
 
 describe('AddCategory', () => {
   beforeEach(() => {
-    useAuthStore.getState().setAuth(mockToken, { id: 'user-1', email: '', username: '' });
+    useAuthStore.getState().setAuth(mockToken, mockRefreshToken, mockUser);
   });
 
   it('renders add button', () => {

@@ -9,9 +9,13 @@ import styles from './BudgetCard.module.css';
 
 const { Text } = Typography;
 
-const BudgetCard = () => {
-  const { data: categories = [], isLoading: catLoading } = useCategories();
-  const { data: transactions = [], isLoading: trxLoading } = useTransactions();
+interface BudgetCardProps {
+  month?: string;
+}
+
+const BudgetCard = ({ month }: BudgetCardProps) => {
+  const { data: categories = [], isLoading: catLoading } = useCategories(month);
+  const { data: transactions = [], isLoading: trxLoading } = useTransactions(month ? { month } : undefined);
 
   if (catLoading || trxLoading) {
     return (
@@ -21,11 +25,11 @@ const BudgetCard = () => {
     );
   }
 
-  const totalIncome = transactions.filter(t => t.type === 'inc').reduce((sum, t) => sum + t.value, 0);
-  const totalExpense = transactions.filter(t => t.type === 'exp').reduce((sum, t) => sum + t.value, 0);
+  const totalIncome = transactions.filter(transaction => transaction.type === 'inc').reduce((sum, transaction) => sum + transaction.value, 0);
+  const totalExpense = transactions.filter(transaction => transaction.type === 'exp').reduce((sum, transaction) => sum + transaction.value, 0);
 
-  const incomeBudget = categories.filter(c => c.type === 'income').reduce((sum, c) => sum + c.budget, 0);
-  const expenseBudget = categories.filter(c => c.type === 'expense').reduce((sum, c) => sum + c.budget, 0);
+  const incomeBudget = categories.filter(category => category.type === 'income').reduce((sum, category) => sum + category.budget, 0);
+  const expenseBudget = categories.filter(category => category.type === 'expense').reduce((sum, category) => sum + category.budget, 0);
 
   const incomeRemaining = incomeBudget - totalIncome;
   const expenseRemaining = expenseBudget - totalExpense;
@@ -72,25 +76,25 @@ const BudgetCard = () => {
       <Divider />
 
       {/* Category items */}
-      {categories.map(cat => {
-        const remaining = cat.budget - cat.spent;
+      {categories.map(category => {
+        const remaining = category.budget - category.actual;
         return (
-          <Row key={cat.id} align="middle" className={styles.itemRow}>
+          <Row key={category.id} align="middle" className={styles.itemRow}>
             <Col span={3}>
-              <FileTextOutlined style={{ fontSize: 20, color: cat.type === 'income' ? 'var(--color-success)' : 'var(--color-danger)' }} />
+              <FileTextOutlined style={{ fontSize: 20, color: category.type === 'income' ? 'var(--color-success)' : 'var(--color-danger)' }} />
             </Col>
             <Col flex="auto">
-              <Text>{cat.category}</Text>
+              <Text>{category.name}</Text>
               <br />
               <Text type="secondary" className={styles.smallText}>
-                {cat.type}
+                {category.type}
               </Text>
             </Col>
             <Col className={styles.textRight}>
               <Text className={remaining >= 0 ? styles.successText : styles.dangerText}>${Math.abs(remaining).toLocaleString()}</Text>
               <br />
               <Text type="secondary" className={styles.smallText}>
-                {remaining >= 0 ? (cat.type === 'income' ? 'expected' : 'available') : 'over'}
+                {remaining >= 0 ? (category.type === 'income' ? 'expected' : 'available') : 'over'}
               </Text>
             </Col>
           </Row>

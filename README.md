@@ -15,20 +15,20 @@ A personal finance dashboard built with React, TypeScript, Ant Design, and Vite.
 
 ```text
 src/
-├── api/            # HTTP client (JWT auth, camelCase ↔ snake_case)
-├── app/            # App shell (App/, AppLayout/, Sidebar/), routing
-├── assets/         # Icons and static assets
+├── api/            # HTTP client (JWT auth, camelCase ↔ snake_case, auto token refresh)
+├── app/            # App shell (AppLayout/, Sidebar/), routing
 ├── components/
 │   ├── charts/     # BarChart, DoughnutChart, LineChart
-│   └── common/     # OverviewCard/, SectionHeader/, ComingSoon/, PrivateRoute/
+│   └── common/     # OverviewCard/, SectionHeader/, ComingSoon/, PrivateRoute/, SuspenseLayout/
 ├── features/
-│   ├── auth/       # Login, Register, JWT auth hooks
-│   ├── bank/       # Bank page (coming soon)
-│   ├── budget/     # Transactions CRUD, budget cards
+│   ├── admin/      # Admin user management (list, delete)
+│   ├── auth/       # Login, Register, Password reset flow
+│   ├── bank/       # Transactions CRUD
+│   ├── budget/     # Budget CRUD with month picker
 │   ├── category/   # Category management
-│   ├── investment/ # Crypto portfolio tracker
-│   ├── overview/   # Dashboard home
-│   └── scheduler/  # Scheduler (coming soon)
+│   ├── overview/   # Dashboard with month-scoped data
+│   ├── scheduler/  # Scheduler (coming soon)
+│   └── settings/   # Account settings (delete account)
 ├── stores/         # Zustand stores (auth, theme)
 ├── styles/         # global.css (CSS custom properties, light/dark)
 ├── theme/          # Ant Design ConfigProvider theme config
@@ -88,8 +88,22 @@ Configured in `tsconfig.json` and `vite.config.ts`.
 | -------------- | -------------------- |
 | `VITE_API_URL` | Backend API base URL |
 
+## Features
+
+- **Authentication** — Login, register, logout with JWT access + refresh tokens
+- **Password reset** — Forgot password → OTP verification → reset flow
+- **Budget management** — Month-scoped budget items with category linking
+- **Transactions** — CRUD with month filtering and category association
+- **Categories** — Income/expense category management with budget allocation
+- **Overview dashboard** — Month-scoped summary with charts
+- **Admin panel** — User list and deletion (admin-only)
+- **Account settings** — Delete own account
+- **Light/dark theme** — Persisted via zustand + CSS custom properties
+- **Automatic token refresh** — Transparent 401 retry with mutex for concurrent requests
+
 ## Deployment Notes
 
 - Build artifacts are emitted to `dist/`.
 - Any static host that supports SPA fallback can serve this app.
 - Ensure rewrite rules route unknown paths to `index.html` for React Router.
+- The backend API must support the endpoints documented in `AGENTS.md`.

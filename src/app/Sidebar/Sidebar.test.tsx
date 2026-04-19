@@ -1,16 +1,18 @@
 import { screen, waitFor } from '@testing-library/react';
-import { describe, expect, it, beforeEach } from 'vitest';
+import { http, HttpResponse } from 'msw';
+import { describe, expect, it, beforeEach, vi } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
 import { useThemeStore } from '@/stores/themeStore';
-import { mockToken } from '@/tests/fixtures';
+import { mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
 import { renderWithProviders } from '@/tests/render';
+import { server } from '@/tests/server';
 
 import Sidebar from './Sidebar';
 
 describe('Sidebar', () => {
   beforeEach(() => {
-    useAuthStore.getState().setAuth(mockToken, { id: 'user-1', email: '', username: '' });
+    useAuthStore.getState().setAuth(mockToken, mockRefreshToken, mockUser);
   });
 
   it('renders navigation menu items', () => {
@@ -69,6 +71,26 @@ describe('Sidebar', () => {
     });
   });
 
+  it('calls backend logout endpoint on logout', async () => {
+    // given
+    const logoutSpy = vi.fn();
+    server.use(
+      http.post('*/auth/logout', async ({ request }) => {
+        logoutSpy(await request.json());
+        return new HttpResponse(null, { status: 204 });
+      })
+    );
+
+    // when
+    const { user } = renderWithProviders(<Sidebar />, { routerProps: { initialEntries: ['/'] } });
+    await user.click(screen.getByRole('menuitem', { name: /Logout/ }));
+
+    // then
+    await waitFor(() => {
+      expect(logoutSpy).toHaveBeenCalledWith({ refresh_token: mockRefreshToken });
+    });
+  });
+
   it('renders logout section with light theme styles', () => {
     // given
     useThemeStore.setState({ mode: 'light' });
@@ -78,5 +100,16 @@ describe('Sidebar', () => {
 
     // then
     expect(screen.getByRole('menuitem', { name: /Logout/ })).toBeInTheDocument();
+  });
+
+  it('does not show Admin menu item for non-admin users', () => {
+    renderWithProviders(<Sidebar />);
+    expect(screen.queryByRole('menuitem', { name: /Admin/ })).not.toBeInTheDocument();
+  });
+
+  it('shows Admin menu item for admin users', () => {
+    useAuthStore.getState().setAuth(mockToken, mockRefreshToken, { ...mockUser, isAdmin: true });
+    renderWithProviders(<Sidebar />);
+    expect(screen.getByRole('menuitem', { name: /Admin/ })).toBeInTheDocument();
   });
 });

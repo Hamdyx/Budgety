@@ -2,14 +2,14 @@ import { screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
-import { mockToken, mockTransactions } from '@/tests/fixtures';
+import { mockRefreshToken, mockToken, mockTransactions, mockUser } from '@/tests/fixtures';
 import { renderWithProviders } from '@/tests/render';
 
 import DeleteTrxModal from './DeleteTrxModal';
 
 describe('DeleteTrxModal', () => {
   beforeEach(() => {
-    useAuthStore.getState().setAuth(mockToken, { id: 'user-1', email: '', username: '' });
+    useAuthStore.getState().setAuth(mockToken, mockRefreshToken, mockUser);
   });
 
   it('renders delete button', () => {

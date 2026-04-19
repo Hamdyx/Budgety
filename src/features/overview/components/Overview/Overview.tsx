@@ -1,4 +1,6 @@
-import { Typography, Flex } from 'antd';
+import { DatePicker, Typography, Flex } from 'antd';
+import dayjs from 'dayjs';
+import { useState } from 'react';
 
 import { BudgetCard } from '@/features/budget/components/BudgetCard';
 import { TransactionsCard } from '@/features/budget/components/TransactionsCard';
@@ -8,16 +10,25 @@ import styles from './Overview.module.css';
 const { Title } = Typography;
 
 function Overview() {
+  const [month, setMonth] = useState<string | undefined>(undefined);
+
   return (
     <div className={styles.container}>
       <Flex justify="space-between" align="center" className={styles.header}>
         <Title level={4} className={styles.title}>
           Overview
         </Title>
+        <DatePicker
+          picker="month"
+          allowClear
+          placeholder="Filter by month"
+          onChange={value => setMonth(value ? dayjs(value).format('YYYY-MM') : undefined)}
+          className={styles.headerBtn}
+        />
       </Flex>
       <div className={styles.grid}>
-        <TransactionsCard />
-        <BudgetCard />
+        <TransactionsCard month={month} />
+        <BudgetCard month={month} />
       </div>
     </div>
   );

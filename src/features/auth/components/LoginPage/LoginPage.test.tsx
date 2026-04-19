@@ -70,7 +70,7 @@ describe('LoginPage', () => {
     // and - submit
     await user.click(screen.getByRole('button', { name: 'Sign In' }));
     expect(await screen.findByRole('alert')).toBeInTheDocument();
-    expect(await screen.findByRole('alert')).toHaveTextContent('Session expired');
+    expect(await screen.findByRole('alert')).toHaveTextContent('Invalid credentials');
   });
 
   it('shows generic error on network failure', async () => {

@@ -10,12 +10,12 @@ import styles from './CategoryBox.module.css';
 
 const { Text } = Typography;
 
-const CategoryBox = ({ category: currCat }: { category: Category }) => {
+const CategoryBox = ({ category }: { category: Category }) => {
   const [disabled, setDisabled] = useState(true);
   const [form] = Form.useForm();
   const updateMutation = useUpdateCategory();
   const deleteMutation = useDeleteCategory();
-  const { category, type, spent, budget } = currCat;
+  const { name, type, actual, budget } = category;
 
   const editCategory = () => {
     if (!disabled) form.submit();
@@ -23,27 +23,27 @@ const CategoryBox = ({ category: currCat }: { category: Category }) => {
   };
 
   const handleDeleteCategory = () => {
-    deleteMutation.mutate(currCat.id);
+    deleteMutation.mutate(category.id);
   };
 
   const onFinish = (values: CategoryUpdate) => {
-    updateMutation.mutate({ id: currCat.id, data: values });
+    updateMutation.mutate({ id: category.id, data: values });
   };
 
   useEffect(() => {
-    form.setFieldsValue({ category, type, budget });
-  }, [currCat, form, category, type, budget]);
+    form.setFieldsValue({ name, type, budget });
+  }, [category, form, name, type, budget]);
 
-  const remaining = budget - spent;
-  const percentage = budget > 0 ? Math.round((spent / budget) * 100) : 0;
+  const remaining = budget - actual;
+  const percentage = budget > 0 ? Math.round((actual / budget) * 100) : 0;
 
   return (
     <div className={styles.box}>
       <Row>
-        <Form form={form} name="category" initialValues={{ category, type, budget }} onFinish={onFinish} autoComplete="off" disabled={disabled}>
+        <Form form={form} name="category" initialValues={{ name, type, budget }} onFinish={onFinish} autoComplete="off" disabled={disabled}>
           <Space>
             <Progress type="circle" percent={percentage} size={50} format={() => <FileTextOutlined />} />
-            <Form.Item name="category" className={styles.compactItem}>
+            <Form.Item name="name" className={styles.compactItem}>
               <Input />
             </Form.Item>
             <Space size={4}>
@@ -61,7 +61,7 @@ const CategoryBox = ({ category: currCat }: { category: Category }) => {
           )}
           <Space className={styles.fieldRow}>
             <Text type="secondary">
-              ${spent.toLocaleString()} {type === 'income' ? 'earned' : 'spent'}
+              ${actual.toLocaleString()} {type === 'income' ? 'earned' : 'spent'}
             </Text>
             <Form.Item name="budget" className={styles.compactItem}>
               <InputNumber prefix="$" formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} controls={false} variant="borderless" />

@@ -25,6 +25,42 @@ type RequestOptions = {
   auth?: boolean;
 };
 
+let refreshPromise: Promise<void> | null = null;
+
+async function tryRefresh(): Promise<boolean> {
+  const { refreshToken, logout } = useAuthStore.getState();
+  if (!refreshToken) {
+    logout();
+    return false;
+  }
+
+  try {
+    const response = await fetch(`${BASE_URL}/auth/refresh`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refresh_token: refreshToken }),
+    });
+
+    if (!response.ok) {
+      logout();
+      return false;
+    }
+
+    const data = toCamelCase<{ accessToken: string; refreshToken: string }>(await response.json());
+    const payload = JSON.parse(atob(data.accessToken.split('.')[1]));
+    useAuthStore.getState().setAuth(data.accessToken, data.refreshToken, {
+      id: payload.sub,
+      email: payload.email ?? '',
+      username: payload.username ?? '',
+      isAdmin: payload.is_admin ?? false,
+    });
+    return true;
+  } catch {
+    logout();
+    return false;
+  }
+}
+
 export async function apiFetch<T>(path: string, { method = 'GET', body, auth = true }: RequestOptions = {}): Promise<T> {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
@@ -47,10 +83,46 @@ export async function apiFetch<T>(path: string, { method = 'GET', body, auth = t
     return undefined as T;
   }
 
-  if (response.status === 401) {
-    useAuthStore.getState().logout();
-    window.location.href = '/login';
-    throw new ApiRequestError(401, 'Session expired');
+  if (response.status === 401 && auth) {
+    if (!refreshPromise) {
+      refreshPromise = tryRefresh().then(success => {
+        refreshPromise = null;
+        if (!success) {
+          window.location.href = '/login';
+          throw new ApiRequestError(401, 'Session expired');
+        }
+      });
+    }
+
+    await refreshPromise;
+
+    const newToken = useAuthStore.getState().token;
+    if (!newToken) {
+      throw new ApiRequestError(401, 'Session expired');
+    }
+
+    const retryHeaders: Record<string, string> = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${newToken}`,
+    };
+
+    const retryResponse = await fetch(`${BASE_URL}${path}`, {
+      method,
+      headers: retryHeaders,
+      body: body ? JSON.stringify(toSnakeCase(body)) : undefined,
+    });
+
+    if (retryResponse.status === 204) {
+      return undefined as T;
+    }
+
+    const retryData = await retryResponse.json();
+
+    if (!retryResponse.ok) {
+      throw new ApiRequestError(retryResponse.status, retryData.detail ?? retryData.message ?? 'Unknown error');
+    }
+
+    return toCamelCase<T>(retryData);
   }
 
   const data = await response.json();

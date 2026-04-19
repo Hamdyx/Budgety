@@ -35,6 +35,9 @@ function LoginPage() {
           <Input.Password placeholder="Password" size="large" />
         </Form.Item>
         <Form.Item>
+          <Link to="/forgot-password">Forgot password?</Link>
+        </Form.Item>
+        <Form.Item>
           <Button type="primary" htmlType="submit" block size="large" loading={isPending}>
             Sign In
           </Button>

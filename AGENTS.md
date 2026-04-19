@@ -39,7 +39,7 @@
 - **TanStack React Query** for server state — queries and mutations in per-feature `hooks.ts` files. Invalidate related queries on mutation success.
 - **Ant Design 6** for all UI primitives — use `ConfigProvider` theme tokens in `src/theme/themeConfig.ts` for global visual consistency; use CSS Modules for layout and positioning.
 - **Light/dark theme** — `src/stores/themeStore.ts` (zustand with persist), `src/theme/ThemeProvider.tsx` sets `data-theme` attribute on `<html>`, CSS variables in `src/styles/global.css` respond to `[data-theme="dark"]`.
-- **API client** — `src/api/client.ts` handles JWT auth, automatic camelCase ↔ snake_case conversion, and error handling via `ApiRequestError`.
+- **API client** — `src/api/client.ts` handles JWT auth, automatic camelCase ↔ snake_case conversion, error handling via `ApiRequestError`, and **automatic token refresh** on 401 responses (uses a module-level mutex to queue concurrent retries behind a single refresh call).
 - **Route-level code splitting** via `React.lazy` + `Suspense`. Lazy imports point directly at the source file (not the barrel) since `React.lazy` requires a default export.
 
 ## Build and Test
@@ -63,4 +63,45 @@ Before committing: `yarn lint && yarn build && yarn test`.
 - **Prefer composition** — wrap Ant Design components (like `OverviewCard` wraps `Card`) instead of duplicating props/styles.
 - **No `!important`** — fix specificity at the source instead.
 - **Keep stores pure** — async side effects belong in query/mutation hooks, not in zustand stores.
-- **Query keys** — use consistent, descriptive arrays (e.g. `['transactions']`, `['categories']`). Invalidate related keys on mutation success.
+- **Query keys** — use consistent, descriptive arrays (e.g. `['transactions']`, `['categories']`, `['budget', month]`, `['admin', 'users']`). Month-scoped queries include a `YYYY-MM` string. Invalidate related keys on mutation success.
+
+## API Endpoints
+
+The frontend consumes the following backend endpoints:
+
+- **Auth**: `POST /auth/register`, `POST /auth/login`, `POST /auth/logout`, `POST /auth/refresh`, `POST /auth/forgot-password`, `POST /auth/verify-otp`, `POST /auth/reset-password`, `DELETE /auth/me`
+- **Categories**: `GET /categories`, `POST /categories`, `DELETE /categories/:id`
+- **Budget**: `GET /budget?month=YYYY-MM`, `POST /budget`, `DELETE /budget/:id`
+- **Transactions**: `GET /transactions?month=YYYY-MM`, `POST /transactions`, `DELETE /transactions/:id`
+- **Admin**: `GET /admin/users`, `DELETE /admin/users/:id`
+
+## Routes
+
+- `/login`, `/register` — public auth pages
+- `/forgot-password`, `/verify-otp`, `/reset-password` — password reset flow (state passed via `react-router-dom` location state)
+- `/` — Overview (redirects to login if unauthenticated)
+- `/budget` — Budget management
+- `/bank` — Bank / transactions
+- `/scheduler` — Scheduler (coming soon)
+- `/settings` — Account settings (delete account)
+- `/admin/users` — Admin user management (visible only to `isAdmin` users)
+
+## Types
+
+Key types in `src/types/types.ts`:
+
+- `User` — `id`, `email`, `username`, `isAdmin`
+- `Category` — `id`, `name`, `type`, `budget`
+- `Transaction` — `id`, `name`, `amount`, `type`, `date`, `categoryId`
+- `BudgetItem` — `id`, `categoryId`, `actual`, `month`
+
+## Feature Folders
+
+- `src/features/auth/` — login, register, password reset flow
+- `src/features/budget/` — budget CRUD with month picker
+- `src/features/category/` — category CRUD
+- `src/features/overview/` — dashboard with month-scoped data
+- `src/features/bank/` — transactions
+- `src/features/scheduler/` — coming soon placeholder
+- `src/features/settings/` — account deletion
+- `src/features/admin/` — admin user management (list, delete)

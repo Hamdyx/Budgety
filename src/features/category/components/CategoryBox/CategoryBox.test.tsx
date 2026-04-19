@@ -2,14 +2,14 @@ import { screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
-import { mockToken, mockCategories } from '@/tests/fixtures';
+import { mockCategories, mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
 import { renderWithProviders } from '@/tests/render';
 
 import CategoryBox from './CategoryBox';
 
 describe('CategoryBox', () => {
   beforeEach(() => {
-    useAuthStore.getState().setAuth(mockToken, { id: 'user-1', email: '', username: '' });
+    useAuthStore.getState().setAuth(mockToken, mockRefreshToken, mockUser);
   });
 
   const category = mockCategories[1]; // Food: budget 800, spent 600
@@ -69,7 +69,7 @@ describe('CategoryBox', () => {
 
   it('shows negative remaining for over-budget category', () => {
     // given
-    const overBudget = { ...category, spent: 1000 };
+    const overBudget = { ...category, actual: 1000 };
 
     // when
     renderWithProviders(<CategoryBox category={overBudget} />);
@@ -96,7 +96,7 @@ describe('CategoryBox', () => {
 
   it('renders "earned" for income categories', () => {
     // given
-    const incomeCategory = { ...category, type: 'income' as const, spent: 500 };
+    const incomeCategory = { ...category, type: 'income' as const, actual: 500 };
 
     // when
     renderWithProviders(<CategoryBox category={incomeCategory} />);
@@ -107,7 +107,7 @@ describe('CategoryBox', () => {
 
   it('shows 0% progress when budget is zero', () => {
     // given
-    const zeroBudget = { ...category, budget: 0, spent: 0 };
+    const zeroBudget = { ...category, budget: 0, actual: 0 };
 
     // when
     renderWithProviders(<CategoryBox category={zeroBudget} />);

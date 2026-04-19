@@ -3,7 +3,7 @@ import { http, HttpResponse } from 'msw';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
-import { mockToken } from '@/tests/fixtures';
+import { mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
 import { renderWithProviders } from '@/tests/render';
 import { server } from '@/tests/server';
 
@@ -11,7 +11,7 @@ import BudgetCard from './BudgetCard';
 
 describe('BudgetCard', () => {
   beforeEach(() => {
-    useAuthStore.getState().setAuth(mockToken, { id: 'user-1', email: '', username: '' });
+    useAuthStore.getState().setAuth(mockToken, mockRefreshToken, mockUser);
   });
 
   it('shows spinner while loading', () => {
@@ -115,7 +115,7 @@ describe('BudgetCard', () => {
     // given
     // Category budget = 100, spent = 200 → remaining = -100
     server.use(
-      http.get(`*/categories`, () => HttpResponse.json([{ id: 10, category: 'OverCat', type: 'expense', budget: 100, spent: 200 }])),
+      http.get(`*/categories`, () => HttpResponse.json([{ id: 10, name: 'OverCat', type: 'expense', budget: 100, actual: 200, budget_period: 'monthly' }])),
       http.get(`*/transactions`, () => HttpResponse.json([]))
     );
 

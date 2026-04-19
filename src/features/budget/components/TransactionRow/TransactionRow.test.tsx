@@ -42,4 +42,12 @@ describe('TransactionRow', () => {
     expect(screen.getByLabelText('Edit transaction')).toBeInTheDocument();
     expect(screen.getByLabelText('Delete transaction')).toBeInTheDocument();
   });
+
+  it('renders status tag', () => {
+    // when
+    renderWithProviders(<TransactionRow trx={incomeTrx} />);
+
+    // then
+    expect(screen.getByText('completed')).toBeInTheDocument();
+  });
 });
