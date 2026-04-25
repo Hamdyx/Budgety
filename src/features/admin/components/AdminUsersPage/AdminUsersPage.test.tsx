@@ -66,6 +66,23 @@ describe('AdminUsersPage', () => {
     expect(userTags.length).toBeGreaterThanOrEqual(1);
   });
 
+  it('disables delete button for current user', async () => {
+    // when
+    renderWithProviders(<AdminUsersPage />);
+
+    // then
+    await waitFor(() => {
+      expect(screen.getByText('testuser')).toBeInTheDocument();
+    });
+
+    // and - the delete buttons should exist: own is disabled, other is enabled
+    const deleteButtons = screen.getAllByRole('button', { name: /delete/i });
+    const selfButton = deleteButtons.find(btn => btn.closest('tr')?.textContent?.includes('testuser'));
+    const otherButton = deleteButtons.find(btn => btn.closest('tr')?.textContent?.includes('admin'));
+    expect(selfButton).toBeDisabled();
+    expect(otherButton).not.toBeDisabled();
+  });
+
   it('shows confirmation modal on delete click', async () => {
     // given
     const user = userEvent.setup();
@@ -75,12 +92,13 @@ describe('AdminUsersPage', () => {
 
     // then
     await waitFor(() => {
-      expect(screen.getByText('testuser')).toBeInTheDocument();
+      expect(screen.getByText('admin')).toBeInTheDocument();
     });
 
-    // and - click delete button for the user
+    // and - click delete button for another user (not self)
     const deleteButtons = screen.getAllByRole('button', { name: /delete/i });
-    await user.click(deleteButtons[0]);
+    const otherButton = deleteButtons.find(btn => btn.closest('tr')?.textContent?.includes('admin'));
+    await user.click(otherButton!);
 
     // and - confirmation modal should appear
     await waitFor(() => {
@@ -100,9 +118,10 @@ describe('AdminUsersPage', () => {
       expect(screen.getByText('testuser')).toBeInTheDocument();
     });
 
-    // and - click delete button for the user
+    // and - click delete button for another user (not self)
     const deleteButtons = screen.getAllByRole('button', { name: /delete/i });
-    await user.click(deleteButtons[0]);
+    const otherButton = deleteButtons.find(btn => btn.closest('tr')?.textContent?.includes('admin'));
+    await user.click(otherButton!);
 
     // and - confirmation modal should appear
     await waitFor(() => {

@@ -2,9 +2,10 @@ import type { User } from '@/types/types';
 import type { ColumnsType } from 'antd/es/table';
 
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { App, Button, Table, Tag } from 'antd';
+import { App, Button, Table, Tag, Tooltip } from 'antd';
 
 import { SectionHeader } from '@/components/SectionHeader';
+import { useAuthStore } from '@/stores/authStore';
 
 import { useDeleteUser, useUsers } from '../../hooks';
 
@@ -14,6 +15,7 @@ const AdminUsersPage = () => {
   const { data: users = [], isLoading } = useUsers();
   const { mutate: deleteUser, isPending } = useDeleteUser();
   const { modal } = App.useApp();
+  const currentUser = useAuthStore(state => state.user);
 
   const confirmDelete = (user: User) => {
     modal.confirm({
@@ -38,11 +40,16 @@ const AdminUsersPage = () => {
       title: 'Actions',
       key: 'actions',
       className: styles.actions,
-      render: (_, record) => (
-        <Button danger size="small" loading={isPending} onClick={() => confirmDelete(record)}>
-          Delete
-        </Button>
-      ),
+      render: (_, record) => {
+        const isSelf = record.id === currentUser?.id;
+        return (
+          <Tooltip title={isSelf ? 'Cannot delete your own account' : undefined}>
+            <Button danger size="small" loading={isPending} disabled={isSelf} onClick={() => confirmDelete(record)}>
+              Delete
+            </Button>
+          </Tooltip>
+        );
+      },
     },
   ];
 
