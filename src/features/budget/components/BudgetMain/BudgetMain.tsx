@@ -2,12 +2,9 @@ import { Row, Col, Typography, Spin, DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
-import { SectionHeader } from '@/components/SectionHeader';
-
 import { CategoryMain } from '../../../category/components/CategoryMain';
 import { useTransactions } from '../../hooks';
 import { BudgetSection } from '../BudgetSection';
-import { TransactionRow } from '../TransactionRow';
 
 import styles from './BudgetMain.module.css';
 
@@ -16,7 +13,6 @@ const { Title } = Typography;
 const BudgetMain = () => {
   const [budgetMonth, setBudgetMonth] = useState<string>(dayjs().format('YYYY-MM'));
   const { data: allTrxs = [], isLoading } = useTransactions({ month: budgetMonth });
-  const TrxRows = allTrxs.map(trx => <TransactionRow key={trx.id} trx={trx} />);
 
   if (isLoading) {
     return (
@@ -32,7 +28,7 @@ const BudgetMain = () => {
         <div className={styles.leftPanel}>
           <Row align="middle" gutter={16} className={styles.headerRow}>
             <Col>
-              <Title level={5}>Budget Feature</Title>
+              <Title level={5}>Budget</Title>
             </Col>
             <Col>
               <DatePicker
@@ -44,8 +40,6 @@ const BudgetMain = () => {
             </Col>
           </Row>
           <CategoryMain month={budgetMonth} />
-          <SectionHeader title="Recent Transactions" />
-          {TrxRows}
         </div>
         <div className={styles.rightPanel}>
           <BudgetSection transactions={allTrxs} />

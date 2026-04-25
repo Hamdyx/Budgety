@@ -15,26 +15,16 @@ const BudgetSection = ({ transactions }: { transactions: Transaction[] }) => {
   const content =
     budgetType === 'inc' ? incTrxs.map(trx => <TransactionRow key={trx.id} trx={trx} />) : expTrxs.map(trx => <TransactionRow key={trx.id} trx={trx} />);
 
-  const expenseStyle =
-    budgetType === 'exp'
-      ? { background: 'var(--color-danger)', borderColor: 'var(--color-danger)', color: '#fff' }
-      : { background: 'transparent', borderColor: 'var(--color-danger)', color: 'var(--color-danger)' };
-
-  const incomeStyle =
-    budgetType === 'inc'
-      ? { background: 'var(--color-success)', borderColor: 'var(--color-success)', color: '#fff' }
-      : { background: 'transparent', borderColor: 'var(--color-success)', color: 'var(--color-success)' };
-
   return (
     <div className={styles.section}>
       <Row gutter={8} className={styles.buttonRow}>
         <Col span={12}>
-          <Button block style={expenseStyle} onClick={() => setBudgetType('exp')}>
+          <Button block className={styles.expButton} data-active={budgetType === 'exp'} onClick={() => setBudgetType('exp')}>
             Expense
           </Button>
         </Col>
         <Col span={12}>
-          <Button block style={incomeStyle} onClick={() => setBudgetType('inc')}>
+          <Button block className={styles.incButton} data-active={budgetType === 'inc'} onClick={() => setBudgetType('inc')}>
             Income
           </Button>
         </Col>

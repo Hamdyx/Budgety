@@ -2,6 +2,20 @@
   max-width: 600px;
 }
 
+.section {
+  margin-top: 32px;
+}
+
+.sectionDescription {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--color-text-secondary);
+}
+
+.currencySelect {
+  min-width: 220px;
+}
+
 .dangerZone {
   margin-top: 32px;
 }

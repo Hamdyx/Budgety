@@ -31,7 +31,7 @@ describe('TransactionRow', () => {
     renderWithProviders(<TransactionRow trx={incomeTrx} />);
 
     // then
-    expect(screen.getByText('$3000')).toBeInTheDocument();
+    expect(screen.getByText('$3,000.00')).toBeInTheDocument();
   });
 
   it('renders edit and delete buttons', () => {

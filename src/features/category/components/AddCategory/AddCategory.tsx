@@ -23,7 +23,14 @@ function AddCategory() {
   return (
     <>
       <Button type="primary" shape="circle" icon={<PlusOutlined />} size="small" aria-label="Add category" onClick={() => setIsModalOpen(true)} />
-      <Modal title="Add Category" open={isModalOpen} onOk={handleOk} onCancel={() => setIsModalOpen(false)} okText="Submit">
+      <Modal
+        title="Add Category"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={() => setIsModalOpen(false)}
+        okText="Submit"
+        afterOpenChange={open => !open && form.resetFields()}
+      >
         <Form form={form} layout="vertical" autoComplete="off" initialValues={{ type: 'expense', budgetPeriod: 'monthly' }}>
           <Form.Item label="Category" name="name" rules={[{ required: true, message: 'Please input your category!' }]}>
             <Input />

@@ -23,7 +23,7 @@ describe('TransactionItem', () => {
     render(<TransactionItem trx={incomeTrx} categoryName="Salary" />);
 
     // then
-    expect(screen.getByText('$3,000')).toBeInTheDocument();
+    expect(screen.getByText('$3,000.00')).toBeInTheDocument();
   });
 
   it('renders expense transaction', () => {

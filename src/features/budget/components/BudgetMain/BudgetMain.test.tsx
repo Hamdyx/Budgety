@@ -21,29 +21,21 @@ describe('BudgetMain', () => {
     expect(document.querySelector('.ant-spin')).toBeInTheDocument();
   });
 
-  it('renders budget feature title after loading', async () => {
+  it('renders budget title after loading', async () => {
     // when
     renderWithProviders(<BudgetMain />);
 
     // then
-    expect(await screen.findByText('Budget Feature')).toBeInTheDocument();
+    expect(await screen.findByText('Budget')).toBeInTheDocument();
   });
 
-  it('renders recent transactions header', async () => {
+  it('does not render recent transactions header in left panel', async () => {
     // when
     renderWithProviders(<BudgetMain />);
+    await screen.findByText('Budget');
 
     // then
-    expect(await screen.findByText('Recent Transactions')).toBeInTheDocument();
-  });
-
-  it('renders transaction rows', async () => {
-    // when
-    renderWithProviders(<BudgetMain />);
-
-    // then
-    await screen.findAllByText('Monthly Salary');
-    expect(screen.getAllByText('Grocery Shopping').length).toBeGreaterThanOrEqual(1);
+    expect(screen.queryByText('Recent Transactions')).not.toBeInTheDocument();
   });
 
   it('renders month picker', async () => {
@@ -51,23 +43,25 @@ describe('BudgetMain', () => {
     renderWithProviders(<BudgetMain />);
 
     // then
-    await screen.findByText('Budget Feature');
+    await screen.findByText('Budget');
     expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
 
   it('updates month when DatePicker value changes', async () => {
     // given
     const user = userEvent.setup();
-    renderWithProviders(<BudgetMain />);
-    await screen.findByText('Budget Feature');
 
     // when
+    renderWithProviders(<BudgetMain />);
+
+    // then
+    await screen.findByText('Budget');
+
     const input = screen.getByRole('textbox');
     await user.clear(input);
     await user.type(input, '2024-06');
     await user.keyboard('{Enter}');
 
-    // then
     await waitFor(() => {
       expect(input).toHaveValue('2024-06');
     });

@@ -27,7 +27,7 @@ describe('CategoryBox', () => {
     renderWithProviders(<CategoryBox category={category} />);
 
     // then
-    expect(screen.getByText('$600 spent')).toBeInTheDocument();
+    expect(screen.getByText('$600.00 spent')).toBeInTheDocument();
   });
 
   it('renders remaining amount', () => {
@@ -35,7 +35,7 @@ describe('CategoryBox', () => {
     renderWithProviders(<CategoryBox category={category} />);
 
     // then
-    expect(screen.getByText('$200 remaining')).toBeInTheDocument();
+    expect(screen.getByText('$200.00 remaining')).toBeInTheDocument();
   });
 
   it('enables edit mode on edit button click', async () => {
@@ -75,7 +75,7 @@ describe('CategoryBox', () => {
     renderWithProviders(<CategoryBox category={overBudget} />);
 
     // then
-    expect(screen.getByText('$-200 remaining')).toBeInTheDocument();
+    expect(screen.getByText('-$200.00 remaining')).toBeInTheDocument();
   });
 
   it('submits form on second edit click (saves)', async () => {
@@ -102,7 +102,7 @@ describe('CategoryBox', () => {
     renderWithProviders(<CategoryBox category={incomeCategory} />);
 
     // then
-    expect(screen.getByText('$500 earned')).toBeInTheDocument();
+    expect(screen.getByText('$500.00 earned')).toBeInTheDocument();
   });
 
   it('shows 0% progress when budget is zero', () => {

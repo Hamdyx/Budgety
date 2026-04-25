@@ -4,6 +4,7 @@ import { Row, Col, Divider, Typography, Spin } from 'antd';
 import { OverviewCard } from '@/components/OverviewCard';
 import { useTransactions } from '@/features/budget/hooks';
 import { useCategories } from '@/features/category/hooks';
+import { useCurrencyFormatter } from '@/utils/formatCurrency';
 
 import styles from './BudgetCard.module.css';
 
@@ -16,6 +17,7 @@ interface BudgetCardProps {
 const BudgetCard = ({ month }: BudgetCardProps) => {
   const { data: categories = [], isLoading: catLoading } = useCategories(month);
   const { data: transactions = [], isLoading: trxLoading } = useTransactions(month ? { month } : undefined);
+  const formatCurrency = useCurrencyFormatter();
 
   if (catLoading || trxLoading) {
     return (
@@ -42,11 +44,11 @@ const BudgetCard = ({ month }: BudgetCardProps) => {
           <Text>Income</Text>
           <br />
           <Text type="secondary" className={styles.smallText}>
-            ${totalIncome.toLocaleString()} of ${incomeBudget.toLocaleString()}
+            {formatCurrency(totalIncome)} of {formatCurrency(incomeBudget)}
           </Text>
         </Col>
         <Col className={styles.textRight}>
-          <Text className={incomeRemaining >= 0 ? styles.successText : styles.dangerText}>${Math.abs(incomeRemaining).toLocaleString()}</Text>
+          <Text className={incomeRemaining >= 0 ? styles.successText : styles.dangerText}>{formatCurrency(Math.abs(incomeRemaining))}</Text>
           <br />
           <Text type="secondary" className={styles.smallText}>
             {incomeRemaining >= 0 ? 'remaining' : 'over'}
@@ -61,11 +63,11 @@ const BudgetCard = ({ month }: BudgetCardProps) => {
           <Text>Expense</Text>
           <br />
           <Text type="secondary" className={styles.smallText}>
-            ${totalExpense.toLocaleString()} of ${expenseBudget.toLocaleString()}
+            {formatCurrency(totalExpense)} of {formatCurrency(expenseBudget)}
           </Text>
         </Col>
         <Col className={styles.textRight}>
-          <Text className={expenseRemaining >= 0 ? styles.successText : styles.dangerText}>${Math.abs(expenseRemaining).toLocaleString()}</Text>
+          <Text className={expenseRemaining >= 0 ? styles.successText : styles.dangerText}>{formatCurrency(Math.abs(expenseRemaining))}</Text>
           <br />
           <Text type="secondary" className={styles.smallText}>
             {expenseRemaining >= 0 ? 'remaining' : 'over'}
@@ -91,7 +93,7 @@ const BudgetCard = ({ month }: BudgetCardProps) => {
               </Text>
             </Col>
             <Col className={styles.textRight}>
-              <Text className={remaining >= 0 ? styles.successText : styles.dangerText}>${Math.abs(remaining).toLocaleString()}</Text>
+              <Text className={remaining >= 0 ? styles.successText : styles.dangerText}>{formatCurrency(Math.abs(remaining))}</Text>
               <br />
               <Text type="secondary" className={styles.smallText}>
                 {remaining >= 0 ? (category.type === 'income' ? 'expected' : 'available') : 'over'}

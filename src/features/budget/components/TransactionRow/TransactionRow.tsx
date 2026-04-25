@@ -1,6 +1,9 @@
 import type { TransactionStatus, Transaction } from '@/types/types';
 
 import { Row, Col, Typography, Space, Tag } from 'antd';
+import dayjs from 'dayjs';
+
+import { useCurrencyFormatter } from '@/utils/formatCurrency';
 
 import { DeleteTrxModal } from '../DeleteTrxModal';
 import { EditTrxModal } from '../EditTrxModal';
@@ -16,23 +19,14 @@ const statusColor: Record<TransactionStatus, string> = {
 };
 
 const TransactionRow = ({ trx }: { trx: Transaction }) => {
-  const formatDateTime = (date: string) => {
-    const _date = date?.split('T')[0];
-    const _time = date?.split('T')[1];
-    const _hh = _time?.split(':')[0];
-    const _mm = _time?.split(':')[1];
-    return `${_date} | ${_hh}:${_mm}`;
-  };
-
-  const borderColor = trx.type === 'inc' ? 'var(--color-success)' : 'var(--color-danger)';
-
+  const formatCurrency = useCurrencyFormatter();
   return (
-    <Row align="middle" className={styles.row} style={{ borderLeft: `3px solid ${borderColor}` }}>
+    <Row align="middle" className={styles.row} data-type={trx.type}>
       <Col flex="auto">
         <Text strong>{trx.title}</Text>
         <br />
-        <Text type="secondary" style={{ fontSize: 12 }}>
-          {formatDateTime(trx.trxDate)}
+        <Text type="secondary" className={styles.dateText}>
+          {dayjs(trx.trxDate).format('YYYY-MM-DD | HH:mm')}
         </Text>
         {trx.status && (
           <>
@@ -47,7 +41,9 @@ const TransactionRow = ({ trx }: { trx: Transaction }) => {
           <DeleteTrxModal id={trx.id} />
         </Space>
         <br />
-        <Text style={{ color: borderColor }}>${trx.value}</Text>
+        <Text className={styles.valueText} data-type={trx.type}>
+          {formatCurrency(trx.value)}
+        </Text>
       </Col>
     </Row>
   );

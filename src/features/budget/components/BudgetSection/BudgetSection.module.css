@@ -15,3 +15,25 @@
   flex: 1;
   overflow-y: auto;
 }
+
+.expButton {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.expButton[data-active='true'] {
+  background: var(--color-danger);
+  border-color: var(--color-danger);
+  color: #fff;
+}
+
+.incButton {
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.incButton[data-active='true'] {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #fff;
+}

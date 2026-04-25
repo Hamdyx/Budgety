@@ -1,8 +1,10 @@
 import type { Category, CategoryUpdate } from '@/types/types';
 
 import { EditOutlined, DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
-import { Button, Form, Input, InputNumber, Radio, Row, Space, Progress, Typography } from 'antd';
+import { Button, Form, Input, InputNumber, Radio, Row, Select, Space, Progress, Typography } from 'antd';
 import { useEffect, useState } from 'react';
+
+import { useCurrencyFormatter } from '@/utils/formatCurrency';
 
 import { useDeleteCategory, useUpdateCategory } from '../../hooks';
 
@@ -15,7 +17,7 @@ const CategoryBox = ({ category }: { category: Category }) => {
   const [form] = Form.useForm();
   const updateMutation = useUpdateCategory();
   const deleteMutation = useDeleteCategory();
-  const { name, type, actual, budget } = category;
+  const { name, type, actual, budget, budgetPeriod } = category;
 
   const editCategory = () => {
     if (!disabled) form.submit();
@@ -31,16 +33,17 @@ const CategoryBox = ({ category }: { category: Category }) => {
   };
 
   useEffect(() => {
-    form.setFieldsValue({ name, type, budget });
-  }, [category, form, name, type, budget]);
+    form.setFieldsValue({ name, type, budget, budgetPeriod });
+  }, [category, form, name, type, budget, budgetPeriod]);
 
+  const formatCurrency = useCurrencyFormatter();
   const remaining = budget - actual;
   const percentage = budget > 0 ? Math.round((actual / budget) * 100) : 0;
 
   return (
     <div className={styles.box}>
       <Row>
-        <Form form={form} name="category" initialValues={{ name, type, budget }} onFinish={onFinish} autoComplete="off" disabled={disabled}>
+        <Form form={form} name="category" initialValues={{ name, type, budget, budgetPeriod }} onFinish={onFinish} autoComplete="off" disabled={disabled}>
           <Space>
             <Progress type="circle" percent={percentage} size={50} format={() => <FileTextOutlined />} />
             <Form.Item name="name" className={styles.compactItem}>
@@ -52,22 +55,34 @@ const CategoryBox = ({ category }: { category: Category }) => {
             </Space>
           </Space>
           {!disabled && (
-            <Form.Item name="type" className={styles.compactItem}>
-              <Radio.Group optionType="button" buttonStyle="solid" size="small">
-                <Radio.Button value="income">Income</Radio.Button>
-                <Radio.Button value="expense">Expense</Radio.Button>
-              </Radio.Group>
-            </Form.Item>
+            <>
+              <Form.Item name="type" className={styles.compactItem}>
+                <Radio.Group optionType="button" buttonStyle="solid" size="small">
+                  <Radio.Button value="income">Income</Radio.Button>
+                  <Radio.Button value="expense">Expense</Radio.Button>
+                </Radio.Group>
+              </Form.Item>
+              <Form.Item name="budgetPeriod" className={styles.compactItem}>
+                <Select
+                  size="small"
+                  options={[
+                    { value: 'weekly', label: 'Weekly' },
+                    { value: 'monthly', label: 'Monthly' },
+                    { value: 'yearly', label: 'Yearly' },
+                  ]}
+                />
+              </Form.Item>
+            </>
           )}
           <Space className={styles.fieldRow}>
             <Text type="secondary">
-              ${actual.toLocaleString()} {type === 'income' ? 'earned' : 'spent'}
+              {formatCurrency(actual)} {type === 'income' ? 'earned' : 'spent'}
             </Text>
             <Form.Item name="budget" className={styles.compactItem}>
               <InputNumber prefix="$" formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} controls={false} variant="borderless" />
             </Form.Item>
           </Space>
-          <Text type={remaining >= 0 ? 'success' : 'danger'}>${remaining.toLocaleString()} remaining</Text>
+          <Text type={remaining >= 0 ? 'success' : 'danger'}>{formatCurrency(remaining)} remaining</Text>
         </Form>
       </Row>
     </div>
