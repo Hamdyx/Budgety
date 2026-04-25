@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
 
 import { useCategories } from '@/features/category/hooks';
+import { useCurrencySymbol } from '@/utils/formatCurrency';
 
 import { useCreateTransaction } from '../../hooks';
 
@@ -14,6 +15,7 @@ const AddTrxForm = () => {
   const { data: categories = [] } = useCategories();
   const createMutation = useCreateTransaction();
   const [isAddTrxModalOpen, setIsAddTrxModalOpen] = useState(false);
+  const currencySymbol = useCurrencySymbol();
 
   const [form] = Form.useForm();
   const trxType = Form.useWatch<TransactionType>('type', form) ?? 'inc';
@@ -77,7 +79,7 @@ const AddTrxForm = () => {
               <Input placeholder="Transaction title" />
             </Form.Item>
             <Form.Item name="value" label="Value" rules={[{ required: true }]}>
-              <InputNumber placeholder="Transaction value" min={0} />
+              <InputNumber placeholder="Transaction value" min={0} prefix={currencySymbol} />
             </Form.Item>
             <Form.Item name="trxDate" label="Date" rules={[{ required: true }]}>
               <DatePicker format="DD MMM YYYY - HH:mm" showTime={{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }} placeholder="Select transaction date" />

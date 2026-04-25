@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 
 import { useCategories } from '@/features/category/hooks';
+import { useCurrencySymbol } from '@/utils/formatCurrency';
 
 import { useUpdateTransaction } from '../../hooks';
 
@@ -16,6 +17,7 @@ const EditTrxModal = ({ trx }: { trx: Transaction }) => {
   const isRecurring = Form.useWatch<boolean>('isRecurring', form) ?? false;
   const { data: categories = [] } = useCategories();
   const filteredCategories = categories.filter(category => (trx.type === 'inc' ? category.type === 'income' : category.type === 'expense'));
+  const currencySymbol = useCurrencySymbol();
 
   const handleSubmit = () => {
     form.validateFields().then(values => {
@@ -78,7 +80,7 @@ const EditTrxModal = ({ trx }: { trx: Transaction }) => {
             </Col>
             <Col span={12}>
               <Form.Item name="value" label="Value" rules={[{ required: true }]}>
-                <InputNumber style={{ width: '100%' }} />
+                <InputNumber style={{ width: '100%' }} prefix={currencySymbol} />
               </Form.Item>
             </Col>
           </Row>

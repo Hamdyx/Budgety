@@ -4,7 +4,7 @@ import { EditOutlined, DeleteOutlined, FileTextOutlined } from '@ant-design/icon
 import { Button, Form, Input, InputNumber, Radio, Row, Select, Space, Progress, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 
-import { useCurrencyFormatter } from '@/utils/formatCurrency';
+import { useCurrencyFormatter, useCurrencySymbol } from '@/utils/formatCurrency';
 
 import { useDeleteCategory, useUpdateCategory } from '../../hooks';
 
@@ -37,6 +37,7 @@ const CategoryBox = ({ category }: { category: Category }) => {
   }, [category, form, name, type, budget, budgetPeriod]);
 
   const formatCurrency = useCurrencyFormatter();
+  const currencySymbol = useCurrencySymbol();
   const remaining = budget - actual;
   const percentage = budget > 0 ? Math.round((actual / budget) * 100) : 0;
 
@@ -79,7 +80,12 @@ const CategoryBox = ({ category }: { category: Category }) => {
               {formatCurrency(actual)} {type === 'income' ? 'earned' : 'spent'}
             </Text>
             <Form.Item name="budget" className={styles.compactItem}>
-              <InputNumber prefix="$" formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} controls={false} variant="borderless" />
+              <InputNumber
+                prefix={currencySymbol}
+                formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                controls={false}
+                variant="borderless"
+              />
             </Form.Item>
           </Space>
           <Text type={remaining >= 0 ? 'success' : 'danger'}>{formatCurrency(remaining)} remaining</Text>

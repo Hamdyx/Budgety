@@ -2,12 +2,15 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Form, Input, InputNumber, Modal, Button, Radio, Select } from 'antd';
 import { useState } from 'react';
 
+import { useCurrencySymbol } from '@/utils/formatCurrency';
+
 import { useCreateCategory } from '../../hooks';
 
 function AddCategory() {
   const createMutation = useCreateCategory();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
+  const currencySymbol = useCurrencySymbol();
 
   const handleOk = () => {
     form.validateFields().then(values => {
@@ -42,7 +45,7 @@ function AddCategory() {
             </Radio.Group>
           </Form.Item>
           <Form.Item label="Budget" name="budget" rules={[{ required: true, message: 'Please input your Budget!' }]}>
-            <InputNumber style={{ width: '100%' }} min={0} />
+            <InputNumber style={{ width: '100%' }} min={0} prefix={currencySymbol} />
           </Form.Item>
           <Form.Item label="Budget Period" name="budgetPeriod" rules={[{ required: true, message: 'Please select a budget period!' }]}>
             <Select
