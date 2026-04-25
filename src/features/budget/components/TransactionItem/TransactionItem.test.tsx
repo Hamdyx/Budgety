@@ -6,12 +6,12 @@ import { mockTransactions } from '@/tests/fixtures';
 import TransactionItem from './TransactionItem';
 
 describe('TransactionItem', () => {
-  const incomeTrx = mockTransactions[0]; // type: 'inc'
-  const expenseTrx = mockTransactions[1]; // type: 'exp'
+  const incomeTransaction = mockTransactions[0]; // type: 'inc'
+  const expenseTransaction = mockTransactions[1]; // type: 'exp'
 
   it('renders transaction title and category', () => {
     // when
-    render(<TransactionItem trx={incomeTrx} categoryName="Salary" />);
+    render(<TransactionItem transaction={incomeTransaction} categoryName="Salary" />);
 
     // then
     expect(screen.getByText('Monthly Salary')).toBeInTheDocument();
@@ -20,7 +20,7 @@ describe('TransactionItem', () => {
 
   it('renders transaction value', () => {
     // when
-    render(<TransactionItem trx={incomeTrx} categoryName="Salary" />);
+    render(<TransactionItem transaction={incomeTransaction} categoryName="Salary" />);
 
     // then
     expect(screen.getByText('$3,000.00')).toBeInTheDocument();
@@ -28,7 +28,7 @@ describe('TransactionItem', () => {
 
   it('renders expense transaction', () => {
     // when
-    render(<TransactionItem trx={expenseTrx} categoryName="Food" />);
+    render(<TransactionItem transaction={expenseTransaction} categoryName="Food" />);
 
     // then
     expect(screen.getByText('Grocery Shopping')).toBeInTheDocument();
@@ -37,7 +37,7 @@ describe('TransactionItem', () => {
 
   it('renders status tag when status is present', () => {
     // when
-    render(<TransactionItem trx={incomeTrx} categoryName="Salary" />);
+    render(<TransactionItem transaction={incomeTransaction} categoryName="Salary" />);
 
     // then
     expect(screen.getByText('completed')).toBeInTheDocument();

@@ -5,16 +5,16 @@ import { useAuthStore } from '@/stores/authStore';
 import { mockRefreshToken, mockToken, mockTransactions, mockUser } from '@/tests/fixtures';
 import { renderWithProviders } from '@/tests/render';
 
-import DeleteTrxModal from './DeleteTrxModal';
+import DeleteTransactionModal from './DeleteTransactionModal';
 
-describe('DeleteTrxModal', () => {
+describe('DeleteTransactionModal', () => {
   beforeEach(() => {
     useAuthStore.getState().setAuth(mockToken, mockRefreshToken, mockUser);
   });
 
   it('renders delete button', () => {
     // when
-    renderWithProviders(<DeleteTrxModal id={mockTransactions[0].id} />);
+    renderWithProviders(<DeleteTransactionModal id={mockTransactions[0].id} />);
 
     // then
     expect(screen.getByLabelText('Delete transaction')).toBeInTheDocument();
@@ -22,7 +22,7 @@ describe('DeleteTrxModal', () => {
 
   it('opens modal on click', async () => {
     // when
-    const { user } = renderWithProviders(<DeleteTrxModal id={mockTransactions[0].id} />);
+    const { user } = renderWithProviders(<DeleteTransactionModal id={mockTransactions[0].id} />);
 
     // then
     await user.click(screen.getByLabelText('Delete transaction'));
@@ -32,7 +32,7 @@ describe('DeleteTrxModal', () => {
 
   it('closes modal on cancel', async () => {
     // when
-    const { user } = renderWithProviders(<DeleteTrxModal id={mockTransactions[0].id} />);
+    const { user } = renderWithProviders(<DeleteTransactionModal id={mockTransactions[0].id} />);
 
     // then
     await user.click(screen.getByLabelText('Delete transaction'));
@@ -46,7 +46,7 @@ describe('DeleteTrxModal', () => {
 
   it('deletes transaction on confirm', async () => {
     // when
-    const { user } = renderWithProviders(<DeleteTrxModal id={mockTransactions[0].id} />);
+    const { user } = renderWithProviders(<DeleteTransactionModal id={mockTransactions[0].id} />);
 
     // then
     await user.click(screen.getByLabelText('Delete transaction'));

@@ -6,6 +6,7 @@ export type User = {
   email: string;
   username: string;
   isAdmin: boolean;
+  currency?: string;
 };
 
 export type LoginRequest = {
@@ -46,6 +47,17 @@ export type VerifyResetOtpResponse = {
 
 export type ResetPasswordRequest = {
   token: string;
+  password: string;
+};
+
+export type UpdateProfileRequest = {
+  username?: string;
+  email?: string;
+  currency?: string;
+};
+
+export type ChangePasswordRequest = {
+  currentPassword: string;
   newPassword: string;
 };
 

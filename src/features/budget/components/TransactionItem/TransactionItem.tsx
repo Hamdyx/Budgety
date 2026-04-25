@@ -15,8 +15,8 @@ const statusColor: Record<TransactionStatus, string> = {
   cancelled: 'default',
 };
 
-const TransactionItem = ({ trx, categoryName }: { trx: Transaction; categoryName: string }) => {
-  const color = trx.type === 'inc' ? 'var(--color-success)' : 'var(--color-danger)';
+const TransactionItem = ({ transaction, categoryName }: { transaction: Transaction; categoryName: string }) => {
+  const color = transaction.type === 'inc' ? 'var(--color-success)' : 'var(--color-danger)';
   const formatCurrency = useCurrencyFormatter();
 
   return (
@@ -25,20 +25,20 @@ const TransactionItem = ({ trx, categoryName }: { trx: Transaction; categoryName
         <DollarOutlined style={{ fontSize: 20, color }} />
       </Col>
       <Col flex="auto">
-        <Text>{trx.title}</Text>
+        <Text>{transaction.title}</Text>
         <br />
         <Text type="secondary" style={{ fontSize: 12 }}>
           {categoryName}
         </Text>
-        {trx.status && (
+        {transaction.status && (
           <>
             {' '}
-            <Tag color={statusColor[trx.status]}>{trx.status}</Tag>
+            <Tag color={statusColor[transaction.status]}>{transaction.status}</Tag>
           </>
         )}
       </Col>
       <Col>
-        <Text style={{ color }}>{formatCurrency(trx.value)}</Text>
+        <Text style={{ color }}>{formatCurrency(transaction.value)}</Text>
       </Col>
     </Row>
   );

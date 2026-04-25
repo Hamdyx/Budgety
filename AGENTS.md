@@ -4,6 +4,9 @@
 
 > These rules apply **by default** — the user should not need to ask for them.
 
+- **Always act as a professional, expert software engineer** — write production-quality code and review every change critically before finalizing it, as if doing a senior code review.
+- **Ask clarifying questions before planning or implementing** — never guess at requirements, API contracts, data shapes, or intended behavior. If anything is ambiguous, ask first.
+- **Never guess API contracts** — look up the endpoint specification in this document, read the existing API/type files, or ask the user. Do not infer request/response shapes from naming alone.
 - **Always follow best practices and clean code principles** — write production-quality code as a professional software engineer would.
 - **Verify library API usage** — before using any component or hook from Ant Design (`antd@6`), React Router (`react-router-dom@7`), TanStack Query (`@tanstack/react-query@5`), or zustand (`zustand@5`), confirm the props/API are current for the installed version. **Do not use deprecated props, hooks, or patterns.** When uncertain, check the library's latest docs.
 - **Run `yarn lint && yarn build && yarn test`** after every change set to catch regressions.
@@ -81,6 +84,7 @@ Before committing: `yarn lint && yarn build && yarn test`.
 ## Conventions
 
 - **Naming**: PascalCase for components/types, camelCase for variables/functions and CSS class names.
+- **No acronyms in variable or function names** — use full descriptive names. Never use `trx`, `cat`, `t`, `c`, `tx`, `ctx`, or similar shorthands as identifiers. API field names (e.g. `trxDate`, `categoryId`) are kept as-is in type definitions since they reflect the backend contract.
 - **One component per file** — file name matches the default export.
 - **Barrel files** — every component directory has an `index.ts` with a named re-export. No default re-export from barrels.
 - **Prefer composition** — wrap Ant Design components (like `OverviewCard` wraps `Card`) instead of duplicating props/styles.
@@ -93,10 +97,10 @@ Before committing: `yarn lint && yarn build && yarn test`.
 
 The frontend consumes the following backend endpoints:
 
-- **Auth**: `POST /auth/register`, `POST /auth/login`, `POST /auth/logout`, `POST /auth/refresh`, `POST /auth/forgot-password`, `POST /auth/verify-otp`, `POST /auth/reset-password`, `DELETE /auth/me`
-- **Categories**: `GET /categories`, `POST /categories`, `DELETE /categories/:id`
+- **Auth**: `POST /auth/register`, `POST /auth/login`, `POST /auth/logout`, `POST /auth/refresh`, `POST /auth/forgot-password`, `POST /auth/verify-reset-otp`, `POST /auth/reset-password`, `PATCH /auth/me`, `POST /auth/change-password`, `DELETE /auth/me`
+- **Categories**: `GET /categories`, `POST /categories`, `GET /categories/:id`, `PATCH /categories/:id`, `DELETE /categories/:id`, `GET /categories/summary`
 - **Budget**: `GET /budget?month=YYYY-MM`, `POST /budget`, `DELETE /budget/:id`
-- **Transactions**: `GET /transactions?month=YYYY-MM`, `POST /transactions`, `DELETE /transactions/:id`
+- **Transactions**: `GET /transactions?month=YYYY-MM`, `POST /transactions`, `GET /transactions/:id`, `PATCH /transactions/:id`, `DELETE /transactions/:id`
 - **Admin**: `GET /admin/users`, `DELETE /admin/users/:id`
 
 ## Routes
@@ -114,10 +118,13 @@ The frontend consumes the following backend endpoints:
 
 Key types in `src/types/types.ts`:
 
-- `User` — `id`, `email`, `username`, `isAdmin`
+- `User` — `id`, `email`, `username`, `isAdmin`, `currency?: string`
 - `Category` — `id`, `name`, `type`, `budget`
-- `Transaction` — `id`, `name`, `amount`, `type`, `date`, `categoryId`
+- `Transaction` — `id`, `title`, `value`, `type`, `trxDate`, `categoryId`, `status?`, `isRecurring?`, `recurrenceRule?`
 - `BudgetItem` — `id`, `categoryId`, `actual`, `month`
+- `UpdateProfileRequest` — `username?: string`, `email?: string`, `currency?: string`
+- `ChangePasswordRequest` — `currentPassword: string`, `newPassword: string`
+- `ResetPasswordRequest` — `token: string`, `password: string` (field is `password`, not `newPassword`)
 
 ## Feature Folders
 

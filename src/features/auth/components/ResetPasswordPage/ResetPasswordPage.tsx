@@ -18,7 +18,7 @@ function ResetPasswordPage() {
   }
 
   const handleFinish = (values: { newPassword: string }) => {
-    mutate({ token: resetToken, newPassword: values.newPassword });
+    mutate({ token: resetToken, password: values.newPassword });
   };
 
   const errorMessage = error instanceof ApiRequestError ? error.message : error ? 'Something went wrong' : null;

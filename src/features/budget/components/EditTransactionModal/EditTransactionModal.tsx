@@ -10,20 +10,20 @@ import { useCurrencySymbol } from '@/utils/formatCurrency';
 
 import { useUpdateTransaction } from '../../hooks';
 
-const EditTrxModal = ({ trx }: { trx: Transaction }) => {
+const EditTransactionModal = ({ transaction }: { transaction: Transaction }) => {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
   const updateMutation = useUpdateTransaction();
   const isRecurring = Form.useWatch<boolean>('isRecurring', form) ?? false;
   const { data: categories = [] } = useCategories();
-  const filteredCategories = categories.filter(category => (trx.type === 'inc' ? category.type === 'income' : category.type === 'expense'));
+  const filteredCategories = categories.filter(category => (transaction.type === 'inc' ? category.type === 'income' : category.type === 'expense'));
   const currencySymbol = useCurrencySymbol();
 
   const handleSubmit = () => {
     form.validateFields().then(values => {
       updateMutation.mutate(
         {
-          id: trx.id,
+          id: transaction.id,
           data: {
             type: values.type,
             title: values.title,
@@ -56,14 +56,14 @@ const EditTrxModal = ({ trx }: { trx: Transaction }) => {
           form={form}
           layout="vertical"
           initialValues={{
-            type: trx.type ?? 'inc',
-            title: trx.title ?? '',
-            value: trx.value ?? 0,
-            trxDate: trx.trxDate ? dayjs(trx.trxDate) : dayjs(),
-            categoryId: trx.categoryId ?? undefined,
-            status: trx.status ?? 'pending',
-            isRecurring: trx.isRecurring ?? false,
-            recurrenceRule: trx.recurrenceRule ?? undefined,
+            type: transaction.type ?? 'inc',
+            title: transaction.title ?? '',
+            value: transaction.value ?? 0,
+            trxDate: transaction.trxDate ? dayjs(transaction.trxDate) : dayjs(),
+            categoryId: transaction.categoryId ?? undefined,
+            status: transaction.status ?? 'pending',
+            isRecurring: transaction.isRecurring ?? false,
+            recurrenceRule: transaction.recurrenceRule ?? undefined,
           }}
         >
           <Form.Item name="type">
@@ -119,4 +119,4 @@ const EditTrxModal = ({ trx }: { trx: Transaction }) => {
   );
 };
 
-export default EditTrxModal;
+export default EditTransactionModal;

@@ -32,8 +32,8 @@ export const handlers = [
   http.get(`${API}/transactions`, () => HttpResponse.json(mockTransactionsSnake)),
 
   http.get(`${API}/transactions/:id`, ({ params }) => {
-    const trx = mockTransactionsSnake.find(t => String(t.id) === params.id);
-    return trx ? HttpResponse.json(trx) : new HttpResponse(null, { status: 404 });
+    const transaction = mockTransactionsSnake.find(transaction => String(transaction.id) === params.id);
+    return transaction ? HttpResponse.json(transaction) : new HttpResponse(null, { status: 404 });
   }),
 
   http.post(`${API}/transactions`, async ({ request }) => {
@@ -54,8 +54,8 @@ export const handlers = [
   http.get(`${API}/categories`, () => HttpResponse.json(mockCategoriesSnake)),
 
   http.get(`${API}/categories/:id`, ({ params }) => {
-    const cat = mockCategoriesSnake.find(c => String(c.id) === params.id);
-    return cat ? HttpResponse.json(cat) : new HttpResponse(null, { status: 404 });
+    const category = mockCategoriesSnake.find(category => String(category.id) === params.id);
+    return category ? HttpResponse.json(category) : new HttpResponse(null, { status: 404 });
   }),
 
   http.post(`${API}/categories`, async ({ request }) => {

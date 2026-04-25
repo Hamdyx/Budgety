@@ -5,16 +5,16 @@ import { useAuthStore } from '@/stores/authStore';
 import { mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
 import { renderWithProviders } from '@/tests/render';
 
-import AddTrxForm from './AddTrxForm';
+import AddTransactionForm from './AddTransactionForm';
 
-describe('AddTrxForm', () => {
+describe('AddTransactionForm', () => {
   beforeEach(() => {
     useAuthStore.getState().setAuth(mockToken, mockRefreshToken, mockUser);
   });
 
   it('renders Add Transaction button', () => {
     // when
-    renderWithProviders(<AddTrxForm />);
+    renderWithProviders(<AddTransactionForm />);
 
     // then
     expect(screen.getByRole('button', { name: 'Add Transaction' })).toBeInTheDocument();
@@ -22,7 +22,7 @@ describe('AddTrxForm', () => {
 
   it('opens modal on button click', async () => {
     // when
-    const { user } = renderWithProviders(<AddTrxForm />);
+    const { user } = renderWithProviders(<AddTransactionForm />);
 
     // then
     await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
@@ -32,7 +32,7 @@ describe('AddTrxForm', () => {
 
   it('shows income and expense radio buttons', async () => {
     // when
-    const { user } = renderWithProviders(<AddTrxForm />);
+    const { user } = renderWithProviders(<AddTransactionForm />);
 
     // then
     await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
@@ -43,7 +43,7 @@ describe('AddTrxForm', () => {
 
   it('shows title, value, and date fields', async () => {
     // when
-    const { user } = renderWithProviders(<AddTrxForm />);
+    const { user } = renderWithProviders(<AddTransactionForm />);
 
     // then
     await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
@@ -55,7 +55,7 @@ describe('AddTrxForm', () => {
 
   it('shows income categories by default', async () => {
     // when
-    const { user } = renderWithProviders(<AddTrxForm />);
+    const { user } = renderWithProviders(<AddTransactionForm />);
 
     // then
     await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
@@ -65,7 +65,7 @@ describe('AddTrxForm', () => {
 
   it('closes modal on cancel', async () => {
     // when
-    const { user } = renderWithProviders(<AddTrxForm />);
+    const { user } = renderWithProviders(<AddTransactionForm />);
 
     // then
     await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
@@ -79,7 +79,7 @@ describe('AddTrxForm', () => {
 
   it('switches to expense categories when expense type is selected', async () => {
     // when
-    const { user } = renderWithProviders(<AddTrxForm />);
+    const { user } = renderWithProviders(<AddTransactionForm />);
 
     // then
     await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
@@ -94,7 +94,7 @@ describe('AddTrxForm', () => {
 
   it('shows status and recurring fields', async () => {
     // when
-    const { user } = renderWithProviders(<AddTrxForm />);
+    const { user } = renderWithProviders(<AddTransactionForm />);
 
     // then
     await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
@@ -105,7 +105,7 @@ describe('AddTrxForm', () => {
 
   it('submits a new transaction and closes modal', async () => {
     // when
-    const { user } = renderWithProviders(<AddTrxForm />);
+    const { user } = renderWithProviders(<AddTransactionForm />);
 
     // then
     await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
@@ -130,7 +130,7 @@ describe('AddTrxForm', () => {
 
   it('submits a recurring transaction with recurrence rule', async () => {
     // when
-    const { user } = renderWithProviders(<AddTrxForm />);
+    const { user } = renderWithProviders(<AddTransactionForm />);
 
     // then
     await user.click(screen.getByRole('button', { name: 'Add Transaction' }));

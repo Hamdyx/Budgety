@@ -7,18 +7,18 @@ import { useAuthStore } from '@/stores/authStore';
 import { mockRefreshToken, mockToken, mockTransactions, mockUser } from '@/tests/fixtures';
 import { renderWithProviders } from '@/tests/render';
 
-import EditTrxModal from './EditTrxModal';
+import EditTransactionModal from './EditTransactionModal';
 
-describe('EditTrxModal', () => {
+describe('EditTransactionModal', () => {
   beforeEach(() => {
     useAuthStore.getState().setAuth(mockToken, mockRefreshToken, mockUser);
   });
 
-  const trx = mockTransactions[0];
+  const transaction = mockTransactions[0];
 
   it('renders edit button', () => {
     // when
-    renderWithProviders(<EditTrxModal trx={trx} />);
+    renderWithProviders(<EditTransactionModal transaction={transaction} />);
 
     // then
     expect(screen.getByLabelText('Edit transaction')).toBeInTheDocument();
@@ -26,19 +26,19 @@ describe('EditTrxModal', () => {
 
   it('opens modal with pre-filled values on click', async () => {
     // when
-    const { user } = renderWithProviders(<EditTrxModal trx={trx} />);
+    const { user } = renderWithProviders(<EditTransactionModal transaction={transaction} />);
 
     // then
     await user.click(screen.getByLabelText('Edit transaction'));
 
     expect(screen.getByText('Edit Transaction')).toBeInTheDocument();
-    expect(screen.getByDisplayValue(trx.title)).toBeInTheDocument();
-    expect(screen.getByDisplayValue(String(trx.value))).toBeInTheDocument();
+    expect(screen.getByDisplayValue(transaction.title)).toBeInTheDocument();
+    expect(screen.getByDisplayValue(String(transaction.value))).toBeInTheDocument();
   });
 
   it('closes modal on cancel', async () => {
     // when
-    const { user } = renderWithProviders(<EditTrxModal trx={trx} />);
+    const { user } = renderWithProviders(<EditTransactionModal transaction={transaction} />);
 
     // then
     await user.click(screen.getByLabelText('Edit transaction'));
@@ -52,13 +52,13 @@ describe('EditTrxModal', () => {
 
   it('submits updated values', async () => {
     // when
-    const { user } = renderWithProviders(<EditTrxModal trx={trx} />);
+    const { user } = renderWithProviders(<EditTransactionModal transaction={transaction} />);
 
     // then
     await user.click(screen.getByLabelText('Edit transaction'));
 
     // and - edit title
-    const titleInput = screen.getByDisplayValue(trx.title);
+    const titleInput = screen.getByDisplayValue(transaction.title);
     await user.clear(titleInput);
     await user.type(titleInput, 'Updated Title');
 
@@ -71,7 +71,7 @@ describe('EditTrxModal', () => {
 
   it('shows status and recurring fields', async () => {
     // when
-    const { user } = renderWithProviders(<EditTrxModal trx={trx} />);
+    const { user } = renderWithProviders(<EditTransactionModal transaction={transaction} />);
 
     // then
     await user.click(screen.getByLabelText('Edit transaction'));
@@ -92,7 +92,7 @@ describe('EditTrxModal', () => {
     } as unknown as Transaction;
 
     // when
-    const { user } = renderWithProviders(<EditTrxModal trx={sparseTransaction} />);
+    const { user } = renderWithProviders(<EditTransactionModal transaction={sparseTransaction} />);
 
     // then
     await user.click(screen.getByLabelText('Edit transaction'));
@@ -104,7 +104,7 @@ describe('EditTrxModal', () => {
 
   it('submits a recurring transaction with recurrence rule', async () => {
     // given
-    const recurringTrx: Transaction = {
+    const recurringTransaction: Transaction = {
       id: 'trx-recurring',
       type: 'exp',
       title: 'Monthly Rent',
@@ -117,7 +117,7 @@ describe('EditTrxModal', () => {
     };
 
     // when
-    const { user } = renderWithProviders(<EditTrxModal trx={recurringTrx} />);
+    const { user } = renderWithProviders(<EditTransactionModal transaction={recurringTransaction} />);
 
     // then
     await user.click(screen.getByLabelText('Edit transaction'));

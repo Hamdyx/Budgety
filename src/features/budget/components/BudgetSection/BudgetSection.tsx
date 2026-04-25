@@ -3,17 +3,19 @@ import type { Transaction } from '@/types/types';
 import { Row, Col, Button } from 'antd';
 import { useState } from 'react';
 
-import { AddTrxForm } from '../AddTrxForm';
+import { AddTransactionForm } from '../AddTransactionForm';
 import { TransactionRow } from '../TransactionRow';
 
 import styles from './BudgetSection.module.css';
 
 const BudgetSection = ({ transactions }: { transactions: Transaction[] }) => {
   const [budgetType, setBudgetType] = useState('inc');
-  const incTrxs = transactions.filter(trx => trx.type === 'inc');
-  const expTrxs = transactions.filter(trx => trx.type === 'exp');
+  const incomeTransactions = transactions.filter(transaction => transaction.type === 'inc');
+  const expenseTransactions = transactions.filter(transaction => transaction.type === 'exp');
   const content =
-    budgetType === 'inc' ? incTrxs.map(trx => <TransactionRow key={trx.id} trx={trx} />) : expTrxs.map(trx => <TransactionRow key={trx.id} trx={trx} />);
+    budgetType === 'inc'
+      ? incomeTransactions.map(transaction => <TransactionRow key={transaction.id} transaction={transaction} />)
+      : expenseTransactions.map(transaction => <TransactionRow key={transaction.id} transaction={transaction} />);
 
   return (
     <div className={styles.section}>
@@ -30,7 +32,7 @@ const BudgetSection = ({ transactions }: { transactions: Transaction[] }) => {
         </Col>
       </Row>
       <div className={styles.sectionContent}>{content}</div>
-      <AddTrxForm />
+      <AddTransactionForm />
     </div>
   );
 };

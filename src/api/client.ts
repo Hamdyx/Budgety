@@ -51,9 +51,9 @@ async function tryRefresh(): Promise<boolean> {
     const payload = decodeJwtPayload(data.accessToken);
     useAuthStore.getState().setAuth(data.accessToken, data.refreshToken, {
       id: payload.sub,
-      email: payload.email,
-      username: payload.username,
-      isAdmin: payload.is_admin,
+      email: payload.email ?? '',
+      username: payload.username ?? '',
+      isAdmin: payload.is_admin ?? false,
     });
     return true;
   } catch {

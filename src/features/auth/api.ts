@@ -1,8 +1,10 @@
 import type {
   AuthResponse,
+  ChangePasswordRequest,
   ForgotPasswordRequest,
   RegisterRequest,
   ResetPasswordRequest,
+  UpdateProfileRequest,
   User,
   VerifyResetOtpRequest,
   VerifyResetOtpResponse,
@@ -62,5 +64,19 @@ export function resetPassword(data: ResetPasswordRequest): Promise<{ message: st
     method: 'POST',
     body: data,
     auth: false,
+  });
+}
+
+export function updateProfile(data: UpdateProfileRequest): Promise<User> {
+  return apiFetch<User>('/auth/me', {
+    method: 'PATCH',
+    body: data,
+  });
+}
+
+export function changePassword(data: ChangePasswordRequest): Promise<{ message: string }> {
+  return apiFetch<{ message: string }>('/auth/change-password', {
+    method: 'POST',
+    body: data,
   });
 }

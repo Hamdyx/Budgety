@@ -11,10 +11,10 @@ interface TransactionsCardProps {
 }
 
 const TransactionsCard = ({ month }: TransactionsCardProps) => {
-  const { data: transactions = [], isLoading: trxLoading } = useTransactions(month ? { month } : undefined);
-  const { data: categories = [], isLoading: catLoading } = useCategories(month);
+  const { data: transactions = [], isLoading: transactionLoading } = useTransactions(month ? { month } : undefined);
+  const { data: categories = [], isLoading: categoryLoading } = useCategories(month);
 
-  if (trxLoading || catLoading) {
+  if (transactionLoading || categoryLoading) {
     return (
       <OverviewCard title="All Transactions">
         <Spin />
@@ -29,7 +29,11 @@ const TransactionsCard = ({ month }: TransactionsCardProps) => {
       {transactions.length === 0 ? (
         <Empty description="No transactions yet" />
       ) : (
-        transactions.slice(0, 5).map(trx => <TransactionItem key={trx.id} trx={trx} categoryName={categoryMap.get(trx.categoryId) ?? 'Unknown'} />)
+        transactions
+          .slice(0, 5)
+          .map(transaction => (
+            <TransactionItem key={transaction.id} transaction={transaction} categoryName={categoryMap.get(transaction.categoryId) ?? 'Unknown'} />
+          ))
       )}
     </OverviewCard>
   );

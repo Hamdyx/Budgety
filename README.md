@@ -28,7 +28,7 @@ src/
 │   ├── category/   # Category management
 │   ├── overview/   # Dashboard with month-scoped data
 │   ├── scheduler/  # Scheduler (coming soon)
-│   └── settings/   # Account settings (delete account)
+│   └── settings/   # Account settings (profile, password, delete account)
 ├── stores/         # Zustand stores (auth, theme)
 ├── styles/         # global.css (CSS custom properties, light/dark)
 ├── theme/          # Ant Design ConfigProvider theme config
@@ -84,26 +84,45 @@ Configured in `tsconfig.json` and `vite.config.ts`.
 
 ## Environment Variables
 
-| Variable       | Description          |
-| -------------- | -------------------- |
-| `VITE_API_URL` | Backend API base URL |
+Create a `.env` file at the project root:
+
+| Variable       | Description                                    | Example                                         |
+| -------------- | ---------------------------------------------- | ----------------------------------------------- |
+| `VITE_API_URL` | Backend API base URL (must include `https://`) | `https://budgety-api-production.up.railway.app` |
+
+> **Important:** `VITE_API_URL` must include the protocol (`https://`). Omitting it will cause all API requests to fail.
 
 ## Features
 
 - **Authentication** — Login, register, logout with JWT access + refresh tokens
 - **Password reset** — Forgot password → OTP verification → reset flow
+- **Profile editing** — Update username, email, and preferred currency via `PATCH /auth/me`
+- **Password change** — Change password in account settings with current password confirmation
 - **Budget management** — Month-scoped budget items with category linking
 - **Transactions** — CRUD with month filtering and category association
 - **Categories** — Income/expense category management with budget allocation
 - **Overview dashboard** — Month-scoped summary with charts
 - **Admin panel** — User list and deletion (admin-only)
-- **Account settings** — Delete own account
+- **Account settings** — Profile editing, password change, and account deletion
 - **Light/dark theme** — Persisted via zustand + CSS custom properties
 - **Automatic token refresh** — Transparent 401 retry with mutex for concurrent requests
 
-## Deployment Notes
+## Deployment
+
+### Frontend (Vercel)
+
+1. Connect your GitHub repo to [Vercel](https://vercel.com).
+2. Set the build command to `yarn build` and the output directory to `dist`.
+3. Add `VITE_API_URL` in the Vercel project environment variables.
+4. Enable SPA fallback by ensuring Vercel rewrites unknown paths to `index.html`.
+
+### Backend (Railway)
+
+The production API runs on [Railway](https://railway.app) at `https://budgety-api-production.up.railway.app`.
+
+### Notes
 
 - Build artifacts are emitted to `dist/`.
 - Any static host that supports SPA fallback can serve this app.
 - Ensure rewrite rules route unknown paths to `index.html` for React Router.
-- The backend API must support the endpoints documented in `AGENTS.md`.
+- The backend API endpoints are documented in `AGENTS.md`.

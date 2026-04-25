@@ -7,12 +7,12 @@ import { renderWithProviders } from '@/tests/render';
 import TransactionRow from './TransactionRow';
 
 describe('TransactionRow', () => {
-  const incomeTrx = mockTransactions[0];
-  const expenseTrx = mockTransactions[1];
+  const incomeTransaction = mockTransactions[0];
+  const expenseTransaction = mockTransactions[1];
 
   it('renders transaction title', () => {
     // when
-    renderWithProviders(<TransactionRow trx={incomeTrx} />);
+    renderWithProviders(<TransactionRow transaction={incomeTransaction} />);
 
     // then
     expect(screen.getByText('Monthly Salary')).toBeInTheDocument();
@@ -20,7 +20,7 @@ describe('TransactionRow', () => {
 
   it('renders formatted date', () => {
     // when
-    renderWithProviders(<TransactionRow trx={incomeTrx} />);
+    renderWithProviders(<TransactionRow transaction={incomeTransaction} />);
 
     // then
     expect(screen.getByText('2024-01-15 | 09:30')).toBeInTheDocument();
@@ -28,7 +28,7 @@ describe('TransactionRow', () => {
 
   it('renders transaction value', () => {
     // when
-    renderWithProviders(<TransactionRow trx={incomeTrx} />);
+    renderWithProviders(<TransactionRow transaction={incomeTransaction} />);
 
     // then
     expect(screen.getByText('$3,000.00')).toBeInTheDocument();
@@ -36,7 +36,7 @@ describe('TransactionRow', () => {
 
   it('renders edit and delete buttons', () => {
     // when
-    renderWithProviders(<TransactionRow trx={expenseTrx} />);
+    renderWithProviders(<TransactionRow transaction={expenseTransaction} />);
 
     // then
     expect(screen.getByLabelText('Edit transaction')).toBeInTheDocument();
@@ -45,7 +45,7 @@ describe('TransactionRow', () => {
 
   it('renders status tag', () => {
     // when
-    renderWithProviders(<TransactionRow trx={incomeTrx} />);
+    renderWithProviders(<TransactionRow transaction={incomeTransaction} />);
 
     // then
     expect(screen.getByText('completed')).toBeInTheDocument();

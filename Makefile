@@ -53,8 +53,8 @@ lint/fix:
 ## TESTS
 
 # make test
-# make test file=src/features/budget/components/AddTrxForm/AddTrxForm.test.tsx
-# make test file=src/features/budget/components/AddTrxForm/AddTrxForm.test.tsx pattern="submits a new transaction"
+# make test file=src/features/budget/components/AddTransactionForm/AddTransactionForm.test.tsx
+# make test file=src/features/budget/components/AddTransactionForm/AddTransactionForm.test.tsx pattern="submits a new transaction"
 .PHONY: test
 test:
 	yarn test $(if $(file),$(file)) $(if $(pattern),--testNamePattern="$(pattern)")

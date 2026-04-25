@@ -9,29 +9,29 @@ import { useCurrencySymbol } from '@/utils/formatCurrency';
 
 import { useCreateTransaction } from '../../hooks';
 
-import styles from './AddTrxForm.module.css';
+import styles from './AddTransactionForm.module.css';
 
-const AddTrxForm = () => {
+const AddTransactionForm = () => {
   const { data: categories = [] } = useCategories();
   const createMutation = useCreateTransaction();
-  const [isAddTrxModalOpen, setIsAddTrxModalOpen] = useState(false);
+  const [isAddTransactionModalOpen, setIsAddTransactionModalOpen] = useState(false);
   const currencySymbol = useCurrencySymbol();
 
   const [form] = Form.useForm();
-  const trxType = Form.useWatch<TransactionType>('type', form) ?? 'inc';
+  const transactionType = Form.useWatch<TransactionType>('type', form) ?? 'inc';
   const isRecurring = Form.useWatch<boolean>('isRecurring', form) ?? false;
 
   const filteredCategories = useMemo(
-    () => categories.filter(category => (trxType === 'inc' ? category.type === 'income' : category.type === 'expense')),
-    [categories, trxType]
+    () => categories.filter(category => (transactionType === 'inc' ? category.type === 'income' : category.type === 'expense')),
+    [categories, transactionType]
   );
 
-  const isIncome = trxType === 'inc';
+  const isIncome = transactionType === 'inc';
 
-  const handleClose = () => setIsAddTrxModalOpen(false);
-  const handleShow = () => setIsAddTrxModalOpen(true);
+  const handleClose = () => setIsAddTransactionModalOpen(false);
+  const handleShow = () => setIsAddTransactionModalOpen(true);
 
-  const handleTrxSubmit = async (values: TransactionCreate & { trxDate: dayjs.Dayjs }) => {
+  const handleTransactionSubmit = async (values: TransactionCreate & { trxDate: dayjs.Dayjs }) => {
     createMutation.mutate(
       {
         type: values.type,
@@ -49,10 +49,16 @@ const AddTrxForm = () => {
 
   return (
     <>
-      <Button className="addTrx-btn" onClick={handleShow}>
+      <Button className="addTransaction-btn" onClick={handleShow}>
         Add Transaction
       </Button>
-      <Modal title="Add New Transaction" open={isAddTrxModalOpen} onCancel={handleClose} footer={null} afterOpenChange={open => !open && form.resetFields()}>
+      <Modal
+        title="Add New Transaction"
+        open={isAddTransactionModalOpen}
+        onCancel={handleClose}
+        footer={null}
+        afterOpenChange={open => !open && form.resetFields()}
+      >
         <Form
           form={form}
           layout="vertical"
@@ -64,7 +70,7 @@ const AddTrxForm = () => {
             status: 'pending',
             isRecurring: false,
           }}
-          onFinish={handleTrxSubmit}
+          onFinish={handleTransactionSubmit}
           requiredMark={false}
         >
           <Form.Item name="type">
@@ -90,7 +96,7 @@ const AddTrxForm = () => {
             <Alert type="warning" showIcon title={`No ${isIncome ? 'income' : 'expense'} categories yet - add one first`} className={styles.categoryAlert} />
           ) : (
             <Form.Item name="categoryId" label="Category" rules={[{ required: true }]}>
-              <Radio.Group className={styles.categoryGroup} data-type={trxType}>
+              <Radio.Group className={styles.categoryGroup} data-type={transactionType}>
                 {filteredCategories.map(({ id, name }) => (
                   <Radio.Button key={id} value={id} className={styles.categoryTag}>
                     {name}
@@ -147,4 +153,4 @@ const AddTrxForm = () => {
   );
 };
 
-export default AddTrxForm;
+export default AddTransactionForm;

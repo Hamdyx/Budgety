@@ -5,8 +5,8 @@ import dayjs from 'dayjs';
 
 import { useCurrencyFormatter } from '@/utils/formatCurrency';
 
-import { DeleteTrxModal } from '../DeleteTrxModal';
-import { EditTrxModal } from '../EditTrxModal';
+import { DeleteTransactionModal } from '../DeleteTransactionModal';
+import { EditTransactionModal } from '../EditTransactionModal';
 
 import styles from './TransactionRow.module.css';
 
@@ -18,31 +18,31 @@ const statusColor: Record<TransactionStatus, string> = {
   cancelled: 'default',
 };
 
-const TransactionRow = ({ trx }: { trx: Transaction }) => {
+const TransactionRow = ({ transaction }: { transaction: Transaction }) => {
   const formatCurrency = useCurrencyFormatter();
   return (
-    <Row align="middle" className={styles.row} data-type={trx.type}>
+    <Row align="middle" className={styles.row} data-type={transaction.type}>
       <Col flex="auto">
-        <Text strong>{trx.title}</Text>
+        <Text strong>{transaction.title}</Text>
         <br />
         <Text type="secondary" className={styles.dateText}>
-          {dayjs(trx.trxDate).format('YYYY-MM-DD | HH:mm')}
+          {dayjs(transaction.trxDate).format('YYYY-MM-DD | HH:mm')}
         </Text>
-        {trx.status && (
+        {transaction.status && (
           <>
             {' '}
-            <Tag color={statusColor[trx.status]}>{trx.status}</Tag>
+            <Tag color={statusColor[transaction.status]}>{transaction.status}</Tag>
           </>
         )}
       </Col>
       <Col className={styles.rightCol}>
         <Space size={4}>
-          <EditTrxModal trx={trx} />
-          <DeleteTrxModal id={trx.id} />
+          <EditTransactionModal transaction={transaction} />
+          <DeleteTransactionModal id={transaction.id} />
         </Space>
         <br />
-        <Text className={styles.valueText} data-type={trx.type}>
-          {formatCurrency(trx.value)}
+        <Text className={styles.valueText} data-type={transaction.type}>
+          {formatCurrency(transaction.value)}
         </Text>
       </Col>
     </Row>

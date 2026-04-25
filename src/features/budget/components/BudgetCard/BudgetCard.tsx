@@ -15,11 +15,11 @@ interface BudgetCardProps {
 }
 
 const BudgetCard = ({ month }: BudgetCardProps) => {
-  const { data: categories = [], isLoading: catLoading } = useCategories(month);
-  const { data: transactions = [], isLoading: trxLoading } = useTransactions(month ? { month } : undefined);
+  const { data: categories = [], isLoading: categoryLoading } = useCategories(month);
+  const { data: transactions = [], isLoading: transactionLoading } = useTransactions(month ? { month } : undefined);
   const formatCurrency = useCurrencyFormatter();
 
-  if (catLoading || trxLoading) {
+  if (categoryLoading || transactionLoading) {
     return (
       <OverviewCard title="Budget">
         <Spin />

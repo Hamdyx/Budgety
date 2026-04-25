@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { useDeleteTransaction } from '../../hooks';
 
-const DeleteTrxModal = ({ id }: { id: string }) => {
+const DeleteTransactionModal = ({ id }: { id: string }) => {
   const [open, setOpen] = useState(false);
   const deleteMutation = useDeleteTransaction();
 
@@ -31,4 +31,4 @@ const DeleteTrxModal = ({ id }: { id: string }) => {
   );
 };
 
-export default DeleteTrxModal;
+export default DeleteTransactionModal;

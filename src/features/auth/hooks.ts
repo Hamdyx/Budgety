@@ -3,9 +3,10 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuthStore } from '@/stores/authStore';
+import { useCurrencyStore } from '@/stores/currencyStore';
 import { decodeJwtPayload } from '@/utils/jwt';
 
-import { forgotPassword, login, logoutApi, register, resetPassword, verifyResetOtp } from './api';
+import { changePassword, forgotPassword, login, logoutApi, register, resetPassword, updateProfile, verifyResetOtp } from './api';
 
 export function useLogin() {
   const setAuth = useAuthStore(state => state.setAuth);
@@ -17,9 +18,9 @@ export function useLogin() {
       const payload = decodeJwtPayload(data.accessToken);
       setAuth(data.accessToken, data.refreshToken, {
         id: payload.sub,
-        email: payload.email,
-        username: payload.username,
-        isAdmin: payload.is_admin,
+        email: payload.email ?? '',
+        username: payload.username ?? '',
+        isAdmin: payload.is_admin ?? false,
       });
       navigate('/', { replace: true });
     },
@@ -81,5 +82,25 @@ export function useResetPassword() {
     onSuccess: () => {
       navigate('/login', { replace: true });
     },
+  });
+}
+
+export function useUpdateProfile() {
+  const setUser = useAuthStore(state => state.setUser);
+  const setCurrency = useCurrencyStore(state => state.setCurrency);
+  const currency = useCurrencyStore(state => state.currency);
+
+  return useMutation({
+    mutationFn: updateProfile,
+    onSuccess: user => {
+      setUser(user);
+      setCurrency(user.currency ?? currency);
+    },
+  });
+}
+
+export function useChangePassword() {
+  return useMutation({
+    mutationFn: changePassword,
   });
 }
