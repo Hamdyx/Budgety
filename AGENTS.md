@@ -111,7 +111,7 @@ The frontend consumes the following backend endpoints:
 - `/budget` — Budget management
 - `/bank` — Bank / transactions
 - `/scheduler` — Scheduler (coming soon)
-- `/settings` — Account settings (delete account)
+- `/settings` — Account settings (update profile, change password, delete account)
 - `/admin/users` — Admin user management (visible only to `isAdmin` users)
 
 ## Types
@@ -134,5 +134,5 @@ Key types in `src/types/types.ts`:
 - `src/features/overview/` — dashboard with month-scoped data
 - `src/features/bank/` — transactions
 - `src/features/scheduler/` — coming soon placeholder
-- `src/features/settings/` — account deletion
+- `src/features/settings/` — profile updates (username, email, currency), password change, account deletion
 - `src/features/admin/` — admin user management (list, delete)

@@ -18,8 +18,12 @@ src/
 ├── api/            # HTTP client (JWT auth, camelCase ↔ snake_case, auto token refresh)
 ├── app/            # App shell (AppLayout/, Sidebar/), routing
 ├── components/
-│   ├── charts/     # BarChart, DoughnutChart, LineChart
-│   └── common/     # OverviewCard/, SectionHeader/, ComingSoon/, PrivateRoute/, SuspenseLayout/
+│   ├── ComingSoon/     # Coming-soon placeholder
+│   ├── ErrorBoundary/  # Top-level error boundary
+│   ├── OverviewCard/   # Reusable card wrapper (wraps Ant Design Card)
+│   ├── PrivateRoute/   # Auth guard for protected routes
+│   ├── SectionHeader/  # Shared section title component
+│   └── SuspenseLayout/ # Suspense + loading fallback wrapper
 ├── features/
 │   ├── admin/      # Admin user management (list, delete)
 │   ├── auth/       # Login, Register, Password reset flow
@@ -29,7 +33,7 @@ src/
 │   ├── overview/   # Dashboard with month-scoped data
 │   ├── scheduler/  # Scheduler (coming soon)
 │   └── settings/   # Account settings (profile, password, delete account)
-├── stores/         # Zustand stores (auth, theme)
+├── stores/         # Zustand stores (auth, theme, currency)
 ├── styles/         # global.css (CSS custom properties, light/dark)
 ├── theme/          # Ant Design ConfigProvider theme config
 └── types/          # Shared TypeScript types
