@@ -3,6 +3,7 @@ import { Button, Drawer, Layout, Spin } from 'antd';
 import { Suspense, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { useThemeStore } from '@/stores/themeStore';
 
 import { Sidebar } from '../Sidebar';
@@ -55,15 +56,17 @@ function AppLayout() {
           />
         </div>
         <Content className={styles.content}>
-          <Suspense
-            fallback={
-              <div className={styles.spinContainer}>
-                <Spin size="large" />
-              </div>
-            }
-          >
-            <Outlet />
-          </Suspense>
+          <ErrorBoundary>
+            <Suspense
+              fallback={
+                <div className={styles.spinContainer}>
+                  <Spin size="large" />
+                </div>
+              }
+            >
+              <Outlet />
+            </Suspense>
+          </ErrorBoundary>
         </Content>
       </Layout>
     </Layout>
