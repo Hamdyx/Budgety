@@ -1,4 +1,4 @@
-import type { AuthResponse, Category, CategorySummary, InvestmentCoin, Transaction, User } from '@/types/types';
+import type { AuthResponse, Category, CategorySummary, Transaction, User } from '@/types/types';
 
 // ── Users ─────────────────────────────────────────────
 export const mockUser: User = {
@@ -130,30 +130,6 @@ export const mockTransactions: Transaction[] = [
   },
 ];
 
-// ── Investments ───────────────────────────────────────
-export const mockInvestments: InvestmentCoin[] = [
-  {
-    id: 1,
-    name: 'BTC',
-    buyPrice: 40000,
-    buyAmount: 2000,
-    sellPrice: 45000,
-    holdings: 0.05,
-    sellAmount: 2250,
-    profitPercent: 12.5,
-  },
-  {
-    id: 2,
-    name: 'ETH',
-    buyPrice: 2500,
-    buyAmount: 1000,
-    sellPrice: 3000,
-    holdings: 0.4,
-    sellAmount: 1200,
-    profitPercent: 20,
-  },
-];
-
 // ── Snake-case versions for MSW responses ─────────────
 export const mockAuthResponseSnake = {
   access_token: mockAuthResponse.accessToken,
@@ -191,15 +167,4 @@ export const mockTransactionsSnake = mockTransactions.map(transaction => ({
   status: transaction.status,
   is_recurring: transaction.isRecurring,
   recurrence_rule: transaction.recurrenceRule,
-}));
-
-export const mockInvestmentsSnake = mockInvestments.map(investment => ({
-  id: investment.id,
-  name: investment.name,
-  buy_price: investment.buyPrice,
-  buy_amount: investment.buyAmount,
-  sell_price: investment.sellPrice,
-  holdings: investment.holdings,
-  sell_amount: investment.sellAmount,
-  profit_percent: investment.profitPercent,
 }));

@@ -151,32 +151,3 @@ export type CustomFloatingLabelProps = {
   value: string | number;
   changeFunc: ChangeEventHandler<HTMLInputElement>;
 };
-
-// ── Investment ────────────────────────────────────────
-export type InvestmentCoin = {
-  id: number;
-  name: string;
-  buyPrice: number;
-  buyAmount: number;
-  sellPrice: number;
-  holdings: number;
-  sellAmount: number;
-  profitPercent: number;
-  price?: number | null;
-  value?: number | null;
-  userId?: string;
-};
-
-export type InvestmentCoinCreate = {
-  name: string;
-  buyPrice?: number;
-  buyAmount?: number;
-  sellPrice?: number;
-  holdings?: number;
-  sellAmount?: number;
-  profitPercent?: number;
-  price?: number | null;
-  value?: number | null;
-};
-
-export type InvestmentCoinUpdate = Partial<InvestmentCoinCreate>;

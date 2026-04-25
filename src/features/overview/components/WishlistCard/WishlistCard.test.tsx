@@ -14,12 +14,11 @@ describe('WishlistCard', () => {
     expect(screen.getByText('Wishlist')).toBeInTheDocument();
   });
 
-  it('renders value and spent statistics', () => {
+  it('renders coming soon placeholder', () => {
     // when
     renderWithProviders(<WishlistCard />);
 
     // then
-    expect(screen.getByText('Value')).toBeInTheDocument();
-    expect(screen.getByText('Spent')).toBeInTheDocument();
+    expect(screen.getByText('Coming Soon')).toBeInTheDocument();
   });
 });

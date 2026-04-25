@@ -5,6 +5,10 @@ import { useState } from 'react';
 import { BudgetCard } from '@/features/budget/components/BudgetCard';
 import { TransactionsCard } from '@/features/budget/components/TransactionsCard';
 
+import { ReportsCard } from '../ReportsCard';
+import { SavingsCard } from '../SavingsCard';
+import { WishlistCard } from '../WishlistCard';
+
 import styles from './Overview.module.css';
 
 const { Title } = Typography;
@@ -29,6 +33,9 @@ function Overview() {
       <div className={styles.grid}>
         <TransactionsCard month={budgetMonth} />
         <BudgetCard month={budgetMonth} />
+        <SavingsCard />
+        <ReportsCard />
+        <WishlistCard />
       </div>
     </div>
   );

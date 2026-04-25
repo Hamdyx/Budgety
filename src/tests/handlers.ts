@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw';
 
-import { mockAuthResponseSnake, mockCategoriesSnake, mockCategorySummarySnake, mockInvestmentsSnake, mockTransactionsSnake } from './fixtures';
+import { mockAuthResponseSnake, mockCategoriesSnake, mockCategorySummarySnake, mockTransactionsSnake } from './fixtures';
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -63,26 +63,6 @@ export const handlers = [
   }),
 
   http.delete(`${API}/categories/:id`, () => new HttpResponse(null, { status: 204 })),
-
-  // ── Investments ───────────────────────────────────
-  http.get(`${API}/investments`, () => HttpResponse.json(mockInvestmentsSnake)),
-
-  http.get(`${API}/investments/:id`, ({ params }) => {
-    const inv = mockInvestmentsSnake.find(i => String(i.id) === params.id);
-    return inv ? HttpResponse.json(inv) : new HttpResponse(null, { status: 404 });
-  }),
-
-  http.post(`${API}/investments`, async ({ request }) => {
-    const body = (await request.json()) as Record<string, unknown>;
-    return HttpResponse.json({ id: 99, ...body }, { status: 201 });
-  }),
-
-  http.patch(`${API}/investments/:id`, async ({ request, params }) => {
-    const body = (await request.json()) as Record<string, unknown>;
-    return HttpResponse.json({ id: Number(params.id), ...body });
-  }),
-
-  http.delete(`${API}/investments/:id`, () => new HttpResponse(null, { status: 204 })),
 
   // ── Admin ─────────────────────────────────────────
   http.get(`${API}/admin/users`, () =>

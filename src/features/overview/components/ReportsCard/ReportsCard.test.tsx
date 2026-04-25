@@ -14,13 +14,11 @@ describe('ReportsCard', () => {
     expect(screen.getByText('Reports')).toBeInTheDocument();
   });
 
-  it('renders worth, spent, and earn statistics', () => {
+  it('renders coming soon placeholder', () => {
     // when
     renderWithProviders(<ReportsCard />);
 
     // then
-    expect(screen.getByText('Worth')).toBeInTheDocument();
-    expect(screen.getByText('Spent')).toBeInTheDocument();
-    expect(screen.getByText('Earn')).toBeInTheDocument();
+    expect(screen.getByText('Coming Soon')).toBeInTheDocument();
   });
 });

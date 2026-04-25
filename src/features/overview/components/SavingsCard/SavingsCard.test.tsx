@@ -14,12 +14,11 @@ describe('SavingsCard', () => {
     expect(screen.getByText('Savings')).toBeInTheDocument();
   });
 
-  it('renders deposit and bank statistics', () => {
+  it('renders coming soon placeholder', () => {
     // when
     renderWithProviders(<SavingsCard />);
 
     // then
-    expect(screen.getByText("Today's Deposit")).toBeInTheDocument();
-    expect(screen.getByText('Bank')).toBeInTheDocument();
+    expect(screen.getByText('Coming Soon')).toBeInTheDocument();
   });
 });
