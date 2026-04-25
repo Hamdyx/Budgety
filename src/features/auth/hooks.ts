@@ -3,10 +3,9 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuthStore } from '@/stores/authStore';
-import { useCurrencyStore } from '@/stores/currencyStore';
 import { decodeJwtPayload } from '@/utils/jwt';
 
-import { changePassword, forgotPassword, login, logoutApi, register, resetPassword, updateProfile, verifyResetOtp } from './api';
+import { forgotPassword, login, logoutApi, register, resetPassword, verifyResetOtp } from './api';
 
 export function useLogin() {
   const setAuth = useAuthStore(state => state.setAuth);
@@ -82,25 +81,5 @@ export function useResetPassword() {
     onSuccess: () => {
       navigate('/login', { replace: true });
     },
-  });
-}
-
-export function useUpdateProfile() {
-  const setUser = useAuthStore(state => state.setUser);
-  const setCurrency = useCurrencyStore(state => state.setCurrency);
-  const currency = useCurrencyStore(state => state.currency);
-
-  return useMutation({
-    mutationFn: updateProfile,
-    onSuccess: user => {
-      setUser(user);
-      setCurrency(user.currency ?? currency);
-    },
-  });
-}
-
-export function useChangePassword() {
-  return useMutation({
-    mutationFn: changePassword,
   });
 }

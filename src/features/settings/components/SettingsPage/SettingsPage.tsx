@@ -1,8 +1,9 @@
 import { Button, Form, Input, Modal, Select, Typography } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { SectionHeader } from '@/components/SectionHeader';
 import { useAuthStore } from '@/stores/authStore';
+import { useCurrencyStore } from '@/stores/currencyStore';
 
 import { useChangePassword, useDeleteAccount, useUpdateProfile } from '../../hooks';
 
@@ -24,6 +25,7 @@ const CURRENCY_OPTIONS = [
 export default function SettingsPage() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const user = useAuthStore(state => state.user);
+  const currency = useCurrencyStore(state => state.currency);
 
   const { mutate: deleteAccount, isPending: isDeletePending } = useDeleteAccount();
   const { mutate: updateProfile, isPending: isProfilePending } = useUpdateProfile();
@@ -31,6 +33,14 @@ export default function SettingsPage() {
 
   const [profileForm] = Form.useForm();
   const [passwordForm] = Form.useForm();
+
+  useEffect(() => {
+    profileForm.setFieldsValue({
+      username: user?.username ?? '',
+      email: user?.email ?? '',
+      currency: user?.currency ?? currency,
+    });
+  }, [user, currency, profileForm]);
 
   function handleProfileSubmit(values: { username: string; email: string; currency: string }) {
     updateProfile(values);
@@ -63,7 +73,7 @@ export default function SettingsPage() {
           initialValues={{
             username: user?.username ?? '',
             email: user?.email ?? '',
-            currency: user?.currency ?? 'USD',
+            currency: user?.currency ?? currency,
           }}
           onFinish={handleProfileSubmit}
         >
