@@ -5,6 +5,8 @@ import { Button, Modal, Form, Input, InputNumber, DatePicker, Radio, Row, Col, S
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
+import { useCategories } from '@/features/category/hooks';
+
 import { useUpdateTransaction } from '../../hooks';
 
 const EditTrxModal = ({ trx }: { trx: Transaction }) => {
@@ -12,6 +14,8 @@ const EditTrxModal = ({ trx }: { trx: Transaction }) => {
   const [form] = Form.useForm();
   const updateMutation = useUpdateTransaction();
   const isRecurring = Form.useWatch<boolean>('isRecurring', form) ?? false;
+  const { data: categories = [] } = useCategories();
+  const filteredCategories = categories.filter(category => (trx.type === 'inc' ? category.type === 'income' : category.type === 'expense'));
 
   const handleSubmit = () => {
     form.validateFields().then(values => {
@@ -22,7 +26,8 @@ const EditTrxModal = ({ trx }: { trx: Transaction }) => {
             type: values.type,
             title: values.title,
             value: values.value,
-            trxDate: values.trxDate,
+            trxDate: (values.trxDate as unknown as dayjs.Dayjs).format('YYYY-MM-DDTHH:mm:ss'),
+            categoryId: values.categoryId,
             status: values.status,
             isRecurring: values.isRecurring,
             recurrenceRule: values.isRecurring ? values.recurrenceRule : undefined,
@@ -43,6 +48,7 @@ const EditTrxModal = ({ trx }: { trx: Transaction }) => {
         onOk={handleSubmit}
         okText="Save Changes"
         confirmLoading={updateMutation.isPending}
+        afterOpenChange={open => !open && form.resetFields()}
       >
         <Form
           form={form}
@@ -52,6 +58,7 @@ const EditTrxModal = ({ trx }: { trx: Transaction }) => {
             title: trx.title ?? '',
             value: trx.value ?? 0,
             trxDate: trx.trxDate ? dayjs(trx.trxDate) : dayjs(),
+            categoryId: trx.categoryId ?? undefined,
             status: trx.status ?? 'pending',
             isRecurring: trx.isRecurring ?? false,
             recurrenceRule: trx.recurrenceRule ?? undefined,
@@ -75,6 +82,9 @@ const EditTrxModal = ({ trx }: { trx: Transaction }) => {
               </Form.Item>
             </Col>
           </Row>
+          <Form.Item name="categoryId" label="Category" rules={[{ required: true }]}>
+            <Select options={filteredCategories.map(({ id, name }) => ({ label: name, value: id }))} placeholder="Select category" />
+          </Form.Item>
           <Form.Item name="trxDate" label="Date">
             <DatePicker showTime style={{ width: '100%' }} />
           </Form.Item>

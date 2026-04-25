@@ -1,6 +1,6 @@
 import type { TransactionCreate, TransactionType } from '@/types/types';
 
-import { Button, DatePicker, Form, Input, InputNumber, Modal, Radio, Select, Switch } from 'antd';
+import { Alert, Button, DatePicker, Form, Input, InputNumber, Modal, Radio, Select, Switch } from 'antd';
 import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
 
@@ -29,13 +29,13 @@ const AddTrxForm = () => {
   const handleClose = () => setIsAddTrxModalOpen(false);
   const handleShow = () => setIsAddTrxModalOpen(true);
 
-  const handleTrxSubmit = async (values: TransactionCreate) => {
+  const handleTrxSubmit = async (values: TransactionCreate & { trxDate: dayjs.Dayjs }) => {
     createMutation.mutate(
       {
         type: values.type,
         title: values.title,
         value: values.value,
-        trxDate: values.trxDate,
+        trxDate: values.trxDate.format('YYYY-MM-DDTHH:mm:ss'),
         categoryId: values.categoryId,
         status: values.status,
         isRecurring: values.isRecurring,
@@ -50,7 +50,7 @@ const AddTrxForm = () => {
       <Button className="addTrx-btn" onClick={handleShow}>
         Add Transaction
       </Button>
-      <Modal title="Add New Transaction" open={isAddTrxModalOpen} onCancel={handleClose} footer={null}>
+      <Modal title="Add New Transaction" open={isAddTrxModalOpen} onCancel={handleClose} footer={null} afterOpenChange={open => !open && form.resetFields()}>
         <Form
           form={form}
           layout="vertical"
@@ -84,7 +84,9 @@ const AddTrxForm = () => {
             </Form.Item>
           </div>
 
-          {filteredCategories.length > 0 && (
+          {filteredCategories.length === 0 ? (
+            <Alert type="warning" showIcon title={`No ${isIncome ? 'income' : 'expense'} categories yet - add one first`} className={styles.categoryAlert} />
+          ) : (
             <Form.Item name="categoryId" label="Category" rules={[{ required: true }]}>
               <Radio.Group className={styles.categoryGroup} data-type={trxType}>
                 {filteredCategories.map(({ id, name }) => (
@@ -127,6 +129,7 @@ const AddTrxForm = () => {
             <Button
               type="primary"
               htmlType="submit"
+              disabled={filteredCategories.length === 0}
               style={
                 isIncome
                   ? { background: 'var(--color-success)', borderColor: 'var(--color-success)' }

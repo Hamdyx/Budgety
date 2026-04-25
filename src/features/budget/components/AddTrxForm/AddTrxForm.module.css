@@ -118,6 +118,10 @@
   width: 100%;
 }
 
+.categoryAlert {
+  margin-bottom: 16px;
+}
+
 /* Footer row */
 .footerRow {
   display: flex;
