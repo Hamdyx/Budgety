@@ -1,6 +1,7 @@
 import type { ApiError } from '@/types/types';
 
 import { useAuthStore } from '@/stores/authStore';
+import { decodeJwtPayload } from '@/utils/jwt';
 
 import { toCamelCase, toSnakeCase } from './caseConverter';
 
@@ -47,12 +48,12 @@ async function tryRefresh(): Promise<boolean> {
     }
 
     const data = toCamelCase<{ accessToken: string; refreshToken: string }>(await response.json());
-    const payload = JSON.parse(atob(data.accessToken.split('.')[1]));
+    const payload = decodeJwtPayload(data.accessToken);
     useAuthStore.getState().setAuth(data.accessToken, data.refreshToken, {
       id: payload.sub,
-      email: payload.email ?? '',
-      username: payload.username ?? '',
-      isAdmin: payload.is_admin ?? false,
+      email: payload.email,
+      username: payload.username,
+      isAdmin: payload.is_admin,
     });
     return true;
   } catch {

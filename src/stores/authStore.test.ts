@@ -78,5 +78,16 @@ describe('authStore', () => {
       // then
       expect(useAuthStore.getState().isAuthenticated()).toBe(false);
     });
+
+    it('returns true for a valid token with Base64URL-encoded payload (- and _ chars)', () => {
+      // given – craft a token whose payload segment uses Base64URL characters
+      const payload = { sub: 'user-1', exp: 9999999999 };
+      const base64url = btoa(JSON.stringify(payload)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+      const token = `header.${base64url}.sig`;
+      useAuthStore.setState({ token, user: mockUser });
+
+      // then
+      expect(useAuthStore.getState().isAuthenticated()).toBe(true);
+    });
   });
 });

@@ -3,6 +3,8 @@ import type { User } from '@/types/types';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+import { decodeJwtPayload } from '@/utils/jwt';
+
 type AuthState = {
   token: string | null;
   refreshToken: string | null;
@@ -14,7 +16,7 @@ type AuthState = {
 
 function isTokenExpired(token: string): boolean {
   try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
+    const payload = decodeJwtPayload(token);
     return payload.exp * 1000 < Date.now();
   } catch {
     return true;

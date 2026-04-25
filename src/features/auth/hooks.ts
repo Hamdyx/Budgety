@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuthStore } from '@/stores/authStore';
+import { decodeJwtPayload } from '@/utils/jwt';
 
 import { forgotPassword, login, logoutApi, register, resetPassword, verifyResetOtp } from './api';
 
@@ -13,12 +14,12 @@ export function useLogin() {
   return useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) => login(email, password),
     onSuccess: data => {
-      const payload = JSON.parse(atob(data.accessToken.split('.')[1]));
+      const payload = decodeJwtPayload(data.accessToken);
       setAuth(data.accessToken, data.refreshToken, {
         id: payload.sub,
-        email: payload.email ?? '',
-        username: payload.username ?? '',
-        isAdmin: payload.is_admin ?? false,
+        email: payload.email,
+        username: payload.username,
+        isAdmin: payload.is_admin,
       });
       navigate('/', { replace: true });
     },
