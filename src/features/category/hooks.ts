@@ -2,30 +2,58 @@ import type { CategoryCreate, CategoryUpdate } from '@/types/types';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import { useExchangeRates } from '@/hooks/useExchangeRates';
+import { useCurrencyStore } from '@/stores/currencyStore';
+import { fromUSD, toUSD } from '@/utils/formatCurrency';
+
 import { getCategories, getCategorySummary, createCategory, updateCategory, deleteCategory } from './api';
 
 const CATEGORIES_KEY = ['categories'] as const;
 const CATEGORY_SUMMARY_KEY = ['categorySummary'] as const;
 
 export function useCategories(month?: string) {
+  const currency = useCurrencyStore(state => state.currency);
+  const { data: rates } = useExchangeRates();
+
   return useQuery({
     queryKey: [...CATEGORIES_KEY, month],
     queryFn: () => getCategories(month),
+    select: categories =>
+      categories.map(category => ({
+        ...category,
+        budget: rates ? fromUSD(category.budget, currency, rates) : category.budget,
+        actual: rates ? fromUSD(category.actual, currency, rates) : category.actual,
+      })),
   });
 }
 
 export function useCategorySummary(month?: string) {
+  const currency = useCurrencyStore(state => state.currency);
+  const { data: rates } = useExchangeRates();
+
   return useQuery({
     queryKey: [...CATEGORY_SUMMARY_KEY, month],
     queryFn: () => getCategorySummary(month),
+    select: summaries =>
+      summaries.map(summary => ({
+        ...summary,
+        budget: rates ? fromUSD(summary.budget, currency, rates) : summary.budget,
+        actual: rates ? fromUSD(summary.actual, currency, rates) : summary.actual,
+        remaining: rates ? fromUSD(summary.remaining, currency, rates) : summary.remaining,
+      })),
   });
 }
 
 export function useCreateCategory() {
   const queryClient = useQueryClient();
+  const currency = useCurrencyStore(state => state.currency);
+  const { data: rates } = useExchangeRates();
 
   return useMutation({
-    mutationFn: (data: CategoryCreate) => createCategory(data),
+    mutationFn: (data: CategoryCreate) => {
+      const budgetInUSD = data.budget !== undefined && rates ? toUSD(data.budget, currency, rates) : data.budget;
+      return createCategory({ ...data, budget: budgetInUSD });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: CATEGORIES_KEY });
       queryClient.invalidateQueries({ queryKey: CATEGORY_SUMMARY_KEY });
@@ -35,9 +63,14 @@ export function useCreateCategory() {
 
 export function useUpdateCategory() {
   const queryClient = useQueryClient();
+  const currency = useCurrencyStore(state => state.currency);
+  const { data: rates } = useExchangeRates();
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: number; data: CategoryUpdate }) => updateCategory(id, data),
+    mutationFn: ({ id, data }: { id: number; data: CategoryUpdate }) => {
+      const updatedData = data.budget !== undefined && rates ? { ...data, budget: toUSD(data.budget, currency, rates) } : data;
+      return updateCategory(id, updatedData);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: CATEGORIES_KEY });
       queryClient.invalidateQueries({ queryKey: CATEGORY_SUMMARY_KEY });

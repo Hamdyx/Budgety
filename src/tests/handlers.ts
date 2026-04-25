@@ -1,10 +1,16 @@
 import { http, HttpResponse } from 'msw';
 
-import { mockAuthResponseSnake, mockCategoriesSnake, mockCategorySummarySnake, mockTransactionsSnake } from './fixtures';
+import { mockAuthResponseSnake, mockCategoriesSnake, mockCategorySummarySnake, mockExchangeRates, mockTransactionsSnake } from './fixtures';
 
 const API = import.meta.env.VITE_API_URL;
+const EXCHANGE_RATE_API_KEY = import.meta.env.VITE_EXCHANGE_RATE_API_KEY as string;
 
 export const handlers = [
+  // ── Exchange Rates ────────────────────────────────────
+  http.get(`https://v6.exchangerate-api.com/v6/${EXCHANGE_RATE_API_KEY}/latest/USD`, () =>
+    HttpResponse.json({ result: 'success', conversion_rates: mockExchangeRates })
+  ),
+
   // ── Auth ──────────────────────────────────────────
   http.post(`${API}/auth/login`, () => HttpResponse.json(mockAuthResponseSnake)),
 

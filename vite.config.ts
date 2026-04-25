@@ -14,7 +14,8 @@ export default defineConfig({
     setupFiles: './vitest.setup.ts',
     globals: true,
     env: {
-      VITE_API_URL: 'http://localhost:3000/api',
+      VITE_API_URL: 'http://localhost:8000',
+      VITE_EXCHANGE_RATE_API_KEY: 'test-exchange-api-key',
     },
     coverage: {
       provider: 'v8',

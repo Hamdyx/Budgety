@@ -1,5 +1,13 @@
 import type { AuthResponse, Category, CategorySummary, Transaction, User } from '@/types/types';
 
+// ── Exchange Rates ─────────────────────────────────────
+export const mockExchangeRates: Record<string, number> = {
+  USD: 1,
+  EUR: 0.92,
+  EGP: 50,
+  GBP: 0.79,
+};
+
 // ── Users ─────────────────────────────────────────────
 export const mockUser: User = {
   id: 'user-1',

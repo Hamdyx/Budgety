@@ -3,7 +3,8 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
-import { mockCategories, mockCategorySummary, mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
+import { useCurrencyStore } from '@/stores/currencyStore';
+import { mockCategories, mockCategorySummary, mockExchangeRates, mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
 
 import { useCategories, useCreateCategory, useUpdateCategory, useDeleteCategory, useCategorySummary } from './hooks';
 
@@ -17,6 +18,7 @@ function createWrapper() {
 describe('category/hooks', () => {
   beforeEach(() => {
     useAuthStore.getState().setAuth(mockToken, mockRefreshToken, mockUser);
+    useCurrencyStore.setState({ currency: 'USD' });
   });
 
   it('useCategories fetches categories', async () => {
@@ -26,6 +28,20 @@ describe('category/hooks', () => {
     // then
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toHaveLength(mockCategories.length);
+  });
+
+  it('useCategories converts budget and actual values from USD to selected currency', async () => {
+    // given
+    useCurrencyStore.setState({ currency: 'EGP' });
+    const egpRate = mockExchangeRates['EGP']!;
+
+    // when
+    const { result } = renderHook(() => useCategories(), { wrapper: createWrapper() });
+
+    // then
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(result.current.data![0].budget).toBeCloseTo(mockCategories[0].budget * egpRate);
+    expect(result.current.data![0].actual).toBeCloseTo(mockCategories[0].actual * egpRate);
   });
 
   it('useCategories passes month param', async () => {
@@ -45,6 +61,21 @@ describe('category/hooks', () => {
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toHaveLength(mockCategorySummary.length);
     expect(result.current.data![0]).toHaveProperty('remaining');
+  });
+
+  it('useCategorySummary converts budget, actual and remaining from USD to selected currency', async () => {
+    // given
+    useCurrencyStore.setState({ currency: 'EGP' });
+    const egpRate = mockExchangeRates['EGP']!;
+
+    // when
+    const { result } = renderHook(() => useCategorySummary(), { wrapper: createWrapper() });
+
+    // then
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(result.current.data![0].budget).toBeCloseTo(mockCategorySummary[0].budget * egpRate);
+    expect(result.current.data![0].actual).toBeCloseTo(mockCategorySummary[0].actual * egpRate);
+    expect(result.current.data![0].remaining).toBeCloseTo(mockCategorySummary[0].remaining * egpRate);
   });
 
   it('useCategorySummary passes month param', async () => {

@@ -3,7 +3,8 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
-import { mockRefreshToken, mockToken, mockTransactions, mockUser } from '@/tests/fixtures';
+import { useCurrencyStore } from '@/stores/currencyStore';
+import { mockExchangeRates, mockRefreshToken, mockToken, mockTransactions, mockUser } from '@/tests/fixtures';
 
 import { useTransactions, useCreateTransaction, useUpdateTransaction, useDeleteTransaction } from './hooks';
 
@@ -17,6 +18,7 @@ function createWrapper() {
 describe('budget/hooks', () => {
   beforeEach(() => {
     useAuthStore.getState().setAuth(mockToken, mockRefreshToken, mockUser);
+    useCurrencyStore.setState({ currency: 'USD' });
   });
 
   it('useTransactions fetches transactions', async () => {
@@ -26,6 +28,20 @@ describe('budget/hooks', () => {
     // then
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toHaveLength(mockTransactions.length);
+  });
+
+  it('useTransactions converts values from USD to selected currency', async () => {
+    // given
+    useCurrencyStore.setState({ currency: 'EGP' });
+
+    // when
+    const { result } = renderHook(() => useTransactions(), { wrapper: createWrapper() });
+
+    // then
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    const egpRate = mockExchangeRates['EGP']!;
+    const expectedValue = mockTransactions[0].value * egpRate;
+    expect(result.current.data![0].value).toBeCloseTo(expectedValue);
   });
 
   it('useTransactions fetches with month and status params', async () => {
