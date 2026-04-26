@@ -1,14 +1,22 @@
 .layout {
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .sider {
-  min-height: 100vh;
+  height: 100%;
+  overflow: hidden;
 }
 
 .sider :global(.ant-layout-sider-children) {
   display: flex;
   flex-direction: column;
+  height: 100%;
+}
+
+.innerLayout {
+  overflow: hidden;
+  height: 100%;
 }
 
 .topBar {
@@ -31,6 +39,7 @@
 }
 
 .content {
+  flex: 1;
   padding: 0;
   color: var(--color-text);
   overflow-y: auto;

@@ -40,7 +40,7 @@ function AppLayout() {
       >
         <Sidebar onNavigate={() => setMobileOpen(false)} />
       </Drawer>
-      <Layout>
+      <Layout className={styles.innerLayout}>
         <div className={styles.topBar}>
           {isMobile && (
             <Button type="text" icon={<MenuOutlined />} onClick={() => setMobileOpen(true)} className={styles.topBarButton} aria-label="Open menu" />
