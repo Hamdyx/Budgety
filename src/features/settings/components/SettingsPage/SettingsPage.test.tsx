@@ -96,4 +96,53 @@ describe('SettingsPage', () => {
       expect(useAuthStore.getState().token).not.toBeNull();
     });
   });
+
+  it('submits profile form and updates user in store', async () => {
+    // when
+    const { user } = renderWithProviders(<SettingsPage />);
+
+    // then
+    const usernameInput = screen.getByLabelText(/username/i);
+
+    // and
+    await user.clear(usernameInput);
+    await user.type(usernameInput, 'updateduser');
+    await user.click(screen.getByRole('button', { name: /save profile/i }));
+
+    await waitFor(() => {
+      expect(useAuthStore.getState().user?.username).toBe('updateduser');
+    });
+  });
+
+  it('submits password form and resets fields on success', async () => {
+    // when
+    const { user } = renderWithProviders(<SettingsPage />);
+
+    // then
+    await user.type(screen.getByLabelText(/current password/i), 'OldPass123');
+    await user.type(screen.getByLabelText(/^new password$/i), 'NewPass456');
+    await user.type(screen.getByLabelText(/confirm new password/i), 'NewPass456');
+    await user.click(screen.getByRole('button', { name: /change password/i }));
+
+    // and - form fields should be cleared after success
+    await waitFor(() => {
+      expect(screen.getByLabelText(/current password/i)).toHaveValue('');
+    });
+  });
+
+  it('shows validation error when passwords do not match', async () => {
+    // when
+    const { user } = renderWithProviders(<SettingsPage />);
+
+    // then
+    await user.type(screen.getByLabelText(/current password/i), 'OldPass123');
+    await user.type(screen.getByLabelText(/^new password$/i), 'NewPass456');
+    await user.type(screen.getByLabelText(/confirm new password/i), 'DifferentPass');
+    await user.click(screen.getByRole('button', { name: /change password/i }));
+
+    // and
+    await waitFor(() => {
+      expect(screen.getByText('Passwords do not match')).toBeInTheDocument();
+    });
+  });
 });

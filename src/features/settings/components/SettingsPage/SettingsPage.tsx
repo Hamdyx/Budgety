@@ -6,6 +6,7 @@ import { useAuthStore } from '@/stores/authStore';
 import { useCurrencyStore } from '@/stores/currencyStore';
 
 import { useChangePassword, useDeleteAccount, useUpdateProfile } from '../../hooks';
+import { validatePasswordsMatch } from '../../utils/validators';
 
 import styles from './SettingsPage.module.css';
 
@@ -127,12 +128,7 @@ export default function SettingsPage() {
             rules={[
               { required: true, message: 'Please confirm your new password' },
               ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue('newPassword') === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(new Error('Passwords do not match'));
-                },
+                validator: validatePasswordsMatch(getFieldValue),
               }),
             ]}
           >
