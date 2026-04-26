@@ -4,7 +4,7 @@ import type { FormInstance } from 'antd';
 import { Alert, DatePicker, Form, Input, InputNumber, Radio, Select, Switch } from 'antd';
 import dayjs from 'dayjs';
 
-import { useCurrencySymbol } from '@/utils/formatCurrency';
+import { formatNumberInput, parseNumberInput, useCurrencySymbol } from '@/utils/currency';
 
 import styles from './TransactionForm.module.css';
 
@@ -36,7 +36,14 @@ function TransactionForm({ form, initialValues, onFinish, categories }: Transact
       </Form.Item>
 
       <Form.Item name="value" label="Value" rules={[{ required: true }]}>
-        <InputNumber className={styles.fullWidth} min={0} placeholder="Transaction value" prefix={currencySymbol} />
+        <InputNumber
+          className={styles.fullWidth}
+          min={0}
+          placeholder="Transaction value"
+          prefix={currencySymbol}
+          formatter={formatNumberInput}
+          parser={parseNumberInput}
+        />
       </Form.Item>
 
       <Form.Item name="trxDate" label="Date" rules={[{ required: true }]}>

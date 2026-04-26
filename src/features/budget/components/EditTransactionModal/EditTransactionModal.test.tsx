@@ -33,7 +33,7 @@ describe('EditTransactionModal', () => {
 
     expect(screen.getByText('Edit Transaction')).toBeInTheDocument();
     expect(screen.getByDisplayValue(transaction.title)).toBeInTheDocument();
-    expect(screen.getByDisplayValue(String(transaction.value))).toBeInTheDocument();
+    expect(screen.getByDisplayValue('3,000')).toBeInTheDocument();
   });
 
   it('closes modal on cancel', async () => {

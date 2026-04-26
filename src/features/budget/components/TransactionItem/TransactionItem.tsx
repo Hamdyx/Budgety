@@ -3,7 +3,7 @@ import type { TransactionStatus, Transaction } from '@/types/types';
 import { DollarOutlined } from '@ant-design/icons';
 import { Row, Col, Typography, Tag } from 'antd';
 
-import { useCurrencyFormatter } from '@/utils/formatCurrency';
+import { useCurrencyFormatter } from '@/utils/currency';
 
 import styles from './TransactionItem.module.css';
 

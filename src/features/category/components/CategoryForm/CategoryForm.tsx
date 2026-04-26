@@ -3,7 +3,7 @@ import type { FormInstance } from 'antd';
 
 import { Form, Input, InputNumber, Radio, Select } from 'antd';
 
-import { useCurrencySymbol } from '@/utils/formatCurrency';
+import { formatNumberInput, parseNumberInput, useCurrencySymbol } from '@/utils/currency';
 
 import styles from './CategoryForm.module.css';
 
@@ -28,7 +28,7 @@ function CategoryForm({ form, initialValues, onFinish }: CategoryFormProps) {
         </Radio.Group>
       </Form.Item>
       <Form.Item label="Budget" name="budget" rules={[{ required: true, message: 'Please input your Budget!' }]}>
-        <InputNumber className={styles.fullWidth} min={0} prefix={currencySymbol} />
+        <InputNumber className={styles.fullWidth} min={0} prefix={currencySymbol} formatter={formatNumberInput} parser={parseNumberInput} />
       </Form.Item>
       <Form.Item label="Budget Period" name="budgetPeriod" rules={[{ required: true, message: 'Please select a budget period!' }]}>
         <Select

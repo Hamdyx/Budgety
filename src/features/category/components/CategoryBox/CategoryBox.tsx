@@ -4,7 +4,7 @@ import { DeleteOutlined, EditOutlined, FileTextOutlined } from '@ant-design/icon
 import { Button, Form, Modal, Popconfirm, Progress, Space, Typography } from 'antd';
 import { useState } from 'react';
 
-import { useCurrencyFormatter } from '@/utils/formatCurrency';
+import { useCurrencyFormatter } from '@/utils/currency';
 
 import { useDeleteCategory, useUpdateCategory } from '../../hooks';
 import { CategoryForm } from '../CategoryForm';

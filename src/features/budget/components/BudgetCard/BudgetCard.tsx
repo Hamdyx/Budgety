@@ -4,7 +4,7 @@ import { Row, Col, Divider, Typography, Spin } from 'antd';
 import { OverviewCard } from '@/components/OverviewCard';
 import { useTransactions } from '@/features/budget/hooks';
 import { useCategories } from '@/features/category/hooks';
-import { useCurrencyFormatter } from '@/utils/formatCurrency';
+import { useCurrencyFormatter } from '@/utils/currency';
 
 import styles from './BudgetCard.module.css';
 
