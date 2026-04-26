@@ -62,6 +62,7 @@ const CategoryBox = ({ category }: { category: Category }) => {
         onCancel={() => setIsEditModalOpen(false)}
         okText="Save"
         confirmLoading={updateMutation.isPending}
+        cancelButtonProps={{ className: styles.cancelButton }}
         destroyOnHidden
         afterOpenChange={open => !open && form.resetFields()}
       >

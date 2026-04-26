@@ -1,3 +1,9 @@
+/* Theme-independent design tokens */
+:root {
+  --color-primary: #21bf73;
+  --font-size-xs: 0.75rem;
+}
+
 /* Default (dark) — also covers initial load before JS hydrates */
 :root,
 [data-theme='dark'] {
@@ -5,7 +11,7 @@
   --color-danger: #fd5e53;
   --color-warning: #f7c025;
   --color-info: #4d7cfd;
-  --color-muted: #737680;
+  --color-muted: #8c8f9a;
   --color-border: #363a4a;
   --color-text-secondary: #9ca3af;
   --color-bg-card: #242838;
@@ -21,9 +27,9 @@
   --color-danger: #dc2626;
   --color-warning: #ca8a04;
   --color-info: #2563eb;
-  --color-muted: #9ca3af;
+  --color-muted: #717784;
   --color-border: #e5e7eb;
-  --color-text-secondary: #6b7280;
+  --color-text-secondary: #5c6270;
   --color-bg-card: #ffffff;
   --color-bg-base: #f7f8fa;
   --color-text: #1f2937;

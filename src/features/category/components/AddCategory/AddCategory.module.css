@@ -1,0 +1,5 @@
+.cancelButton:hover,
+.cancelButton:focus {
+  color: var(--color-text);
+  border-color: var(--color-border);
+}

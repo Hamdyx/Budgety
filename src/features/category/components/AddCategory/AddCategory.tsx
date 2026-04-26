@@ -7,6 +7,8 @@ import { useState } from 'react';
 import { useCreateCategory } from '../../hooks';
 import { CategoryForm } from '../CategoryForm';
 
+import styles from './AddCategory.module.css';
+
 function AddCategory() {
   const createMutation = useCreateCategory();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,6 +32,7 @@ function AddCategory() {
         onOk={() => form.submit()}
         onCancel={() => setIsModalOpen(false)}
         okText="Submit"
+        cancelButtonProps={{ className: styles.cancelButton }}
         destroyOnHidden
         afterOpenChange={open => !open && form.resetFields()}
       >

@@ -45,7 +45,7 @@ const AddTransactionForm = () => {
 
   return (
     <>
-      <Button className="addTransaction-btn" onClick={handleShow}>
+      <Button type="primary" block onClick={handleShow}>
         Add Transaction
       </Button>
       <Modal
@@ -58,7 +58,9 @@ const AddTransactionForm = () => {
       >
         <TransactionForm form={form} categories={categories} initialValues={initialValues} onFinish={handleTransactionSubmit} />
         <div className={styles.footerRow}>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button className={styles.cancelButton} onClick={handleClose}>
+            Cancel
+          </Button>
           <Button type="primary" loading={createMutation.isPending} onClick={() => form.submit()}>
             Add Transaction
           </Button>

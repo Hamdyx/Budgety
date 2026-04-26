@@ -13,7 +13,7 @@ const BankCard = () => (
         <Statistic title="Net Worth" value={25} />
       </Col>
       <Col span={12}>
-        <Statistic title="Total Debt" value={25} styles={{ content: { color: '#fd5e53' } }} />
+        <Statistic title="Total Debt" value={25} classNames={{ content: styles.debtValue }} />
       </Col>
     </Row>
     <Divider />
@@ -22,10 +22,10 @@ const BankCard = () => (
         <Badge color="#21bf73" /> Deposits
       </Text>
       <Text>
-        <Badge color="#FE5E54" /> Loans
+        <Badge color="#fd5e53" /> Loans
       </Text>
       <Text>
-        <Badge color="#F7C025" /> Credit Card
+        <Badge color="#f7c025" /> Credit Card
       </Text>
     </div>
   </OverviewCard>

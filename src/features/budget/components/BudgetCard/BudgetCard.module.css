@@ -12,7 +12,7 @@
 }
 
 .smallText {
-  font-size: 12px;
+  font-size: var(--font-size-xs);
 }
 
 .successText {
@@ -20,5 +20,17 @@
 }
 
 .dangerText {
+  color: var(--color-danger);
+}
+
+.categoryIcon {
+  font-size: 20px;
+}
+
+.categoryIcon[data-type='income'] {
+  color: var(--color-success);
+}
+
+.categoryIcon[data-type='expense'] {
   color: var(--color-danger);
 }

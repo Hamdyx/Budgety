@@ -22,7 +22,7 @@ function CategoryForm({ form, initialValues, onFinish }: CategoryFormProps) {
         <Input />
       </Form.Item>
       <Form.Item label="Type" name="type" rules={[{ required: true, message: 'Please select a category type!' }]}>
-        <Radio.Group optionType="button" buttonStyle="solid">
+        <Radio.Group className={styles.typeRadioGroup} optionType="button">
           <Radio.Button value="income">Income</Radio.Button>
           <Radio.Button value="expense">Expense</Radio.Button>
         </Radio.Group>

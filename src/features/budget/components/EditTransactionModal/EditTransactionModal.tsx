@@ -10,6 +10,8 @@ import { useCategories } from '@/features/category/hooks';
 
 import { useUpdateTransaction } from '../../hooks';
 
+import styles from './EditTransactionModal.module.css';
+
 const EditTransactionModal = ({ transaction }: { transaction: Transaction }) => {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm<TransactionFormValues>();
@@ -55,6 +57,7 @@ const EditTransactionModal = ({ transaction }: { transaction: Transaction }) => 
         onCancel={() => setOpen(false)}
         onOk={() => form.submit()}
         okText="Save Changes"
+        cancelButtonProps={{ className: styles.cancelButton }}
         confirmLoading={updateMutation.isPending}
         destroyOnHidden
         afterOpenChange={open => !open && form.resetFields()}
