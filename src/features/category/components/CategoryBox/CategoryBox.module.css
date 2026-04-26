@@ -2,12 +2,19 @@
   background: var(--color-bg-card);
   border-radius: 8px;
   padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.compactItem {
-  margin-bottom: 0;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.fieldRow {
-  margin-top: 8px;
+.stats {
+  display: flex;
+  gap: 4px;
+  align-items: center;
 }

@@ -1,25 +1,23 @@
+import type { CategoryCreate } from '@/types/types';
+
 import { PlusOutlined } from '@ant-design/icons';
-import { Form, Input, InputNumber, Modal, Button, Radio, Select } from 'antd';
+import { Button, Form, Modal } from 'antd';
 import { useState } from 'react';
 
-import { useCurrencySymbol } from '@/utils/formatCurrency';
-
 import { useCreateCategory } from '../../hooks';
+import { CategoryForm } from '../CategoryForm';
 
 function AddCategory() {
   const createMutation = useCreateCategory();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [form] = Form.useForm();
-  const currencySymbol = useCurrencySymbol();
+  const [form] = Form.useForm<CategoryCreate>();
 
-  const handleOk = () => {
-    form.validateFields().then(values => {
-      createMutation.mutate(values, {
-        onSuccess: () => {
-          form.resetFields();
-          setIsModalOpen(false);
-        },
-      });
+  const handleCreate = (values: CategoryCreate) => {
+    createMutation.mutate(values, {
+      onSuccess: () => {
+        form.resetFields();
+        setIsModalOpen(false);
+      },
     });
   };
 
@@ -29,34 +27,13 @@ function AddCategory() {
       <Modal
         title="Add Category"
         open={isModalOpen}
-        onOk={handleOk}
+        onOk={() => form.submit()}
         onCancel={() => setIsModalOpen(false)}
         okText="Submit"
+        destroyOnHidden
         afterOpenChange={open => !open && form.resetFields()}
       >
-        <Form form={form} layout="vertical" autoComplete="off" initialValues={{ type: 'expense', budgetPeriod: 'monthly' }}>
-          <Form.Item label="Category" name="name" rules={[{ required: true, message: 'Please input your category!' }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item label="Type" name="type" rules={[{ required: true, message: 'Please select a category type!' }]}>
-            <Radio.Group optionType="button" buttonStyle="solid">
-              <Radio.Button value="income">Income</Radio.Button>
-              <Radio.Button value="expense">Expense</Radio.Button>
-            </Radio.Group>
-          </Form.Item>
-          <Form.Item label="Budget" name="budget" rules={[{ required: true, message: 'Please input your Budget!' }]}>
-            <InputNumber style={{ width: '100%' }} min={0} prefix={currencySymbol} />
-          </Form.Item>
-          <Form.Item label="Budget Period" name="budgetPeriod" rules={[{ required: true, message: 'Please select a budget period!' }]}>
-            <Select
-              options={[
-                { value: 'weekly', label: 'Weekly' },
-                { value: 'monthly', label: 'Monthly' },
-                { value: 'yearly', label: 'Yearly' },
-              ]}
-            />
-          </Form.Item>
-        </Form>
+        <CategoryForm form={form} initialValues={{ type: 'expense', budgetPeriod: 'monthly' }} onFinish={handleCreate} />
       </Modal>
     </>
   );

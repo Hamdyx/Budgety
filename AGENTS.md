@@ -45,6 +45,18 @@
 - **API client** — `src/api/client.ts` handles JWT auth, automatic camelCase ↔ snake_case conversion, error handling via `ApiRequestError`, and **automatic token refresh** on 401 responses (uses a module-level mutex to queue concurrent retries behind a single refresh call).
 - **Route-level code splitting** via `React.lazy` + `Suspense`. Lazy imports point directly at the source file (not the barrel) since `React.lazy` requires a default export.
 
+## Ant Design Form Patterns
+
+These conventions apply whenever a `Form` is used, especially inside a `Modal`.
+
+- **Always type `Form.useForm<T>()`** — pass the form values type as a generic (e.g. `Form.useForm<CategoryCreate>()`). Never leave it untyped.
+- **Always type `FormInstance<T>`** — props that accept a form instance must be declared as `FormInstance<T>` (e.g. `form: FormInstance<CategoryCreate>`).
+- **Use `Form.onFinish` + `form.submit()` — not `form.validateFields()`** — `onFinish` fires only when all validations pass; trigger it from the Modal's `onOk` with `onOk={() => form.submit()}`. Do not call `form.validateFields().then(...)` manually.
+- **Keep `FormInstance` in the parent component** — the parent needs `form.submit()` (for the Modal OK button) and `form.resetFields()` (for cleanup); moving the form instance inside the child would require `useImperativeHandle`, which adds unnecessary complexity. Pass it as a prop to the form component.
+- **Form components accept `onFinish` as a prop** — reusable form components expose `onFinish: (values: T) => void` and pass it to the `<Form>` element. The parent wires up the mutation inside `onFinish`.
+- **Use `initialValues` + `destroyOnHidden` instead of `setFieldsValue` in a handler** — when a modal has `destroyOnHidden`, the form remounts on every open and `initialValues` is applied fresh. There is no need for a separate open-handler that calls `setFieldsValue`.
+- **Always add `afterOpenChange={open => !open && form.resetFields()}` to modals with forms** — this clears the `FormInstance` store after the close animation so `initialValues` apply correctly on the next open, regardless of whether the previous interaction was a submission or a cancel.
+
 ## Build and Test
 
 ```bash

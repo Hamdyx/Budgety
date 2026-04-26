@@ -14,12 +14,12 @@ describe('CategoryBox', () => {
 
   const category = mockCategories[1]; // Food: budget 800, spent 600
 
-  it('renders category name in input', () => {
+  it('renders category name', () => {
     // when
     renderWithProviders(<CategoryBox category={category} />);
 
     // then
-    expect(screen.getByDisplayValue('Food')).toBeInTheDocument();
+    expect(screen.getByText('Food')).toBeInTheDocument();
   });
 
   it('renders spent amount', () => {
@@ -38,32 +38,28 @@ describe('CategoryBox', () => {
     expect(screen.getByText('$200.00 remaining')).toBeInTheDocument();
   });
 
-  it('enables edit mode on edit button click', async () => {
+  it('opens edit modal on edit button click', async () => {
     // when
     const { user } = renderWithProviders(<CategoryBox category={category} />);
 
     // then
-    const editButton = screen.getByRole('button', { name: 'Edit category' });
-    await user.click(editButton);
+    await user.click(screen.getByRole('button', { name: 'Edit category' }));
 
-    expect(screen.getByText('Income')).toBeInTheDocument();
-    expect(screen.getByText('Expense')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Delete category' })).toBeInTheDocument();
+    expect(await screen.findByText('Edit Category')).toBeInTheDocument();
+    expect(screen.getByLabelText('Category')).toBeInTheDocument();
   });
 
-  it('deletes category on delete click', async () => {
+  it('deletes category on confirm', async () => {
     // when
     const { user } = renderWithProviders(<CategoryBox category={category} />);
 
     // then
-    const editButton = screen.getByRole('button', { name: 'Edit category' });
-    await user.click(editButton);
+    await user.click(screen.getByRole('button', { name: 'Delete category' }));
 
-    // and - delete category
-    const deleteButton = screen.getByRole('button', { name: 'Delete category' });
-    await user.click(deleteButton);
+    // and - confirm delete in popconfirm
+    await user.click(await screen.findByRole('button', { name: 'Delete' }));
     await waitFor(() => {
-      expect(deleteButton).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Delete category' })).toBeInTheDocument();
     });
   });
 
@@ -78,19 +74,18 @@ describe('CategoryBox', () => {
     expect(screen.getByText('-$200.00 remaining')).toBeInTheDocument();
   });
 
-  it('submits form on second edit click (saves)', async () => {
+  it('saves category on modal ok click', async () => {
     // when
     const { user } = renderWithProviders(<CategoryBox category={category} />);
 
-    // then
-    const editButton = screen.getByRole('button', { name: 'Edit category' });
-    await user.click(editButton);
-    expect(screen.getByText('Income')).toBeInTheDocument();
+    // then - open modal
+    await user.click(screen.getByRole('button', { name: 'Edit category' }));
+    await screen.findByText('Edit Category');
 
-    // and - save changes
-    await user.click(editButton);
+    // and - save
+    await user.click(screen.getByRole('button', { name: 'Save' }));
     await waitFor(() => {
-      expect(screen.queryByText('Income')).not.toBeInTheDocument();
+      expect(screen.queryByText('Edit Category')).not.toBeInTheDocument();
     });
   });
 

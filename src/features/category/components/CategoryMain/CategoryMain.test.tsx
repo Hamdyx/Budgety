@@ -36,10 +36,10 @@ describe('CategoryMain', () => {
 
     // then
     await waitFor(() => {
-      expect(screen.getByDisplayValue('Salary')).toBeInTheDocument();
-      expect(screen.getByDisplayValue('Food')).toBeInTheDocument();
-      expect(screen.getByDisplayValue('Rent')).toBeInTheDocument();
-      expect(screen.getByDisplayValue('Freelance')).toBeInTheDocument();
+      expect(screen.getByText('Salary')).toBeInTheDocument();
+      expect(screen.getByText('Food')).toBeInTheDocument();
+      expect(screen.getByText('Rent')).toBeInTheDocument();
+      expect(screen.getByText('Freelance')).toBeInTheDocument();
     });
   });
 
