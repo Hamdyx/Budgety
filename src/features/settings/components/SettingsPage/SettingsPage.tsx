@@ -157,6 +157,7 @@ export default function SettingsPage() {
         okText="Delete"
         okButtonProps={{ danger: true, loading: isDeletePending }}
         cancelButtonProps={{ disabled: isDeletePending }}
+        destroyOnHidden
       >
         <Text>Are you sure you want to delete your account? This action is irreversible.</Text>
       </Modal>
