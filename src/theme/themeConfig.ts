@@ -47,7 +47,7 @@ export function getThemeConfig(mode: ThemeMode): ThemeConfig {
         Menu: {
           ...baseComponents?.Menu,
           darkItemBg: 'transparent',
-          darkItemSelectedBg: '#21bf74',
+          darkItemSelectedBg: '#21bf73',
           darkItemHoverBg: 'rgba(33, 191, 115, 0.2)',
           darkItemColor: '#f0f1f3',
           darkItemSelectedColor: '#ffffff',

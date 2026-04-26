@@ -1,96 +1,77 @@
-import type { Category, CategoryUpdate } from '@/types/types';
+import type { Category, CategoryCreate } from '@/types/types';
 
-import { EditOutlined, DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
-import { Button, Form, Input, InputNumber, Radio, Row, Select, Space, Progress, Typography } from 'antd';
-import { useEffect, useState } from 'react';
+import { DeleteOutlined, EditOutlined, FileTextOutlined } from '@ant-design/icons';
+import { Button, Form, Modal, Popconfirm, Progress, Space, Typography } from 'antd';
+import { useState } from 'react';
 
-import { useCurrencyFormatter, useCurrencySymbol } from '@/utils/formatCurrency';
+import { useCurrencyFormatter } from '@/utils/currency';
 
 import { useDeleteCategory, useUpdateCategory } from '../../hooks';
+import { CategoryForm } from '../CategoryForm';
 
 import styles from './CategoryBox.module.css';
 
 const { Text } = Typography;
 
 const CategoryBox = ({ category }: { category: Category }) => {
-  const [disabled, setDisabled] = useState(true);
-  const [form] = Form.useForm();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [form] = Form.useForm<CategoryCreate>();
   const updateMutation = useUpdateCategory();
   const deleteMutation = useDeleteCategory();
-  const { name, type, actual, budget, budgetPeriod } = category;
-
-  const editCategory = () => {
-    if (!disabled) form.submit();
-    setDisabled(prev => !prev);
-  };
-
-  const handleDeleteCategory = () => {
-    deleteMutation.mutate(category.id);
-  };
-
-  const onFinish = (values: CategoryUpdate) => {
-    updateMutation.mutate({ id: category.id, data: values });
-  };
-
-  useEffect(() => {
-    form.setFieldsValue({ name, type, budget, budgetPeriod });
-  }, [category, form, name, type, budget, budgetPeriod]);
+  const { name, type, actual, budget } = category;
 
   const formatCurrency = useCurrencyFormatter();
-  const currencySymbol = useCurrencySymbol();
   const remaining = budget - actual;
   const percentage = budget > 0 ? Math.round((actual / budget) * 100) : 0;
 
+  const handleUpdate = (values: CategoryCreate) => {
+    updateMutation.mutate({ id: category.id, data: values }, { onSuccess: () => setIsEditModalOpen(false) });
+  };
+
   return (
     <div className={styles.box}>
-      <Row>
-        <Form form={form} name="category" initialValues={{ name, type, budget, budgetPeriod }} onFinish={onFinish} autoComplete="off" disabled={disabled}>
-          <Space>
-            <Progress type="circle" percent={percentage} size={50} format={() => <FileTextOutlined />} />
-            <Form.Item name="name" className={styles.compactItem}>
-              <Input />
-            </Form.Item>
-            <Space size={4}>
-              {!disabled && <Button onClick={handleDeleteCategory} disabled={false} danger icon={<DeleteOutlined />} aria-label="Delete category" />}
-              <Button onClick={editCategory} disabled={false} icon={<EditOutlined />} aria-label="Edit category" />
-            </Space>
-          </Space>
-          {!disabled && (
-            <>
-              <Form.Item name="type" className={styles.compactItem}>
-                <Radio.Group optionType="button" buttonStyle="solid" size="small">
-                  <Radio.Button value="income">Income</Radio.Button>
-                  <Radio.Button value="expense">Expense</Radio.Button>
-                </Radio.Group>
-              </Form.Item>
-              <Form.Item name="budgetPeriod" className={styles.compactItem}>
-                <Select
-                  size="small"
-                  options={[
-                    { value: 'weekly', label: 'Weekly' },
-                    { value: 'monthly', label: 'Monthly' },
-                    { value: 'yearly', label: 'Yearly' },
-                  ]}
-                />
-              </Form.Item>
-            </>
-          )}
-          <Space className={styles.fieldRow}>
-            <Text type="secondary">
-              {formatCurrency(actual)} {type === 'income' ? 'earned' : 'spent'}
-            </Text>
-            <Form.Item name="budget" className={styles.compactItem}>
-              <InputNumber
-                prefix={currencySymbol}
-                formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                controls={false}
-                variant="borderless"
-              />
-            </Form.Item>
-          </Space>
-          <Text type={remaining >= 0 ? 'success' : 'danger'}>{formatCurrency(remaining)} remaining</Text>
-        </Form>
-      </Row>
+      <div className={styles.header}>
+        <Space>
+          <Progress type="circle" percent={percentage} size={50} format={() => <FileTextOutlined />} />
+          <Text strong>{name}</Text>
+        </Space>
+        <Space size={4}>
+          <Button onClick={() => setIsEditModalOpen(true)} icon={<EditOutlined />} size="small" aria-label="Edit category" />
+          <Popconfirm
+            title="Delete category"
+            description="All transactions associated with this category will be deleted too. This action cannot be undone."
+            onConfirm={() => deleteMutation.mutate(category.id)}
+            okText="Delete"
+            okButtonProps={{ danger: true }}
+          >
+            <Button danger icon={<DeleteOutlined />} size="small" aria-label="Delete category" />
+          </Popconfirm>
+        </Space>
+      </div>
+      <div className={styles.stats}>
+        <Text type="secondary">
+          {formatCurrency(actual)} {type === 'income' ? 'earned' : 'spent'}
+        </Text>
+        <Text type="secondary">/ {formatCurrency(budget)}</Text>
+      </div>
+      <Text type={remaining >= 0 ? 'success' : 'danger'}>{formatCurrency(remaining)} remaining</Text>
+      <Modal
+        title="Edit Category"
+        open={isEditModalOpen}
+        onOk={() => form.submit()}
+        onCancel={() => setIsEditModalOpen(false)}
+        okText="Save"
+        confirmLoading={updateMutation.isPending}
+        cancelButtonProps={{ className: styles.cancelButton }}
+        destroyOnHidden
+        afterOpenChange={open => !open && form.resetFields()}
+      >
+        <CategoryForm
+          form={form}
+          initialValues={{ name: category.name, type: category.type, budget: category.budget, budgetPeriod: category.budgetPeriod }}
+          onFinish={handleUpdate}
+        />
+      </Modal>
     </div>
   );
 };

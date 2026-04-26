@@ -1,3 +1,4 @@
+import type { Dayjs } from 'dayjs';
 import type { ChangeEventHandler } from 'react';
 
 // ── Auth ──────────────────────────────────────────────
@@ -144,6 +145,17 @@ export type TransactionUpdate = {
   categoryId?: number;
   status?: TransactionStatus;
   isRecurring?: boolean;
+  recurrenceRule?: RecurrenceRule;
+};
+
+export type TransactionFormValues = {
+  type: TransactionType;
+  title: string;
+  value: number;
+  trxDate: Dayjs;
+  categoryId: number;
+  status: TransactionStatus;
+  isRecurring: boolean;
   recurrenceRule?: RecurrenceRule;
 };
 

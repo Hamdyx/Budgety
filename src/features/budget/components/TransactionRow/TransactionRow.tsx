@@ -3,7 +3,7 @@ import type { TransactionStatus, Transaction } from '@/types/types';
 import { Row, Col, Typography, Space, Tag } from 'antd';
 import dayjs from 'dayjs';
 
-import { useCurrencyFormatter } from '@/utils/formatCurrency';
+import { useCurrencyFormatter } from '@/utils/currency';
 
 import { DeleteTransactionModal } from '../DeleteTransactionModal';
 import { EditTransactionModal } from '../EditTransactionModal';

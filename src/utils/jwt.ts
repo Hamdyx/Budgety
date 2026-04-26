@@ -16,6 +16,9 @@ export interface JwtPayload {
  *
  * This helper normalises the segment back to standard Base64 before decoding.
  *
+ * @param token - A compact JWT string in the form `header.payload.signature`.
+ * @returns The decoded {@link JwtPayload} object parsed from the payload segment.
+ *
  * @remarks
  * **This function does NOT verify the JWT signature.** It only decodes the
  * payload for reading claims (e.g. `exp`, `sub`). Cryptographic verification

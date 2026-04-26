@@ -21,12 +21,12 @@ const BudgetSection = ({ transactions }: { transactions: Transaction[] }) => {
     <div className={styles.section}>
       <Row gutter={8} className={styles.buttonRow}>
         <Col span={12}>
-          <Button block className={styles.expButton} data-active={budgetType === 'exp'} onClick={() => setBudgetType('exp')}>
+          <Button block color="danger" variant={budgetType === 'exp' ? 'solid' : 'outlined'} onClick={() => setBudgetType('exp')}>
             Expense
           </Button>
         </Col>
         <Col span={12}>
-          <Button block className={styles.incButton} data-active={budgetType === 'inc'} onClick={() => setBudgetType('inc')}>
+          <Button block color="primary" variant={budgetType === 'inc' ? 'solid' : 'outlined'} onClick={() => setBudgetType('inc')}>
             Income
           </Button>
         </Col>

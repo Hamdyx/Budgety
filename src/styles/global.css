@@ -1,3 +1,9 @@
+/* Theme-independent design tokens */
+:root {
+  --color-primary: #21bf73;
+  --font-size-xs: 0.75rem;
+}
+
 /* Default (dark) — also covers initial load before JS hydrates */
 :root,
 [data-theme='dark'] {
@@ -5,13 +11,15 @@
   --color-danger: #fd5e53;
   --color-warning: #f7c025;
   --color-info: #4d7cfd;
-  --color-muted: #737680;
+  --color-muted: #8c8f9a;
   --color-border: #363a4a;
   --color-text-secondary: #9ca3af;
   --color-bg-card: #242838;
   --color-bg-base: #1a1d2e;
   --color-text: #f0f1f3;
   --color-sider-bg: #1e2132;
+  --scrollbar-thumb: #4a5068;
+  --scrollbar-thumb-hover: #737680;
 }
 
 [data-theme='light'] {
@@ -19,24 +27,29 @@
   --color-danger: #dc2626;
   --color-warning: #ca8a04;
   --color-info: #2563eb;
-  --color-muted: #9ca3af;
+  --color-muted: #717784;
   --color-border: #e5e7eb;
-  --color-text-secondary: #6b7280;
+  --color-text-secondary: #5c6270;
   --color-bg-card: #ffffff;
   --color-bg-base: #f7f8fa;
   --color-text: #1f2937;
   --color-sider-bg: #ffffff;
+  --scrollbar-thumb: #c1c5cf;
+  --scrollbar-thumb-hover: #9ca3af;
 }
 
 * {
   box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 
 html {
   background-color: var(--color-bg-base);
   padding: 0;
   margin: 0;
-  overflow-y: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
   width: 100%;
 }
 
@@ -63,4 +76,30 @@ body {
 .card-extra-btn {
   color: var(--color-muted);
   font-size: 1.5rem;
+}
+
+/* ── Scrollbar ────────────────────────────────────────────────────────────── */
+
+/* Webkit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
 }

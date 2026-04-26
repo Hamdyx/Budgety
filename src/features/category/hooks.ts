@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useExchangeRates } from '@/hooks/useExchangeRates';
 import { useCurrencyStore } from '@/stores/currencyStore';
-import { fromUSD, toUSD } from '@/utils/formatCurrency';
+import { fromUSD, toUSD } from '@/utils/currency';
 
 import { getCategories, getCategorySummary, createCategory, updateCategory, deleteCategory } from './api';
 

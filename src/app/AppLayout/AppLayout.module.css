@@ -1,29 +1,22 @@
 .layout {
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .sider {
-  min-height: 100vh;
+  height: 100%;
+  overflow: hidden;
 }
 
 .sider :global(.ant-layout-sider-children) {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
-.topBar {
-  display: flex;
-  align-items: center;
-  padding: 8px 16px;
-}
-
-.topBarSpacer {
-  flex: 1;
-}
-
-.topBarButton {
-  font-size: 18px;
-  color: var(--color-text);
+.innerLayout {
+  overflow: hidden;
+  height: 100%;
 }
 
 .mobileDrawer :global(.ant-drawer-body) {
@@ -31,6 +24,7 @@
 }
 
 .content {
+  flex: 1;
   padding: 0;
   color: var(--color-text);
   overflow-y: auto;
@@ -42,5 +36,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  flex: 1;
+  height: 100%;
 }

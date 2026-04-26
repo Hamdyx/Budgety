@@ -1,9 +1,11 @@
 import { screen, waitFor } from '@testing-library/react';
+import { http, HttpResponse } from 'msw';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
-import { mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
+import { mockCategoriesSnake, mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
 import { renderWithProviders } from '@/tests/render';
+import { server } from '@/tests/server';
 
 import AddTransactionForm from './AddTransactionForm';
 
@@ -73,7 +75,7 @@ describe('AddTransactionForm', () => {
     // and - close modal
     await user.click(screen.getByRole('button', { name: 'Cancel' }));
     await waitFor(() => {
-      expect(screen.queryByText('Add New Transaction')).not.toBeVisible();
+      expect(screen.queryByText('Add New Transaction')).not.toBeInTheDocument();
     });
   });
 
@@ -103,6 +105,30 @@ describe('AddTransactionForm', () => {
     expect(screen.getByText('Recurring')).toBeInTheDocument();
   });
 
+  it('keeps the modal open when no categories match the selected type', async () => {
+    // given
+    server.use(http.get('*/categories', () => HttpResponse.json(mockCategoriesSnake.filter(category => category.type === 'expense'))));
+
+    // when
+    const { user } = renderWithProviders(<AddTransactionForm />);
+    await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
+    await screen.findByText(/No income categories yet/i);
+
+    // then
+    await user.type(screen.getByPlaceholderText('Transaction title'), 'New Income');
+    await user.type(screen.getByPlaceholderText('Transaction value'), '500');
+
+    // and - submit stays blocked because category validation still runs
+    const submitButtons = screen.getAllByRole('button', { name: 'Add Transaction' });
+    await user.click(submitButtons[submitButtons.length - 1]);
+
+    // and - successful mutation would close the modal, so it must remain open here
+    await waitFor(() => {
+      expect(screen.getByText('Add New Transaction')).toBeInTheDocument();
+      expect(screen.getByText(/No income categories yet/i)).toBeInTheDocument();
+    });
+  });
+
   it('submits a new transaction and closes modal', async () => {
     // when
     const { user } = renderWithProviders(<AddTransactionForm />);
@@ -124,7 +150,7 @@ describe('AddTransactionForm', () => {
 
     // and - modal closed
     await waitFor(() => {
-      expect(screen.queryByText('Add New Transaction')).not.toBeVisible();
+      expect(screen.queryByText('Add New Transaction')).not.toBeInTheDocument();
     });
   });
 
@@ -158,7 +184,7 @@ describe('AddTransactionForm', () => {
 
     // and - modal closed
     await waitFor(() => {
-      expect(screen.queryByText('Add New Transaction')).not.toBeVisible();
+      expect(screen.queryByText('Add New Transaction')).not.toBeInTheDocument();
     });
   });
 });

@@ -1,12 +1,11 @@
-import { MenuOutlined, MoonOutlined, SunOutlined } from '@ant-design/icons';
-import { Button, Drawer, Layout, Spin } from 'antd';
+import { Drawer, Layout, Spin } from 'antd';
 import { Suspense, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { ErrorBoundary } from '@/components/ErrorBoundary';
-import { useThemeStore } from '@/stores/themeStore';
 
 import { Sidebar } from '../Sidebar';
+import { TopBar } from '../TopBar';
 
 import styles from './AppLayout.module.css';
 
@@ -14,9 +13,7 @@ const { Content, Sider } = Layout;
 
 function AppLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' && window.innerWidth < 768);
-  const mode = useThemeStore(state => state.mode);
-  const toggleMode = useThemeStore(state => state.toggleMode);
+  const [isMobile, setIsMobile] = useState(globalThis.window !== undefined && globalThis.window.innerWidth < 768);
 
   const handleBreakpoint = (broken: boolean) => {
     setIsMobile(broken);
@@ -40,21 +37,8 @@ function AppLayout() {
       >
         <Sidebar onNavigate={() => setMobileOpen(false)} />
       </Drawer>
-      <Layout>
-        <div className={styles.topBar}>
-          {isMobile && (
-            <Button type="text" icon={<MenuOutlined />} onClick={() => setMobileOpen(true)} className={styles.topBarButton} aria-label="Open menu" />
-          )}
-          <div className={styles.topBarSpacer} />
-          <Button
-            type="text"
-            icon={mode === 'dark' ? <MoonOutlined /> : <SunOutlined />}
-            onClick={toggleMode}
-            className={styles.topBarButton}
-            aria-label="Toggle theme"
-            data-testid="themeToggleButton"
-          />
-        </div>
+      <Layout className={styles.innerLayout}>
+        <TopBar isMobile={isMobile} onMobileMenuOpen={() => setMobileOpen(true)} />
         <Content className={styles.content}>
           <ErrorBoundary>
             <Suspense

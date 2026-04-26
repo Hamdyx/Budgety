@@ -3,3 +3,7 @@
   flex-direction: column;
   gap: 8px;
 }
+
+.debtValue {
+  color: var(--color-danger);
+}

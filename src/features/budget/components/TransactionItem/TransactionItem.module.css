@@ -1,3 +1,21 @@
 .itemRow {
   margin-bottom: 12px;
 }
+
+.icon {
+  font-size: 20px;
+}
+
+.categoryText {
+  font-size: var(--font-size-xs);
+}
+
+.itemRow[data-type='inc'] .icon,
+.itemRow[data-type='inc'] .valueText {
+  color: var(--color-success);
+}
+
+.itemRow[data-type='exp'] .icon,
+.itemRow[data-type='exp'] .valueText {
+  color: var(--color-danger);
+}

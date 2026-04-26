@@ -22,6 +22,13 @@ export const handlers = [
 
   http.delete(`${API}/auth/me`, () => new HttpResponse(null, { status: 204 })),
 
+  http.patch(`${API}/auth/me`, async ({ request }) => {
+    const body = (await request.json()) as Record<string, unknown>;
+    return HttpResponse.json({ id: 'user-1', email: 'test@example.com', username: 'testuser', is_admin: false, ...body });
+  }),
+
+  http.post(`${API}/auth/change-password`, () => HttpResponse.json({ message: 'Password changed successfully' })),
+
   http.post(`${API}/auth/forgot-password`, () => HttpResponse.json({ message: 'OTP sent' })),
 
   http.post(`${API}/auth/verify-reset-otp`, () => HttpResponse.json({ reset_token: 'mock-reset-token' })),

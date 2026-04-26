@@ -68,7 +68,7 @@ describe('AddCategory', () => {
     // and - submit
     await user.click(screen.getByRole('button', { name: 'Submit' }));
     await waitFor(() => {
-      expect(screen.queryByText('Add Category')).not.toBeVisible();
+      expect(screen.queryByText('Add Category')).not.toBeInTheDocument();
     });
   });
 
@@ -83,7 +83,7 @@ describe('AddCategory', () => {
     // and - cancel
     await user.click(screen.getByRole('button', { name: 'Cancel' }));
     await waitFor(() => {
-      expect(screen.queryByText('Add Category')).not.toBeVisible();
+      expect(screen.queryByText('Add Category')).not.toBeInTheDocument();
     });
   });
 });

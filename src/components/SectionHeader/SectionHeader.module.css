@@ -3,6 +3,6 @@
 }
 
 .divider {
-  border-color: var(--color-text-secondary);
+  border-color: var(--color-border);
   margin: 0;
 }

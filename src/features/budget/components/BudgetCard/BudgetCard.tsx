@@ -4,7 +4,7 @@ import { Row, Col, Divider, Typography, Spin } from 'antd';
 import { OverviewCard } from '@/components/OverviewCard';
 import { useTransactions } from '@/features/budget/hooks';
 import { useCategories } from '@/features/category/hooks';
-import { useCurrencyFormatter } from '@/utils/formatCurrency';
+import { useCurrencyFormatter } from '@/utils/currency';
 
 import styles from './BudgetCard.module.css';
 
@@ -83,7 +83,7 @@ const BudgetCard = ({ month }: BudgetCardProps) => {
         return (
           <Row key={category.id} align="middle" className={styles.itemRow}>
             <Col span={3}>
-              <FileTextOutlined style={{ fontSize: 20, color: category.type === 'income' ? 'var(--color-success)' : 'var(--color-danger)' }} />
+              <FileTextOutlined className={styles.categoryIcon} data-type={category.type} />
             </Col>
             <Col flex="auto">
               <Text>{category.name}</Text>

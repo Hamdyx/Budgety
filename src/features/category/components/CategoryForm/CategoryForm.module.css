@@ -1,0 +1,53 @@
+.fullWidth {
+  width: 100%;
+}
+
+.typeRadioGroup :global(.ant-radio-button-wrapper) {
+  font-weight: 500;
+}
+
+/* Income radio button */
+.typeRadioGroup :global(.ant-radio-button-wrapper:first-child) {
+  color: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.typeRadioGroup :global(.ant-radio-button-wrapper:first-child.ant-radio-button-wrapper-checked) {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #fff;
+}
+
+.typeRadioGroup :global(.ant-radio-button-wrapper:first-child:hover) {
+  color: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.typeRadioGroup :global(.ant-radio-button-wrapper:first-child.ant-radio-button-wrapper-checked:hover) {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #fff;
+}
+
+/* Expense radio button */
+.typeRadioGroup :global(.ant-radio-button-wrapper:last-child) {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+.typeRadioGroup :global(.ant-radio-button-wrapper:last-child.ant-radio-button-wrapper-checked) {
+  background: var(--color-danger);
+  border-color: var(--color-danger);
+  color: #fff;
+}
+
+.typeRadioGroup :global(.ant-radio-button-wrapper:last-child:hover) {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+.typeRadioGroup :global(.ant-radio-button-wrapper:last-child.ant-radio-button-wrapper-checked:hover) {
+  background: var(--color-danger);
+  border-color: var(--color-danger);
+  color: #fff;
+}

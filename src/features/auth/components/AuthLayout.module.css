@@ -26,6 +26,7 @@
 .footer {
   text-align: center;
   margin-top: 16px;
+  color: var(--color-text);
 }
 
 @media screen and (max-width: 576px) {
