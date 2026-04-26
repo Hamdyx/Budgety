@@ -1,13 +1,15 @@
 type GetFieldValue = (field: string) => unknown;
+type PasswordMatchValidator = (_rule: unknown, value: string) => Promise<void>;
 
 /**
- * Custom validator for Ant Design forms that checks if the "confirm new password"
+ * Creates an Ant Design validator that checks whether the confirm password matches
+ * the current new password field value.
  *
- * @param getFieldValue - Ant Design form utility for retrieving values of other fields.
- * @param value - The value of the "confirm new password" field to validate.
- * @returns A promise that resolves if the confirm password matches the new password, or rejects with an error message if they do not match.
+ * @param getFieldValue - Ant Design form helper used to read the current new password value.
+ * @returns A validator function that resolves when the confirm password is empty or
+ * matches the new password value, and rejects with a mismatch error otherwise.
  */
-export function validatePasswordsMatch(getFieldValue: GetFieldValue) {
+export function validatePasswordsMatch(getFieldValue: GetFieldValue): PasswordMatchValidator {
   return (_rule: unknown, value: string): Promise<void> => {
     if (!value || getFieldValue('newPassword') === value) {
       return Promise.resolve();

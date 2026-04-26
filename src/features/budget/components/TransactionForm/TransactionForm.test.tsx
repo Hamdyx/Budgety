@@ -86,6 +86,38 @@ describe('TransactionForm', () => {
     }
   });
 
+  it('defaults type to income when initialValues.type is omitted', async () => {
+    // given
+    const user = userEvent.setup({
+      pointerEventsCheck: PointerEventsCheckLevel.Never,
+    });
+
+    // when
+    renderWithProviders(
+      <Wrapper
+        onFinish={onFinish}
+        initialValues={{
+          trxDate: dayjs('2024-01-15T09:30:00'),
+          status: 'pending',
+          isRecurring: false,
+        }}
+        categories={incomeCategories}
+      />
+    );
+
+    // then
+    expect(screen.getByRole('radio', { name: 'Income' })).toBeChecked();
+
+    // and
+    await user.type(screen.getByPlaceholderText('Transaction title'), 'Salary Payment');
+    await user.type(screen.getByPlaceholderText('Transaction value'), '3000');
+    await user.click(screen.getByRole('radio', { name: 'Salary' }));
+    await user.click(screen.getByRole('button', { name: 'Submit' }));
+
+    // and
+    expect(onFinish).toHaveBeenCalledOnce();
+  });
+
   it('switches categories when type radio changes', async () => {
     // given
     const user = userEvent.setup({
@@ -113,7 +145,37 @@ describe('TransactionForm', () => {
 
     // then
     expect(screen.getByText(/No income categories yet/i)).toBeInTheDocument();
-    expect(screen.queryByText('Category')).not.toBeInTheDocument();
+    expect(screen.queryByRole('radio', { name: 'Salary' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('radio', { name: 'Food' })).not.toBeInTheDocument();
+  });
+
+  it('does not call onFinish when no matching categories exist for the current type', async () => {
+    // when
+    const { user } = renderWithProviders(
+      <Wrapper
+        onFinish={onFinish}
+        categories={expenseCategories}
+        initialValues={{
+          type: 'inc',
+          trxDate: dayjs('2024-01-15T09:30:00'),
+          status: 'pending',
+          isRecurring: false,
+        }}
+      />
+    );
+
+    // then
+    expect(screen.getByText(/No income categories yet/i)).toBeInTheDocument();
+
+    // and
+    await user.type(screen.getByPlaceholderText('Transaction title'), 'Salary Payment');
+    await user.type(screen.getByPlaceholderText('Transaction value'), '3000');
+    await user.click(screen.getByRole('button', { name: 'Submit' }));
+
+    // and
+    await waitFor(() => {
+      expect(onFinish).not.toHaveBeenCalled();
+    });
   });
 
   it('shows recurrenceRule field when isRecurring is toggled on', async () => {

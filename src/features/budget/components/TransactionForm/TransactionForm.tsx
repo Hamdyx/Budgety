@@ -17,14 +17,21 @@ interface TransactionFormProps {
 
 function TransactionForm({ form, initialValues, onFinish, categories }: TransactionFormProps) {
   const currencySymbol = useCurrencySymbol();
+  const mergedInitialValues: Partial<TransactionFormValues> = {
+    ...initialValues,
+    type: initialValues?.type ?? 'inc',
+  };
   const transactionType = Form.useWatch<string>('type', form) ?? 'inc';
   const isRecurring = Form.useWatch<boolean>('isRecurring', form) ?? false;
+  const categoryTypeLabel = transactionType === 'inc' ? 'income' : 'expense';
 
   const filteredCategories = categories.filter(category => (transactionType === 'inc' ? category.type === 'income' : category.type === 'expense'));
+  const hasMatchingCategories = filteredCategories.length > 0;
+  const noMatchingCategoriesMessage = `No ${categoryTypeLabel} categories yet - add one before saving this transaction`;
 
   return (
-    <Form form={form} layout="vertical" initialValues={initialValues} onFinish={onFinish} requiredMark={false}>
-      <Form.Item name="type">
+    <Form form={form} layout="vertical" initialValues={mergedInitialValues} onFinish={onFinish} requiredMark={false}>
+      <Form.Item name="type" rules={[{ required: true, message: 'Please select a transaction type' }]}>
         <Radio.Group className={styles.typeRadioGroup} onChange={() => form.setFieldValue('categoryId', undefined)}>
           <Radio.Button value="inc">Income</Radio.Button>
           <Radio.Button value="exp">Expense</Radio.Button>
@@ -55,24 +62,36 @@ function TransactionForm({ form, initialValues, onFinish, categories }: Transact
         />
       </Form.Item>
 
-      {filteredCategories.length === 0 ? (
-        <Alert
-          type="warning"
-          showIcon
-          title={`No ${transactionType === 'inc' ? 'income' : 'expense'} categories yet - add one first`}
-          className={styles.categoryAlert}
-        />
-      ) : (
-        <Form.Item name="categoryId" label="Category" rules={[{ required: true }]}>
-          <Radio.Group className={styles.categoryGroup} data-type={transactionType}>
-            {filteredCategories.map(({ id, name }) => (
-              <Radio.Button key={id} value={id} className={styles.categoryTag}>
-                {name}
-              </Radio.Button>
-            ))}
-          </Radio.Group>
-        </Form.Item>
-      )}
+      {!hasMatchingCategories && <Alert type="warning" showIcon title={noMatchingCategoriesMessage} className={styles.categoryAlert} />}
+
+      <Form.Item
+        name="categoryId"
+        label="Category"
+        hidden={!hasMatchingCategories}
+        rules={[
+          {
+            validator: (_rule, value: number | undefined) => {
+              if (!hasMatchingCategories) {
+                return Promise.reject(new Error(noMatchingCategoriesMessage));
+              }
+
+              if (value === undefined || !filteredCategories.some(category => category.id === value)) {
+                return Promise.reject(new Error('Please select a category'));
+              }
+
+              return Promise.resolve();
+            },
+          },
+        ]}
+      >
+        <Radio.Group className={styles.categoryGroup} data-type={transactionType}>
+          {filteredCategories.map(({ id, name }) => (
+            <Radio.Button key={id} value={id} className={styles.categoryTag}>
+              {name}
+            </Radio.Button>
+          ))}
+        </Radio.Group>
+      </Form.Item>
 
       <Form.Item name="status" label="Status" rules={[{ required: true }]}>
         <Select
