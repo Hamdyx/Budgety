@@ -1,4 +1,4 @@
-import { Row, Col, Typography, Spin, DatePicker } from 'antd';
+import { Typography, Spin, DatePicker, Flex } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
@@ -26,19 +26,10 @@ const BudgetMain = () => {
     <div className={styles.wrapper}>
       <div className={styles.content}>
         <div className={styles.leftPanel}>
-          <Row align="middle" gutter={16} className={styles.headerRow}>
-            <Col>
-              <Title level={5}>Budget</Title>
-            </Col>
-            <Col>
-              <DatePicker
-                picker="month"
-                value={dayjs(budgetMonth, 'YYYY-MM')}
-                onChange={value => setBudgetMonth(value!.format('YYYY-MM'))}
-                allowClear={false}
-              />
-            </Col>
-          </Row>
+          <Flex align="center" gap={16} className={styles.headerRow}>
+            <Title level={5}>Budget</Title>
+            <DatePicker picker="month" value={dayjs(budgetMonth, 'YYYY-MM')} onChange={value => setBudgetMonth(value!.format('YYYY-MM'))} allowClear={false} />
+          </Flex>
           <CategoryMain month={budgetMonth} />
         </div>
         <div className={styles.rightPanel}>

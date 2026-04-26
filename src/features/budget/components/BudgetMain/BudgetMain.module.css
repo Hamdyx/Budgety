@@ -25,6 +25,10 @@
   margin-bottom: 24px;
 }
 
+.headerRow h5 {
+  margin: 0;
+}
+
 .spinContainer {
   display: flex;
   justify-content: center;
