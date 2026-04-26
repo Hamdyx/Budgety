@@ -1,0 +1,122 @@
+.typeRadioGroup {
+  display: flex;
+  width: 100%;
+}
+
+.typeRadioGroup :global(.ant-radio-button-wrapper) {
+  flex: 1;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Income radio button */
+.typeRadioGroup :global(.ant-radio-button-wrapper:first-child) {
+  color: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.typeRadioGroup :global(.ant-radio-button-wrapper:first-child.ant-radio-button-wrapper-checked) {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #fff;
+}
+
+.typeRadioGroup :global(.ant-radio-button-wrapper:first-child:hover) {
+  color: var(--color-success);
+}
+
+.typeRadioGroup :global(.ant-radio-button-wrapper:first-child.ant-radio-button-wrapper-checked:hover) {
+  color: #fff;
+}
+
+/* Expense radio button */
+.typeRadioGroup :global(.ant-radio-button-wrapper:last-child) {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+.typeRadioGroup :global(.ant-radio-button-wrapper:last-child.ant-radio-button-wrapper-checked) {
+  background: var(--color-danger);
+  border-color: var(--color-danger);
+  color: #fff;
+}
+
+.typeRadioGroup :global(.ant-radio-button-wrapper:last-child:hover) {
+  color: var(--color-danger);
+}
+
+.typeRadioGroup :global(.ant-radio-button-wrapper:last-child.ant-radio-button-wrapper-checked:hover) {
+  color: #fff;
+}
+
+/* Category tag-style radio buttons */
+.categoryGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.categoryGroup :global(.ant-radio-button-wrapper) {
+  border-radius: 10px !important;
+  padding: 4px 12px;
+  height: auto;
+  line-height: 1.5;
+  border-inline-start-width: 1px;
+}
+
+.categoryGroup :global(.ant-radio-button-wrapper::before) {
+  display: none;
+}
+
+/* Income type category colors */
+.categoryGroup[data-type='inc'] :global(.ant-radio-button-wrapper) {
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.categoryGroup[data-type='inc'] :global(.ant-radio-button-wrapper-checked) {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #fff;
+}
+
+.categoryGroup[data-type='inc'] :global(.ant-radio-button-wrapper:hover) {
+  color: var(--color-success);
+}
+
+.categoryGroup[data-type='inc'] :global(.ant-radio-button-wrapper-checked:hover) {
+  color: #fff;
+}
+
+/* Expense type category colors */
+.categoryGroup[data-type='exp'] :global(.ant-radio-button-wrapper) {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.categoryGroup[data-type='exp'] :global(.ant-radio-button-wrapper-checked) {
+  background: var(--color-danger);
+  border-color: var(--color-danger);
+  color: #fff;
+}
+
+.categoryGroup[data-type='exp'] :global(.ant-radio-button-wrapper:hover) {
+  color: var(--color-danger);
+}
+
+.categoryGroup[data-type='exp'] :global(.ant-radio-button-wrapper-checked:hover) {
+  color: #fff;
+}
+
+.categoryTag {
+  cursor: pointer;
+}
+
+.categoryAlert {
+  margin-bottom: 16px;
+}
+
+/* Full-width inputs */
+.fullWidth {
+  width: 100%;
+}

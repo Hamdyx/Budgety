@@ -46,7 +46,7 @@ describe('EditTransactionModal', () => {
     // and - cancel
     await user.click(screen.getByRole('button', { name: 'Cancel' }));
     await waitFor(() => {
-      expect(screen.queryByText('Edit Transaction')).not.toBeVisible();
+      expect(screen.queryByText('Edit Transaction')).not.toBeInTheDocument();
     });
   });
 
@@ -65,7 +65,7 @@ describe('EditTransactionModal', () => {
     // and - save changes
     await user.click(screen.getByRole('button', { name: 'Save Changes' }));
     await waitFor(() => {
-      expect(screen.queryByText('Edit Transaction')).not.toBeVisible();
+      expect(screen.queryByText('Edit Transaction')).not.toBeInTheDocument();
     });
   });
 
@@ -128,7 +128,7 @@ describe('EditTransactionModal', () => {
     // and - submit with recurring enabled
     await user.click(screen.getByRole('button', { name: 'Save Changes' }));
     await waitFor(() => {
-      expect(screen.queryByText('Edit Transaction')).not.toBeVisible();
+      expect(screen.queryByText('Edit Transaction')).not.toBeInTheDocument();
     });
   });
 });

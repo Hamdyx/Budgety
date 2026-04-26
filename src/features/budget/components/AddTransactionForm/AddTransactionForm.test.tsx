@@ -73,7 +73,7 @@ describe('AddTransactionForm', () => {
     // and - close modal
     await user.click(screen.getByRole('button', { name: 'Cancel' }));
     await waitFor(() => {
-      expect(screen.queryByText('Add New Transaction')).not.toBeVisible();
+      expect(screen.queryByText('Add New Transaction')).not.toBeInTheDocument();
     });
   });
 
@@ -124,7 +124,7 @@ describe('AddTransactionForm', () => {
 
     // and - modal closed
     await waitFor(() => {
-      expect(screen.queryByText('Add New Transaction')).not.toBeVisible();
+      expect(screen.queryByText('Add New Transaction')).not.toBeInTheDocument();
     });
   });
 
@@ -158,7 +158,7 @@ describe('AddTransactionForm', () => {
 
     // and - modal closed
     await waitFor(() => {
-      expect(screen.queryByText('Add New Transaction')).not.toBeVisible();
+      expect(screen.queryByText('Add New Transaction')).not.toBeInTheDocument();
     });
   });
 });
