@@ -57,7 +57,9 @@ function Sidebar({ onNavigate }: SidebarProps) {
 
   return (
     <nav className={styles.nav}>
-      <div className={styles.logo} />
+      <div className={styles.logo}>
+        <span className={styles.logoText}>Budgety</span>
+      </div>
       <Menu theme={mode} mode="inline" selectedKeys={[location.pathname]} items={menuItems} onClick={handleMenuClick} className={styles.menu} />
     </nav>
   );
