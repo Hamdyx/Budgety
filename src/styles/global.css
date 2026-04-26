@@ -1,13 +1,31 @@
-:root {
+/* Default (dark) — also covers initial load before JS hydrates */
+:root,
+[data-theme='dark'] {
   --color-success: #21bf73;
   --color-danger: #fd5e53;
   --color-warning: #f7c025;
   --color-info: #4d7cfd;
-  --color-muted: #696c70;
-  --color-border: #363a3e;
-  --color-text-secondary: #545963;
-  --color-bg-card: #2a2d32;
-  --color-text: #fbfcfe;
+  --color-muted: #737680;
+  --color-border: #363a4a;
+  --color-text-secondary: #9ca3af;
+  --color-bg-card: #242838;
+  --color-bg-base: #1a1d2e;
+  --color-text: #f0f1f3;
+  --color-sider-bg: #1e2132;
+}
+
+[data-theme='light'] {
+  --color-success: #059669;
+  --color-danger: #dc2626;
+  --color-warning: #ca8a04;
+  --color-info: #2563eb;
+  --color-muted: #9ca3af;
+  --color-border: #e5e7eb;
+  --color-text-secondary: #6b7280;
+  --color-bg-card: #ffffff;
+  --color-bg-base: #f7f8fa;
+  --color-text: #1f2937;
+  --color-sider-bg: #ffffff;
 }
 
 * {
@@ -15,7 +33,7 @@
 }
 
 html {
-  background-color: #212646;
+  background-color: var(--color-bg-base);
   padding: 0;
   margin: 0;
   overflow-y: scroll;

@@ -1,0 +1,25 @@
+.nav {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.logo {
+  height: 32px;
+  margin: 16px;
+}
+
+.menu {
+  border-inline-end: none !important;
+}
+
+.menu :global(.nav_icon) {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+
+.bottomSection {
+  margin-top: auto;
+  padding-bottom: 16px;
+}

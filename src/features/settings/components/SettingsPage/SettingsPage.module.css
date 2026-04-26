@@ -1,0 +1,32 @@
+.container {
+  padding: 16px;
+  max-width: 600px;
+}
+
+.section {
+  margin-top: 32px;
+}
+
+.sectionDescription {
+  display: block;
+  margin-bottom: 20px;
+  color: var(--color-text-secondary);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.dangerZone {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border);
+}
+
+.dangerDescription {
+  display: block;
+  margin-bottom: 16px;
+  color: var(--color-text-secondary);
+}

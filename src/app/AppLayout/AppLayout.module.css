@@ -1,0 +1,46 @@
+.layout {
+  min-height: 100vh;
+}
+
+.sider {
+  min-height: 100vh;
+}
+
+.sider :global(.ant-layout-sider-children) {
+  display: flex;
+  flex-direction: column;
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+}
+
+.topBarSpacer {
+  flex: 1;
+}
+
+.topBarButton {
+  font-size: 18px;
+  color: var(--color-text);
+}
+
+.mobileDrawer :global(.ant-drawer-body) {
+  background: var(--color-sider-bg);
+}
+
+.content {
+  padding: 0;
+  color: var(--color-text);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.spinContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}

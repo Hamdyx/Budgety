@@ -1,0 +1,30 @@
+.row {
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  background: var(--color-bg-card);
+}
+
+.row[data-type='inc'] {
+  border-left: 3px solid var(--color-success);
+}
+
+.row[data-type='exp'] {
+  border-left: 3px solid var(--color-danger);
+}
+
+.rightCol {
+  text-align: right;
+}
+
+.dateText {
+  font-size: 12px;
+}
+
+.valueText[data-type='inc'] {
+  color: var(--color-success);
+}
+
+.valueText[data-type='exp'] {
+  color: var(--color-danger);
+}

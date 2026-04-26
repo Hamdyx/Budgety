@@ -1,58 +1,165 @@
-import type { ChangeEventHandler, ReactNode } from 'react';
+import type { ChangeEventHandler } from 'react';
 
-export type Transaction = {
-	id: string;
-	type: string;
-	title: string;
-	value: number;
-	trxDate: string;
-	category: number;
+// ── Auth ──────────────────────────────────────────────
+export type User = {
+  id: string;
+  email: string;
+  username: string;
+  isAdmin: boolean;
+  currency?: string;
 };
+
+export type LoginRequest = {
+  email: string;
+  password: string;
+};
+
+export type RegisterRequest = {
+  email: string;
+  username: string;
+  password: string;
+};
+
+export type AuthResponse = {
+  accessToken: string;
+  refreshToken: string;
+  tokenType: string;
+};
+
+export type ApiError = {
+  detail: string | Array<{ loc: (string | number)[]; msg: string; type: string }>;
+  error?: string;
+  message?: string;
+};
+
+export type ForgotPasswordRequest = {
+  email: string;
+};
+
+export type VerifyResetOtpRequest = {
+  email: string;
+  otp: string;
+};
+
+export type VerifyResetOtpResponse = {
+  resetToken: string;
+};
+
+export type ResetPasswordRequest = {
+  token: string;
+  password: string;
+};
+
+export type UpdateProfileRequest = {
+  username?: string;
+  email?: string;
+  currency?: string;
+};
+
+export type ChangePasswordRequest = {
+  currentPassword: string;
+  newPassword: string;
+};
+
+export type LogoutRequest = {
+  refreshToken: string;
+};
+
+// ── Category ──────────────────────────────────────────
+export type CategoryType = 'income' | 'expense';
+
+export type BudgetPeriod = 'weekly' | 'monthly' | 'yearly';
+
 export type Category = {
-	id: number;
-	category: string;
-	budget: number;
-	spent: number;
+  id: number;
+  name: string;
+  type: CategoryType;
+  budget: number;
+  actual: number;
+  budgetPeriod: BudgetPeriod;
+  userId?: string;
 };
 
+export type CategoryCreate = {
+  name: string;
+  type: CategoryType;
+  budget?: number;
+  budgetPeriod?: BudgetPeriod;
+};
+
+export type CategoryUpdate = {
+  name?: string;
+  type?: CategoryType;
+  budget?: number;
+  budgetPeriod?: BudgetPeriod;
+};
+
+export type CategorySummary = {
+  id: number;
+  name: string;
+  type: CategoryType;
+  budget: number;
+  budgetPeriod: BudgetPeriod;
+  actual: number;
+  remaining: number;
+  userId: string;
+};
+
+// ── Transaction ───────────────────────────────────────
 export type TransactionType = 'inc' | 'exp';
 
-export type TransactionItemData = {
-	id: string;
-	icon: ReactNode;
-	iconClass: string;
-	labelTxt: string;
-	formTxt: string;
+export type TransactionStatus = 'pending' | 'completed' | 'cancelled';
+
+export type RecurrenceRule = 'weekly' | 'monthly' | 'yearly';
+
+export type Transaction = {
+  id: string;
+  type: TransactionType;
+  title: string;
+  value: number;
+  trxDate: string;
+  categoryId: number;
+  status: TransactionStatus;
+  isRecurring: boolean;
+  recurrenceRule: RecurrenceRule | null;
+  userId?: string;
 };
 
-export type TransactionOptionMap = Record<
-	TransactionType,
-	Record<string, string[]>
->;
+export type TransactionCreate = {
+  type: TransactionType;
+  title: string;
+  value: number;
+  trxDate: string;
+  categoryId: number;
+  status?: TransactionStatus;
+  isRecurring?: boolean;
+  recurrenceRule?: RecurrenceRule;
+};
+
+export type TransactionUpdate = {
+  type?: TransactionType;
+  title?: string;
+  value?: number;
+  trxDate?: string;
+  categoryId?: number;
+  status?: TransactionStatus;
+  isRecurring?: boolean;
+  recurrenceRule?: RecurrenceRule;
+};
+
+// ── Misc ──────────────────────────────────────────────
 
 export type ChartProps = {
-	labelsArr: string[];
-	data: number[];
-	colors: string[];
-	width?: number;
-	height?: number;
+  labelsArr: string[];
+  data: number[];
+  colors: string[];
+  width?: number;
+  height?: number;
 };
 
 export type CustomFloatingLabelProps = {
-	type: string;
-	label: string;
-	value: string | number;
-	changeFunc: ChangeEventHandler<HTMLInputElement>;
-};
-
-export type InvestmentCoin = {
-	name: string;
-	buyPrice: number;
-	buyAmount: number;
-	sellPrice: number;
-	holdings: number;
-	sellAmount: number;
-	profitPercent: number;
-	price?: number;
-	value?: number;
+  type: string;
+  label: string;
+  value: string | number;
+  changeFunc: ChangeEventHandler<HTMLInputElement>;
 };
