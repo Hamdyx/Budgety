@@ -1,12 +1,9 @@
-import { screen, waitFor } from '@testing-library/react';
-import { http, HttpResponse } from 'msw';
-import { describe, expect, it, beforeEach, vi } from 'vitest';
+import { screen } from '@testing-library/react';
+import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
-import { useThemeStore } from '@/stores/themeStore';
 import { mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
 import { renderWithProviders } from '@/tests/render';
-import { server } from '@/tests/server';
 
 import Sidebar from './Sidebar';
 
@@ -25,12 +22,13 @@ describe('Sidebar', () => {
     expect(screen.getByRole('menuitem', { name: /Bank/ })).toBeInTheDocument();
   });
 
-  it('renders logout menu item', () => {
+  it('does not render Settings or Logout menu items', () => {
     // when
     renderWithProviders(<Sidebar />);
 
     // then
-    expect(screen.getByRole('menuitem', { name: /Logout/ })).toBeInTheDocument();
+    expect(screen.queryByRole('menuitem', { name: /Settings/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole('menuitem', { name: /Logout/ })).not.toBeInTheDocument();
   });
 
   it('navigates on menu item click', async () => {
@@ -58,48 +56,6 @@ describe('Sidebar', () => {
     await user.click(screen.getByRole('menuitem', { name: /Budget/ }));
 
     expect(navigated).toBe(true);
-  });
-
-  it('logs out and navigates to login', async () => {
-    // when
-    const { user } = renderWithProviders(<Sidebar />, { routerProps: { initialEntries: ['/'] } });
-
-    // then
-    await user.click(screen.getByRole('menuitem', { name: /Logout/ }));
-    await waitFor(() => {
-      expect(useAuthStore.getState().token).toBeNull();
-    });
-  });
-
-  it('calls backend logout endpoint on logout', async () => {
-    // given
-    const logoutSpy = vi.fn();
-    server.use(
-      http.post('*/auth/logout', async ({ request }) => {
-        logoutSpy(await request.json());
-        return new HttpResponse(null, { status: 204 });
-      })
-    );
-
-    // when
-    const { user } = renderWithProviders(<Sidebar />, { routerProps: { initialEntries: ['/'] } });
-    await user.click(screen.getByRole('menuitem', { name: /Logout/ }));
-
-    // then
-    await waitFor(() => {
-      expect(logoutSpy).toHaveBeenCalledWith({ refresh_token: mockRefreshToken });
-    });
-  });
-
-  it('renders logout section with light theme styles', () => {
-    // given
-    useThemeStore.setState({ mode: 'light' });
-
-    // when
-    renderWithProviders(<Sidebar />);
-
-    // then
-    expect(screen.getByRole('menuitem', { name: /Logout/ })).toBeInTheDocument();
   });
 
   it('does not show Admin menu item for non-admin users', () => {
