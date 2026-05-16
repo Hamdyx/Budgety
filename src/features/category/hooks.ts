@@ -51,8 +51,12 @@ export function useCreateCategory() {
 
   return useMutation({
     mutationFn: (data: CategoryCreate) => {
-      const budgetInUSD = data.budget !== undefined && rates ? toUSD(data.budget, currency, rates) : data.budget;
-      return createCategory({ ...data, budget: budgetInUSD });
+      if (data.budget !== undefined && rates) {
+        const budgetCurrency = data.budgetCurrency ?? currency;
+        const budgetInUSD = toUSD(data.budget, budgetCurrency, rates);
+        return createCategory({ ...data, originalBudget: data.budget, budget: budgetInUSD, budgetCurrency });
+      }
+      return createCategory({ ...data, budgetCurrency: data.budgetCurrency ?? currency });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: CATEGORIES_KEY });
@@ -68,8 +72,12 @@ export function useUpdateCategory() {
 
   return useMutation({
     mutationFn: ({ id, data }: { id: number; data: CategoryUpdate }) => {
-      const updatedData = data.budget !== undefined && rates ? { ...data, budget: toUSD(data.budget, currency, rates) } : data;
-      return updateCategory(id, updatedData);
+      if (data.budget !== undefined && rates) {
+        const budgetCurrency = data.budgetCurrency ?? currency;
+        const updatedData = { ...data, originalBudget: data.budget, budget: toUSD(data.budget, budgetCurrency, rates), budgetCurrency };
+        return updateCategory(id, updatedData);
+      }
+      return updateCategory(id, data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: CATEGORIES_KEY });

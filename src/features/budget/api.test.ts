@@ -57,6 +57,8 @@ describe('budget/api', () => {
     const data = await createTransaction({
       type: 'inc',
       title: 'New Income',
+      currency: 'USD',
+      originalValue: 500,
       value: 500,
       trxDate: '2024-02-01T10:00:00',
       categoryId: 1,

@@ -61,6 +61,8 @@ describe('budget/hooks', () => {
     result.current.mutate({
       type: 'inc',
       title: 'New',
+      currency: 'USD',
+      originalValue: 100,
       value: 100,
       trxDate: '2024-01-01T00:00:00',
       categoryId: 1,

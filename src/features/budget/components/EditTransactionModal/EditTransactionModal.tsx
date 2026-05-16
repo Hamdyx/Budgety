@@ -1,12 +1,13 @@
 import type { Transaction, TransactionFormValues } from '@/types/types';
 
 import { EditOutlined } from '@ant-design/icons';
-import { Button, Form, Modal } from 'antd';
+import { App, Button, Form, Modal } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
 import { TransactionForm } from '@/features/budget/components/TransactionForm';
 import { useCategories } from '@/features/category/hooks';
+import { useCurrencyStore } from '@/stores/currencyStore';
 
 import { useUpdateTransaction } from '../../hooks';
 
@@ -17,16 +18,19 @@ const EditTransactionModal = ({ transaction }: { transaction: Transaction }) => 
   const [form] = Form.useForm<TransactionFormValues>();
   const updateMutation = useUpdateTransaction();
   const { data: categories = [] } = useCategories();
+  const userCurrency = useCurrencyStore(state => state.currency);
+  const { message } = App.useApp();
 
   const initialValues: Partial<TransactionFormValues> = {
     type: transaction.type ?? 'inc',
     title: transaction.title ?? '',
-    value: transaction.value ?? 0,
+    value: transaction.originalValue ?? transaction.value ?? 0,
     trxDate: transaction.trxDate ? dayjs(transaction.trxDate) : dayjs(),
     categoryId: transaction.categoryId ?? undefined,
     status: transaction.status ?? 'pending',
     isRecurring: transaction.isRecurring ?? false,
     recurrenceRule: transaction.recurrenceRule ?? undefined,
+    currency: transaction.currency ?? userCurrency,
   };
 
   const handleUpdate = (values: TransactionFormValues) => {
@@ -42,9 +46,16 @@ const EditTransactionModal = ({ transaction }: { transaction: Transaction }) => 
           status: values.status,
           isRecurring: values.isRecurring,
           recurrenceRule: values.isRecurring ? values.recurrenceRule : undefined,
+          currency: values.currency,
         },
       },
-      { onSuccess: () => setOpen(false) }
+      {
+        onSuccess: () => {
+          setOpen(false);
+          void message.success('Transaction updated');
+        },
+        onError: () => void message.error('Failed to update transaction'),
+      }
     );
   };
 

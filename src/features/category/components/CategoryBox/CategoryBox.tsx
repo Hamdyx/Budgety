@@ -1,7 +1,7 @@
 import type { Category, CategoryCreate } from '@/types/types';
 
 import { DeleteOutlined, EditOutlined, FileTextOutlined } from '@ant-design/icons';
-import { Button, Form, Modal, Popconfirm, Progress, Space, Typography } from 'antd';
+import { App, Button, Form, Modal, Popconfirm, Progress, Space, Typography } from 'antd';
 import { useState } from 'react';
 
 import { useCurrencyFormatter } from '@/utils/currency';
@@ -21,11 +21,21 @@ const CategoryBox = ({ category }: { category: Category }) => {
   const { name, type, actual, budget } = category;
 
   const formatCurrency = useCurrencyFormatter();
+  const { message } = App.useApp();
   const remaining = budget - actual;
   const percentage = budget > 0 ? Math.round((actual / budget) * 100) : 0;
 
   const handleUpdate = (values: CategoryCreate) => {
-    updateMutation.mutate({ id: category.id, data: values }, { onSuccess: () => setIsEditModalOpen(false) });
+    updateMutation.mutate(
+      { id: category.id, data: values },
+      {
+        onSuccess: () => {
+          setIsEditModalOpen(false);
+          void message.success('Category updated');
+        },
+        onError: () => void message.error('Failed to update category'),
+      }
+    );
   };
 
   return (
@@ -40,7 +50,12 @@ const CategoryBox = ({ category }: { category: Category }) => {
           <Popconfirm
             title="Delete category"
             description="All transactions associated with this category will be deleted too. This action cannot be undone."
-            onConfirm={() => deleteMutation.mutate(category.id)}
+            onConfirm={() =>
+              deleteMutation.mutate(category.id, {
+                onSuccess: () => void message.success('Category deleted'),
+                onError: () => void message.error('Failed to delete category'),
+              })
+            }
             okText="Delete"
             okButtonProps={{ danger: true }}
           >
@@ -68,7 +83,13 @@ const CategoryBox = ({ category }: { category: Category }) => {
       >
         <CategoryForm
           form={form}
-          initialValues={{ name: category.name, type: category.type, budget: category.budget, budgetPeriod: category.budgetPeriod }}
+          initialValues={{
+            name: category.name,
+            type: category.type,
+            budget: category.originalBudget ?? category.budget,
+            budgetPeriod: category.budgetPeriod,
+            budgetCurrency: category.budgetCurrency,
+          }}
           onFinish={handleUpdate}
         />
       </Modal>

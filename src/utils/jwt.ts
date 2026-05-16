@@ -3,6 +3,7 @@ export interface JwtPayload {
   email: string;
   username: string;
   is_admin: boolean;
+  currency?: string;
   exp: number;
 }
 

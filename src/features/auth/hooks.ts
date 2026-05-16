@@ -3,24 +3,31 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuthStore } from '@/stores/authStore';
+import { useCurrencyStore } from '@/stores/currencyStore';
 import { decodeJwtPayload } from '@/utils/jwt';
 
 import { forgotPassword, login, logoutApi, register, resetPassword, verifyResetOtp } from './api';
 
 export function useLogin() {
   const setAuth = useAuthStore(state => state.setAuth);
+  const setCurrency = useCurrencyStore(state => state.setCurrency);
   const navigate = useNavigate();
 
   return useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) => login(email, password),
     onSuccess: data => {
       const payload = decodeJwtPayload(data.accessToken);
-      setAuth(data.accessToken, data.refreshToken, {
+      const user = {
         id: payload.sub,
         email: payload.email ?? '',
         username: payload.username ?? '',
         isAdmin: payload.is_admin ?? false,
-      });
+        currency: payload.currency,
+      };
+      setAuth(data.accessToken, data.refreshToken, user);
+      if (user.currency) {
+        setCurrency(user.currency);
+      }
       navigate('/', { replace: true });
     },
   });

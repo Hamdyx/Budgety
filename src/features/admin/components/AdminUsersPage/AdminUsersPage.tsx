@@ -14,7 +14,7 @@ import styles from './AdminUsersPage.module.css';
 const AdminUsersPage = () => {
   const { data: users = [], isLoading } = useUsers();
   const { mutate: deleteUser, isPending } = useDeleteUser();
-  const { modal } = App.useApp();
+  const { modal, message } = App.useApp();
   const currentUser = useAuthStore(state => state.user);
 
   const confirmDelete = (user: User) => {
@@ -24,7 +24,11 @@ const AdminUsersPage = () => {
       content: `Are you sure you want to delete "${user.username}"?`,
       okText: 'Delete',
       okType: 'danger',
-      onOk: () => deleteUser(user.id),
+      onOk: () =>
+        deleteUser(user.id, {
+          onSuccess: () => void message.success('User deleted'),
+          onError: () => void message.error('Failed to delete user'),
+        }),
     });
   };
 

@@ -1,28 +1,32 @@
 import type { TransactionFormValues } from '@/types/types';
 
-import { Button, Form, Modal } from 'antd';
+import { App, Button, Form, Modal } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
 import { TransactionForm } from '@/features/budget/components/TransactionForm';
 import { useCategories } from '@/features/category/hooks';
+import { useCurrencyStore } from '@/stores/currencyStore';
 
 import { useCreateTransaction } from '../../hooks';
 
 import styles from './AddTransactionForm.module.css';
 
-const initialValues: Partial<TransactionFormValues> = {
-  type: 'inc',
-  trxDate: dayjs(),
-  status: 'pending',
-  isRecurring: false,
-};
-
 const AddTransactionForm = () => {
   const { data: categories = [] } = useCategories();
   const createMutation = useCreateTransaction();
+  const userCurrency = useCurrencyStore(state => state.currency);
   const [isAddTransactionModalOpen, setIsAddTransactionModalOpen] = useState(false);
   const [form] = Form.useForm<TransactionFormValues>();
+  const { message } = App.useApp();
+
+  const initialValues: Partial<TransactionFormValues> = {
+    type: 'inc',
+    trxDate: dayjs(),
+    status: 'pending',
+    isRecurring: false,
+    currency: userCurrency,
+  };
 
   const handleClose = () => setIsAddTransactionModalOpen(false);
   const handleShow = () => setIsAddTransactionModalOpen(true);
@@ -38,8 +42,16 @@ const AddTransactionForm = () => {
         status: values.status,
         isRecurring: values.isRecurring,
         recurrenceRule: values.isRecurring ? values.recurrenceRule : undefined,
+        currency: values.currency,
+        originalValue: values.value,
       },
-      { onSuccess: () => handleClose() }
+      {
+        onSuccess: () => {
+          handleClose();
+          void message.success('Transaction added');
+        },
+        onError: () => void message.error('Failed to add transaction'),
+      }
     );
   };
 

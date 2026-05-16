@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal, Select, Typography } from 'antd';
+import { App, Button, Form, Input, Modal, Select, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { SectionHeader } from '@/components/SectionHeader';
@@ -27,6 +27,7 @@ export default function SettingsPage() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const user = useAuthStore(state => state.user);
   const currency = useCurrencyStore(state => state.currency);
+  const { message } = App.useApp();
 
   const { mutate: deleteAccount, isPending: isDeletePending } = useDeleteAccount();
   const { mutate: updateProfile, isPending: isProfilePending } = useUpdateProfile();
@@ -44,7 +45,10 @@ export default function SettingsPage() {
   }, [user, currency, profileForm]);
 
   function handleProfileSubmit(values: { username: string; email: string; currency: string }) {
-    updateProfile(values);
+    updateProfile(values, {
+      onSuccess: () => void message.success('Profile updated'),
+      onError: () => void message.error('Failed to update profile'),
+    });
   }
 
   function handlePasswordSubmit(values: { currentPassword: string; newPassword: string }) {
@@ -53,7 +57,9 @@ export default function SettingsPage() {
       {
         onSuccess: () => {
           passwordForm.resetFields();
+          void message.success('Password changed');
         },
+        onError: () => void message.error('Failed to change password'),
       }
     );
   }
