@@ -9,6 +9,7 @@ import {
   formatNumberInput,
   fromUSD,
   getCurrencySymbol,
+  normalizeCurrency,
   parseNumberInput,
   toUSD,
   useCurrencyFormatter,
@@ -24,6 +25,10 @@ describe('currency', () => {
 
     it('formats an EGP value', () => {
       expect(formatCurrency(100, 'EGP')).toContain('100');
+    });
+
+    it('does not throw for a malformed currency code', () => {
+      expect(() => formatCurrency(100, 'not-valid')).not.toThrow();
     });
   });
 
@@ -138,6 +143,34 @@ describe('getCurrencySymbol', () => {
 
   it('falls back to currency code for unknown currency', () => {
     expect(getCurrencySymbol('XYZ')).toBe('XYZ');
+  });
+
+  it('returns the raw code for a malformed currency code', () => {
+    expect(getCurrencySymbol('not-valid')).toBe('not-valid');
+  });
+});
+
+describe('normalizeCurrency', () => {
+  it('accepts a valid uppercase code', () => {
+    expect(normalizeCurrency('USD')).toBe('USD');
+  });
+
+  it('normalizes a valid lowercase code to uppercase', () => {
+    expect(normalizeCurrency('usd')).toBe('USD');
+  });
+
+  it('returns null for an unsupported currency code', () => {
+    expect(normalizeCurrency('XYZ')).toBeNull();
+  });
+
+  it('returns null for an empty string', () => {
+    expect(normalizeCurrency('')).toBeNull();
+  });
+
+  it('returns null for a non-string value', () => {
+    expect(normalizeCurrency(null)).toBeNull();
+    expect(normalizeCurrency(undefined)).toBeNull();
+    expect(normalizeCurrency(123)).toBeNull();
   });
 });
 

@@ -18,6 +18,21 @@ export const CURRENCY_OPTIONS = [
 ];
 
 /**
+ * Normalizes and validates a raw currency code from an untrusted source
+ * (e.g. a JWT payload or API response). Returns the uppercased code when it
+ * matches a supported currency, or `null` when the value is absent or
+ * unrecognised.
+ *
+ * @param code - The raw value to validate.
+ * @returns The normalised code (e.g. `'USD'`), or `null`.
+ */
+export function normalizeCurrency(code: unknown): string | null {
+  if (typeof code !== 'string' || code.trim() === '') return null;
+  const upper = code.toUpperCase();
+  return CURRENCY_OPTIONS.some(option => option.value === upper) ? upper : null;
+}
+
+/**
  * Returns the currency symbol for the given ISO 4217 currency code
  * (e.g. `"$"` for USD, `"£"` for GBP). Falls back to the raw code
  * when the `Intl` API cannot resolve a dedicated symbol.
@@ -26,11 +41,15 @@ export const CURRENCY_OPTIONS = [
  * @returns The currency symbol string.
  */
 export function getCurrencySymbol(currency: string): string {
-  const symbol = new Intl.NumberFormat('en-US', { style: 'currency', currency, minimumFractionDigits: 0, maximumFractionDigits: 0 })
-    .formatToParts(0)
-    .find(part => part.type === 'currency')?.value;
-  // v8 ignore next
-  return symbol ?? currency;
+  try {
+    const symbol = new Intl.NumberFormat('en-US', { style: 'currency', currency, minimumFractionDigits: 0, maximumFractionDigits: 0 })
+      .formatToParts(0)
+      .find(part => part.type === 'currency')?.value;
+    // v8 ignore next
+    return symbol ?? currency;
+  } catch {
+    return currency;
+  }
 }
 
 /**
@@ -41,7 +60,11 @@ export function getCurrencySymbol(currency: string): string {
  * @returns A formatted string such as `"$1,234.50"`.
  */
 export function formatCurrency(value: number, currency: string): string {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(value);
+  try {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(value);
+  } catch {
+    return value.toLocaleString('en-US');
+  }
 }
 
 /**

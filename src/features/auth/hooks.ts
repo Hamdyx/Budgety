@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAuthStore } from '@/stores/authStore';
 import { useCurrencyStore } from '@/stores/currencyStore';
+import { normalizeCurrency } from '@/utils/currency';
 import { decodeJwtPayload } from '@/utils/jwt';
 
 import { forgotPassword, login, logoutApi, register, resetPassword, verifyResetOtp } from './api';
@@ -25,8 +26,9 @@ export function useLogin() {
         currency: payload.currency,
       };
       setAuth(data.accessToken, data.refreshToken, user);
-      if (user.currency) {
-        setCurrency(user.currency);
+      const normalizedCurrency = normalizeCurrency(user.currency);
+      if (normalizedCurrency) {
+        setCurrency(normalizedCurrency);
       }
       navigate('/', { replace: true });
     },

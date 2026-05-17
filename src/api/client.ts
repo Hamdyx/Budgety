@@ -2,6 +2,7 @@ import type { ApiError } from '@/types/types';
 
 import { useAuthStore } from '@/stores/authStore';
 import { useCurrencyStore } from '@/stores/currencyStore';
+import { normalizeCurrency } from '@/utils/currency';
 import { decodeJwtPayload } from '@/utils/jwt';
 
 import { toCamelCase, toSnakeCase } from './caseConverter';
@@ -58,8 +59,9 @@ async function tryRefresh(): Promise<boolean> {
       currency: payload.currency,
     };
     useAuthStore.getState().setAuth(data.accessToken, data.refreshToken, user);
-    if (user.currency) {
-      useCurrencyStore.getState().setCurrency(user.currency);
+    const normalizedCurrency = normalizeCurrency(user.currency);
+    if (normalizedCurrency) {
+      useCurrencyStore.getState().setCurrency(normalizedCurrency);
     }
     return true;
   } catch {
