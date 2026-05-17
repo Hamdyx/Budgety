@@ -1,9 +1,11 @@
 import { screen, waitFor } from '@testing-library/react';
+import { http, HttpResponse } from 'msw';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
 import { mockCategories, mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
 import { renderWithProviders } from '@/tests/render';
+import { server } from '@/tests/server';
 
 import CategoryBox from './CategoryBox';
 
@@ -109,5 +111,55 @@ describe('CategoryBox', () => {
 
     // then
     expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '0');
+  });
+
+  it('closes edit modal on cancel click', async () => {
+    // when
+    const { user } = renderWithProviders(<CategoryBox category={category} />);
+
+    // when
+    await user.click(screen.getByRole('button', { name: 'Edit category' }));
+    await screen.findByText('Edit Category');
+    await user.click(screen.getByRole('button', { name: 'Cancel' }));
+
+    // then
+    await waitFor(() => {
+      expect(screen.queryByText('Edit Category')).not.toBeInTheDocument();
+    });
+  });
+
+  it('shows error message when update fails', async () => {
+    // given
+    server.use(http.patch('*/categories/*', () => HttpResponse.json({ detail: 'error' }, { status: 500 })));
+
+    // when
+    const { user } = renderWithProviders(<CategoryBox category={category} />);
+
+    // then
+    await user.click(screen.getByRole('button', { name: 'Edit category' }));
+    await screen.findByText('Edit Category');
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+
+    // and
+    await waitFor(() => {
+      expect(screen.getByText('Failed to update category')).toBeInTheDocument();
+    });
+  });
+
+  it('shows error message when delete fails', async () => {
+    // given
+    server.use(http.delete('*/categories/*', () => HttpResponse.json({ detail: 'error' }, { status: 500 })));
+
+    // when
+    const { user } = renderWithProviders(<CategoryBox category={category} />);
+
+    // then
+    await user.click(screen.getByRole('button', { name: 'Delete category' }));
+    await user.click(await screen.findByRole('button', { name: 'Delete' }));
+
+    // and
+    await waitFor(() => {
+      expect(screen.getByText('Failed to delete category')).toBeInTheDocument();
+    });
   });
 });

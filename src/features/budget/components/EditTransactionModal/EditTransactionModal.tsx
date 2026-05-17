@@ -26,7 +26,7 @@ const EditTransactionModal = ({ transaction }: { transaction: Transaction }) => 
     title: transaction.title ?? '',
     value: transaction.originalValue ?? transaction.value ?? 0,
     trxDate: transaction.trxDate ? dayjs(transaction.trxDate) : dayjs(),
-    categoryId: transaction.categoryId ?? undefined,
+    categoryId: transaction.categoryId,
     status: transaction.status ?? 'pending',
     isRecurring: transaction.isRecurring ?? false,
     recurrenceRule: transaction.recurrenceRule ?? undefined,

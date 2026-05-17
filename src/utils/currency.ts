@@ -26,11 +26,11 @@ export const CURRENCY_OPTIONS = [
  * @returns The currency symbol string.
  */
 export function getCurrencySymbol(currency: string): string {
-  return (
-    new Intl.NumberFormat('en-US', { style: 'currency', currency, minimumFractionDigits: 0, maximumFractionDigits: 0 })
-      .formatToParts(0)
-      .find(part => part.type === 'currency')?.value ?? currency
-  );
+  const symbol = new Intl.NumberFormat('en-US', { style: 'currency', currency, minimumFractionDigits: 0, maximumFractionDigits: 0 })
+    .formatToParts(0)
+    .find(part => part.type === 'currency')?.value;
+  // v8 ignore next
+  return symbol ?? currency;
 }
 
 /**

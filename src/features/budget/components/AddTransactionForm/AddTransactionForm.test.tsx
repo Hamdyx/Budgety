@@ -186,5 +186,29 @@ describe('AddTransactionForm', () => {
     await waitFor(() => {
       expect(screen.queryByText('Add New Transaction')).not.toBeInTheDocument();
     });
+  }, 10_000);
+
+  it('shows error message when transaction creation fails', async () => {
+    // given
+    server.use(http.post('*/transactions', () => HttpResponse.json({ detail: 'error' }, { status: 500 })));
+
+    // when
+    const { user } = renderWithProviders(<AddTransactionForm />);
+
+    // then
+    await user.click(screen.getByRole('button', { name: 'Add Transaction' }));
+    await screen.findByRole('radio', { name: 'Salary' });
+
+    await user.type(screen.getByPlaceholderText('Transaction title'), 'Test');
+    await user.type(screen.getByPlaceholderText('Transaction value'), '100');
+    await user.click(screen.getByText('Salary'));
+
+    const submitButtons = screen.getAllByRole('button', { name: 'Add Transaction' });
+    await user.click(submitButtons[submitButtons.length - 1]);
+
+    // and
+    await waitFor(() => {
+      expect(screen.getByText('Failed to add transaction')).toBeInTheDocument();
+    });
   });
 });

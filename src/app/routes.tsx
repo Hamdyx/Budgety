@@ -20,7 +20,6 @@ const BudgetMain = lazy(() => import('@/features/budget/components/BudgetMain/Bu
 const BankPage = lazy(() => import('@/features/bank/components/BankPage/BankPage'));
 const SettingsPage = lazy(() => import('@/features/settings/components/SettingsPage/SettingsPage'));
 const AdminUsersPage = lazy(() => import('@/features/admin/components/AdminUsersPage/AdminUsersPage'));
-const SchedulerPage = lazy(() => import('@/features/scheduler/components/SchedulerPage/SchedulerPage'));
 
 export const routeConfig: RouteObject[] = [
   {
@@ -41,7 +40,6 @@ export const routeConfig: RouteObject[] = [
               { path: '/budget', element: <BudgetMain /> },
               { path: '/bank', element: <BankPage /> },
               { path: '/settings', element: <SettingsPage /> },
-              { path: '/scheduler', element: <SchedulerPage /> },
               {
                 element: <AdminRoute />,
                 children: [{ path: '/admin/users', element: <AdminUsersPage /> }],

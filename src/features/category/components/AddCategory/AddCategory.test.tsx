@@ -1,9 +1,11 @@
 import { screen, waitFor } from '@testing-library/react';
+import { http, HttpResponse } from 'msw';
 import { describe, expect, it, beforeEach } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
 import { mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
 import { renderWithProviders } from '@/tests/render';
+import { server } from '@/tests/server';
 
 import AddCategory from './AddCategory';
 
@@ -84,6 +86,25 @@ describe('AddCategory', () => {
     await user.click(screen.getByRole('button', { name: 'Cancel' }));
     await waitFor(() => {
       expect(screen.queryByText('Add Category')).not.toBeInTheDocument();
+    });
+  });
+
+  it('shows error message when create fails', async () => {
+    // given
+    server.use(http.post('*/categories', () => HttpResponse.json({ detail: 'error' }, { status: 500 })));
+
+    // when
+    const { user } = renderWithProviders(<AddCategory />);
+
+    // then
+    await user.click(screen.getByRole('button', { name: 'Add category' }));
+    await user.type(screen.getByLabelText('Category'), 'Transportation');
+    await user.type(screen.getByLabelText('Budget'), '500');
+    await user.click(screen.getByRole('button', { name: 'Submit' }));
+
+    // and
+    await waitFor(() => {
+      expect(screen.getByText('Failed to create category')).toBeInTheDocument();
     });
   });
 });

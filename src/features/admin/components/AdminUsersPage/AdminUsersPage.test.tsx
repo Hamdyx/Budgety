@@ -151,4 +151,36 @@ describe('AdminUsersPage', () => {
       expect(screen.getByText('Admin — Users')).toBeInTheDocument();
     });
   });
+
+  it('shows error message when delete user fails', async () => {
+    // given
+    server.use(http.delete('*/admin/users/*', () => HttpResponse.json({ detail: 'error' }, { status: 500 })));
+    const user = userEvent.setup();
+
+    // when
+    renderWithProviders(<AdminUsersPage />);
+
+    // then
+    await waitFor(() => {
+      expect(screen.getByText('admin')).toBeInTheDocument();
+    });
+
+    // and - click delete for another user (not self)
+    const deleteButtons = screen.getAllByRole('button', { name: /delete/i });
+    const otherButton = deleteButtons.find(btn => btn.closest('tr')?.textContent?.includes('admin'));
+    await user.click(otherButton!);
+
+    await waitFor(() => {
+      expect(screen.getByText(/are you sure/i)).toBeInTheDocument();
+    });
+
+    const modalFooter = document.querySelector('.ant-modal-confirm-btns');
+    const modalDeleteBtn = modalFooter!.querySelector('button.ant-btn-dangerous')!;
+    await user.click(modalDeleteBtn);
+
+    // and
+    await waitFor(() => {
+      expect(screen.getByText('Failed to delete user')).toBeInTheDocument();
+    });
+  });
 });
