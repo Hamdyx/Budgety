@@ -18,6 +18,7 @@ src/
 ├── api/            # HTTP client (JWT auth, camelCase ↔ snake_case, auto token refresh)
 ├── app/            # App shell (AppLayout/, Sidebar/), routing
 ├── components/
+│   ├── AdminRoute/     # Auth guard for admin-only routes
 │   ├── ComingSoon/     # Coming-soon placeholder
 │   ├── ErrorBoundary/  # Top-level error boundary
 │   ├── OverviewCard/   # Reusable card wrapper (wraps Ant Design Card)
@@ -31,7 +32,6 @@ src/
 │   ├── budget/     # Budget CRUD with month picker
 │   ├── category/   # Category management
 │   ├── overview/   # Dashboard with month-scoped data
-│   ├── scheduler/  # Scheduler (coming soon)
 │   └── settings/   # Account settings (profile, password, delete account)
 ├── stores/         # Zustand stores (auth, theme, currency)
 ├── styles/         # global.css (CSS custom properties, light/dark)
@@ -104,10 +104,12 @@ Create a `.env` file at the project root:
 - **Password change** — Change password in account settings with current password confirmation
 - **Budget management** — Month-scoped budget items with category linking
 - **Transactions** — CRUD with month filtering and category association
-- **Categories** — Income/expense category management with budget allocation
+- **Categories** — Income/expense category management with per-category currency and budget allocation
+- **Multi-currency support** — Transactions and categories each carry their own currency; values are stored in USD for aggregation and the original entry amount is preserved separately. Supported currencies: USD, EUR, GBP, JPY, CAD, AUD, CHF, EGP
+- **Currency initialisation from JWT** — The active display currency is synced from the user's JWT payload on login and on every silent token refresh, with `normalizeCurrency()` as a validation guard
 - **Overview dashboard** — Month-scoped summary with charts
-- **Admin panel** — User list and deletion (admin-only)
-- **Account settings** — Profile editing, password change, and account deletion
+- **Admin panel** — User list and deletion; `/admin/users` is protected by `AdminRoute` which redirects non-admin users to `/`
+- **Account settings** — Profile editing (including preferred currency), password change, and account deletion
 - **Light/dark theme** — Persisted via zustand + CSS custom properties
 - **Automatic token refresh** — Transparent 401 retry with mutex for concurrent requests
 
