@@ -36,7 +36,8 @@
   export { default as ComponentName } from './ComponentName';
   ```
   Consumers import via the directory: `import { ComponentName } from '../ComponentName';`
-- **Shared UI** goes in `src/components/` (e.g. `OverviewCard`, `SectionHeader`, `ComingSoon`, `SuspenseLayout`).
+- **Shared UI** goes in `src/components/` (e.g. `OverviewCard`, `SectionHeader`, `ComingSoon`, `SuspenseLayout`, `PrivateRoute`, `AdminRoute`).
+- **`AdminRoute`** — wraps admin-only routes; reads `user.isAdmin` from the auth store and redirects non-admins to `/` via `<Navigate replace />`.
 - **Chart components** in `src/components/charts/`.
 - **Zustand** for client state — stores in `src/stores/` (auth, theme). Keep stores minimal and focused.
 - **TanStack React Query** for server state — queries and mutations in per-feature `hooks.ts` files. Invalidate related queries on mutation success.
@@ -44,6 +45,15 @@
 - **Light/dark theme** — `src/stores/themeStore.ts` (zustand with persist), `src/theme/ThemeProvider.tsx` sets `data-theme` attribute on `<html>`, CSS variables in `src/styles/global.css` respond to `[data-theme="dark"]`.
 - **API client** — `src/api/client.ts` handles JWT auth, automatic camelCase ↔ snake_case conversion, error handling via `ApiRequestError`, and **automatic token refresh** on 401 responses (uses a module-level mutex to queue concurrent retries behind a single refresh call).
 - **Route-level code splitting** via `React.lazy` + `Suspense`. Lazy imports point directly at the source file (not the barrel) since `React.lazy` requires a default export.
+
+## Currency
+
+- **`CURRENCY_OPTIONS`** — exported constant array of the 8 supported currencies (`USD`, `EUR`, `GBP`, `JPY`, `CAD`, `AUD`, `CHF`, `EGP`). Used to populate currency `<Select>` fields in `TransactionForm` and `CategoryForm`. Always import this constant instead of duplicating the list.
+- **`normalizeCurrency(code: unknown): string | null`** — validates a raw value from an untrusted source (JWT payload, API response). Returns the uppercased code when it matches a supported currency, or `null` otherwise. Use this before writing to the currency store.
+- **`getCurrencySymbol(currency: string): string`** — extracts the currency symbol via `Intl.NumberFormat`, with a fallback to the raw code on failure.
+- **`useTransactionDisplayValue(originalValue, currency, value)`** — hook that returns the correctly formatted display amount for a transaction. Prefers `originalValue + currency` when both are defined; falls back to the USD-stored `value` formatted in the active store currency.
+- **Dual-value storage pattern** — when creating or updating a transaction/category, always send both the raw entered amount as `originalValue`/`originalBudget` and the USD-converted amount as `value`/`budget`. The per-entry `currency`/`budgetCurrency` is also persisted. This prevents data loss when the user later changes their display currency.
+- **Currency from JWT** — on every login and on every silent token refresh (`tryRefresh` in `src/api/client.ts`), the currency store is synced from the JWT payload's `currency` field via `normalizeCurrency()`.
 
 ## Ant Design Form Patterns
 
@@ -122,17 +132,20 @@ The frontend consumes the following backend endpoints:
 - `/` — Overview (redirects to login if unauthenticated)
 - `/budget` — Budget management
 - `/bank` — Bank / transactions
-- `/scheduler` — Scheduler (coming soon)
 - `/settings` — Account settings (update profile, change password, delete account)
-- `/admin/users` — Admin user management (visible only to `isAdmin` users)
+- `/admin/users` — Admin user management; protected by `AdminRoute` — non-admin users are redirected to `/`
 
 ## Types
 
 Key types in `src/types/types.ts`:
 
 - `User` — `id`, `email`, `username`, `isAdmin`, `currency?: string`
-- `Category` — `id`, `name`, `type`, `budget`
-- `Transaction` — `id`, `title`, `value`, `type`, `trxDate`, `categoryId`, `status?`, `isRecurring?`, `recurrenceRule?`
+- `Category` — `id`, `name`, `type`, `budget`, `actual`, `budgetPeriod`, `budgetCurrency?: string`, `originalBudget?: number`
+- `CategoryCreate` / `CategoryUpdate` — include `budgetCurrency?: string` and `originalBudget?: number`
+- `Transaction` — `id`, `title`, `value`, `type`, `trxDate`, `categoryId`, `status?`, `isRecurring?`, `recurrenceRule?`, **`currency: string`**, **`originalValue: number`**
+- `TransactionCreate` — includes required `currency: string` and `originalValue: number`
+- `TransactionUpdate` — includes optional `currency?: string` and `originalValue?: number`
+- `TransactionFormValues` — includes required `currency: string`
 - `BudgetItem` — `id`, `categoryId`, `actual`, `month`
 - `UpdateProfileRequest` — `username?: string`, `email?: string`, `currency?: string`
 - `ChangePasswordRequest` — `currentPassword: string`, `newPassword: string`
@@ -142,9 +155,8 @@ Key types in `src/types/types.ts`:
 
 - `src/features/auth/` — login, register, password reset flow
 - `src/features/budget/` — budget CRUD with month picker
-- `src/features/category/` — category CRUD
+- `src/features/category/` — category CRUD with per-category currency
 - `src/features/overview/` — dashboard with month-scoped data
 - `src/features/bank/` — transactions
-- `src/features/scheduler/` — coming soon placeholder
 - `src/features/settings/` — profile updates (username, email, currency), password change, account deletion
 - `src/features/admin/` — admin user management (list, delete)

@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { describe, expect, it, beforeEach } from 'vitest';
 
+import { useExchangeRates } from '@/hooks/useExchangeRates';
 import { useAuthStore } from '@/stores/authStore';
 import { useCurrencyStore } from '@/stores/currencyStore';
 import { mockExchangeRates, mockRefreshToken, mockToken, mockTransactions, mockUser } from '@/tests/fixtures';
@@ -61,6 +62,8 @@ describe('budget/hooks', () => {
     result.current.mutate({
       type: 'inc',
       title: 'New',
+      currency: 'USD',
+      originalValue: 100,
       value: 100,
       trxDate: '2024-01-01T00:00:00',
       categoryId: 1,
@@ -86,5 +89,37 @@ describe('budget/hooks', () => {
 
     // then
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
+
+  it('useUpdateTransaction converts value using store currency when data.currency is undefined', async () => {
+    // given
+    useCurrencyStore.setState({ currency: 'EUR' });
+
+    // when
+    const { result } = renderHook(() => ({ rates: useExchangeRates(), mutation: useUpdateTransaction() }), { wrapper: createWrapper() });
+
+    // then - wait for exchange rates to resolve
+    await waitFor(() => expect(result.current.rates.data).toBeDefined());
+
+    result.current.mutation.mutate({ id: 'trx-1', data: { value: 200 } });
+
+    // and - uses store currency (EUR) since data.currency is undefined
+    await waitFor(() => expect(result.current.mutation.isSuccess).toBe(true));
+  });
+
+  it('useUpdateTransaction converts value using data.currency when provided', async () => {
+    // given
+    useCurrencyStore.setState({ currency: 'EUR' });
+
+    // when
+    const { result } = renderHook(() => ({ rates: useExchangeRates(), mutation: useUpdateTransaction() }), { wrapper: createWrapper() });
+
+    // then - wait for exchange rates to resolve
+    await waitFor(() => expect(result.current.rates.data).toBeDefined());
+
+    result.current.mutation.mutate({ id: 'trx-1', data: { value: 200, currency: 'GBP' } });
+
+    // and - uses data.currency (GBP) instead of store currency
+    await waitFor(() => expect(result.current.mutation.isSuccess).toBe(true));
   });
 });

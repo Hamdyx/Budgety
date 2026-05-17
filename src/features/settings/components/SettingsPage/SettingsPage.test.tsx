@@ -155,6 +155,22 @@ describe('SettingsPage', () => {
     // given
     useCurrencyStore.getState().setCurrency('EUR');
     server.use(http.patch('*/auth/me', () => HttpResponse.json({ id: 'user-1', email: 'test@example.com', username: 'testuser', is_admin: false })));
+
+    // when
+    const { user } = renderWithProviders(<SettingsPage />);
+
+    // then
+    await user.click(screen.getByRole('button', { name: /save profile/i }));
+
+    // then
+    await waitFor(() => {
+      expect(useCurrencyStore.getState().currency).toBe('EUR');
+    });
+  });
+
+  it('shows error message when profile update fails', async () => {
+    // given
+    server.use(http.patch('*/auth/me', () => HttpResponse.json({ detail: 'error' }, { status: 500 })));
     const { user } = renderWithProviders(<SettingsPage />);
 
     // when
@@ -162,7 +178,24 @@ describe('SettingsPage', () => {
 
     // then
     await waitFor(() => {
-      expect(useCurrencyStore.getState().currency).toBe('EUR');
+      expect(screen.getByText('Failed to update profile')).toBeInTheDocument();
+    });
+  });
+
+  it('shows error message when password change fails', async () => {
+    // given
+    server.use(http.post('*/auth/change-password', () => HttpResponse.json({ detail: 'error' }, { status: 500 })));
+    const { user } = renderWithProviders(<SettingsPage />);
+
+    // when
+    await user.type(screen.getByLabelText(/current password/i), 'OldPass123');
+    await user.type(screen.getByLabelText(/^new password$/i), 'NewPass456');
+    await user.type(screen.getByLabelText(/confirm new password/i), 'NewPass456');
+    await user.click(screen.getByRole('button', { name: /change password/i }));
+
+    // then
+    await waitFor(() => {
+      expect(screen.getByText('Failed to change password')).toBeInTheDocument();
     });
   });
 });

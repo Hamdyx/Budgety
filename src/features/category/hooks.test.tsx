@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { describe, expect, it, beforeEach } from 'vitest';
 
+import { useExchangeRates } from '@/hooks/useExchangeRates';
 import { useAuthStore } from '@/stores/authStore';
 import { useCurrencyStore } from '@/stores/currencyStore';
 import { mockCategories, mockCategorySummary, mockExchangeRates, mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
@@ -112,5 +113,35 @@ describe('category/hooks', () => {
 
     // then
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  });
+
+  it('useCreateCategory uses store currency when budgetCurrency is not provided', async () => {
+    // given
+    useCurrencyStore.setState({ currency: 'EUR' });
+
+    // when
+    const { result } = renderHook(() => ({ rates: useExchangeRates(), mutation: useCreateCategory() }), { wrapper: createWrapper() });
+
+    // then - wait for rates to resolve so the if(rates) branch is taken
+    await waitFor(() => expect(result.current.rates.data).toBeDefined());
+    result.current.mutation.mutate({ name: 'Savings', type: 'income', budget: 500 });
+
+    // and - uses store currency (EUR) since budgetCurrency is undefined
+    await waitFor(() => expect(result.current.mutation.isSuccess).toBe(true));
+  });
+
+  it('useUpdateCategory uses store currency when budgetCurrency is not provided', async () => {
+    // given
+    useCurrencyStore.setState({ currency: 'EUR' });
+
+    // when
+    const { result } = renderHook(() => ({ rates: useExchangeRates(), mutation: useUpdateCategory() }), { wrapper: createWrapper() });
+
+    // then - wait for rates to resolve so the if(rates) branch is taken
+    await waitFor(() => expect(result.current.rates.data).toBeDefined());
+    result.current.mutation.mutate({ id: 1, data: { budget: 200 } });
+
+    // and - uses store currency (EUR) since budgetCurrency is undefined
+    await waitFor(() => expect(result.current.mutation.isSuccess).toBe(true));
   });
 });

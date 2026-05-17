@@ -158,5 +158,21 @@ describe('TopBar', () => {
         expect(logoutSpy).toHaveBeenCalledWith({ refresh_token: mockRefreshToken });
       });
     });
+
+    it('navigates to /settings when Settings is clicked', async () => {
+      // given
+      const { user } = renderWithProviders(<TopBar {...defaultProps} />, { routerProps: { initialEntries: ['/'] } });
+
+      await user.click(screen.getByRole('button', { name: 'Open profile menu' }));
+      await screen.findByRole('menuitem', { name: /Settings/ });
+
+      // when
+      await user.click(screen.getByRole('menuitem', { name: /Settings/ }));
+
+      // then — dropdown closes after navigation
+      await waitFor(() => {
+        expect(screen.queryByRole('menuitem', { name: /Settings/ })).not.toBeInTheDocument();
+      });
+    });
   });
 });

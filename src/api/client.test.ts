@@ -2,6 +2,7 @@ import { http, HttpResponse } from 'msw';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
+import { useCurrencyStore } from '@/stores/currencyStore';
 import { mockAuthResponseSnake, mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
 import { server } from '@/tests/server';
 
@@ -241,6 +242,40 @@ describe('apiFetch', () => {
     } catch (e) {
       expect((e as ApiRequestError).detail).toBe('Unknown error');
     }
+  });
+
+  it('sets currency store when refresh token contains currency', async () => {
+    // given
+    const tokenWithCurrency = makeJwt({
+      sub: 'user-1',
+      email: 'test@example.com',
+      username: 'testuser',
+      is_admin: false,
+      currency: 'EUR',
+      exp: 9999999999,
+    });
+    const refreshWithCurrency = makeJwt({ sub: 'user-1', exp: 9999999999, type: 'refresh' });
+    let callCount = 0;
+    server.use(
+      http.get('*/test', () => {
+        callCount++;
+        if (callCount === 1) return new HttpResponse(null, { status: 401 });
+        return HttpResponse.json({ ok: true });
+      }),
+      http.post('*/auth/refresh', () =>
+        HttpResponse.json({
+          access_token: tokenWithCurrency,
+          refresh_token: refreshWithCurrency,
+          token_type: 'bearer',
+        })
+      )
+    );
+
+    // when
+    await apiFetch('/test');
+
+    // then
+    expect(useCurrencyStore.getState().currency).toBe('EUR');
   });
 
   it('uses fallback values when JWT payload is missing fields', async () => {

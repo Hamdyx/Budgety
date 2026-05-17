@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import { ConfigProvider } from 'antd';
+import { App, ConfigProvider } from 'antd';
 import { useEffect } from 'react';
 
 import { useThemeStore } from '@/stores/themeStore';
@@ -14,7 +14,11 @@ function ThemeProvider({ children }: { children: ReactNode }) {
     document.documentElement.setAttribute('data-theme', mode);
   }, [mode]);
 
-  return <ConfigProvider theme={getThemeConfig(mode)}>{children}</ConfigProvider>;
+  return (
+    <ConfigProvider theme={getThemeConfig(mode)}>
+      <App>{children}</App>
+    </ConfigProvider>
+  );
 }
 
 export default ThemeProvider;

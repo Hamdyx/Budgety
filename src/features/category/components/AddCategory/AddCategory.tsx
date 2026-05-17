@@ -1,7 +1,7 @@
 import type { CategoryCreate } from '@/types/types';
 
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Modal } from 'antd';
+import { App, Button, Form, Modal } from 'antd';
 import { useState } from 'react';
 
 import { useCreateCategory } from '../../hooks';
@@ -13,13 +13,16 @@ function AddCategory() {
   const createMutation = useCreateCategory();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm<CategoryCreate>();
+  const { message } = App.useApp();
 
   const handleCreate = (values: CategoryCreate) => {
     createMutation.mutate(values, {
       onSuccess: () => {
         form.resetFields();
         setIsModalOpen(false);
+        void message.success('Category created');
       },
+      onError: () => void message.error('Failed to create category'),
     });
   };
 

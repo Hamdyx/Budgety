@@ -7,6 +7,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it, beforeEach, vi } from 'vitest';
 
 import { useAuthStore } from '@/stores/authStore';
+import { useCurrencyStore } from '@/stores/currencyStore';
 import { mockRefreshToken, mockToken, mockUser } from '@/tests/fixtures';
 import { server } from '@/tests/server';
 
@@ -142,5 +143,35 @@ describe('useLogin', () => {
     expect(state.user?.email).toBe('');
     expect(state.user?.username).toBe('');
     expect(state.user?.isAdmin).toBe(false);
+  });
+
+  it('sets currency in store when JWT contains currency field', async () => {
+    // given
+    const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+    const body = btoa(JSON.stringify({ sub: 'user-1', email: 'a@b.com', username: 'testuser', is_admin: false, currency: 'EUR', exp: 9999999999 }));
+    const jwtWithCurrency = `${header}.${body}.sig`;
+    server.use(
+      http.post('*/auth/login', () =>
+        HttpResponse.json({
+          access_token: jwtWithCurrency,
+          refresh_token: 'refresh-tok',
+          token_type: 'bearer',
+        })
+      )
+    );
+
+    // when
+    const { result } = renderHook(() => useLogin(), { wrapper });
+
+    // then
+    act(() => {
+      result.current.mutate({ email: 'a@b.com', password: 'pass' });
+    });
+
+    // and
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
+    expect(useCurrencyStore.getState().currency).toBe('EUR');
   });
 });

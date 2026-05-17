@@ -29,13 +29,12 @@ export function useTransactions(params?: { month?: string; status?: TransactionS
 
 export function useCreateTransaction() {
   const queryClient = useQueryClient();
-  const currency = useCurrencyStore(state => state.currency);
   const { data: rates } = useExchangeRates();
 
   return useMutation({
     mutationFn: (data: TransactionCreate) => {
-      const valueInUSD = rates ? toUSD(data.value, currency, rates) : data.value;
-      return createTransaction({ ...data, value: valueInUSD });
+      const valueInUSD = rates ? toUSD(data.value, data.currency, rates) : data.value;
+      return createTransaction({ ...data, originalValue: data.value, value: valueInUSD });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: TRANSACTIONS_KEY });
@@ -52,8 +51,12 @@ export function useUpdateTransaction() {
 
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: TransactionUpdate }) => {
-      const updatedData = data.value !== undefined && rates ? { ...data, value: toUSD(data.value, currency, rates) } : data;
-      return updateTransaction(id, updatedData);
+      if (data.value !== undefined && rates) {
+        const transactionCurrency = data.currency ?? currency;
+        const updatedData = { ...data, originalValue: data.value, value: toUSD(data.value, transactionCurrency, rates) };
+        return updateTransaction(id, updatedData);
+      }
+      return updateTransaction(id, data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: TRANSACTIONS_KEY });

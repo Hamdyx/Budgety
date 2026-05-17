@@ -4,6 +4,7 @@ import type { RouteObject } from 'react-router-dom';
 import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
+import { AdminRoute } from '@/components/AdminRoute';
 import { PrivateRoute } from '@/components/PrivateRoute';
 import { SuspenseLayout } from '@/components/SuspenseLayout';
 import { Overview } from '@/features/overview/components/Overview';
@@ -39,7 +40,10 @@ export const routeConfig: RouteObject[] = [
               { path: '/budget', element: <BudgetMain /> },
               { path: '/bank', element: <BankPage /> },
               { path: '/settings', element: <SettingsPage /> },
-              { path: '/admin/users', element: <AdminUsersPage /> },
+              {
+                element: <AdminRoute />,
+                children: [{ path: '/admin/users', element: <AdminUsersPage /> }],
+              },
               { path: '*', element: <Overview /> },
             ],
           },

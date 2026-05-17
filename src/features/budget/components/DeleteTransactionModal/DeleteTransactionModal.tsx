@@ -1,5 +1,5 @@
 import { DeleteOutlined } from '@ant-design/icons';
-import { Button, Modal, Typography } from 'antd';
+import { App, Button, Modal, Typography } from 'antd';
 import { useState } from 'react';
 
 import { useDeleteTransaction } from '../../hooks';
@@ -7,9 +7,16 @@ import { useDeleteTransaction } from '../../hooks';
 const DeleteTransactionModal = ({ id }: { id: string }) => {
   const [open, setOpen] = useState(false);
   const deleteMutation = useDeleteTransaction();
+  const { message } = App.useApp();
 
   const handleDelete = () => {
-    deleteMutation.mutate(id, { onSuccess: () => setOpen(false) });
+    deleteMutation.mutate(id, {
+      onSuccess: () => {
+        setOpen(false);
+        void message.success('Transaction deleted');
+      },
+      onError: () => void message.error('Failed to delete transaction'),
+    });
   };
 
   return (

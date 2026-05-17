@@ -26,7 +26,9 @@ function Overview() {
           picker="month"
           allowClear
           placeholder="Filter by month"
-          onChange={value => setBudgetMonth(value ? dayjs(value).format('YYYY-MM') : undefined)}
+          onChange={value => {
+            setBudgetMonth(value ? dayjs(value).format('YYYY-MM') : undefined);
+          }}
           className={styles.headerBtn}
         />
       </Flex>

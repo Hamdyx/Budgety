@@ -4,7 +4,8 @@ import type { FormInstance } from 'antd';
 import { Alert, DatePicker, Form, Input, InputNumber, Radio, Select, Switch } from 'antd';
 import dayjs from 'dayjs';
 
-import { formatNumberInput, parseNumberInput, useCurrencySymbol } from '@/utils/currency';
+import { useCurrencyStore } from '@/stores/currencyStore';
+import { CURRENCY_OPTIONS, formatNumberInput, getCurrencySymbol, parseNumberInput } from '@/utils/currency';
 
 import styles from './TransactionForm.module.css';
 
@@ -16,13 +17,16 @@ interface TransactionFormProps {
 }
 
 function TransactionForm({ form, initialValues, onFinish, categories }: TransactionFormProps) {
-  const currencySymbol = useCurrencySymbol();
+  const userCurrency = useCurrencyStore(state => state.currency);
   const mergedInitialValues: Partial<TransactionFormValues> = {
     ...initialValues,
     type: initialValues?.type ?? 'inc',
+    currency: initialValues?.currency ?? userCurrency,
   };
   const transactionType = Form.useWatch<string>('type', form) ?? 'inc';
   const isRecurring = Form.useWatch<boolean>('isRecurring', form) ?? false;
+  const selectedCurrency = Form.useWatch<string>('currency', form) ?? userCurrency;
+  const currencySymbol = getCurrencySymbol(selectedCurrency);
   const categoryTypeLabel = transactionType === 'inc' ? 'income' : 'expense';
 
   const filteredCategories = categories.filter(category => (transactionType === 'inc' ? category.type === 'income' : category.type === 'expense'));
@@ -51,6 +55,10 @@ function TransactionForm({ form, initialValues, onFinish, categories }: Transact
           formatter={formatNumberInput}
           parser={parseNumberInput}
         />
+      </Form.Item>
+
+      <Form.Item name="currency" label="Currency" rules={[{ required: true }]}>
+        <Select options={CURRENCY_OPTIONS} />
       </Form.Item>
 
       <Form.Item name="trxDate" label="Date" rules={[{ required: true }]}>

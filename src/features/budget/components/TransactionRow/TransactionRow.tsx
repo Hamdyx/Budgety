@@ -3,7 +3,7 @@ import type { TransactionStatus, Transaction } from '@/types/types';
 import { Row, Col, Typography, Space, Tag } from 'antd';
 import dayjs from 'dayjs';
 
-import { useCurrencyFormatter } from '@/utils/currency';
+import { useTransactionDisplayValue } from '@/utils/currency';
 
 import { DeleteTransactionModal } from '../DeleteTransactionModal';
 import { EditTransactionModal } from '../EditTransactionModal';
@@ -19,7 +19,8 @@ const statusColor: Record<TransactionStatus, string> = {
 };
 
 const TransactionRow = ({ transaction }: { transaction: Transaction }) => {
-  const formatCurrency = useCurrencyFormatter();
+  const displayValue = useTransactionDisplayValue(transaction.originalValue, transaction.currency, transaction.value);
+
   return (
     <Row align="middle" className={styles.row} data-type={transaction.type}>
       <Col flex="auto">
@@ -42,7 +43,7 @@ const TransactionRow = ({ transaction }: { transaction: Transaction }) => {
         </Space>
         <br />
         <Text className={styles.valueText} data-type={transaction.type}>
-          {formatCurrency(transaction.value)}
+          {displayValue}
         </Text>
       </Col>
     </Row>

@@ -3,7 +3,7 @@ import type { TransactionStatus, Transaction } from '@/types/types';
 import { DollarOutlined } from '@ant-design/icons';
 import { Row, Col, Typography, Tag } from 'antd';
 
-import { useCurrencyFormatter } from '@/utils/currency';
+import { useTransactionDisplayValue } from '@/utils/currency';
 
 import styles from './TransactionItem.module.css';
 
@@ -16,7 +16,7 @@ const statusColor: Record<TransactionStatus, string> = {
 };
 
 const TransactionItem = ({ transaction, categoryName }: { transaction: Transaction; categoryName: string }) => {
-  const formatCurrency = useCurrencyFormatter();
+  const displayValue = useTransactionDisplayValue(transaction.originalValue, transaction.currency, transaction.value);
 
   return (
     <Row align="middle" className={styles.itemRow} data-type={transaction.type}>
@@ -37,7 +37,7 @@ const TransactionItem = ({ transaction, categoryName }: { transaction: Transacti
         )}
       </Col>
       <Col>
-        <Text className={styles.valueText}>{formatCurrency(transaction.value)}</Text>
+        <Text className={styles.valueText}>{displayValue}</Text>
       </Col>
     </Row>
   );

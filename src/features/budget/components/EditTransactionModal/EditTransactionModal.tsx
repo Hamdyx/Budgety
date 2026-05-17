@@ -1,7 +1,7 @@
 import type { Transaction, TransactionFormValues } from '@/types/types';
 
 import { EditOutlined } from '@ant-design/icons';
-import { Button, Form, Modal } from 'antd';
+import { App, Button, Form, Modal } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
@@ -17,16 +17,18 @@ const EditTransactionModal = ({ transaction }: { transaction: Transaction }) => 
   const [form] = Form.useForm<TransactionFormValues>();
   const updateMutation = useUpdateTransaction();
   const { data: categories = [] } = useCategories();
+  const { message } = App.useApp();
 
   const initialValues: Partial<TransactionFormValues> = {
-    type: transaction.type ?? 'inc',
-    title: transaction.title ?? '',
-    value: transaction.value ?? 0,
-    trxDate: transaction.trxDate ? dayjs(transaction.trxDate) : dayjs(),
-    categoryId: transaction.categoryId ?? undefined,
-    status: transaction.status ?? 'pending',
-    isRecurring: transaction.isRecurring ?? false,
+    type: transaction.type,
+    title: transaction.title,
+    value: transaction.originalValue,
+    trxDate: dayjs(transaction.trxDate),
+    categoryId: transaction.categoryId,
+    status: transaction.status,
+    isRecurring: transaction.isRecurring,
     recurrenceRule: transaction.recurrenceRule ?? undefined,
+    currency: transaction.currency,
   };
 
   const handleUpdate = (values: TransactionFormValues) => {
@@ -42,9 +44,16 @@ const EditTransactionModal = ({ transaction }: { transaction: Transaction }) => 
           status: values.status,
           isRecurring: values.isRecurring,
           recurrenceRule: values.isRecurring ? values.recurrenceRule : undefined,
+          currency: values.currency,
         },
       },
-      { onSuccess: () => setOpen(false) }
+      {
+        onSuccess: () => {
+          setOpen(false);
+          void message.success('Transaction updated');
+        },
+        onError: () => void message.error('Failed to update transaction'),
+      }
     );
   };
 

@@ -73,6 +73,7 @@ describe('CategoryForm', () => {
         type: 'expense',
         budget: 500,
         budgetPeriod: 'monthly',
+        budgetCurrency: 'USD',
       });
     });
   });

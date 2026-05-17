@@ -1,6 +1,8 @@
 import type { ApiError } from '@/types/types';
 
 import { useAuthStore } from '@/stores/authStore';
+import { useCurrencyStore } from '@/stores/currencyStore';
+import { normalizeCurrency } from '@/utils/currency';
 import { decodeJwtPayload } from '@/utils/jwt';
 
 import { toCamelCase, toSnakeCase } from './caseConverter';
@@ -49,12 +51,18 @@ async function tryRefresh(): Promise<boolean> {
 
     const data = toCamelCase<{ accessToken: string; refreshToken: string }>(await response.json());
     const payload = decodeJwtPayload(data.accessToken);
-    useAuthStore.getState().setAuth(data.accessToken, data.refreshToken, {
+    const user = {
       id: payload.sub,
       email: payload.email ?? '',
       username: payload.username ?? '',
       isAdmin: payload.is_admin ?? false,
-    });
+      currency: payload.currency,
+    };
+    useAuthStore.getState().setAuth(data.accessToken, data.refreshToken, user);
+    const normalizedCurrency = normalizeCurrency(user.currency);
+    if (normalizedCurrency) {
+      useCurrencyStore.getState().setCurrency(normalizedCurrency);
+    }
     return true;
   } catch {
     logout();

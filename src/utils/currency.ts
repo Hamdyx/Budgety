@@ -3,6 +3,56 @@ import type { ExchangeRates } from '@/api/exchangeRates';
 import { useCurrencyStore } from '@/stores/currencyStore';
 
 /**
+ * Supported currency options presented in currency selector fields.
+ * Shared by TransactionForm and CategoryForm.
+ */
+export const CURRENCY_OPTIONS = [
+  { value: 'USD', label: 'USD — US Dollar' },
+  { value: 'EUR', label: 'EUR — Euro' },
+  { value: 'GBP', label: 'GBP — British Pound' },
+  { value: 'JPY', label: 'JPY — Japanese Yen' },
+  { value: 'CAD', label: 'CAD — Canadian Dollar' },
+  { value: 'AUD', label: 'AUD — Australian Dollar' },
+  { value: 'CHF', label: 'CHF — Swiss Franc' },
+  { value: 'EGP', label: 'EGP — Egyptian Pound' },
+];
+
+/**
+ * Normalizes and validates a raw currency code from an untrusted source
+ * (e.g. a JWT payload or API response). Returns the uppercased code when it
+ * matches a supported currency, or `null` when the value is absent or
+ * unrecognised.
+ *
+ * @param code - The raw value to validate.
+ * @returns The normalised code (e.g. `'USD'`), or `null`.
+ */
+export function normalizeCurrency(code: unknown): string | null {
+  if (typeof code !== 'string' || code.trim() === '') return null;
+  const upper = code.toUpperCase();
+  return CURRENCY_OPTIONS.some(option => option.value === upper) ? upper : null;
+}
+
+/**
+ * Returns the currency symbol for the given ISO 4217 currency code
+ * (e.g. `"$"` for USD, `"£"` for GBP). Falls back to the raw code
+ * when the `Intl` API cannot resolve a dedicated symbol.
+ *
+ * @param currency - An ISO 4217 currency code.
+ * @returns The currency symbol string.
+ */
+export function getCurrencySymbol(currency: string): string {
+  try {
+    const symbol = new Intl.NumberFormat('en-US', { style: 'currency', currency, minimumFractionDigits: 0, maximumFractionDigits: 0 })
+      .formatToParts(0)
+      .find(part => part.type === 'currency')?.value;
+    // v8 ignore next
+    return symbol ?? currency;
+  } catch {
+    return currency;
+  }
+}
+
+/**
  * Formats a numeric value as a localized currency string using the en-US locale.
  *
  * @param value - The numeric amount to format.
@@ -10,7 +60,11 @@ import { useCurrencyStore } from '@/stores/currencyStore';
  * @returns A formatted string such as `"$1,234.50"`.
  */
 export function formatCurrency(value: number, currency: string): string {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(value);
+  try {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(value);
+  } catch {
+    return value.toLocaleString('en-US');
+  }
 }
 
 /**
@@ -43,7 +97,29 @@ export function useCurrencyFormatter(): (value: number) => string {
  */
 export function useCurrencySymbol(): string {
   const currency = useCurrencyStore(state => state.currency);
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency }).formatToParts(0).find(part => part.type === 'currency')?.value ?? currency;
+
+  return getCurrencySymbol(currency);
+}
+
+/**
+ * Returns the formatted display value for a transaction.
+ *
+ * Prefers `originalValue` + `currency` when both are present (the amount the
+ * user originally entered), otherwise falls back to the USD-stored `value`
+ * converted to the active display currency via `useCurrencyFormatter`.
+ *
+ * @param originalValue - The value in the original entry currency, if stored.
+ * @param currency - The ISO 4217 code for `originalValue`, if stored.
+ * @param value - The USD-stored fallback amount.
+ * @returns A formatted currency string.
+ */
+export function useTransactionDisplayValue(originalValue: number | undefined, currency: string | undefined, value: number): string {
+  const formatCurrentCurrency = useCurrencyFormatter();
+  if (originalValue !== undefined && currency) {
+    return formatCurrency(originalValue, currency);
+  }
+
+  return formatCurrentCurrency(value);
 }
 
 /**

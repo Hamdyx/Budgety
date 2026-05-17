@@ -61,21 +61,18 @@ describe('Overview', () => {
     });
   });
 
-  it('resets month filter when DatePicker is cleared', async () => {
+  it('resets month filter when DatePicker clear button is clicked', async () => {
     // given
     const user = userEvent.setup();
-
     // when
-    renderWithProviders(<Overview />);
+    const { container } = renderWithProviders(<Overview />);
 
     // then
     await waitFor(() => {
       expect(screen.getByText('All Transactions')).toBeInTheDocument();
     });
 
-    // and - set a month filter first
     const input = screen.getByPlaceholderText('Filter by month');
-
     await user.click(input);
     await user.type(input, '2024-01');
     await user.keyboard('{Enter}');
@@ -83,9 +80,10 @@ describe('Overview', () => {
       expect(input).toHaveValue('2024-01');
     });
 
-    // and - clear the picker
-    await user.clear(input);
-    await user.keyboard('{Enter}');
+    // and - click the Ant Design DatePicker clear button
+    const clearButton = container.querySelector<HTMLElement>('.ant-picker-clear');
+    expect(clearButton).not.toBeNull();
+    await user.click(clearButton!);
 
     // and
     await waitFor(() => {

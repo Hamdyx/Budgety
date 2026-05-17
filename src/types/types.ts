@@ -79,6 +79,8 @@ export type Category = {
   actual: number;
   budgetPeriod: BudgetPeriod;
   userId?: string;
+  budgetCurrency?: string;
+  originalBudget?: number;
 };
 
 export type CategoryCreate = {
@@ -86,6 +88,8 @@ export type CategoryCreate = {
   type: CategoryType;
   budget?: number;
   budgetPeriod?: BudgetPeriod;
+  budgetCurrency?: string;
+  originalBudget?: number;
 };
 
 export type CategoryUpdate = {
@@ -93,6 +97,8 @@ export type CategoryUpdate = {
   type?: CategoryType;
   budget?: number;
   budgetPeriod?: BudgetPeriod;
+  budgetCurrency?: string;
+  originalBudget?: number;
 };
 
 export type CategorySummary = {
@@ -104,6 +110,8 @@ export type CategorySummary = {
   actual: number;
   remaining: number;
   userId: string;
+  budgetCurrency?: string;
+  originalBudget?: number;
 };
 
 // ── Transaction ───────────────────────────────────────
@@ -124,6 +132,8 @@ export type Transaction = {
   isRecurring: boolean;
   recurrenceRule: RecurrenceRule | null;
   userId?: string;
+  currency: string;
+  originalValue: number;
 };
 
 export type TransactionCreate = {
@@ -135,6 +145,8 @@ export type TransactionCreate = {
   status?: TransactionStatus;
   isRecurring?: boolean;
   recurrenceRule?: RecurrenceRule;
+  currency: string;
+  originalValue: number;
 };
 
 export type TransactionUpdate = {
@@ -146,6 +158,8 @@ export type TransactionUpdate = {
   status?: TransactionStatus;
   isRecurring?: boolean;
   recurrenceRule?: RecurrenceRule;
+  currency?: string;
+  originalValue?: number;
 };
 
 export type TransactionFormValues = {
@@ -157,6 +171,7 @@ export type TransactionFormValues = {
   status: TransactionStatus;
   isRecurring: boolean;
   recurrenceRule?: RecurrenceRule;
+  currency: string;
 };
 
 // ── Misc ──────────────────────────────────────────────
