@@ -80,6 +80,8 @@ export const mockTransactions: Transaction[] = [
     status: 'completed',
     isRecurring: false,
     recurrenceRule: null,
+    currency: 'USD',
+    originalValue: 3000,
   },
   {
     id: 'trx-2',
@@ -91,6 +93,8 @@ export const mockTransactions: Transaction[] = [
     status: 'completed',
     isRecurring: false,
     recurrenceRule: null,
+    currency: 'USD',
+    originalValue: 150,
   },
   {
     id: 'trx-3',
@@ -102,6 +106,8 @@ export const mockTransactions: Transaction[] = [
     status: 'completed',
     isRecurring: true,
     recurrenceRule: 'monthly',
+    currency: 'USD',
+    originalValue: 1500,
   },
   {
     id: 'trx-4',
@@ -113,6 +119,8 @@ export const mockTransactions: Transaction[] = [
     status: 'completed',
     isRecurring: false,
     recurrenceRule: null,
+    currency: 'USD',
+    originalValue: 1000,
   },
   {
     id: 'trx-5',
@@ -124,6 +132,8 @@ export const mockTransactions: Transaction[] = [
     status: 'pending',
     isRecurring: false,
     recurrenceRule: null,
+    currency: 'USD',
+    originalValue: 50,
   },
   {
     id: 'trx-6',
@@ -135,6 +145,8 @@ export const mockTransactions: Transaction[] = [
     status: 'completed',
     isRecurring: false,
     recurrenceRule: null,
+    currency: 'USD',
+    originalValue: 500,
   },
 ];
 
@@ -175,4 +187,6 @@ export const mockTransactionsSnake = mockTransactions.map(transaction => ({
   status: transaction.status,
   is_recurring: transaction.isRecurring,
   recurrence_rule: transaction.recurrenceRule,
+  currency: transaction.currency,
+  original_value: transaction.originalValue,
 }));

@@ -132,8 +132,8 @@ export type Transaction = {
   isRecurring: boolean;
   recurrenceRule: RecurrenceRule | null;
   userId?: string;
-  currency?: string;
-  originalValue?: number;
+  currency: string;
+  originalValue: number;
 };
 
 export type TransactionCreate = {

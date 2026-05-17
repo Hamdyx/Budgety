@@ -27,7 +27,7 @@ function Overview() {
           allowClear
           placeholder="Filter by month"
           onChange={value => {
-            setBudgetMonth(value ? dayjs(value).format('YYYY-MM') : /* v8 ignore next */ undefined);
+            setBudgetMonth(value ? dayjs(value).format('YYYY-MM') : undefined);
           }}
           className={styles.headerBtn}
         />

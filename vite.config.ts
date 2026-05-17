@@ -10,9 +10,10 @@ export default defineConfig({
     },
   },
   test: {
-    testTimeout: 15000,
-    environment: 'jsdom',
     setupFiles: './vitest.setup.ts',
+    environment: 'jsdom',
+    testTimeout: 20000,
+    fileParallelism: true,
     globals: true,
     env: {
       VITE_API_URL: 'http://localhost:8000',

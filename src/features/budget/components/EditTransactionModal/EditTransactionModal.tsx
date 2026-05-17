@@ -7,7 +7,6 @@ import { useState } from 'react';
 
 import { TransactionForm } from '@/features/budget/components/TransactionForm';
 import { useCategories } from '@/features/category/hooks';
-import { useCurrencyStore } from '@/stores/currencyStore';
 
 import { useUpdateTransaction } from '../../hooks';
 
@@ -18,19 +17,18 @@ const EditTransactionModal = ({ transaction }: { transaction: Transaction }) => 
   const [form] = Form.useForm<TransactionFormValues>();
   const updateMutation = useUpdateTransaction();
   const { data: categories = [] } = useCategories();
-  const userCurrency = useCurrencyStore(state => state.currency);
   const { message } = App.useApp();
 
   const initialValues: Partial<TransactionFormValues> = {
-    type: transaction.type ?? 'inc',
-    title: transaction.title ?? '',
-    value: transaction.originalValue ?? transaction.value ?? 0,
-    trxDate: transaction.trxDate ? dayjs(transaction.trxDate) : dayjs(),
+    type: transaction.type,
+    title: transaction.title,
+    value: transaction.originalValue,
+    trxDate: dayjs(transaction.trxDate),
     categoryId: transaction.categoryId,
-    status: transaction.status ?? 'pending',
-    isRecurring: transaction.isRecurring ?? false,
+    status: transaction.status,
+    isRecurring: transaction.isRecurring,
     recurrenceRule: transaction.recurrenceRule ?? undefined,
-    currency: transaction.currency ?? userCurrency,
+    currency: transaction.currency,
   };
 
   const handleUpdate = (values: TransactionFormValues) => {
