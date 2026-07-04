@@ -1,4 +1,6 @@
-import { theme, type ThemeConfig } from 'antd';
+import type { ThemeConfig } from 'antd';
+
+import { theme } from 'antd';
 
 type ThemeMode = 'light' | 'dark';
 

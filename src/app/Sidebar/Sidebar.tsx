@@ -3,7 +3,7 @@ import type { MenuProps } from 'antd';
 import { BankOutlined, CrownOutlined, DollarOutlined, ProductOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { useMemo } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router';
 
 import { useAuthStore } from '@/stores/authStore';
 import { useThemeStore } from '@/stores/themeStore';

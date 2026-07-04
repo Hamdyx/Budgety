@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { changePassword, updateProfile } from '@/features/auth/api';
 import { useAuthStore } from '@/stores/authStore';

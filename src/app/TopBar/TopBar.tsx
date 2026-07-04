@@ -2,7 +2,7 @@ import type { MenuProps } from 'antd';
 
 import { LogoutOutlined, MenuOutlined, MoonOutlined, SettingOutlined, SunOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Dropdown, Layout } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { useLogout } from '@/features/auth/hooks';
 import { useAuthStore } from '@/stores/authStore';

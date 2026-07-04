@@ -1,6 +1,6 @@
 import { Spin } from 'antd';
 import { Suspense } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 
 import styles from './SuspenseLayout.module.css';
 

@@ -8,7 +8,7 @@
 - **Ask clarifying questions before planning or implementing** — never guess at requirements, API contracts, data shapes, or intended behavior. If anything is ambiguous, ask first.
 - **Never guess API contracts** — look up the endpoint specification in this document, read the existing API/type files, or ask the user. Do not infer request/response shapes from naming alone.
 - **Always follow best practices and clean code principles** — write production-quality code as a professional software engineer would.
-- **Verify library API usage** — before using any component or hook from Ant Design (`antd@6`), React Router (`react-router-dom@7`), TanStack Query (`@tanstack/react-query@5`), or zustand (`zustand@5`), confirm the props/API are current for the installed version. **Do not use deprecated props, hooks, or patterns.** When uncertain, check the library's latest docs.
+- **Verify library API usage** — before using any component or hook from Ant Design (`antd@6`), React Router (`react-router@8`), TanStack Query (`@tanstack/react-query@5`), or zustand (`zustand@5`), confirm the props/API are current for the installed version. **Do not use deprecated props, hooks, or patterns.** When uncertain, check the library's latest docs.
 - **Run `yarn lint && yarn build && yarn test`** after every change set to catch regressions.
 - **Prefer small, focused changes** — avoid unrelated refactors, unnecessary abstractions, or speculative features.
 - **Read before writing** — understand the existing code, conventions, and file structure before modifying anything.
@@ -128,7 +128,7 @@ The frontend consumes the following backend endpoints:
 ## Routes
 
 - `/login`, `/register` — public auth pages
-- `/forgot-password`, `/verify-otp`, `/reset-password` — password reset flow (state passed via `react-router-dom` location state)
+- `/forgot-password`, `/verify-otp`, `/reset-password` — password reset flow (state passed via `react-router` location state)
 - `/` — Overview (redirects to login if unauthenticated)
 - `/budget` — Budget management
 - `/bank` — Bank / transactions
