@@ -1,8 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
-import type { RouteObject } from 'react-router-dom';
+import type { RouteObject } from 'react-router';
 
 import { lazy } from 'react';
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router';
 
 import { AdminRoute } from '@/components/AdminRoute';
 import { PrivateRoute } from '@/components/PrivateRoute';

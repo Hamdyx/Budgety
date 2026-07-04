@@ -1,5 +1,5 @@
 import { Alert, Button, Form, Input } from 'antd';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router';
 
 import { ApiRequestError } from '@/api/client';
 
