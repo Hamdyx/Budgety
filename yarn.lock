@@ -1074,20 +1074,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rc-component/motion@npm:^1.0.0, @rc-component/motion@npm:^1.1.3, @rc-component/motion@npm:^1.1.4":
-  version: 1.3.2
-  resolution: "@rc-component/motion@npm:1.3.2"
-  dependencies:
-    "@rc-component/util": "npm:^1.2.0"
-    clsx: "npm:^2.1.1"
-  peerDependencies:
-    react: ">=16.9.0"
-    react-dom: ">=16.9.0"
-  checksum: 10c0/d075b62e9e480441084f0a8dbc0aa6777e15535fbda1c848140ac7bf24150924ebdbfd708c5788ce030c91b5846eae0854f5a39e0b49301e0548477571abe9d0
-  languageName: node
-  linkType: hard
-
-"@rc-component/motion@npm:^1.3.3":
+"@rc-component/motion@npm:^1.0.0, @rc-component/motion@npm:^1.1.3, @rc-component/motion@npm:^1.1.4, @rc-component/motion@npm:^1.3.3":
   version: 1.3.3
   resolution: "@rc-component/motion@npm:1.3.3"
   dependencies:
@@ -2609,10 +2596,10 @@ __metadata:
     eslint-plugin-import: "npm:2.32.0"
     eslint-plugin-react-hooks: "npm:7.1.1"
     eslint-plugin-react-refresh: "npm:0.5.3"
-    husky: "npm:^9.1.7"
+    husky: "npm:9.1.7"
     jsdom: "npm:29.1.1"
-    lint-staged: "npm:^16.4.0"
-    lodash-es: "npm:^4.18.1"
+    lint-staged: "npm:16.4.0"
+    lodash-es: "npm:4.18.1"
     msw: "npm:2.14.6"
     react: "npm:19.2.7"
     react-dom: "npm:19.2.7"
@@ -3845,7 +3832,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"husky@npm:^9.1.7":
+"husky@npm:9.1.7":
   version: 9.1.7
   resolution: "husky@npm:9.1.7"
   bin:
@@ -4488,7 +4475,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^16.4.0":
+"lint-staged@npm:16.4.0":
   version: 16.4.0
   resolution: "lint-staged@npm:16.4.0"
   dependencies:
@@ -4527,7 +4514,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash-es@npm:^4.18.1":
+"lodash-es@npm:4.18.1":
   version: 4.18.1
   resolution: "lodash-es@npm:4.18.1"
   checksum: 10c0/35d4dcf87ef07f8d090f409447575800108057e360b445f590d0d25d09e3d1e33a163d2fc100d4d072b0f901d5e2fc533cd7c4bfd8eeb38a06abec693823c8b8
