@@ -8,7 +8,7 @@
     "@tanstack/react-query-devtools": "5.101.2",
     "antd": "6.5.0",
     "dayjs": "1.11.21",
-    "lodash-es": "^4.18.1",
+    "lodash-es": "4.18.1",
     "react": "19.2.7",
     "react-dom": "19.2.7",
     "react-router-dom": "7.18.1",
@@ -31,9 +31,9 @@
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-react-hooks": "7.1.1",
     "eslint-plugin-react-refresh": "0.5.3",
-    "husky": "^9.1.7",
+    "husky": "9.1.7",
     "jsdom": "29.1.1",
-    "lint-staged": "^16.4.0",
+    "lint-staged": "16.4.0",
     "msw": "2.14.6",
     "typescript": "6.0.3",
     "typescript-eslint": "8.62.1",
@@ -54,18 +54,6 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": "eslint --max-warnings=0"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   },
   "packageManager": "yarn@4.13.0+sha512.5c20ba010c99815433e5c8453112165e673f1c7948d8d2b267f4b5e52097538658388ebc9f9580656d9b75c5cc996f990f611f99304a2197d4c56d21eea370e7"
 }
